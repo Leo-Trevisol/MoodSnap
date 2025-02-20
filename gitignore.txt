@@ -1,0 +1,57 @@
+#IDE Eclipse and android Android Studio
+# Android Studio Navigation editor temp files
+.idea/
+.metadata/
+.recommenders/
+.navigation/
+
+# Local IDEA workspace
+.idea/workspace.xml
+
+
+# Gradle files
+.gradle/
+build/
+build
+**/.classpath
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+replay_pid*
+
+#arquivos SVN
+.svn
+
+### Android template
+# Built application files
+*.apk
+*.ap_
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+out/
+captures/
+**/build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Eclipse project files
+.classpath
+.project
+
+# Windows thumbnail db
+.DS_Store
+
+# Gradle cache
+.gradle
