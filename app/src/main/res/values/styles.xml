@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Estilo personalizado para a Action Bar -->
+    <style name="CustomActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@drawable/gradient_background</item> <!-- Cor de fundo da ActionBar -->
+        <item name="android:titleTextStyle">@style/ActionBarTitle</item> <!-- Estilo do título -->
+    </style>
+
+    <!-- Estilo do título da Action Bar -->
+    <style name="ActionBarTitle">
+        <item name="android:textColor">@color/dark_primary</item> <!-- Cor do texto do título -->
+    </style>
+
+    <!-- Tema para a tela de splash -->
+    <style name="SplashTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Cor de fundo da tela inicial -->
+        <item name="android:windowBackground">@drawable/gradient_background</item>
+    </style>
+</resources>
