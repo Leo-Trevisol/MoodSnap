@@ -8,32 +8,44 @@
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         app:fabAlignmentMode="center"
         app:fabAnchorMode="cradle"
-        app:fabCradleMargin="14dp"
-        app:fabCradleVerticalOffset="16dp"
-        app:fabCradleRoundedCornerRadius="6dp"
+        app:fabCradleMargin="10dp"
+        app:fabAnimationMode="slide"
+        app:fabCradleVerticalOffset="1dp"
+        android:backgroundTint="@color/dark_secondary_variant"
+        app:fabCradleRoundedCornerRadius="20dp"
         android:layout_gravity="bottom">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/nav_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.BottomNavigationView"
+            android:layout_height="50dp"
             android:background="@android:color/transparent"
             app:labelVisibilityMode="labeled"
             android:elevation="0dp"
+            app:itemIconSize="20dp"
             app:itemIconTint="@color/navigation_colors"
             app:itemTextColor="@color/navigation_colors"
-            app:menu="@menu/bottom_nav_menu" />
-
+            app:menu="@menu/bottom_nav_menu"
+            app:itemHorizontalTranslationEnabled="false"
+            android:paddingTop="8dp" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchor="@id/bottomAppBar">
-
-    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+        app:layout_anchor="@id/bottomAppBar"
+        app:srcCompat="@drawable/sorriso_brilho"
+        app:maxImageSize="50dp"
+        android:backgroundTint="@android:color/transparent"
+        android:background="@android:color/transparent"
+        android:src="@drawable/icon_animation"
+        app:tint="@null"
+        android:elevation="0dp"
+        android:layout_margin="16dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

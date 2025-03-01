@@ -16,4 +16,10 @@
         <!-- Cor de fundo da tela inicial -->
         <item name="android:windowBackground">@drawable/gradient_background</item>
     </style>
+
+    <style name="Nav" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:navigationBarColor">@android:color/white</item>
+    </style>
+
 </resources>

@@ -5,12 +5,22 @@
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_calendar_24"
         android:checkable="false"
-        android:title="@string/title_home" />
+        android:title="" />
+
+    <item
+        android:id="@+id/navigation_empty1"
+        android:checkable="false"
+        android:title="" />
+
+    <item
+        android:id="@+id/navigation_empty2"
+        android:checkable="false"
+        android:title="" />
 
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_stats_24"
         android:checkable="false"
-        android:title="@string/title_dashboard" />
+        android:title="" />
 
 </menu>

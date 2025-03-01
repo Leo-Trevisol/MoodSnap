@@ -11,4 +11,7 @@
     <color name="gray_light">#B0B0B0</color> <!-- Cinza claro -->
     <color name="gray_dark">#757575</color> <!-- Cinza médio -->
 
+    <color name="primary_green">#34EFC4</color> <!-- Cinza claro -->
+    <color name="primary_red">#FC6C74</color> <!-- Cinza médio -->
+
 </resources>
