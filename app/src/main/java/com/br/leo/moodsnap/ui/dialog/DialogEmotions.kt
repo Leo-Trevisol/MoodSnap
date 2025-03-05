@@ -2,12 +2,13 @@ package com.br.leo.moodsnap.ui.dialog
 
 import android.content.Context
 import android.os.Bundle
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatDialog
+import androidx.lifecycle.ViewModelProvider
 import com.br.leo.moodsnap.R
-import com.br.leo.moodsnap.ui.interfaces.OnEmotionSelectedListener
+import android.widget.ImageView
+import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
 
-class DialogEmotions(context: Context, private val listener: OnEmotionSelectedListener) :
+class DialogEmotions(context: Context, private val viewModel: MainViewModel) :
     AppCompatDialog(context, R.style.RoundedDialog) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,27 +19,27 @@ class DialogEmotions(context: Context, private val listener: OnEmotionSelectedLi
 
     private fun initComponents() {
         findViewById<ImageView>(R.id.emotion_very_happy)?.setOnClickListener {
-            listener.onEmotionSelected(R.drawable.muito_feliz)
+            viewModel.setSelectedEmotion(R.drawable.muito_feliz)
             dismiss()
         }
 
         findViewById<ImageView>(R.id.emotion_happy)?.setOnClickListener {
-            listener.onEmotionSelected(R.drawable.feliz)
+            viewModel.setSelectedEmotion(R.drawable.feliz)
             dismiss()
         }
 
         findViewById<ImageView>(R.id.emotion_neutral)?.setOnClickListener {
-            listener.onEmotionSelected(R.drawable.neutro)
+            viewModel.setSelectedEmotion(R.drawable.neutro)
             dismiss()
         }
 
         findViewById<ImageView>(R.id.emotion_sad)?.setOnClickListener {
-            listener.onEmotionSelected(R.drawable.triste)
+            viewModel.setSelectedEmotion(R.drawable.triste)
             dismiss()
         }
 
         findViewById<ImageView>(R.id.emotion_very_sad)?.setOnClickListener {
-            listener.onEmotionSelected(R.drawable.muito_triste)
+            viewModel.setSelectedEmotion(R.drawable.muito_triste)
             dismiss()
         }
     }

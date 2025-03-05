@@ -1,19 +1,17 @@
 package com.br.leo.moodsnap
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.br.leo.moodsnap.databinding.ActivityMainBinding
 import com.br.leo.moodsnap.ui.dialog.DialogEmotions
-import com.br.leo.moodsnap.ui.interfaces.OnEmotionSelectedListener
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
 
-class MainActivity : AppCompatActivity(), View.OnClickListener, OnEmotionSelectedListener {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityMainBinding
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,20 +19,24 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, OnEmotionSelecte
         setContentView(binding.root)
 
         setListeners()
+        observeViewModel()
     }
 
     override fun onClick(v: View) {
         if (v.id == R.id.fab) {
-            val dialogEmotions = DialogEmotions(this, this)
+            val dialogEmotions = DialogEmotions(this, viewModel)
             dialogEmotions.show()
         }
     }
 
-    override fun onEmotionSelected(emotionResId: Int) {
-        binding.fab.setImageResource(emotionResId)
-    }
 
     private fun setListeners() {
         binding.fab.setOnClickListener(this)
+    }
+
+    private fun observeViewModel() {
+        viewModel.selectedEmotion.observe(this) { emotionResId ->
+            binding.fab.setImageResource(emotionResId)
+        }
     }
 }
