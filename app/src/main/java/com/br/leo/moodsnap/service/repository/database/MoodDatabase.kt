@@ -4,12 +4,15 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.br.leo.moodsnap.service.repository.dao.MoodDAO
 import com.br.leo.moodsnap.model.MoodModel
+import com.br.leo.moodsnap.ui.utils.Converters
 
 @Database(entities = [MoodModel::class], version = 1)
+@TypeConverters(Converters::class) // Adiciona o conversor
 abstract class MoodDatabase : RoomDatabase() {
 
     abstract fun moodDao(): MoodDAO
