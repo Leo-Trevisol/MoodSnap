@@ -1,5 +1,7 @@
 package com.br.leo.moodsnap.ui.home
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.model.MoodModel
 import java.util.Calendar
-import java.util.Date
 
 class CalendarAdapter(
     private var daysInMonth: Int,
@@ -19,6 +20,8 @@ class CalendarAdapter(
 
     private var selectedPosition = -1
     private var onDayClickListener: ((Int) -> Unit)? = null
+    private val today = Calendar.getInstance()
+    private val displayMonth = Calendar.getInstance()
 
     class CalendarViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val dayCard: CardView = view.findViewById(R.id.day_card)
@@ -32,9 +35,23 @@ class CalendarAdapter(
         return CalendarViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CalendarViewHolder, @SuppressLint("RecyclerView") position: Int) {
         val dayOfMonth = position + 1
         holder.dayNumber.text = dayOfMonth.toString()
+
+        // Verificar se é data futura
+        val isFutureDate = isDateInFuture(dayOfMonth)
+        
+        // Configurar aparência para datas futuras
+        if (isFutureDate) {
+            holder.dayNumber.setTextColor(Color.LTGRAY)
+            holder.dayCard.alpha = 0.5f
+            holder.dayCard.isClickable = false
+        } else {
+            holder.dayNumber.setTextColor(Color.BLACK)
+            holder.dayCard.alpha = 1.0f
+            holder.dayCard.isClickable = true
+        }
 
         // Encontrar o humor para este dia
         val mood = moodList.find { mood ->
@@ -43,23 +60,38 @@ class CalendarAdapter(
             calendar.get(Calendar.DAY_OF_MONTH) == dayOfMonth
         }
 
-        if (mood != null) {
+        // Configurar o indicador de humor
+        if (mood != null && !isFutureDate) {
             holder.moodIndicator.visibility = View.VISIBLE
             holder.moodIndicator.setImageResource(getMoodDrawable(mood.moodType))
         } else {
             holder.moodIndicator.visibility = View.GONE
         }
 
-        // Gerenciar seleção
-        holder.dayCard.isSelected = position == selectedPosition
-        
+        // Configurar seleção
+        val isSelected = dayOfMonth - 1 == selectedPosition && !isFutureDate
+        holder.dayCard.isSelected = isSelected
+        holder.dayCard.setCardBackgroundColor(
+            if (isSelected)
+                holder.itemView.context.getColor(R.color.primary_red)
+            else
+                holder.itemView.context.getColor(android.R.color.white)
+        )
+
         holder.dayCard.setOnClickListener {
-            val previousSelected = selectedPosition
-            selectedPosition = if (selectedPosition == position) -1 else position
-            notifyItemChanged(previousSelected)
-            notifyItemChanged(selectedPosition)
-            onDayClickListener?.invoke(dayOfMonth)
+            if (!isFutureDate) {
+                val previousSelected = selectedPosition
+                selectedPosition = position
+                notifyItemChanged(previousSelected)
+                notifyItemChanged(position)
+                onDayClickListener?.invoke(dayOfMonth)
+            }
         }
+    }
+
+    private fun isDateInFuture(dayOfMonth: Int): Boolean {
+        displayMonth.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        return displayMonth.after(today)
     }
 
     override fun getItemCount() = daysInMonth
@@ -80,6 +112,20 @@ class CalendarAdapter(
         moodList = newMoodList
         selectedPosition = -1
         notifyDataSetChanged()
+    }
+
+    fun setSelectedDay(dayOfMonth: Int) {
+        if (!isDateInFuture(dayOfMonth)) {
+            val previousSelected = selectedPosition
+            selectedPosition = dayOfMonth - 1
+            notifyItemChanged(previousSelected)
+            notifyItemChanged(selectedPosition)
+        }
+    }
+
+    fun setDisplayMonth(year: Int, month: Int) {
+        displayMonth.set(Calendar.YEAR, year)
+        displayMonth.set(Calendar.MONTH, month)
     }
 
     fun setOnDayClickListener(listener: (Int) -> Unit) {

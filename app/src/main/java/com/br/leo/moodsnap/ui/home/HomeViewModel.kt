@@ -25,4 +25,17 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         
         _moodsForMonth.value = monthMoods
     }
+
+    fun saveMood(mood: MoodModel) {
+        if (repository.save(mood)) {
+            // Recarregar os humores do mês atual
+            calendar.time = mood.date
+            loadMoodsForMonth(
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH)
+            )
+        }
+    }
+
+    private val calendar = Calendar.getInstance()
 }
