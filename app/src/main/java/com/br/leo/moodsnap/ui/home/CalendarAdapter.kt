@@ -73,7 +73,7 @@ class CalendarAdapter(
         holder.dayCard.isSelected = isSelected
         holder.dayCard.setCardBackgroundColor(
             if (isSelected)
-                holder.itemView.context.getColor(R.color.primary_red)
+                holder.itemView.context.getColor(R.color.primary_green)
             else
                 holder.itemView.context.getColor(android.R.color.white)
         )

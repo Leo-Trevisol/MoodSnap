@@ -94,7 +94,17 @@ class HomeFragment : Fragment() {
                     else -> 2 // neutro como padrão
                 }
 
-                val mood = MoodModel().apply {
+                // Verificar se já existe um humor para esta data
+                val existingMood = homeViewModel.moodsForMonth.value?.find { mood ->
+                    val moodCalendar = Calendar.getInstance().apply { time = mood.date }
+                    moodCalendar.get(Calendar.DAY_OF_MONTH) == selectedDay &&
+                    moodCalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
+                    moodCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)
+                }
+
+                val mood = existingMood?.apply {
+                    this.moodType = moodType
+                } ?: MoodModel().apply {
                     date = selectedDate
                     this.moodType = moodType
                 }
@@ -177,7 +187,7 @@ class HomeFragment : Fragment() {
         calendarAdapter.setOnDayClickListener { dayOfMonth ->
             if (isDateInFuture(dayOfMonth)) {
                 Toast.makeText(requireContext(), "Não é possível selecionar datas futuras", Toast.LENGTH_SHORT).show()
-                return@setOnDayClickListener;
+                return@setOnDayClickListener
             }
             selectedDay = dayOfMonth
             calendarAdapter.setSelectedDay(dayOfMonth)
