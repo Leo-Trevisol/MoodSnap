@@ -6,41 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-    <LinearLayout
-        android:id="@+id/date_selector"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/date_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:gravity="center"
+        android:textSize="18sp"
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/month_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:padding="8dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackground"
-            tools:text="Janeiro"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/year_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:padding="8dp"
-            android:layout_marginStart="4dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackground"
-            tools:text="2024"/>
-
-    </LinearLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Janeiro 2024"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendar_grid"
@@ -49,7 +27,7 @@
         android:layout_marginTop="8dp"
         android:paddingHorizontal="4dp"
         android:clipToPadding="false"
-        app:layout_constraintTop_toBottomOf="@id/date_selector"
+        app:layout_constraintTop_toBottomOf="@id/date_text"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="7"
         tools:listitem="@layout/item_calendar_day"/>

@@ -12,7 +12,9 @@ import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.databinding.FragmentHomeBinding
 import com.br.leo.moodsnap.model.MoodModel
 import com.br.leo.moodsnap.ui.dialog.DialogEmotions
+import com.br.leo.moodsnap.ui.utils.Utils
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
+import com.bumptech.glide.util.Util
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.Calendar
 import java.util.Locale
@@ -68,7 +70,7 @@ class HomeFragment : Fragment() {
         activity?.findViewById<View>(R.id.fab)?.setOnClickListener {
             if (selectedDay != -1) {
                 if (isDateInFuture(selectedDay)) {
-                    Toast.makeText(requireContext(), "Não é possível registrar humor em datas futuras", Toast.LENGTH_SHORT).show()
+                    Utils.showCustomToast(requireContext(), "Não é possível registrar humor em datas futuras")
                     return@setOnClickListener
                 }
                 val dialogEmotions = DialogEmotions(requireContext(), mainViewModel)
@@ -116,17 +118,19 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupDatePickers() {
-        binding.monthText.setOnClickListener { showMonthPicker() }
-        binding.yearText.setOnClickListener { showYearPicker() }
+        binding.dateText.setOnClickListener { showDatePicker() }
     }
 
-    private fun showMonthPicker() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_month_picker, null)
+    private fun showDatePicker() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_date_picker, null)
         val monthPicker = dialogView.findViewById<NumberPicker>(R.id.month_picker)
+        val yearPicker = dialogView.findViewById<NumberPicker>(R.id.year_picker)
         
+        // Configurar o picker de meses
         val months = (0..11).map { month ->
-            calendar.set(Calendar.MONTH, month)
-            calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
+            val tempCalendar = Calendar.getInstance()
+            tempCalendar.set(Calendar.MONTH, month)
+            tempCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
         }.toTypedArray()
 
         monthPicker.minValue = 0
@@ -134,11 +138,18 @@ class HomeFragment : Fragment() {
         monthPicker.displayedValues = months
         monthPicker.value = calendar.get(Calendar.MONTH)
 
+        // Configurar o picker de anos
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        yearPicker.minValue = currentYear - 10
+        yearPicker.maxValue = currentYear
+        yearPicker.value = calendar.get(Calendar.YEAR)
+
         val dialog = MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Selecione o Mês")
+            .setTitle("Selecione a Data")
             .setView(dialogView)
             .setNegativeButton("Cancelar", null)
-            .setPositiveButton("OK") { dialog, _ ->
+            .setPositiveButton("OK") { _, _ ->
+                calendar.set(Calendar.YEAR, yearPicker.value)
                 calendar.set(Calendar.MONTH, monthPicker.value)
                 updateDateTexts()
                 updateCalendar()
@@ -150,34 +161,10 @@ class HomeFragment : Fragment() {
         dialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE)?.setTextColor(resources.getColor(R.color.primary_red, null))
     }
 
-    private fun showYearPicker() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_year_picker, null)
-        val yearPicker = dialogView.findViewById<NumberPicker>(R.id.year_picker)
-        val currentYear = calendar.get(Calendar.YEAR)
-        
-        yearPicker.minValue = currentYear - 5
-        yearPicker.maxValue = currentYear + 5
-        yearPicker.value = currentYear
-
-        val dialog = MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Selecione o Ano")
-            .setView(dialogView)
-            .setNegativeButton("Cancelar", null)
-            .setPositiveButton("OK") { dialog, _ ->
-                calendar.set(Calendar.YEAR, yearPicker.value)
-                updateDateTexts()
-                updateCalendar()
-            }
-            .show()
-
-        // Configurar as cores dos botões
-        dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE)?.setTextColor(resources.getColor(R.color.primary_red, null))
-        dialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE)?.setTextColor(resources.getColor(R.color.primary_red, null))
-    }
-
     private fun updateDateTexts() {
-        binding.monthText.text = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
-        binding.yearText.text = calendar.get(Calendar.YEAR).toString()
+        val month = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
+        val year = calendar.get(Calendar.YEAR).toString()
+        binding.dateText.text = "$month $year"
     }
 
     private fun setupCalendarView() {
@@ -186,7 +173,7 @@ class HomeFragment : Fragment() {
         
         calendarAdapter.setOnDayClickListener { dayOfMonth ->
             if (isDateInFuture(dayOfMonth)) {
-                Toast.makeText(requireContext(), "Não é possível selecionar datas futuras", Toast.LENGTH_SHORT).show()
+                Utils.showCustomToast(requireContext(), "Não é possível selecionar datas futuras")
                 return@setOnDayClickListener
             }
             selectedDay = dayOfMonth
@@ -196,15 +183,17 @@ class HomeFragment : Fragment() {
 
     private fun updateCalendar() {
         selectedDay = -1
-        homeViewModel.loadMoodsForMonth(
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH)
-        )
         calendarAdapter.setDisplayMonth(
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH)
         )
-        calendarAdapter.updateData(getDaysInMonth(), emptyList())
+        // Primeiro carrega os humores do mês
+        homeViewModel.loadMoodsForMonth(
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH)
+        )
+        // Atualiza apenas os dias do mês, mantendo a lista atual de humores
+        calendarAdapter.updateData(getDaysInMonth(), homeViewModel.moodsForMonth.value ?: emptyList())
     }
 
     private fun getDaysInMonth(): Int {

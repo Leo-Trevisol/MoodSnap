@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.model.MoodModel
+import com.br.leo.moodsnap.ui.utils.Utils
 import java.util.Calendar
 
 class CalendarAdapter(
@@ -35,7 +37,7 @@ class CalendarAdapter(
         return CalendarViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CalendarViewHolder, @SuppressLint("RecyclerView") position: Int) {
+    override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
         val dayOfMonth = position + 1
         holder.dayNumber.text = dayOfMonth.toString()
 
@@ -85,6 +87,12 @@ class CalendarAdapter(
                 notifyItemChanged(previousSelected)
                 notifyItemChanged(position)
                 onDayClickListener?.invoke(dayOfMonth)
+            } else {
+                Utils.run {
+                    holder.dayCard.flashError {
+                        showCustomToast(holder.itemView.context, "Não é possível registrar humor em datas futuras")
+                    }
+                }
             }
         }
     }
