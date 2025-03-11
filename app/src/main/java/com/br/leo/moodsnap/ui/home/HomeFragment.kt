@@ -46,6 +46,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupDatePickers()
+        setupWeekdaysGrid()
         setupCalendarView()
         observeViewModel()
         updateDateTexts()
@@ -204,6 +205,10 @@ class HomeFragment : Fragment() {
         homeViewModel.moodsForMonth.observe(viewLifecycleOwner) { moods ->
             calendarAdapter.updateData(getDaysInMonth(), moods)
         }
+    }
+
+    private fun setupWeekdaysGrid() {
+        binding.weekdaysGrid.adapter = WeekdaysAdapter()
     }
 
     override fun onDestroyView() {

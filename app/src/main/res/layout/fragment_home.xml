@@ -21,13 +21,24 @@
         tools:text="Janeiro 2024"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/calendar_grid"
+        android:id="@+id/weekdays_grid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:paddingHorizontal="4dp"
         android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@id/date_text"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="7"
+        tools:listitem="@layout/item_weekday"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/calendar_grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="4dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/weekdays_grid"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="7"
         tools:listitem="@layout/item_calendar_day"/>

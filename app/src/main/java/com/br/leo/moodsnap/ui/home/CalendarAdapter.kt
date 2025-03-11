@@ -24,6 +24,7 @@ class CalendarAdapter(
     private var onDayClickListener: ((Int) -> Unit)? = null
     private val today = Calendar.getInstance()
     private val displayMonth = Calendar.getInstance()
+    private var firstDayOfWeek = 0 // Domingo = 0, Segunda = 1, etc
 
     class CalendarViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val dayCard: CardView = view.findViewById(R.id.day_card)
@@ -38,7 +39,23 @@ class CalendarAdapter(
     }
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
-        val dayOfMonth = position + 1
+        // Se a posição for menor que o primeiro dia da semana, é um espaço vazio
+        if (position < firstDayOfWeek) {
+            holder.dayNumber.text = ""
+            holder.dayCard.visibility = View.INVISIBLE
+            holder.dayCard.isClickable = false
+            return
+        }
+
+        val dayOfMonth = position - firstDayOfWeek + 1
+        if (dayOfMonth > daysInMonth) {
+            holder.dayNumber.text = ""
+            holder.dayCard.visibility = View.INVISIBLE
+            holder.dayCard.isClickable = false
+            return
+        }
+
+        holder.dayCard.visibility = View.VISIBLE
         holder.dayNumber.text = dayOfMonth.toString()
 
         // Verificar se é data futura
@@ -71,7 +88,7 @@ class CalendarAdapter(
         }
 
         // Configurar seleção
-        val isSelected = dayOfMonth - 1 == selectedPosition && !isFutureDate
+        val isSelected = (position - firstDayOfWeek) == selectedPosition && !isFutureDate
         holder.dayCard.isSelected = isSelected
         holder.dayCard.setCardBackgroundColor(
             if (isSelected)
@@ -83,8 +100,8 @@ class CalendarAdapter(
         holder.dayCard.setOnClickListener {
             if (!isFutureDate) {
                 val previousSelected = selectedPosition
-                selectedPosition = position
-                notifyItemChanged(previousSelected)
+                selectedPosition = position - firstDayOfWeek
+                notifyItemChanged(previousSelected + firstDayOfWeek)
                 notifyItemChanged(position)
                 onDayClickListener?.invoke(dayOfMonth)
             } else {
@@ -102,7 +119,7 @@ class CalendarAdapter(
         return displayMonth.after(today)
     }
 
-    override fun getItemCount() = daysInMonth
+    override fun getItemCount() = daysInMonth + firstDayOfWeek
 
     private fun getMoodDrawable(moodType: Int): Int {
         return when (moodType) {
@@ -126,14 +143,16 @@ class CalendarAdapter(
         if (!isDateInFuture(dayOfMonth)) {
             val previousSelected = selectedPosition
             selectedPosition = dayOfMonth - 1
-            notifyItemChanged(previousSelected)
-            notifyItemChanged(selectedPosition)
+            notifyItemChanged(previousSelected + firstDayOfWeek)
+            notifyItemChanged(selectedPosition + firstDayOfWeek)
         }
     }
 
     fun setDisplayMonth(year: Int, month: Int) {
         displayMonth.set(Calendar.YEAR, year)
         displayMonth.set(Calendar.MONTH, month)
+        displayMonth.set(Calendar.DAY_OF_MONTH, 1) // Primeiro dia do mês
+        firstDayOfWeek = displayMonth.get(Calendar.DAY_OF_WEEK) - 1 // Ajusta para 0-based (Domingo = 0)
     }
 
     fun setOnDayClickListener(listener: (Int) -> Unit) {
