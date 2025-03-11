@@ -28,62 +28,106 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="100dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="8dp">
 
-            <ImageView
-                android:id="@+id/emotion_very_happy"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_very_happy"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/muito_feliz"
-                >
-            </ImageView>
+                android:layout_margin="4dp"
+                app:cardBackgroundColor="#FFE500"
+                app:cardCornerRadius="8dp">
 
-            <ImageView
-                android:id="@+id/emotion_happy"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/feliz"
-                >
-            </ImageView>
+                <ImageView
+                    android:id="@+id/emotion_very_happy"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp"
+                    android:src="@drawable/muito_feliz"
+                    >
+                </ImageView>
+            </androidx.cardview.widget.CardView>
 
-            <ImageView
-                android:id="@+id/emotion_neutral"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_happy"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/neutro"
-                >
-            </ImageView>
+                android:layout_margin="4dp"
+                app:cardBackgroundColor="#90EE90"
+                app:cardCornerRadius="8dp">
 
-            <ImageView
-                android:id="@+id/emotion_sad"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/triste"
-                >
-            </ImageView>
+                <ImageView
+                    android:id="@+id/emotion_happy"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp"
+                    android:src="@drawable/feliz"
+                    >
+                </ImageView>
+            </androidx.cardview.widget.CardView>
 
-            <ImageView
-                android:id="@+id/emotion_very_sad"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_neutral"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/muito_triste"
-                >
-            </ImageView>
+                android:layout_margin="4dp"
+                app:cardBackgroundColor="#E0E0E0"
+                app:cardCornerRadius="8dp">
+
+                <ImageView
+                    android:id="@+id/emotion_neutral"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp"
+                    android:src="@drawable/neutro"
+                    >
+                </ImageView>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_sad"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                app:cardBackgroundColor="#87CEEB"
+                app:cardCornerRadius="8dp">
+
+                <ImageView
+                    android:id="@+id/emotion_sad"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp"
+                    android:src="@drawable/triste"
+                    >
+                </ImageView>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_very_sad"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                app:cardBackgroundColor="#4682B4"
+                app:cardCornerRadius="8dp">
+
+                <ImageView
+                    android:id="@+id/emotion_very_sad"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp"
+                    android:src="@drawable/muito_triste"
+                    >
+                </ImageView>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
-
     </LinearLayout>
-
-
-
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
