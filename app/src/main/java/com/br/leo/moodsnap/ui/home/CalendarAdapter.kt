@@ -50,7 +50,7 @@ class CalendarAdapter(
             holder.dayCard.alpha = 0.5f
             holder.dayCard.isClickable = false
         } else {
-            holder.dayNumber.setTextColor(Color.BLACK)
+            holder.dayNumber.setTextColor(Color.LTGRAY)
             holder.dayCard.alpha = 1.0f
             holder.dayCard.isClickable = true
         }
