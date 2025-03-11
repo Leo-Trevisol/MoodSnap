@@ -9,7 +9,7 @@ import com.br.leo.moodsnap.R
 
 class WeekdaysAdapter : RecyclerView.Adapter<WeekdaysAdapter.WeekdayViewHolder>() {
 
-    private val weekdays = listOf("D", "S", "T", "Q", "Q", "S", "S")
+    private val weekdays = listOf("Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab")
 
     class WeekdayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val weekdayText: TextView = view as TextView

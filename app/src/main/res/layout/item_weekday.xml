@@ -7,6 +7,6 @@
     android:gravity="center"
     android:textSize="12sp"
     android:textStyle="bold"
-    android:textColor="@color/primary_red"
+    android:textColor="@color/primary_green"
     android:padding="4dp"
     tools:text="D" /> 

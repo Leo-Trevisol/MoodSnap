@@ -58,18 +58,37 @@ class CalendarAdapter(
         holder.dayCard.visibility = View.VISIBLE
         holder.dayNumber.text = dayOfMonth.toString()
 
+        // Resetar o background do TextView para garantir que não mantenha estados anteriores
+        holder.dayNumber.setBackgroundResource(0)
+        holder.dayNumber.setTextColor(Color.LTGRAY)
+
         // Verificar se é data futura
         val isFutureDate = isDateInFuture(dayOfMonth)
         
-        // Configurar aparência para datas futuras
-        if (isFutureDate) {
-            holder.dayNumber.setTextColor(Color.LTGRAY)
-            holder.dayCard.alpha = 0.5f
-            holder.dayCard.isClickable = false
-        } else {
-            holder.dayNumber.setTextColor(Color.LTGRAY)
-            holder.dayCard.alpha = 1.0f
-            holder.dayCard.isClickable = true
+        // Verificar se é o dia atual
+        val isToday = isToday(dayOfMonth)
+        
+        // Configurar aparência para datas futuras e dia atual
+        when {
+            isFutureDate -> {
+                holder.dayNumber.setTextColor(Color.LTGRAY)
+                holder.dayCard.alpha = 0.5f
+                holder.dayCard.isClickable = false
+                holder.dayCard.setCardBackgroundColor(holder.itemView.context.getColor(android.R.color.white))
+            }
+            isToday -> {
+                holder.dayCard.alpha = 1.0f
+                holder.dayCard.isClickable = true
+                holder.dayCard.setCardBackgroundColor(holder.itemView.context.getColor(android.R.color.white))
+                holder.dayNumber.setBackgroundResource(R.drawable.background_rounded_60)
+                holder.dayNumber.setTextColor(Color.BLACK)
+            }
+            else -> {
+                holder.dayNumber.setTextColor(Color.LTGRAY)
+                holder.dayCard.alpha = 1.0f
+                holder.dayCard.isClickable = true
+                holder.dayCard.setCardBackgroundColor(holder.itemView.context.getColor(android.R.color.white))
+            }
         }
 
         // Encontrar o humor para este dia
@@ -90,12 +109,11 @@ class CalendarAdapter(
         // Configurar seleção
         val isSelected = (position - firstDayOfWeek) == selectedPosition && !isFutureDate
         holder.dayCard.isSelected = isSelected
-        holder.dayCard.setCardBackgroundColor(
-            if (isSelected)
-                holder.itemView.context.getColor(R.color.primary_green)
-            else
-                holder.itemView.context.getColor(android.R.color.white)
-        )
+        if (isSelected) {
+            holder.dayCard.setCardBackgroundColor(holder.itemView.context.getColor(R.color.primary_green))
+            if(!isToday)
+            holder.dayNumber.setTextColor(Color.WHITE)
+        }
 
         holder.dayCard.setOnClickListener {
             if (!isFutureDate) {
@@ -117,6 +135,12 @@ class CalendarAdapter(
     private fun isDateInFuture(dayOfMonth: Int): Boolean {
         displayMonth.set(Calendar.DAY_OF_MONTH, dayOfMonth)
         return displayMonth.after(today)
+    }
+
+    private fun isToday(dayOfMonth: Int): Boolean {
+        return today.get(Calendar.YEAR) == displayMonth.get(Calendar.YEAR) &&
+               today.get(Calendar.MONTH) == displayMonth.get(Calendar.MONTH) &&
+               today.get(Calendar.DAY_OF_MONTH) == dayOfMonth
     }
 
     override fun getItemCount() = daysInMonth + firstDayOfWeek
