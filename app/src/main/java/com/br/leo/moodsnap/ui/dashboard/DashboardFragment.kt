@@ -2,7 +2,9 @@ package com.br.leo.moodsnap.ui.dashboard
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.GestureDetector
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -15,8 +17,10 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.databinding.FragmentDashboardBinding
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 class DashboardFragment : Fragment() {
@@ -24,6 +28,7 @@ class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
     private lateinit var dashboardViewModel: DashboardViewModel
+    private lateinit var gestureDetector: GestureDetector
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,9 +42,46 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupGestureDetector()
         setupDayFilterSpinner()
         setupObservers()
         dashboardViewModel.loadMoods()
+
+        // Configurar o detector de gestos na view principal
+        view.setOnTouchListener { _, event ->
+            gestureDetector.onTouchEvent(event)
+            true
+        }
+    }
+
+    private fun setupGestureDetector() {
+        gestureDetector = GestureDetector(requireContext(), object : GestureDetector.SimpleOnGestureListener() {
+            override fun onFling(
+                e1: MotionEvent?,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                if (e1 == null) return false
+                
+                val SWIPE_THRESHOLD = 100
+                val SWIPE_VELOCITY_THRESHOLD = 100
+                
+                val diffX = e2.x - e1.x
+                val diffY = e2.y - e1.y
+                
+                if (abs(diffX) > abs(diffY) && 
+                    abs(diffX) > SWIPE_THRESHOLD && 
+                    abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                    
+                    if (diffX > 0) { // Deslize para a direita
+                        findNavController().navigate(R.id.action_dashboard_to_home)
+                        return true
+                    }
+                }
+                return false
+            }
+        })
     }
 
     private fun setupDayFilterSpinner() {

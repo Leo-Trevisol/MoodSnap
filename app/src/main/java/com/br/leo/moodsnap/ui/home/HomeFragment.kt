@@ -1,13 +1,22 @@
 package com.br.leo.moodsnap.ui.home
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.GestureDetector
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.NumberPicker
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.databinding.FragmentHomeBinding
 import com.br.leo.moodsnap.model.MoodModel
@@ -18,6 +27,7 @@ import com.bumptech.glide.util.Util
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.Calendar
 import java.util.Locale
+import kotlin.math.abs
 
 class HomeFragment : Fragment() {
 
@@ -31,6 +41,7 @@ class HomeFragment : Fragment() {
     private lateinit var calendarAdapter: CalendarAdapter
     private val calendar = Calendar.getInstance()
     private var selectedDay: Int = -1
+    private lateinit var gestureDetector: GestureDetector
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +56,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupGestureDetector()
         setupDatePickers()
         setupWeekdaysGrid()
         setupCalendarView()
@@ -57,6 +69,13 @@ class HomeFragment : Fragment() {
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH)
         )
+        setupMonthYearSpinner()
+
+        // Configurar o detector de gestos na view principal
+        view.setOnTouchListener { _, event ->
+            gestureDetector.onTouchEvent(event)
+            true
+        }
     }
 
     private fun isDateInFuture(dayOfMonth: Int): Boolean {
@@ -119,7 +138,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupDatePickers() {
-        binding.dateText.setOnClickListener { showDatePicker() }
+        binding.dateContainer.setOnClickListener { showDatePicker() }
     }
 
     private fun showDatePicker() {
@@ -134,21 +153,25 @@ class HomeFragment : Fragment() {
             tempCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
         }.toTypedArray()
 
-        monthPicker.minValue = 0
-        monthPicker.maxValue = 11
-        monthPicker.displayedValues = months
-        monthPicker.value = calendar.get(Calendar.MONTH)
+        monthPicker.apply {
+            minValue = 0
+            maxValue = 11
+            displayedValues = months
+            value = calendar.get(Calendar.MONTH)
+        }
 
         // Configurar o picker de anos
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-        yearPicker.minValue = currentYear - 10
-        yearPicker.maxValue = currentYear
-        yearPicker.value = calendar.get(Calendar.YEAR)
+        yearPicker.apply {
+            minValue = currentYear - 10
+            maxValue = currentYear
+            value = calendar.get(Calendar.YEAR)
+        }
 
-        val dialog = MaterialAlertDialogBuilder(requireContext())
+        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setTitle("Selecione a Data")
             .setView(dialogView)
-            .setNegativeButton("Cancelar", null)
+            .setNegativeButton("CANCELAR", null)
             .setPositiveButton("OK") { _, _ ->
                 calendar.set(Calendar.YEAR, yearPicker.value)
                 calendar.set(Calendar.MONTH, monthPicker.value)
@@ -156,10 +179,6 @@ class HomeFragment : Fragment() {
                 updateCalendar()
             }
             .show()
-
-        // Configurar as cores dos botões
-        dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE)?.setTextColor(resources.getColor(R.color.primary_red, null))
-        dialog.getButton(android.app.AlertDialog.BUTTON_NEGATIVE)?.setTextColor(resources.getColor(R.color.primary_red, null))
     }
 
     private fun updateDateTexts() {
@@ -214,6 +233,119 @@ class HomeFragment : Fragment() {
 
     private fun setupWeekdaysGrid() {
         binding.weekdaysGrid.adapter = WeekdaysAdapter()
+    }
+
+    private fun setupMonthYearSpinner() {
+        val monthYearOptions = getMonthYearOptions()
+        
+        val adapter = object : ArrayAdapter<String>(
+            requireContext(),
+            R.layout.spinner_item_month_year,
+            monthYearOptions
+        ) {
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                view.setBackgroundColor(Color.WHITE)
+                (view as TextView).apply {
+                    gravity = Gravity.CENTER
+                    textSize = 16f
+                    setTextColor(Color.BLACK)
+                    setPadding(16, 16, 16, 16)
+                }
+                return view
+            }
+
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                (view as TextView).apply {
+                    gravity = Gravity.CENTER
+                    textSize = 16f
+                    setTextColor(Color.BLACK)
+                }
+                return view
+            }
+        }
+
+        binding.monthYearSpinner.adapter = adapter
+        binding.monthYearSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedOption = monthYearOptions[position]
+                val parts = selectedOption.split(" ")
+                val monthName = parts[0]
+                val year = parts[1].toInt()
+                
+                // Encontrar o índice do mês baseado no nome
+                val months = (0..11).map { month ->
+                    val tempCalendar = Calendar.getInstance()
+                    tempCalendar.set(Calendar.MONTH, month)
+                    tempCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
+                }
+                val monthIndex = months.indexOf(monthName)
+                
+                if (monthIndex != -1) {
+                    calendar.set(Calendar.YEAR, year)
+                    calendar.set(Calendar.MONTH, monthIndex)
+                    updateCalendar()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+    }
+
+    private fun getMonthYearOptions(): List<String> {
+        val options = mutableListOf<String>()
+        val currentCalendar = Calendar.getInstance()
+        val currentYear = currentCalendar.get(Calendar.YEAR)
+        
+        // Gerar opções para os últimos 10 anos
+        for (year in currentYear downTo currentYear - 10) {
+            for (month in 11 downTo 0) { // De dezembro a janeiro
+                val tempCalendar = Calendar.getInstance()
+                tempCalendar.set(Calendar.YEAR, year)
+                tempCalendar.set(Calendar.MONTH, month)
+                
+                // Não incluir meses futuros do ano atual
+                if (year == currentYear && month > currentCalendar.get(Calendar.MONTH)) {
+                    continue
+                }
+                
+                val monthName = tempCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
+                options.add("$monthName $year")
+            }
+        }
+        
+        return options
+    }
+
+    private fun setupGestureDetector() {
+        gestureDetector = GestureDetector(requireContext(), object : GestureDetector.SimpleOnGestureListener() {
+            override fun onFling(
+                e1: MotionEvent?,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                if (e1 == null) return false
+                
+                val SWIPE_THRESHOLD = 100
+                val SWIPE_VELOCITY_THRESHOLD = 100
+                
+                val diffX = e2.x - e1.x
+                val diffY = e2.y - e1.y
+                
+                if (abs(diffX) > abs(diffY) && 
+                    abs(diffX) > SWIPE_THRESHOLD && 
+                    abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                    
+                    if (diffX < 0) { // Deslize para a esquerda
+                        findNavController().navigate(R.id.action_home_to_dashboard)
+                        return true
+                    }
+                }
+                return false
+            }
+        })
     }
 
     override fun onDestroyView() {

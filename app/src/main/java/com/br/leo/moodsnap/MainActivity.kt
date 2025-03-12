@@ -32,6 +32,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         binding.navView.setupWithNavController(navController)
+
+        // Configurar o comportamento dos itens do menu
+        binding.navView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    navController.navigate(R.id.navigation_home)
+                    true
+                }
+                R.id.navigation_dashboard -> {
+                    navController.navigate(R.id.navigation_dashboard)
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onClick(v: View) {
