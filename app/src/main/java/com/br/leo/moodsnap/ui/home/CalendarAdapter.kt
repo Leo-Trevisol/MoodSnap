@@ -200,8 +200,9 @@ class CalendarAdapter(
     fun setDisplayMonth(year: Int, month: Int) {
         displayMonth.set(Calendar.YEAR, year)
         displayMonth.set(Calendar.MONTH, month)
-        displayMonth.set(Calendar.DAY_OF_MONTH, 1) // Primeiro dia do mês
-        firstDayOfWeek = displayMonth.get(Calendar.DAY_OF_WEEK) - 1 // Ajusta para 0-based (Domingo = 0)
+        displayMonth.set(Calendar.DAY_OF_MONTH, 1)
+        firstDayOfWeek = displayMonth.get(Calendar.DAY_OF_WEEK) - 1
+        notifyDataSetChanged()
     }
 
     fun setOnDayClickListener(listener: (Int) -> Unit) {

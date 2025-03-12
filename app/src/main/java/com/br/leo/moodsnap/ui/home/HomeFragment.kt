@@ -172,6 +172,12 @@ class HomeFragment : Fragment() {
         calendarAdapter = CalendarAdapter(getDaysInMonth())
         binding.calendarGrid.adapter = calendarAdapter
         
+        // Configurar o mês inicial
+        calendarAdapter.setDisplayMonth(
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH)
+        )
+        
         calendarAdapter.setOnDayClickListener { dayOfMonth ->
             if (isDateInFuture(dayOfMonth)) {
                 Utils.showCustomToast(requireContext(), "Não é possível selecionar datas futuras")
@@ -184,17 +190,16 @@ class HomeFragment : Fragment() {
 
     private fun updateCalendar() {
         selectedDay = -1
+        // Primeiro configura o mês no adaptador
         calendarAdapter.setDisplayMonth(
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH)
         )
-        // Primeiro carrega os humores do mês
+        // Depois carrega os humores do mês
         homeViewModel.loadMoodsForMonth(
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH)
         )
-        // Atualiza apenas os dias do mês, mantendo a lista atual de humores
-        calendarAdapter.updateData(getDaysInMonth(), homeViewModel.moodsForMonth.value ?: emptyList())
     }
 
     private fun getDaysInMonth(): Int {
