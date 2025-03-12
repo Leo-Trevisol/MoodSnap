@@ -51,8 +51,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         if (v.id == R.id.fab) {
-            val dialogEmotions = DialogEmotions(this, viewModel)
-            dialogEmotions.show()
+            val dialogEmotions = DialogEmotions(viewModel)
+            dialogEmotions.show(supportFragmentManager, dialogEmotions.tag)
         }
     }
 

@@ -88,14 +88,8 @@ class HomeFragment : Fragment() {
 
     private fun setupFabListener() {
         activity?.findViewById<View>(R.id.fab)?.setOnClickListener {
-            if (selectedDay != -1) {
-                if (isDateInFuture(selectedDay)) {
-                    Utils.showCustomToast(requireContext(), "Não é possível registrar humor em datas futuras")
-                    return@setOnClickListener
-                }
-                val dialogEmotions = DialogEmotions(requireContext(), mainViewModel)
-                dialogEmotions.show()
-            }
+            val dialogEmotions = DialogEmotions(mainViewModel)
+            dialogEmotions.show(childFragmentManager, dialogEmotions.tag)
         }
     }
 
@@ -204,6 +198,10 @@ class HomeFragment : Fragment() {
             }
             selectedDay = dayOfMonth
             calendarAdapter.setSelectedDay(dayOfMonth)
+            
+            // Mostrar o BottomSheet de emoções
+            val dialogEmotions = DialogEmotions(mainViewModel)
+            dialogEmotions.show(childFragmentManager, dialogEmotions.tag)
         }
     }
 
