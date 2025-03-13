@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.fragment.app.FragmentManager
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -51,28 +52,48 @@ class DialogEmotions(private val viewModel: MainViewModel) : BottomSheetDialogFr
 
     private fun initComponents(view: View) {
         view.findViewById<ImageView>(R.id.emotion_very_happy)?.setOnClickListener {
-            viewModel.setSelectedEmotion(R.drawable.muito_feliz)
-            dismiss()
+            if (isAdded) {
+                viewModel.setSelectedEmotion(R.drawable.muito_feliz)
+                dismissAllowingStateLoss()
+            }
         }
 
         view.findViewById<ImageView>(R.id.emotion_happy)?.setOnClickListener {
-            viewModel.setSelectedEmotion(R.drawable.feliz)
-            dismiss()
+            if (isAdded) {
+                viewModel.setSelectedEmotion(R.drawable.feliz)
+                dismissAllowingStateLoss()
+            }
         }
 
         view.findViewById<ImageView>(R.id.emotion_neutral)?.setOnClickListener {
-            viewModel.setSelectedEmotion(R.drawable.neutro)
-            dismiss()
+            if (isAdded) {
+                viewModel.setSelectedEmotion(R.drawable.neutro)
+                dismissAllowingStateLoss()
+            }
         }
 
         view.findViewById<ImageView>(R.id.emotion_sad)?.setOnClickListener {
-            viewModel.setSelectedEmotion(R.drawable.triste)
-            dismiss()
+            if (isAdded) {
+                viewModel.setSelectedEmotion(R.drawable.triste)
+                dismissAllowingStateLoss()
+            }
         }
 
         view.findViewById<ImageView>(R.id.emotion_very_sad)?.setOnClickListener {
-            viewModel.setSelectedEmotion(R.drawable.muito_triste)
-            dismiss()
+            if (isAdded) {
+                viewModel.setSelectedEmotion(R.drawable.muito_triste)
+                dismissAllowingStateLoss()
+            }
+        }
+    }
+
+    override fun show(manager: FragmentManager, tag: String?) {
+        try {
+            val ft = manager.beginTransaction()
+            ft.add(this, tag)
+            ft.commitAllowingStateLoss()
+        } catch (e: IllegalStateException) {
+            // Ignorar exceção se o fragmento não puder ser adicionado
         }
     }
 

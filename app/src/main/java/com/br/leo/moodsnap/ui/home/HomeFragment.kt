@@ -88,6 +88,22 @@ class HomeFragment : Fragment() {
 
     private fun setupFabListener() {
         activity?.findViewById<View>(R.id.fab)?.setOnClickListener {
+            if (selectedDay == -1) {
+                // Se não houver dia selecionado, selecionar o dia atual
+                val today = Calendar.getInstance()
+                if (today.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) &&
+                    today.get(Calendar.MONTH) == calendar.get(Calendar.MONTH)) {
+                    selectedDay = today.get(Calendar.DAY_OF_MONTH)
+                    calendarAdapter.setSelectedDay(selectedDay)
+                } else {
+                    // Se o mês atual não estiver sendo exibido, navegar para ele
+                    calendar.set(Calendar.YEAR, today.get(Calendar.YEAR))
+                    calendar.set(Calendar.MONTH, today.get(Calendar.MONTH))
+                    updateCalendarForDate(calendar)
+                    selectedDay = today.get(Calendar.DAY_OF_MONTH)
+                    calendarAdapter.setSelectedDay(selectedDay)
+                }
+            }
             val dialogEmotions = DialogEmotions(mainViewModel)
             dialogEmotions.show(childFragmentManager, dialogEmotions.tag)
         }
@@ -170,7 +186,12 @@ class HomeFragment : Fragment() {
                 calendar.set(Calendar.YEAR, yearPicker.value)
                 calendar.set(Calendar.MONTH, monthPicker.value)
                 updateDateTexts()
-                updateCalendar()
+                updateCalendarForDate(calendar)
+                // Carregar humores do mês selecionado
+                homeViewModel.loadMoodsForMonth(
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH)
+                )
             }
             .show()
     }
@@ -186,10 +207,7 @@ class HomeFragment : Fragment() {
         binding.calendarGrid.adapter = calendarAdapter
         
         // Configurar o mês inicial
-        calendarAdapter.setDisplayMonth(
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH)
-        )
+        updateCalendarForDate(calendar)
         
         calendarAdapter.setOnDayClickListener { dayOfMonth ->
             if (isDateInFuture(dayOfMonth)) {
@@ -203,20 +221,49 @@ class HomeFragment : Fragment() {
             val dialogEmotions = DialogEmotions(mainViewModel)
             dialogEmotions.show(childFragmentManager, dialogEmotions.tag)
         }
+
+        // Configurar navegação entre meses
+        binding.btnPreviousMonth.setOnClickListener {
+            calendar.add(Calendar.MONTH, -1)
+            updateCalendarForDate(calendar)
+        }
+
+        binding.btnNextMonth.setOnClickListener {
+            // Não permitir navegar para meses futuros
+            val nextMonth = calendar.clone() as Calendar
+            nextMonth.add(Calendar.MONTH, 1)
+                calendar.add(Calendar.MONTH, 1)
+                updateCalendarForDate(calendar)
+        }
     }
 
-    private fun updateCalendar() {
-        selectedDay = -1
-        // Primeiro configura o mês no adaptador
+    private fun updateCalendarForDate(calendar: Calendar) {
         calendarAdapter.setDisplayMonth(
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH)
         )
-        // Depois carrega os humores do mês
+        
+        // Atualizar o texto do mês
+        val monthName = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale("pt", "BR"))
+        val year = calendar.get(Calendar.YEAR)
+        binding.dateText.text = "$monthName $year"
+
+        // Carregar humores do mês
         homeViewModel.loadMoodsForMonth(
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH)
         )
+
+        // Resetar o dia selecionado ao mudar de mês
+        selectedDay = -1
+        calendarAdapter.setSelectedDay(-1)
+    }
+
+    private fun isCurrentOrPastMonth(calendar: Calendar): Boolean {
+        val currentDate = Calendar.getInstance()
+        return calendar.get(Calendar.YEAR) < currentDate.get(Calendar.YEAR) ||
+                (calendar.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR) &&
+                 calendar.get(Calendar.MONTH) <= currentDate.get(Calendar.MONTH))
     }
 
     private fun getDaysInMonth(): Int {
@@ -283,7 +330,12 @@ class HomeFragment : Fragment() {
                 if (monthIndex != -1) {
                     calendar.set(Calendar.YEAR, year)
                     calendar.set(Calendar.MONTH, monthIndex)
-                    updateCalendar()
+                    updateCalendarForDate(calendar)
+                    // Carregar humores do mês selecionado
+                    homeViewModel.loadMoodsForMonth(
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH)
+                    )
                 }
             }
 

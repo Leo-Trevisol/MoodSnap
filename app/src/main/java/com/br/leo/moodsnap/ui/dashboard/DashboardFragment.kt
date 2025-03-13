@@ -20,6 +20,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.databinding.FragmentDashboardBinding
+import com.br.leo.moodsnap.ui.dialog.DialogEmotions
+import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -28,6 +30,7 @@ class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
     private lateinit var dashboardViewModel: DashboardViewModel
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var gestureDetector: GestureDetector
 
     override fun onCreateView(
@@ -36,6 +39,7 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         return binding.root
     }
