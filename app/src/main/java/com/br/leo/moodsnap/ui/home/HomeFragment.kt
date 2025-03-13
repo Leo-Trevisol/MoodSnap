@@ -50,6 +50,7 @@ class HomeFragment : Fragment() {
     ): View {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        mainViewModel.initialize(requireContext())
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -109,8 +110,17 @@ class HomeFragment : Fragment() {
                 }
             }
 
+            // Verificar se já existe um humor para este dia
+            val existingMood = homeViewModel.moodsForMonth.value?.find { mood ->
+                val moodCalendar = Calendar.getInstance().apply { time = mood.date }
+                moodCalendar.get(Calendar.DAY_OF_MONTH) == selectedDay &&
+                moodCalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
+                moodCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)
+            }
+
             // Abre o diálogo de emoções
-            val dialogEmotions = DialogEmotions(mainViewModel)
+            val moodId = existingMood?.id?.toLong() ?: 0L
+            val dialogEmotions = DialogEmotions(mainViewModel, moodId)
             dialogEmotions.show(childFragmentManager, dialogEmotions.tag)
         }
     }
@@ -162,6 +172,22 @@ class HomeFragment : Fragment() {
                     selectedDay == today.get(Calendar.DAY_OF_MONTH)) {
                     updateFabIcon()
                 }
+            }
+        }
+
+        // Observar quando um humor for deletado
+        mainViewModel.moodDeleted.observe(viewLifecycleOwner) { deleted ->
+            if (deleted) {
+                // Recarregar os humores do mês atual
+                homeViewModel.loadMoodsForMonth(
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH)
+                )
+                // Resetar a seleção do dia após deletar o humor
+                selectedDay = -1
+                calendarAdapter.setSelectedDay(-1)
+                calendarAdapter.notifyDataSetChanged()
+                updateFabIcon()
             }
         }
     }
@@ -236,8 +262,17 @@ class HomeFragment : Fragment() {
             selectedDay = dayOfMonth
             calendarAdapter.setSelectedDay(dayOfMonth)
             
+            // Verificar se já existe um humor para este dia
+            val existingMood = homeViewModel.moodsForMonth.value?.find { mood ->
+                val moodCalendar = Calendar.getInstance().apply { time = mood.date }
+                moodCalendar.get(Calendar.DAY_OF_MONTH) == dayOfMonth &&
+                moodCalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
+                moodCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)
+            }
+            
             // Mostrar o BottomSheet de emoções
-            val dialogEmotions = DialogEmotions(mainViewModel)
+            val moodId = existingMood?.id?.toLong() ?: 0L
+            val dialogEmotions = DialogEmotions(mainViewModel, moodId)
             dialogEmotions.show(childFragmentManager, dialogEmotions.tag)
         }
 

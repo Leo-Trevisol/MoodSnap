@@ -13,8 +13,12 @@ import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.button.MaterialButton
 
-class DialogEmotions(private val viewModel: MainViewModel) : BottomSheetDialogFragment() {
+class DialogEmotions(
+    private val viewModel: MainViewModel,
+    private val existingMoodId: Long = 0
+) : BottomSheetDialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,6 +55,16 @@ class DialogEmotions(private val viewModel: MainViewModel) : BottomSheetDialogFr
     }
 
     private fun initComponents(view: View) {
+        // Configurar botão de deletar
+        val btnDelete = view.findViewById<MaterialButton>(R.id.btn_delete)
+        if (existingMoodId > 0) {
+            btnDelete.visibility = View.VISIBLE
+            btnDelete.setOnClickListener {
+                viewModel.deleteMood(existingMoodId)
+                dismissAllowingStateLoss()
+            }
+        }
+
         view.findViewById<ImageView>(R.id.emotion_very_happy)?.setOnClickListener {
             if (isAdded) {
                 viewModel.setSelectedEmotion(R.drawable.muito_feliz)
