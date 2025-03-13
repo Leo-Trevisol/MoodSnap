@@ -70,6 +70,7 @@ class HomeFragment : Fragment() {
             calendar.get(Calendar.MONTH)
         )
         setupMonthYearSpinner()
+        updateFabIcon()
 
         // Configurar o detector de gestos na view principal
         view.setOnTouchListener { _, event ->
@@ -93,17 +94,22 @@ class HomeFragment : Fragment() {
                 val today = Calendar.getInstance()
                 if (today.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) &&
                     today.get(Calendar.MONTH) == calendar.get(Calendar.MONTH)) {
+                    // Se já estiver no mês atual, apenas seleciona o dia
                     selectedDay = today.get(Calendar.DAY_OF_MONTH)
                     calendarAdapter.setSelectedDay(selectedDay)
+                    calendarAdapter.notifyDataSetChanged()
                 } else {
-                    // Se o mês atual não estiver sendo exibido, navegar para ele
+                    // Se não estiver no mês atual, navega para o mês atual e seleciona o dia
                     calendar.set(Calendar.YEAR, today.get(Calendar.YEAR))
                     calendar.set(Calendar.MONTH, today.get(Calendar.MONTH))
-                    updateCalendarForDate(calendar)
                     selectedDay = today.get(Calendar.DAY_OF_MONTH)
+                    updateCalendarForDate(calendar, keepSelectedDay = true)
                     calendarAdapter.setSelectedDay(selectedDay)
+                    calendarAdapter.notifyDataSetChanged()
                 }
             }
+
+            // Abre o diálogo de emoções
             val dialogEmotions = DialogEmotions(mainViewModel)
             dialogEmotions.show(childFragmentManager, dialogEmotions.tag)
         }
@@ -143,6 +149,19 @@ class HomeFragment : Fragment() {
 
                 // Salvar o humor
                 homeViewModel.saveMood(mood)
+
+                // Resetar a seleção do dia após salvar o humor
+                selectedDay = -1
+                calendarAdapter.setSelectedDay(-1)
+                calendarAdapter.notifyDataSetChanged()
+
+                // Atualizar o ícone do FAB apenas se o humor foi registrado para o dia atual (hoje)
+                val today = Calendar.getInstance()
+                if (calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
+                    calendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
+                    selectedDay == today.get(Calendar.DAY_OF_MONTH)) {
+                    updateFabIcon()
+                }
             }
         }
     }
@@ -232,12 +251,12 @@ class HomeFragment : Fragment() {
             // Não permitir navegar para meses futuros
             val nextMonth = calendar.clone() as Calendar
             nextMonth.add(Calendar.MONTH, 1)
-                calendar.add(Calendar.MONTH, 1)
-                updateCalendarForDate(calendar)
+            calendar.add(Calendar.MONTH, 1)
+            updateCalendarForDate(calendar)
         }
     }
 
-    private fun updateCalendarForDate(calendar: Calendar) {
+    private fun updateCalendarForDate(calendar: Calendar, keepSelectedDay: Boolean = false) {
         calendarAdapter.setDisplayMonth(
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH)
@@ -254,9 +273,11 @@ class HomeFragment : Fragment() {
             calendar.get(Calendar.MONTH)
         )
 
-        // Resetar o dia selecionado ao mudar de mês
-        selectedDay = -1
-        calendarAdapter.setSelectedDay(-1)
+        // Resetar a seleção apenas se não precisamos manter o dia selecionado
+        if (!keepSelectedDay) {
+            selectedDay = -1
+            calendarAdapter.setSelectedDay(-1)
+        }
     }
 
     private fun isCurrentOrPastMonth(calendar: Calendar): Boolean {
@@ -273,6 +294,7 @@ class HomeFragment : Fragment() {
     private fun observeViewModel() {
         homeViewModel.moodsForMonth.observe(viewLifecycleOwner) { moods ->
             calendarAdapter.updateData(getDaysInMonth(), moods)
+            updateFabIcon()
         }
     }
 
@@ -396,6 +418,32 @@ class HomeFragment : Fragment() {
                 return false
             }
         })
+    }
+
+    private fun updateFabIcon() {
+        val today = Calendar.getInstance()
+        // Verificar se existe humor para o dia atual (hoje)
+        val todayMood = homeViewModel.moodsForMonth.value?.find { mood ->
+            val moodCalendar = Calendar.getInstance().apply { time = mood.date }
+            val isToday = moodCalendar.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH) &&
+                         moodCalendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
+                         moodCalendar.get(Calendar.YEAR) == today.get(Calendar.YEAR)
+            isToday
+        }
+
+        // Definir o ícone com base no humor do dia atual
+        val iconResource = when (todayMood?.moodType) {
+            0 -> R.drawable.muito_feliz
+            1 -> R.drawable.feliz
+            2 -> R.drawable.neutro
+            3 -> R.drawable.triste
+            4 -> R.drawable.muito_triste
+            else -> R.drawable.fechado_brilho
+        }
+
+        activity?.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)?.let { fab ->
+            fab.setImageResource(iconResource)
+        }
     }
 
     override fun onDestroyView() {
