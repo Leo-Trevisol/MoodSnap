@@ -18,5 +18,11 @@ data class MoodModel(
     var date: Date = Date(),
 
     @ColumnInfo(name = "mood_type")
-    var moodType: Int = 0
+    var moodType: Int = 0,
+
+    @ColumnInfo(name = "description")
+    var description: String? = null,
+
+    @ColumnInfo(name = "image_path")
+    var imagePath: String? = null
 )

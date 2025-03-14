@@ -11,11 +11,12 @@ interface MoodDAO {
     @Update
     fun update(guest: MoodModel): Int
 
+
     @Delete
     fun delete(guest: MoodModel)
 
-    @Query("SELECT * FROM Mood WHERE id = :id")
-    fun load(id: Int): MoodModel
+    @Query("SELECT * FROM Mood WHERE id = :moodId")
+    fun load(moodId: Int): MoodModel
 
     @Query("SELECT * FROM Mood")
     fun getAll(): List<MoodModel>

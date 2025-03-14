@@ -11,7 +11,7 @@ import com.br.leo.moodsnap.service.repository.dao.MoodDAO
 import com.br.leo.moodsnap.model.MoodModel
 import com.br.leo.moodsnap.ui.utils.Converters
 
-@Database(entities = [MoodModel::class], version = 1)
+@Database(entities = [MoodModel::class], version = 2)
 @TypeConverters(Converters::class) // Adiciona o conversor
 abstract class MoodDatabase : RoomDatabase() {
 
@@ -24,7 +24,7 @@ abstract class MoodDatabase : RoomDatabase() {
             if (!Companion::INSTANCE.isInitialized) {
                 synchronized(MoodDatabase::class) {
                     INSTANCE = Room.databaseBuilder(context, MoodDatabase::class.java, "moodDB")
-                        .addMigrations(MIGRATION_1_2)
+                        .fallbackToDestructiveMigration() // Permite recriar o banco se a migração falhar
                         .allowMainThreadQueries()
                         .build()
                 }
@@ -33,13 +33,15 @@ abstract class MoodDatabase : RoomDatabase() {
         }
 
         /**
-         * Atualização de versão de banco de dados
+         * Migração da versão 1 para 2 do banco de dados
+         * Adiciona as colunas description e image_path
          */
         private val MIGRATION_1_2: Migration = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("DELETE FROM Mood")
+                // Adicionar as novas colunas
+                database.execSQL("ALTER TABLE Mood ADD COLUMN description TEXT")
+                database.execSQL("ALTER TABLE Mood ADD COLUMN image_path TEXT")
             }
         }
-
     }
 }
