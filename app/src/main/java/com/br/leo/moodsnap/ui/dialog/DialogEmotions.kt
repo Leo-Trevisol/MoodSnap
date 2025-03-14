@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
@@ -14,10 +15,13 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DialogEmotions(
     private val viewModel: MainViewModel,
-    private val existingMoodId: Long = 0
+    private val existingMoodId: Long = 0,
+    private val selectedDate: Calendar
 ) : BottomSheetDialogFragment() {
 
     override fun onCreateView(
@@ -55,6 +59,11 @@ class DialogEmotions(
     }
 
     private fun initComponents(view: View) {
+        // Configurar a data selecionada
+        val selectedDateText = view.findViewById<TextView>(R.id.selected_date)
+        val dateFormat = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale("pt", "BR"))
+        selectedDateText.text = dateFormat.format(selectedDate.time)
+
         // Configurar botão de deletar
         val btnDelete = view.findViewById<MaterialButton>(R.id.btn_delete)
         if (existingMoodId > 0) {

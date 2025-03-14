@@ -118,9 +118,16 @@ class HomeFragment : Fragment() {
                 moodCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)
             }
 
+            // Criar um Calendar com a data selecionada
+            val selectedCalendar = Calendar.getInstance().apply {
+                set(Calendar.YEAR, calendar.get(Calendar.YEAR))
+                set(Calendar.MONTH, calendar.get(Calendar.MONTH))
+                set(Calendar.DAY_OF_MONTH, selectedDay)
+            }
+
             // Abre o diálogo de emoções
             val moodId = existingMood?.id?.toLong() ?: 0L
-            val dialogEmotions = DialogEmotions(mainViewModel, moodId)
+            val dialogEmotions = DialogEmotions(mainViewModel, moodId, selectedCalendar)
             dialogEmotions.show(childFragmentManager, dialogEmotions.tag)
         }
     }
@@ -193,7 +200,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupDatePickers() {
-        binding.dateContainer.setOnClickListener { showDatePicker() }
+        binding.dateText.setOnClickListener { showDatePicker() }
     }
 
     private fun showDatePicker() {
@@ -270,9 +277,16 @@ class HomeFragment : Fragment() {
                 moodCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)
             }
             
+            // Criar um Calendar com a data selecionada
+            val selectedCalendar = Calendar.getInstance().apply {
+                set(Calendar.YEAR, calendar.get(Calendar.YEAR))
+                set(Calendar.MONTH, calendar.get(Calendar.MONTH))
+                set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            }
+            
             // Mostrar o BottomSheet de emoções
             val moodId = existingMood?.id?.toLong() ?: 0L
-            val dialogEmotions = DialogEmotions(mainViewModel, moodId)
+            val dialogEmotions = DialogEmotions(mainViewModel, moodId, selectedCalendar)
             dialogEmotions.show(childFragmentManager, dialogEmotions.tag)
         }
 

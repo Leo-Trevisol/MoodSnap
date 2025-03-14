@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.br.leo.moodsnap.databinding.ActivityMainBinding
 import com.br.leo.moodsnap.ui.dialog.DialogEmotions
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
+import java.util.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         if (v.id == R.id.fab) {
-            val dialogEmotions = DialogEmotions(viewModel)
+            val dialogEmotions = DialogEmotions(viewModel, 0L, Calendar.getInstance())
             dialogEmotions.show(supportFragmentManager, dialogEmotions.tag)
         }
     }
