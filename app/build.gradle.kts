@@ -56,7 +56,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation("androidx.room:room-runtime:2.4.3")
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
+    kapt("com.github.bumptech.glide:compiler:4.16.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -31,6 +31,20 @@
         android:gravity="start"
         android:layout_marginBottom="16dp"/>
 
+    <ImageView
+        android:id="@+id/image_day"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:background="@drawable/edit_text_border"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center"
+        android:gravity="start"
+        android:src="@drawable/ic_add_image"
+        app:layout_constraintTop_toBottomOf="@id/edit_description"
+        app:layout_constraintBottom_toTopOf="@id/linear_bts"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"/>
+
     <LinearLayout
         android:id="@+id/linear_bts"
         android:layout_width="match_parent"
