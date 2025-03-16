@@ -162,7 +162,9 @@
             app:icon="@drawable/ic_delete"
             app:iconGravity="textStart"
             app:iconTint="@android:color/white"
-            app:backgroundTint="@android:color/holo_red_dark"/>
+            app:backgroundTint="@android:color/holo_red_dark"
+            android:visibility="gone"
+            />
 
     </LinearLayout>
 

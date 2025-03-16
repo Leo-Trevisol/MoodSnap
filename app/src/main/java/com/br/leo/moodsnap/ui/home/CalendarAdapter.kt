@@ -1,17 +1,15 @@
 package com.br.leo.moodsnap.ui.home
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
-import com.br.leo.moodsnap.model.MoodModel
+import com.br.leo.moodsnap.service.model.MoodModel
 import com.br.leo.moodsnap.ui.utils.Utils
 import java.util.Calendar
 
@@ -99,7 +97,7 @@ class CalendarAdapter(
             isToday -> {
                 holder.dayCard.alpha = 1.0f
                 holder.dayCard.isClickable = true
-                holder.dayNumber.setBackgroundResource(R.drawable.background_rounded_60)
+                holder.dayNumber.setBackgroundResource(R.drawable.background_rounded_60_green)
                 holder.dayNumber.setTextColor(Color.BLACK)
                 
                 if (mood != null) {

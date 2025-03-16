@@ -84,4 +84,7 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="DialogRounded" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/background_rounded_60_white</item>
+    </style>
 </resources>

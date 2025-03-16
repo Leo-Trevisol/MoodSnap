@@ -4,9 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.br.leo.moodsnap.model.MoodModel
 import com.br.leo.moodsnap.service.repository.MoodRepository
-import java.util.Calendar
 
 class MainViewModel : ViewModel() {
 

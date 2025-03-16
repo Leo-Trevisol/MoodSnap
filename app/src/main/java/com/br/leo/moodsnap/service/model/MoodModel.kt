@@ -1,4 +1,4 @@
-package com.br.leo.moodsnap.model
+package com.br.leo.moodsnap.service.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

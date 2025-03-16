@@ -5,9 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentManager
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
@@ -64,19 +67,41 @@ class DialogEmotions(
         val dateFormat = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale("pt", "BR"))
         selectedDateText.text = dateFormat.format(selectedDate.time)
 
+        // Configurar botão de editar
+        val btnEdit = view.findViewById<MaterialButton>(R.id.btn_edit)
+        if (existingMoodId > 0) {
+            btnEdit.visibility = View.VISIBLE
+            btnEdit.setOnClickListener {
+                val editDialog = EditDescriptionDialog(existingMoodId.toInt())
+                editDialog.isCancelable = false
+                editDialog.show(parentFragmentManager, "EditDescriptionDialog")
+                dismissAllowingStateLoss()
+            }
+        } else {
+            btnEdit.visibility = View.GONE
+        }
+
         // Configurar botão de deletar
         val btnDelete = view.findViewById<MaterialButton>(R.id.btn_delete)
         if (existingMoodId > 0) {
             btnDelete.visibility = View.VISIBLE
             btnDelete.setOnClickListener {
-                viewModel.deleteMood(existingMoodId)
-                dismissAllowingStateLoss()
+                CustomAlertDialog.create(requireContext())
+                    .setTitle("Atenção")
+                    .setMessage("Você deseja realmente deletar o humor do dia ${selectedDateText.text}?")
+                    .setPositiveListener {
+                        viewModel.deleteMood(existingMoodId)
+                        Toast.makeText(requireContext(), "Humor deletado com sucesso!", Toast.LENGTH_SHORT).show()
+                        dismissAllowingStateLoss()
+                    }
+                    .setNegativeListener(null).show()
             }
         }
 
         view.findViewById<ImageView>(R.id.emotion_very_happy)?.setOnClickListener {
             if (isAdded) {
                 viewModel.setSelectedEmotion(R.drawable.muito_feliz)
+                Toast.makeText(requireContext(), "Humor cadastrado com sucesso!", Toast.LENGTH_SHORT).show()
                 dismissAllowingStateLoss()
             }
         }
@@ -84,6 +109,7 @@ class DialogEmotions(
         view.findViewById<ImageView>(R.id.emotion_happy)?.setOnClickListener {
             if (isAdded) {
                 viewModel.setSelectedEmotion(R.drawable.feliz)
+                Toast.makeText(requireContext(), "Humor cadastrado com sucesso!", Toast.LENGTH_SHORT).show()
                 dismissAllowingStateLoss()
             }
         }
@@ -91,6 +117,7 @@ class DialogEmotions(
         view.findViewById<ImageView>(R.id.emotion_neutral)?.setOnClickListener {
             if (isAdded) {
                 viewModel.setSelectedEmotion(R.drawable.neutro)
+                Toast.makeText(requireContext(), "Humor cadastrado com sucesso!", Toast.LENGTH_SHORT).show()
                 dismissAllowingStateLoss()
             }
         }
@@ -98,6 +125,7 @@ class DialogEmotions(
         view.findViewById<ImageView>(R.id.emotion_sad)?.setOnClickListener {
             if (isAdded) {
                 viewModel.setSelectedEmotion(R.drawable.triste)
+                Toast.makeText(requireContext(), "Humor cadastrado com sucesso!", Toast.LENGTH_SHORT).show()
                 dismissAllowingStateLoss()
             }
         }
@@ -105,6 +133,7 @@ class DialogEmotions(
         view.findViewById<ImageView>(R.id.emotion_very_sad)?.setOnClickListener {
             if (isAdded) {
                 viewModel.setSelectedEmotion(R.drawable.muito_triste)
+                Toast.makeText(requireContext(), "Humor cadastrado com sucesso!", Toast.LENGTH_SHORT).show()
                 dismissAllowingStateLoss()
             }
         }

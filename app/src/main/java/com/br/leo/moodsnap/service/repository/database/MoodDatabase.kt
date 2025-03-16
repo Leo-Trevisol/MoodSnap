@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.br.leo.moodsnap.service.repository.dao.MoodDAO
-import com.br.leo.moodsnap.model.MoodModel
+import com.br.leo.moodsnap.service.model.MoodModel
 import com.br.leo.moodsnap.ui.utils.Converters
 
 @Database(entities = [MoodModel::class], version = 2)
@@ -24,7 +24,7 @@ abstract class MoodDatabase : RoomDatabase() {
             if (!Companion::INSTANCE.isInitialized) {
                 synchronized(MoodDatabase::class) {
                     INSTANCE = Room.databaseBuilder(context, MoodDatabase::class.java, "moodDB")
-                        .fallbackToDestructiveMigration() // Permite recriar o banco se a migração falhar
+                        .addMigrations(MIGRATION_1_2) // Usar a migração ao invés de fallbackToDestructiveMigration
                         .allowMainThreadQueries()
                         .build()
                 }

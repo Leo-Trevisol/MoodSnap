@@ -1,7 +1,7 @@
 package com.br.leo.moodsnap.service.repository
 
 import android.content.Context
-import com.br.leo.moodsnap.model.MoodModel
+import com.br.leo.moodsnap.service.model.MoodModel
 import com.br.leo.moodsnap.service.repository.database.MoodDatabase
 
 class MoodRepository (context: Context) {

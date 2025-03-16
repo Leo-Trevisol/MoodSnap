@@ -1,7 +1,6 @@
 package com.br.leo.moodsnap.ui.home
 
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.Gravity
@@ -13,17 +12,15 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.NumberPicker
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.databinding.FragmentHomeBinding
-import com.br.leo.moodsnap.model.MoodModel
+import com.br.leo.moodsnap.service.model.MoodModel
 import com.br.leo.moodsnap.ui.dialog.DialogEmotions
 import com.br.leo.moodsnap.ui.utils.Utils
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
-import com.bumptech.glide.util.Util
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.Calendar
 import java.util.Locale
@@ -233,6 +230,7 @@ class HomeFragment : Fragment() {
         val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setTitle("Selecione a Data")
             .setView(dialogView)
+            .setCancelable(false)
             .setNegativeButton("CANCELAR", null)
             .setPositiveButton("OK") { _, _ ->
                 calendar.set(Calendar.YEAR, yearPicker.value)

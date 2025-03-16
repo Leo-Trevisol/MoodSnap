@@ -1,7 +1,7 @@
 package com.br.leo.moodsnap.service.repository.dao
 
 import androidx.room.*
-import com.br.leo.moodsnap.model.MoodModel
+import com.br.leo.moodsnap.service.model.MoodModel
 
 @Dao
 interface MoodDAO {
