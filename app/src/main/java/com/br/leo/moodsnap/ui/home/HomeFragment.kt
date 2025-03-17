@@ -194,6 +194,30 @@ class HomeFragment : Fragment() {
                 updateFabIcon()
             }
         }
+
+        // Observar mudança do mês e ano
+        mainViewModel.selectedMonth.observe(viewLifecycleOwner) { month ->
+            if (month != null && month >= 0) {
+                calendar.set(Calendar.MONTH, month)
+                updateCalendarForDate(calendar, keepSelectedDay = true)
+            }
+        }
+
+        mainViewModel.selectedYear.observe(viewLifecycleOwner) { year ->
+            if (year != null && year > 0) {
+                calendar.set(Calendar.YEAR, year)
+                updateCalendarForDate(calendar, keepSelectedDay = true)
+            }
+        }
+
+        // Observar mudança do dia selecionado
+        mainViewModel.selectedDay.observe(viewLifecycleOwner) { day ->
+            if (day != null && day > 0) {
+                selectedDay = day
+                calendarAdapter.setSelectedDay(day)
+                calendarAdapter.notifyDataSetChanged()
+            }
+        }
     }
 
     private fun setupDatePickers() {
@@ -320,10 +344,13 @@ class HomeFragment : Fragment() {
             calendar.get(Calendar.MONTH)
         )
 
-        // Resetar a seleção apenas se não precisamos manter o dia selecionado
+        // Manter o dia selecionado se necessário
         if (!keepSelectedDay) {
             selectedDay = -1
             calendarAdapter.setSelectedDay(-1)
+        } else if (selectedDay > 0) {
+            calendarAdapter.setSelectedDay(selectedDay)
+            calendarAdapter.notifyDataSetChanged()
         }
     }
 

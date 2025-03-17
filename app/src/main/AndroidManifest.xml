@@ -31,6 +31,7 @@
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.AppCompat.Dialog"
             />
+        <activity android:name=".ui.edit.EditDayActivity" />
     </application>
 
 </manifest>

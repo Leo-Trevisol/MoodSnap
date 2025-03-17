@@ -1,6 +1,8 @@
 package com.br.leo.moodsnap.ui.dialog
 
+import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,19 +15,23 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentManager
 import com.br.leo.moodsnap.R
+import com.br.leo.moodsnap.ui.edit.EditDayActivity
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 class DialogEmotions(
     private val viewModel: MainViewModel,
     private val existingMoodId: Long = 0,
     private val selectedDate: Calendar
 ) : BottomSheetDialogFragment() {
+
+    private val EDIT_DAY_REQUEST = 100
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,12 +77,7 @@ class DialogEmotions(
         val btnEdit = view.findViewById<MaterialButton>(R.id.btn_edit)
         if (existingMoodId > 0) {
             btnEdit.visibility = View.VISIBLE
-            btnEdit.setOnClickListener {
-                val editDialog = EditDescriptionDialog(existingMoodId.toInt())
-                editDialog.isCancelable = false
-                editDialog.show(parentFragmentManager, "EditDescriptionDialog")
-                dismissAllowingStateLoss()
-            }
+            setupEditButton()
         } else {
             btnEdit.visibility = View.GONE
         }
@@ -135,6 +136,42 @@ class DialogEmotions(
                 viewModel.setSelectedEmotion(R.drawable.muito_triste)
                 Toast.makeText(requireContext(), "Humor cadastrado com sucesso!", Toast.LENGTH_SHORT).show()
                 dismissAllowingStateLoss()
+            }
+        }
+    }
+
+    private fun setupEditButton() {
+        val btnEdit = requireView().findViewById<MaterialButton>(R.id.btn_edit)
+        btnEdit.setOnClickListener {
+            val intent = Intent(requireContext(), EditDayActivity::class.java)
+            intent.putExtra("mood_id", existingMoodId)
+            intent.putExtra("selected_date", selectedDate.timeInMillis)
+            startActivityForResult(intent, EDIT_DAY_REQUEST)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == EDIT_DAY_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            val newDateMillis = data.getLongExtra("current_date", -1L)
+            val newMonth = data.getIntExtra("current_month", -1)
+            val newYear = data.getIntExtra("current_year", -1)
+            
+            if (newDateMillis != -1L && newMonth != -1 && newYear != -1) {
+                selectedDate.timeInMillis = newDateMillis
+                selectedDate.set(Calendar.MONTH, newMonth)
+                selectedDate.set(Calendar.YEAR, newYear)
+                
+                // Reabrir o dialog com a nova data
+                dismiss()
+                
+                // Atualizar o dia selecionado no calendário e o mês/ano
+                viewModel.setSelectedDay(selectedDate.get(Calendar.DAY_OF_MONTH))
+                viewModel.setSelectedMonth(newMonth)
+                viewModel.setSelectedYear(newYear)
+                
+                val dialogEmotions = DialogEmotions(viewModel, 0L, selectedDate)
+                dialogEmotions.show(parentFragmentManager, dialogEmotions.tag)
             }
         }
     }

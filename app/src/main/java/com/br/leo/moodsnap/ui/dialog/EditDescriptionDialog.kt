@@ -63,10 +63,6 @@ class EditDescriptionDialog(private val moodId: Int) : DialogFragment() {
             startActivityForResult(intent, PICK_IMAGE_REQUEST)
         }
 
-        binding.btnCancel.setOnClickListener {
-            dismiss()
-        }
-
         binding.btnSave.setOnClickListener {
             val description = binding.editDescription.text.toString()
             

@@ -14,6 +14,15 @@ class MainViewModel : ViewModel() {
     private val _moodDeleted = MutableLiveData<Boolean>()
     val moodDeleted: LiveData<Boolean> get() = _moodDeleted
 
+    private val _selectedDay = MutableLiveData<Int>()
+    val selectedDay: LiveData<Int> = _selectedDay
+
+    private val _selectedMonth = MutableLiveData<Int>()
+    val selectedMonth: LiveData<Int> = _selectedMonth
+
+    private val _selectedYear = MutableLiveData<Int>()
+    val selectedYear: LiveData<Int> = _selectedYear
+
     private lateinit var repository: MoodRepository
 
     fun initialize(context: Context) {
@@ -29,5 +38,17 @@ class MainViewModel : ViewModel() {
         repository.delete(mood)
         _moodDeleted.value = true
         _moodDeleted.value = false // Resetar para false para permitir novas notificações
+    }
+
+    fun setSelectedDay(day: Int) {
+        _selectedDay.value = day
+    }
+
+    fun setSelectedMonth(month: Int) {
+        _selectedMonth.value = month
+    }
+
+    fun setSelectedYear(year: Int) {
+        _selectedYear.value = year
     }
 }
