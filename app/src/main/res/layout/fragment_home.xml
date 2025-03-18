@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
+    <!-- Cabeçalho -->
     <LinearLayout
         android:id="@+id/date_container"
         android:layout_width="300dp"
@@ -29,7 +30,10 @@
             android:focusable="true"
             android:scaleType="center"
             android:scrollY="-4dp"
+            android:visibility="invisible"
             app:tint="@color/primary_green"/>
+
+
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/date_text"
@@ -39,8 +43,9 @@
             android:gravity="center"
             android:layout_marginHorizontal="16dp"
             android:textSize="24sp"
-            tools:text="Janeiro 2024"
-            android:drawableEnd="@drawable/ic_calendar_24_green"/>
+            android:drawableEnd="@drawable/ic_chevron_dowm_24"
+            app:drawableTint="@color/primary_green"
+            tools:text="Janeiro 2024"/>
 
         <ImageView
             android:id="@+id/btn_next_month"
@@ -54,6 +59,7 @@
             android:focusable="true"
             android:scaleType="center"
             android:scrollY="-4dp"
+            android:visibility="invisible"
             app:tint="@color/primary_green"/>
 
     </LinearLayout>

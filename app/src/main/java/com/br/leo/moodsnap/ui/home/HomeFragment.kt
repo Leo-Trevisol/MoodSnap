@@ -312,19 +312,6 @@ class HomeFragment : Fragment() {
             dialogEmotions.show(childFragmentManager, dialogEmotions.tag)
         }
 
-        // Configurar navegação entre meses
-        binding.btnPreviousMonth.setOnClickListener {
-            calendar.add(Calendar.MONTH, -1)
-            updateCalendarForDate(calendar)
-        }
-
-        binding.btnNextMonth.setOnClickListener {
-            // Não permitir navegar para meses futuros
-            val nextMonth = calendar.clone() as Calendar
-            nextMonth.add(Calendar.MONTH, 1)
-            calendar.add(Calendar.MONTH, 1)
-            updateCalendarForDate(calendar)
-        }
     }
 
     private fun updateCalendarForDate(calendar: Calendar, keepSelectedDay: Boolean = false) {

@@ -82,14 +82,14 @@ class EditDayActivity : AppCompatActivity() {
         }
 
         // Configurar clique na data
-        binding.txtCurrentDate.setOnClickListener {
+        binding.dateText.setOnClickListener {
             showDatePicker()
         }
     }
 
     private fun updateDateText() {
         val dateFormat = SimpleDateFormat("dd 'de' MMMM", Locale("pt", "BR"))
-        binding.txtCurrentDate.text = dateFormat.format(calendar.time)
+        binding.dateText.text = dateFormat.format(calendar.time)
     }
 
     private fun showDatePicker() {
