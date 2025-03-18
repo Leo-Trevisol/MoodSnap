@@ -7,23 +7,6 @@
     tools:context=".ui.home.HomeFragment">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:padding="16dp">
-
-        <Spinner
-            android:id="@+id/month_year_spinner"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:visibility="gone"
-            android:enabled="false"
-            android:clickable="false"/>
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/date_container"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -44,6 +27,8 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
+            android:scaleType="center"
+            android:scrollY="-4dp"
             app:tint="@color/primary_green"/>
 
         <com.google.android.material.textview.MaterialTextView
@@ -54,7 +39,8 @@
             android:gravity="center"
             android:layout_marginHorizontal="16dp"
             android:textSize="24sp"
-            tools:text="Janeiro 2024"/>
+            tools:text="Janeiro 2024"
+            android:drawableEnd="@drawable/ic_calendar_24_green"/>
 
         <ImageView
             android:id="@+id/btn_next_month"
@@ -66,6 +52,8 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
+            android:scaleType="center"
+            android:scrollY="-4dp"
             app:tint="@color/primary_green"/>
 
     </LinearLayout>

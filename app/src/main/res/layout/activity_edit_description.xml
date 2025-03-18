@@ -43,16 +43,20 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
+                android:scaleType="center"
+                android:scrollY="-3dp"
                 app:tint="@color/primary_green"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txt_current_date"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginHorizontal="16dp"
                 android:textSize="24sp"
-                tools:text="Janeiro 2024"/>
+                tools:text="Janeiro 2024"
+                android:drawableEnd="@drawable/ic_calendar_24_green"
+                />
 
             <ImageView
                 android:id="@+id/btn_next_month"
@@ -63,6 +67,8 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
+                android:scaleType="center"
+                android:scrollY="-3dp"
                 app:tint="@color/primary_green"/>
 
         </LinearLayout>

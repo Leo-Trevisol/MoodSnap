@@ -406,37 +406,6 @@ class HomeFragment : Fragment() {
                 return view
             }
         }
-
-        binding.monthYearSpinner.adapter = adapter
-        binding.monthYearSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedOption = monthYearOptions[position]
-                val parts = selectedOption.split(" ")
-                val monthName = parts[0]
-                val year = parts[1].toInt()
-                
-                // Encontrar o índice do mês baseado no nome
-                val months = (0..11).map { month ->
-                    val tempCalendar = Calendar.getInstance()
-                    tempCalendar.set(Calendar.MONTH, month)
-                    tempCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
-                }
-                val monthIndex = months.indexOf(monthName)
-                
-                if (monthIndex != -1) {
-                    calendar.set(Calendar.YEAR, year)
-                    calendar.set(Calendar.MONTH, monthIndex)
-                    updateCalendarForDate(calendar)
-                    // Carregar humores do mês selecionado
-                    homeViewModel.loadMoodsForMonth(
-                        calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH)
-                    )
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
     }
 
     private fun getMonthYearOptions(): List<String> {
