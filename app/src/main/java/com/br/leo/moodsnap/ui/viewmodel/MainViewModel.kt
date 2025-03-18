@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.br.leo.moodsnap.service.model.MoodModel
 import com.br.leo.moodsnap.service.repository.MoodRepository
+import java.util.*
 
 class MainViewModel : ViewModel() {
 
@@ -50,5 +52,9 @@ class MainViewModel : ViewModel() {
 
     fun setSelectedYear(year: Int) {
         _selectedYear.value = year
+    }
+
+    fun getMoodByDate(date: Date): MoodModel? {
+        return repository.getMoodByDate(date)
     }
 }

@@ -24,6 +24,7 @@ class EditDayActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditDescriptionBinding
     private lateinit var repository: MoodRepository
     private var moodId: Int = 0
+    private var selectedMoodType: Int? = null
     private var selectedImageUri: Uri? = null
     private val PICK_IMAGE_REQUEST = 1
     private lateinit var calendar: Calendar
@@ -48,6 +49,7 @@ class EditDayActivity : AppCompatActivity() {
         // Carregar dados do humor se existir
         loadExistingData()
         setupToolbar()
+        setupMoodSelection()
         setupListeners()
     }
 
@@ -133,6 +135,52 @@ class EditDayActivity : AppCompatActivity() {
             .show()
     }
 
+    private fun setupMoodSelection() {
+        // Configurar cliques nos humores
+        binding.emotionVeryHappy.setOnClickListener {
+            selectedMoodType = 0
+            updateMoodSelection()
+        }
+
+        binding.emotionHappy.setOnClickListener {
+            selectedMoodType = 1
+            updateMoodSelection()
+        }
+
+        binding.emotionNeutral.setOnClickListener {
+            selectedMoodType = 2
+            updateMoodSelection()
+        }
+
+        binding.emotionSad.setOnClickListener {
+            selectedMoodType = 3
+            updateMoodSelection()
+        }
+
+        binding.emotionVerySad.setOnClickListener {
+            selectedMoodType = 4
+            updateMoodSelection()
+        }
+    }
+
+    private fun updateMoodSelection() {
+        // Resetar opacidade de todos os humores
+        binding.emotionVeryHappy.alpha = 0.5f
+        binding.emotionHappy.alpha = 0.5f
+        binding.emotionNeutral.alpha = 0.5f
+        binding.emotionSad.alpha = 0.5f
+        binding.emotionVerySad.alpha = 0.5f
+
+        // Destacar o humor selecionado
+        when (selectedMoodType) {
+            0 -> binding.emotionVeryHappy.alpha = 1f
+            1 -> binding.emotionHappy.alpha = 1f
+            2 -> binding.emotionNeutral.alpha = 1f
+            3 -> binding.emotionSad.alpha = 1f
+            4 -> binding.emotionVerySad.alpha = 1f
+        }
+    }
+
     private fun loadExistingData() {
         // Buscar humor para a data atual do calendário
         val mood = repository.getMoodByDate(calendar.time)
@@ -141,11 +189,13 @@ class EditDayActivity : AppCompatActivity() {
         binding.editDescription.setText("")
         binding.imageDay.setImageResource(R.drawable.edit_text_border)
         selectedImageUri = null
+        selectedMoodType = null
         
         // Se encontrar humor, carregar seus dados
         if (mood != null) {
             binding.editDescription.setText(mood.description)
-            moodId = mood.id
+            selectedMoodType = mood.moodType
+            updateMoodSelection()
             
             mood.imagePath?.let { path ->
                 val imageFile = File(path)
@@ -155,9 +205,11 @@ class EditDayActivity : AppCompatActivity() {
                         .into(binding.imageDay)
                 }
             }
+            moodId = mood.id
         } else {
-            // Se não encontrar humor, resetar o moodId
+            // Se não encontrar humor, resetar o moodId e a seleção de humor
             moodId = 0
+            updateMoodSelection()
         }
     }
 
@@ -168,6 +220,11 @@ class EditDayActivity : AppCompatActivity() {
         }
 
         binding.btnSave.setOnClickListener {
+            if (moodId == 0 && selectedMoodType == null) {
+                Toast.makeText(this, "Por favor, selecione um humor para o dia", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val description = binding.editDescription.text.toString()
             
             // Buscar o humor para a data atual
@@ -180,6 +237,7 @@ class EditDayActivity : AppCompatActivity() {
             if (existingMood != null) {
                 // Atualizar humor existente
                 existingMood.description = description
+                selectedMoodType?.let { existingMood.moodType = it }
                 selectedImageUri?.let { uri ->
                     val imagePath = saveImageToInternalStorage(uri)
                     existingMood.imagePath = imagePath
@@ -190,6 +248,7 @@ class EditDayActivity : AppCompatActivity() {
                 val mood = MoodModel().apply {
                     this.date = calendar.time
                     this.description = description
+                    this.moodType = selectedMoodType ?: 2 // Neutro como padrão
                     selectedImageUri?.let { uri ->
                         this.imagePath = saveImageToInternalStorage(uri)
                     }
@@ -197,7 +256,7 @@ class EditDayActivity : AppCompatActivity() {
                 repository.save(mood)
             }
             
-            Toast.makeText(this, "Descrição salva com sucesso!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Humor salvo com sucesso!", Toast.LENGTH_SHORT).show()
             returnResult()
             finish()
         }

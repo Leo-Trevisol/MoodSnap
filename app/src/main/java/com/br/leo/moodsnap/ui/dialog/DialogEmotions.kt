@@ -75,12 +75,8 @@ class DialogEmotions(
 
         // Configurar botão de editar
         val btnEdit = view.findViewById<MaterialButton>(R.id.btn_edit)
-        if (existingMoodId > 0) {
-            btnEdit.visibility = View.VISIBLE
-            setupEditButton()
-        } else {
-            btnEdit.visibility = View.GONE
-        }
+        btnEdit.visibility = View.VISIBLE
+        setupEditButton()
 
         // Configurar botão de deletar
         val btnDelete = view.findViewById<MaterialButton>(R.id.btn_delete)
@@ -169,8 +165,12 @@ class DialogEmotions(
                 viewModel.setSelectedDay(selectedDate.get(Calendar.DAY_OF_MONTH))
                 viewModel.setSelectedMonth(newMonth)
                 viewModel.setSelectedYear(newYear)
+
+                // Buscar o humor para a nova data
+                val mood = viewModel.getMoodByDate(selectedDate.time)
+                val moodId = mood?.id?.toLong() ?: 0L
                 
-                val dialogEmotions = DialogEmotions(viewModel, 0L, selectedDate)
+                val dialogEmotions = DialogEmotions(viewModel, moodId, selectedDate)
                 dialogEmotions.show(parentFragmentManager, dialogEmotions.tag)
             }
         }
