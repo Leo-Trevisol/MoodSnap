@@ -1,13 +1,20 @@
 package com.br.leo.moodsnap.ui.edit
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.NumberPicker
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.br.leo.moodsnap.R
 import com.bumptech.glide.Glide
 import com.br.leo.moodsnap.databinding.ActivityEditDescriptionBinding
@@ -26,9 +33,56 @@ class EditDayActivity : AppCompatActivity() {
     private var moodId: Int = 0
     private var selectedMoodType: Int? = null
     private var selectedImageUri: Uri? = null
+    private var photoFile: File? = null
     private val PICK_IMAGE_REQUEST = 1
     private lateinit var calendar: Calendar
     private lateinit var selectedDate: Date
+
+    private val cameraPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            openCamera()
+        } else {
+            Toast.makeText(this, "Permissão de câmera necessária para esta função", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private val galleryPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            openGallery()
+        } else {
+            Toast.makeText(this, "Permissão de galeria necessária para esta função", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private val takePictureLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            photoFile?.let { file ->
+                selectedImageUri = FileProvider.getUriForFile(
+                    this,
+                    "${applicationContext.packageName}.provider",
+                    file
+                )
+                loadImage(selectedImageUri)
+            }
+        }
+    }
+
+    private val pickImageLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.data?.let { uri ->
+                selectedImageUri = uri
+                loadImage(selectedImageUri)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -215,8 +269,7 @@ class EditDayActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         binding.imageDay.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(intent, PICK_IMAGE_REQUEST)
+            showImageSourceDialog()
         }
 
         binding.btnSave.setOnClickListener {
@@ -262,27 +315,129 @@ class EditDayActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-            selectedImageUri = data.data
-            selectedImageUri?.let { uri ->
-                Glide.with(this)
-                    .load(uri)
-                    .into(binding.imageDay)
+    private fun showImageSourceDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_image_source, null)
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setView(dialogView)
+            .create()
+
+        dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_camera)
+            .setOnClickListener {
+                dialog.dismiss()
+                checkCameraPermission()
             }
+
+        dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_gallery)
+            .setOnClickListener {
+                dialog.dismiss()
+                checkGalleryPermission()
+            }
+
+        dialog.show()
+    }
+
+    private fun checkCameraPermission() {
+        when {
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                openCamera()
+            }
+            shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
+                showPermissionRationaleDialog(
+                    "Permissão da Câmera",
+                    "O acesso à câmera é necessário para tirar fotos.",
+                    Manifest.permission.CAMERA
+                )
+            }
+            else -> {
+                cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+            }
+        }
+    }
+
+    private fun checkGalleryPermission() {
+        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+
+        when {
+            ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED -> {
+                openGallery()
+            }
+            shouldShowRequestPermissionRationale(permission) -> {
+                showPermissionRationaleDialog(
+                    "Permissão da Galeria",
+                    "O acesso à galeria é necessário para selecionar imagens.",
+                    permission
+                )
+            }
+            else -> {
+                galleryPermissionLauncher.launch(permission)
+            }
+        }
+    }
+
+    private fun showPermissionRationaleDialog(title: String, message: String, permission: String) {
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("Permitir") { _, _ ->
+                when (permission) {
+                    Manifest.permission.CAMERA -> cameraPermissionLauncher.launch(permission)
+                    else -> galleryPermissionLauncher.launch(permission)
+                }
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun openCamera() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        photoFile = createImageFile()
+        photoFile?.let { file ->
+            val photoURI = FileProvider.getUriForFile(
+                this,
+                "${applicationContext.packageName}.provider",
+                file
+            )
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+            takePictureLauncher.launch(intent)
+        }
+    }
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        pickImageLauncher.launch(intent)
+    }
+
+    private fun createImageFile(): File {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val imageFileName = "JPEG_" + timeStamp + "_"
+        val storageDir = getExternalFilesDir(null)
+        return File.createTempFile(imageFileName, ".jpg", storageDir)
+    }
+
+    private fun loadImage(uri: Uri?) {
+        uri?.let {
+            Glide.with(this)
+                .load(it)
+                .into(binding.imageDay)
         }
     }
 
     private fun saveImageToInternalStorage(uri: Uri): String {
         val inputStream = contentResolver.openInputStream(uri)
-        val fileName = "mood_image_${System.currentTimeMillis()}.jpg"
-        val file = File(filesDir, fileName)
+        val file = File(filesDir, "mood_image_${System.currentTimeMillis()}.jpg")
         
         FileOutputStream(file).use { outputStream ->
             inputStream?.copyTo(outputStream)
         }
         
+        inputStream?.close()
         return file.absolutePath
     }
 
