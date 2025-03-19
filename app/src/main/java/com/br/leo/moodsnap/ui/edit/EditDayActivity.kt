@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Button
 import android.widget.NumberPicker
 import android.widget.Toast
@@ -23,12 +24,14 @@ import com.bumptech.glide.Glide
 import com.br.leo.moodsnap.databinding.ActivityEditDescriptionBinding
 import com.br.leo.moodsnap.service.model.MoodModel
 import com.br.leo.moodsnap.service.repository.MoodRepository
+import com.br.leo.moodsnap.ui.dialog.CustomAlertDialog
 import com.br.leo.moodsnap.ui.utils.Utils
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.button.MaterialButton
 
 class EditDayActivity : AppCompatActivity() {
 
@@ -322,27 +325,57 @@ class EditDayActivity : AppCompatActivity() {
     }
 
     private fun showImageSourceDialog() {
-
         val dialogView = layoutInflater.inflate(R.layout.dialog_image_source, null)
         val dialog = MaterialAlertDialogBuilder(this)
             .setView(dialogView)
             .create()
 
-         val btnCamera : Button = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_camera)
-        btnCamera.setOnClickListener {
+        // Verificar se existe imagem para mostrar botão de deletar
+        val btnDeleteImage = dialogView.findViewById<MaterialButton>(R.id.btn_delete_image)
+        val hasExistingImage = if (moodId > 0) {
+            val mood = repository.get(moodId)
+            !mood.imagePath.isNullOrEmpty()
+        } else false
+
+        btnDeleteImage.visibility = if (hasExistingImage) View.VISIBLE else View.GONE
+
+        dialogView.findViewById<MaterialButton>(R.id.btn_camera)
+            .setOnClickListener {
                 dialog.dismiss()
                 checkCameraPermission()
             }
 
-        Utils.updateBackGroundColor(applicationContext, btnCamera, null)
-
-        val btnGalery : Button = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_gallery)
-        btnGalery.setOnClickListener {
+        dialogView.findViewById<MaterialButton>(R.id.btn_gallery)
+            .setOnClickListener {
                 dialog.dismiss()
                 checkGalleryPermission()
             }
 
-        Utils.updateBackGroundColor(applicationContext, btnGalery, null)
+        btnDeleteImage.setOnClickListener {
+            dialog.dismiss()
+            CustomAlertDialog.create(this)
+                .setTitle("Atenção")
+                .setMessage("Deseja realmente deletar a imagem?")
+                .setPositiveListener {
+                    // Deletar a imagem
+                    if (moodId > 0) {
+                        val mood = repository.get(moodId)
+                        mood.imagePath?.let { path ->
+                            // Deletar o arquivo
+                            File(path).delete()
+                            // Limpar o path no modelo
+                            mood.imagePath = null
+                            repository.update(mood)
+                            // Resetar a ImageView
+                            binding.imageDay.setImageResource(R.drawable.edit_text_border)
+                            selectedImageUri = null
+                            Toast.makeText(this, "Imagem deletada com sucesso!", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+                .setNegativeListener(null)
+                .show()
+        }
 
         dialog.show()
     }

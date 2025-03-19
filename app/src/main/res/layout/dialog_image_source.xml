@@ -27,6 +27,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_button_shadow"
-        android:text="Galeria"/>
+        android:text="Galeria"
+        android:layout_marginBottom="8dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_delete_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Deletar Imagem"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:visibility="gone"/>
 
 </LinearLayout> 
