@@ -1,8 +1,11 @@
 package com.br.leo.moodsnap.ui.utils
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
@@ -13,6 +16,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 object Utils {
+
+    fun getMainColor() : Int{
+        return R.color.primary_green
+    }
+
 
     fun showCustomToast(context: Context, message: String, duration: Int = Toast.LENGTH_SHORT) {
         val inflater = LayoutInflater.from(context)
@@ -42,6 +50,14 @@ object Utils {
             
             onComplete()
         }
+    }
+
+    fun updateBackGroundColor(context: Context, button: Button, color: Int?) {
+
+        val colorButton = color ?: getMainColor()
+
+        button.setTextColor(Color.BLACK)
+        button.backgroundTintList = ColorStateList.valueOf(context.getResources().getColor(colorButton))
     }
 
 }

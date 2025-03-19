@@ -4,10 +4,13 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.Button
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,6 +23,7 @@ import com.bumptech.glide.Glide
 import com.br.leo.moodsnap.databinding.ActivityEditDescriptionBinding
 import com.br.leo.moodsnap.service.model.MoodModel
 import com.br.leo.moodsnap.service.repository.MoodRepository
+import com.br.leo.moodsnap.ui.utils.Utils
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -272,6 +276,8 @@ class EditDayActivity : AppCompatActivity() {
             showImageSourceDialog()
         }
 
+        Utils.updateBackGroundColor(applicationContext, binding.btnSave, null)
+
         binding.btnSave.setOnClickListener {
             if (moodId == 0 && selectedMoodType == null) {
                 Toast.makeText(this, "Por favor, selecione um humor para o dia", Toast.LENGTH_SHORT).show()
@@ -316,22 +322,27 @@ class EditDayActivity : AppCompatActivity() {
     }
 
     private fun showImageSourceDialog() {
+
         val dialogView = layoutInflater.inflate(R.layout.dialog_image_source, null)
         val dialog = MaterialAlertDialogBuilder(this)
             .setView(dialogView)
             .create()
 
-        dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_camera)
-            .setOnClickListener {
+         val btnCamera : Button = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_camera)
+        btnCamera.setOnClickListener {
                 dialog.dismiss()
                 checkCameraPermission()
             }
 
-        dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_gallery)
-            .setOnClickListener {
+        Utils.updateBackGroundColor(applicationContext, btnCamera, null)
+
+        val btnGalery : Button = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_gallery)
+        btnGalery.setOnClickListener {
                 dialog.dismiss()
                 checkGalleryPermission()
             }
+
+        Utils.updateBackGroundColor(applicationContext, btnGalery, null)
 
         dialog.show()
     }

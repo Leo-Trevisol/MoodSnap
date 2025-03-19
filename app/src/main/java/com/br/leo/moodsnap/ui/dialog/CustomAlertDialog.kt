@@ -13,6 +13,7 @@ import android.view.WindowManager
 import androidx.annotation.DrawableRes
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.databinding.DialogCustomPositiveNegativeAltBinding
+import com.br.leo.moodsnap.ui.utils.Utils
 
 class CustomAlertDialog private constructor(context: Context, private val typeSystemAlert: Boolean) {
     private var builder: AlertDialog.Builder? = null
@@ -30,8 +31,7 @@ class CustomAlertDialog private constructor(context: Context, private val typeSy
 
         val mainColor: Int = context.getColor(R.color.primary_green)
         binding.btnNegative.setTextColor(mainColor)
-        binding.btnPositive.setTextColor(Color.BLACK)
-        binding.btnPositive.backgroundTintList = ColorStateList.valueOf(mainColor)
+        Utils.updateBackGroundColor(context,  binding.btnPositive, null)
     }
 
     fun setTitle(title: String?): CustomAlertDialog {

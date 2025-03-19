@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentManager
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.ui.edit.EditDayActivity
+import com.br.leo.moodsnap.ui.utils.Utils
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -75,11 +76,13 @@ class DialogEmotions(
 
         // Configurar botão de editar
         val btnEdit = view.findViewById<MaterialButton>(R.id.btn_edit)
+        Utils.updateBackGroundColor(requireContext(), btnEdit, R.color.gray_dark)
         btnEdit.visibility = View.VISIBLE
         setupEditButton()
 
         // Configurar botão de deletar
         val btnDelete = view.findViewById<MaterialButton>(R.id.btn_delete)
+        Utils.updateBackGroundColor(requireContext(), btnDelete, R.color.primary_red)
         if (existingMoodId > 0) {
             btnDelete.visibility = View.VISIBLE
             btnDelete.setOnClickListener {

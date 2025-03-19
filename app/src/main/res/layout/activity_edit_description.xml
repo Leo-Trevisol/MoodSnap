@@ -250,7 +250,20 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Botão Salvar -->
-    <com.google.android.material.button.MaterialButton
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/btn_save"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="16dp"-->
+<!--        android:text="SALVAR"-->
+<!--        android:textStyle="bold"-->
+<!--        android:padding="12dp"-->
+<!--        style="@style/GreenButtonStyle"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"/>-->
+
+    <Button
         android:id="@+id/btn_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -258,9 +271,14 @@
         android:text="SALVAR"
         android:textStyle="bold"
         android:padding="12dp"
-        style="@style/GreenButtonStyle"
+        android:background="@drawable/rounded_button_shadow"
+        android:backgroundTint="@color/primary_green"
+        android:paddingLeft="10dp"
+        android:paddingRight="20dp"
+        android:textColor="#EC407A"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
