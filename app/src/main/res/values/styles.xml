@@ -87,4 +87,11 @@
     <style name="DialogRounded" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowBackground">@drawable/background_rounded_60_white</item>
     </style>
+
+    <style name="GreenButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/primary_green</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="elevation">4dp</item>
+    </style>
 </resources>

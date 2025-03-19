@@ -19,12 +19,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Câmera"
+        style="@style/GreenButtonStyle"
         android:layout_marginBottom="8dp"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_gallery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/GreenButtonStyle"
         android:text="Galeria"/>
 
 </LinearLayout> 

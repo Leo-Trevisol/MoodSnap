@@ -79,7 +79,6 @@
     <!-- Conteúdo -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container_cards"
-
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:padding="16dp"
@@ -251,16 +250,17 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Botão Salvar -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:text="SALVAR"
         android:textStyle="bold"
-        android:layout_margin="16dp"
         android:padding="12dp"
-        android:backgroundTint="@color/primary_green"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        style="@style/GreenButtonStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
