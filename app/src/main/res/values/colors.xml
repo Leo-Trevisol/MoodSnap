@@ -8,6 +8,8 @@
 
     <!-- Texto e detalhes -->
     <color name="white">#FFFFFF</color>
+    <color name="black">#000</color>
+
     <color name="gray_light">#B0B0B0</color> <!-- Cinza claro -->
     <color name="gray_dark">#757575</color> <!-- Cinza médio -->
 

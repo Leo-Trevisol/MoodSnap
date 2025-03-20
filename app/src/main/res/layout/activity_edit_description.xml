@@ -102,10 +102,11 @@
                 android:padding="16dp">
 
                 <TextView
+                    android:id="@+id/tv_mood_question"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:text="Como você está se sentindo?"
+                    android:layout_marginBottom="8dp"
+                    android:text="Como está se sentindo?"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 

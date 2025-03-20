@@ -189,6 +189,10 @@ class EditDayActivity : AppCompatActivity() {
             tempCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale("pt", "BR"))
         }.toTypedArray()
 
+        val currentCalendar = Calendar.getInstance()
+        val currentMonth = currentCalendar.get(Calendar.MONTH)
+        val currentYear = currentCalendar.get(Calendar.YEAR)
+
         monthPicker.apply {
             minValue = 0
             maxValue = 11
@@ -197,11 +201,30 @@ class EditDayActivity : AppCompatActivity() {
         }
 
         // Configurar o picker de anos
-        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         yearPicker.apply {
             minValue = currentYear - 10
             maxValue = currentYear
             value = calendar.get(Calendar.YEAR)
+        }
+
+        // Adicionar listener para controlar a seleção de meses futuros
+        yearPicker.setOnValueChangedListener { _, _, newVal ->
+            if (newVal == currentYear) {
+                monthPicker.maxValue = currentMonth
+                if (monthPicker.value > currentMonth) {
+                    monthPicker.value = currentMonth
+                }
+            } else {
+                monthPicker.maxValue = 11
+            }
+        }
+
+        // Verificar se a data selecionada é futura
+        val selectedYear = yearPicker.value
+        val selectedMonth = monthPicker.value
+        if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
+            yearPicker.value = currentYear
+            monthPicker.value = currentMonth
         }
 
         MaterialAlertDialogBuilder(this, R.style.CustomAlertDialog)
@@ -210,8 +233,17 @@ class EditDayActivity : AppCompatActivity() {
             .setCancelable(false)
             .setNegativeButton("CANCELAR", null)
             .setPositiveButton("OK") { _, _ ->
-                calendar.set(Calendar.YEAR, yearPicker.value)
-                calendar.set(Calendar.MONTH, monthPicker.value)
+                val selectedYear = yearPicker.value
+                val selectedMonth = monthPicker.value
+                
+                // Verificar se a data selecionada é futura
+                if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
+                    Toast.makeText(this, "Não é possível selecionar datas futuras", Toast.LENGTH_SHORT).show()
+                    return@setPositiveButton
+                }
+
+                calendar.set(Calendar.YEAR, selectedYear)
+                calendar.set(Calendar.MONTH, selectedMonth)
                 updateDateText()
                 
                 // Carregar dados do novo dia selecionado
@@ -304,6 +336,7 @@ class EditDayActivity : AppCompatActivity() {
             originalMood = null
         }
         hasChanges = false
+        updateMoodQuestionText()
     }
 
     private fun setupListeners() {
@@ -568,6 +601,19 @@ class EditDayActivity : AppCompatActivity() {
                 currentImageUri != null ||
                 selectedMoodType != originalMood?.moodType
             }
+        }
+    }
+
+    private fun updateMoodQuestionText() {
+        val today = Calendar.getInstance()
+        val isToday = calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
+                     calendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
+                     calendar.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH)
+        
+        binding.tvMoodQuestion.text = if (isToday) {
+            "Como está se sentindo?"
+        } else {
+            "Como estava se sentindo?"
         }
     }
 
