@@ -55,7 +55,7 @@
             android:layout_weight="2"
             android:gravity="center"
             android:layout_marginHorizontal="16dp"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:drawableEnd="@drawable/ic_chevron_dowm_24"
             app:drawableTint="@color/primary_green"
             tools:text="Janeiro 2024"/>

@@ -44,6 +44,8 @@ class EditDayActivity : AppCompatActivity() {
     private val PICK_IMAGE_REQUEST = 1
     private lateinit var calendar: Calendar
     private lateinit var selectedDate: Date
+    private var hasChanges = false
+    private var originalMood: MoodModel? = null
 
     private val cameraPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -120,15 +122,28 @@ class EditDayActivity : AppCompatActivity() {
 
         // Configurar botão de voltar
         binding.btnBack.setOnClickListener {
-            returnResult()
-            finish()
+            if (hasChanges) {
+                showDiscardChangesDialog { returnResult(); finish() }
+            } else {
+                returnResult()
+                finish()
+            }
         }
 
         // Configurar navegação entre dias
         binding.btnPreviousMonth.setOnClickListener {
-            calendar.add(Calendar.DAY_OF_MONTH, -1)
-            updateDateText()
-            loadExistingData()
+            if (hasChanges) {
+                showDiscardChangesDialog {
+                    calendar.add(Calendar.DAY_OF_MONTH, -1)
+                    updateDateText()
+                    loadExistingData()
+                    hasChanges = false
+                }
+            } else {
+                calendar.add(Calendar.DAY_OF_MONTH, -1)
+                updateDateText()
+                loadExistingData()
+            }
         }
 
         binding.btnNextMonth.setOnClickListener {
@@ -136,9 +151,18 @@ class EditDayActivity : AppCompatActivity() {
             val nextDay = calendar.clone() as Calendar
             nextDay.add(Calendar.DAY_OF_MONTH, 1)
             if (!isDateInFuture(nextDay)) {
-                calendar.add(Calendar.DAY_OF_MONTH, 1)
-                updateDateText()
-                loadExistingData()
+                if (hasChanges) {
+                    showDiscardChangesDialog {
+                        calendar.add(Calendar.DAY_OF_MONTH, 1)
+                        updateDateText()
+                        loadExistingData()
+                        hasChanges = false
+                    }
+                } else {
+                    calendar.add(Calendar.DAY_OF_MONTH, 1)
+                    updateDateText()
+                    loadExistingData()
+                }
             }
         }
 
@@ -201,26 +225,31 @@ class EditDayActivity : AppCompatActivity() {
         binding.emotionVeryHappy.setOnClickListener {
             selectedMoodType = 0
             updateMoodSelection()
+            checkForChanges()
         }
 
         binding.emotionHappy.setOnClickListener {
             selectedMoodType = 1
             updateMoodSelection()
+            checkForChanges()
         }
 
         binding.emotionNeutral.setOnClickListener {
             selectedMoodType = 2
             updateMoodSelection()
+            checkForChanges()
         }
 
         binding.emotionSad.setOnClickListener {
             selectedMoodType = 3
             updateMoodSelection()
+            checkForChanges()
         }
 
         binding.emotionVerySad.setOnClickListener {
             selectedMoodType = 4
             updateMoodSelection()
+            checkForChanges()
         }
     }
 
@@ -267,11 +296,14 @@ class EditDayActivity : AppCompatActivity() {
                 }
             }
             moodId = mood.id
+            originalMood = mood.copy()
         } else {
             // Se não encontrar humor, resetar o moodId e a seleção de humor
             moodId = 0
             updateMoodSelection()
+            originalMood = null
         }
+        hasChanges = false
     }
 
     private fun setupListeners() {
@@ -280,6 +312,15 @@ class EditDayActivity : AppCompatActivity() {
         }
 
         Utils.updateBackGroundColor(applicationContext, binding.btnSave, null)
+
+        // Adicionar listener para detectar mudanças na descrição
+        binding.editDescription.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: android.text.Editable?) {
+                checkForChanges()
+            }
+        })
 
         binding.btnSave.setOnClickListener {
             if (moodId == 0 && selectedMoodType == null) {
@@ -318,6 +359,7 @@ class EditDayActivity : AppCompatActivity() {
                 repository.save(mood)
             }
             
+            hasChanges = false
             Toast.makeText(this, "Humor salvo com sucesso!", Toast.LENGTH_SHORT).show()
             returnResult()
             finish()
@@ -369,6 +411,7 @@ class EditDayActivity : AppCompatActivity() {
                             // Resetar a ImageView
                             binding.imageDay.setImageResource(R.drawable.edit_text_border)
                             selectedImageUri = null
+                            checkForChanges()
                             Toast.makeText(this, "Imagem deletada com sucesso!", Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -470,6 +513,7 @@ class EditDayActivity : AppCompatActivity() {
             Glide.with(this)
                 .load(it)
                 .into(binding.imageDay)
+            checkForChanges()
         }
     }
 
@@ -498,8 +542,44 @@ class EditDayActivity : AppCompatActivity() {
         setResult(Activity.RESULT_OK, resultIntent)
     }
 
+    private fun showDiscardChangesDialog(onConfirm: () -> Unit) {
+        CustomAlertDialog.create(this)
+            .setTitle("Atenção")
+            .setMessage("Você tem alterações não salvas. Deseja realmente descartá-las?")
+            .setPositiveListener {
+                onConfirm()
+            }
+            .setNegativeListener(null)
+            .show()
+    }
+
+    private fun checkForChanges() {
+        val currentDescription = binding.editDescription.text.toString()
+        val currentImageUri = selectedImageUri
+        
+        hasChanges = when {
+            originalMood == null -> {
+                // Se não havia humor salvo, verifica se adicionou algo
+                currentDescription.isNotEmpty() || currentImageUri != null || selectedMoodType != null
+            }
+            else -> {
+                // Se havia humor salvo, verifica se algo mudou
+                currentDescription != originalMood?.description ||
+                currentImageUri != null ||
+                selectedMoodType != originalMood?.moodType
+            }
+        }
+    }
+
     override fun onBackPressed() {
-        returnResult()
-        super.onBackPressed()
+        if (hasChanges) {
+            showDiscardChangesDialog { 
+                returnResult()
+                super.onBackPressed()
+            }
+        } else {
+            returnResult()
+            super.onBackPressed()
+        }
     }
 } 
