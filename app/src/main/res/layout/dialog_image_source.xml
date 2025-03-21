@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -19,6 +20,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Câmera"
+        app:icon="@drawable/ic_camera"
+        app:iconGravity="textStart"
+        android:textStyle="bold"
+        android:shadowColor="@color/white"
+        app:iconTint="@android:color/white"
         android:background="@drawable/rounded_button_shadow"
         android:layout_marginBottom="8dp"/>
 
@@ -28,14 +34,24 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_button_shadow"
         android:text="Galeria"
+        app:icon="@drawable/ic_gallery"
+        app:iconGravity="textStart"
+        android:textStyle="bold"
+        android:shadowColor="@color/white"
+        app:iconTint="@android:color/white"
         android:layout_marginBottom="8dp"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_delete_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Deletar Imagem"
         android:background="@drawable/rounded_button_shadow"
+        android:text="Deletar Imagem"
+        app:icon="@drawable/ic_delete"
+        app:iconGravity="textStart"
+        android:textStyle="bold"
+        android:shadowColor="@color/white"
+        app:iconTint="@android:color/white"
         android:layout_marginBottom="8dp"
         android:visibility="gone"/>
 

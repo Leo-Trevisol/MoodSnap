@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_gravity="bottom"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:gravity="bottom|center_horizontal"
@@ -54,14 +54,16 @@
 
             <Button
                 android:id="@+id/btn_negative"
-                android:layout_width="80dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:background="@android:color/transparent"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 android:text="NÃO"
-                android:textColor="@color/primary_green" />
+                android:textColor="@color/primary_green"/>
 
             <Button
                 android:id="@+id/btn_positive"
@@ -71,8 +73,9 @@
                 android:background="@drawable/rounded_button_shadow"
                 android:paddingLeft="10dp"
                 android:paddingRight="20dp"
-                android:text="SIM"
-                android:textColor="#EC407A" />
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:text="SIM" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

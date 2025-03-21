@@ -89,7 +89,7 @@ class DialogEmotions(
             btnDelete.setOnClickListener {
                 CustomAlertDialog.create(requireContext())
                     .setTitle("Atenção")
-                    .setMessage("Você deseja realmente deletar o humor do dia ${selectedDateText.text}?")
+                    .setMessage("Confirmar exclusão do humor de ${selectedDateText.text}?")
                     .setPositiveListener {
                         viewModel.deleteMood(existingMoodId)
                         showCustomToast(requireContext(), "Humor deletado com sucesso!")

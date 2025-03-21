@@ -145,31 +145,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Detalhar dia"
-            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:text="Detalhar dia    "
             android:background="@drawable/rounded_button_shadow"
             app:icon="@drawable/ic_edit"
             app:iconGravity="textStart"
-            app:cornerRadius="8dp"
             android:shadowColor="@color/white"
-            app:iconTint="@android:color/white"
-            app:backgroundTint="@android:color/darker_gray"/>
+            app:iconTint="@android:color/white"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_delete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:textStyle="bold"
             android:text="Deletar Humor"
-            android:textColor="@android:color/white"
             android:background="@drawable/rounded_button_shadow"
             app:icon="@drawable/ic_delete"
             app:iconGravity="textStart"
-            app:cornerRadius="8dp"
             app:iconTint="@android:color/white"
-            app:backgroundTint="@android:color/holo_red_dark"
-            android:visibility="gone"
-            />
+            android:visibility="gone"/>
 
     </LinearLayout>
 
