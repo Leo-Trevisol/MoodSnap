@@ -242,6 +242,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/edit_text_border"
+                    android:src="@drawable/addimage_white"
                     android:scaleType="centerCrop" />
 
             </LinearLayout>

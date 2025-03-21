@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -310,7 +311,8 @@ class EditDayActivity : AppCompatActivity() {
         
         // Limpar campos existentes
         binding.editDescription.setText("")
-        binding.imageDay.setImageResource(R.drawable.edit_text_border)
+        binding.imageDay.setImageResource(R.drawable.addimage_white)
+        binding.imageDay.scaleType = ImageView.ScaleType.CENTER
         selectedImageUri = null
         selectedMoodType = null
         
@@ -326,6 +328,7 @@ class EditDayActivity : AppCompatActivity() {
                     Glide.with(this)
                         .load(imageFile)
                         .into(binding.imageDay)
+                    binding.imageDay.scaleType = ImageView.ScaleType.CENTER_CROP
                 }
             }
             moodId = mood.id
@@ -406,29 +409,26 @@ class EditDayActivity : AppCompatActivity() {
             .setView(dialogView)
             .create()
 
-        val btnCamera : Button = dialogView.findViewById<MaterialButton>(R.id.btn_camera)
-        Utils.updateBackGroundColor(applicationContext, btnCamera, null)
-        btnCamera.setOnClickListener {
-                dialog.dismiss()
-                checkCameraPermission()
-            }
-
-        val btnGallery : Button = dialogView.findViewById<MaterialButton>(R.id.btn_gallery)
-        Utils.updateBackGroundColor(applicationContext, btnGallery, null)
-        btnGallery.setOnClickListener {
-                dialog.dismiss()
-                checkGalleryPermission()
-            }
-
         // Verificar se existe imagem para mostrar botão de deletar
         val btnDeleteImage = dialogView.findViewById<MaterialButton>(R.id.btn_delete_image)
-        Utils.updateBackGroundColor(applicationContext, btnDeleteImage, R.color.primary_red)
         val hasExistingImage = if (moodId > 0) {
             val mood = repository.get(moodId)
             !mood.imagePath.isNullOrEmpty()
         } else false
 
         btnDeleteImage.visibility = if (hasExistingImage) View.VISIBLE else View.GONE
+
+        dialogView.findViewById<MaterialButton>(R.id.btn_camera)
+            .setOnClickListener {
+                dialog.dismiss()
+                checkCameraPermission()
+            }
+
+        dialogView.findViewById<MaterialButton>(R.id.btn_gallery)
+            .setOnClickListener {
+                dialog.dismiss()
+                checkGalleryPermission()
+            }
 
         btnDeleteImage.setOnClickListener {
             dialog.dismiss()
@@ -446,10 +446,11 @@ class EditDayActivity : AppCompatActivity() {
                             mood.imagePath = null
                             repository.update(mood)
                             // Resetar a ImageView
-                            binding.imageDay.setImageResource(R.drawable.edit_text_border)
+                            binding.imageDay.setImageResource(R.drawable.addimage_white)
+                            binding.imageDay.scaleType = ImageView.ScaleType.CENTER
                             selectedImageUri = null
                             checkForChanges()
-                            showCustomToast(this, "Imagem deletada com sucesso!")
+                            Toast.makeText(this, "Imagem deletada com sucesso!", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -550,7 +551,11 @@ class EditDayActivity : AppCompatActivity() {
             Glide.with(this)
                 .load(it)
                 .into(binding.imageDay)
+            binding.imageDay.scaleType = ImageView.ScaleType.CENTER_CROP
             checkForChanges()
+        } ?: run {
+            binding.imageDay.setImageResource(R.drawable.addimage_white)
+            binding.imageDay.scaleType = ImageView.ScaleType.CENTER
         }
     }
 
