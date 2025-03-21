@@ -22,8 +22,8 @@
     </style>
 
     <!-- Tema Alternativo (totalmente preto) -->
-    <style name="Theme.MoodSnap.Dark" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="android:windowBackground">@color/dark_background</item>
+    <style name="Theme.MoodSnap.Main" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:windowBackground">@color/primary_background</item>
         <item name="android:statusBarColor">@color/dark_secondary_variant</item>
         <item name="android:navigationBarColor">@color/dark_primary</item>
         <item name="android:fontFamily">@font/mulish_regular</item>

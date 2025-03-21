@@ -1,5 +1,9 @@
 <resources>
     <!-- Cores escuras principais -->
+    <color name="primary">#FFF</color>
+    <color name="secundary">#000</color>
+    <color name="primary_background">#FFFFF6</color>
+    <color name="secundary_background_background">#0A0A0A</color>
     <color name="dark_primary">#1E1E1E</color> <!-- Cinza bem escuro -->
     <color name="dark_primary_variant">#121212</color> <!-- Preto suave -->
     <color name="dark_secondary">#303030</color> <!-- Cinza médio escuro -->
