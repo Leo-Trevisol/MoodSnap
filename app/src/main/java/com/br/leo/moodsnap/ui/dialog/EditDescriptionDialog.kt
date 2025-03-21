@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.databinding.ActivityEditDescriptionBinding
 import com.br.leo.moodsnap.service.repository.MoodRepository
+import com.br.leo.moodsnap.ui.utils.Utils.showCustomToast
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
@@ -77,7 +78,7 @@ class EditDescriptionDialog(private val moodId: Int) : DialogFragment() {
             }
             
             repository.update(mood)
-            Toast.makeText(requireContext(), "Descrição salva com sucesso!", Toast.LENGTH_SHORT).show()
+            showCustomToast(requireContext(), "Descrição salva com sucesso!")
             dismiss()
         }
     }

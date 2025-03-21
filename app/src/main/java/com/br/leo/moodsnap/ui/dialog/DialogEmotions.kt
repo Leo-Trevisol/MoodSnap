@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.ui.edit.EditDayActivity
 import com.br.leo.moodsnap.ui.utils.Utils
+import com.br.leo.moodsnap.ui.utils.Utils.showCustomToast
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -91,9 +92,10 @@ class DialogEmotions(
                     .setMessage("Você deseja realmente deletar o humor do dia ${selectedDateText.text}?")
                     .setPositiveListener {
                         viewModel.deleteMood(existingMoodId)
-                        Toast.makeText(requireContext(), "Humor deletado com sucesso!", Toast.LENGTH_SHORT).show()
+                        showCustomToast(requireContext(), "Humor deletado com sucesso!")
                         dismissAllowingStateLoss()
                     }
+                    .setCancelable(false)
                     .setNegativeListener(null).show()
             }
         }
@@ -101,7 +103,7 @@ class DialogEmotions(
         view.findViewById<ImageView>(R.id.emotion_very_happy)?.setOnClickListener {
             if (isAdded) {
                 viewModel.setSelectedEmotion(R.drawable.muito_feliz)
-                Toast.makeText(requireContext(), "Humor cadastrado com sucesso!", Toast.LENGTH_SHORT).show()
+                showCustomToast(requireContext(), "Humor cadastrado com sucesso!")
                 dismissAllowingStateLoss()
             }
         }
@@ -109,7 +111,7 @@ class DialogEmotions(
         view.findViewById<ImageView>(R.id.emotion_happy)?.setOnClickListener {
             if (isAdded) {
                 viewModel.setSelectedEmotion(R.drawable.feliz)
-                Toast.makeText(requireContext(), "Humor cadastrado com sucesso!", Toast.LENGTH_SHORT).show()
+                showCustomToast(requireContext(), "Humor cadastrado com sucesso!")
                 dismissAllowingStateLoss()
             }
         }
@@ -117,7 +119,7 @@ class DialogEmotions(
         view.findViewById<ImageView>(R.id.emotion_neutral)?.setOnClickListener {
             if (isAdded) {
                 viewModel.setSelectedEmotion(R.drawable.neutro)
-                Toast.makeText(requireContext(), "Humor cadastrado com sucesso!", Toast.LENGTH_SHORT).show()
+                showCustomToast(requireContext(), "Humor cadastrado com sucesso!")
                 dismissAllowingStateLoss()
             }
         }
@@ -125,7 +127,7 @@ class DialogEmotions(
         view.findViewById<ImageView>(R.id.emotion_sad)?.setOnClickListener {
             if (isAdded) {
                 viewModel.setSelectedEmotion(R.drawable.triste)
-                Toast.makeText(requireContext(), "Humor cadastrado com sucesso!", Toast.LENGTH_SHORT).show()
+                showCustomToast(requireContext(), "Humor cadastrado com sucesso!")
                 dismissAllowingStateLoss()
             }
         }
@@ -133,7 +135,7 @@ class DialogEmotions(
         view.findViewById<ImageView>(R.id.emotion_very_sad)?.setOnClickListener {
             if (isAdded) {
                 viewModel.setSelectedEmotion(R.drawable.muito_triste)
-                Toast.makeText(requireContext(), "Humor cadastrado com sucesso!", Toast.LENGTH_SHORT).show()
+                showCustomToast(requireContext(), "Humor cadastrado com sucesso!")
                 dismissAllowingStateLoss()
             }
         }

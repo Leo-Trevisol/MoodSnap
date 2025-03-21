@@ -26,6 +26,7 @@ import com.br.leo.moodsnap.service.model.MoodModel
 import com.br.leo.moodsnap.service.repository.MoodRepository
 import com.br.leo.moodsnap.ui.dialog.CustomAlertDialog
 import com.br.leo.moodsnap.ui.utils.Utils
+import com.br.leo.moodsnap.ui.utils.Utils.showCustomToast
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -53,7 +54,7 @@ class EditDayActivity : AppCompatActivity() {
         if (isGranted) {
             openCamera()
         } else {
-            Toast.makeText(this, "Permissão de câmera necessária para esta função", Toast.LENGTH_SHORT).show()
+            showCustomToast(this, "Permissão de câmera necessária para esta função")
         }
     }
 
@@ -63,7 +64,7 @@ class EditDayActivity : AppCompatActivity() {
         if (isGranted) {
             openGallery()
         } else {
-            Toast.makeText(this, "Permissão de galeria necessária para esta função", Toast.LENGTH_SHORT).show()
+            showCustomToast(this, "Permissão de galeria necessária para esta função")
         }
     }
 
@@ -238,7 +239,7 @@ class EditDayActivity : AppCompatActivity() {
                 
                 // Verificar se a data selecionada é futura
                 if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
-                    Toast.makeText(this, "Não é possível selecionar datas futuras", Toast.LENGTH_SHORT).show()
+                    showCustomToast(this, "Não é possível selecionar datas futuras")
                     return@setPositiveButton
                 }
 
@@ -357,7 +358,7 @@ class EditDayActivity : AppCompatActivity() {
 
         binding.btnSave.setOnClickListener {
             if (moodId == 0 && selectedMoodType == null) {
-                Toast.makeText(this, "Por favor, selecione um humor para o dia", Toast.LENGTH_SHORT).show()
+                showCustomToast(this, "Por favor, selecione um humor para o dia")
                 return@setOnClickListener
             }
 
@@ -393,7 +394,7 @@ class EditDayActivity : AppCompatActivity() {
             }
             
             hasChanges = false
-            Toast.makeText(this, "Humor salvo com sucesso!", Toast.LENGTH_SHORT).show()
+            showCustomToast(this, "Humor salvo com sucesso!")
             returnResult()
             finish()
         }
@@ -405,26 +406,29 @@ class EditDayActivity : AppCompatActivity() {
             .setView(dialogView)
             .create()
 
+        val btnCamera : Button = dialogView.findViewById<MaterialButton>(R.id.btn_camera)
+        Utils.updateBackGroundColor(applicationContext, btnCamera, null)
+        btnCamera.setOnClickListener {
+                dialog.dismiss()
+                checkCameraPermission()
+            }
+
+        val btnGallery : Button = dialogView.findViewById<MaterialButton>(R.id.btn_gallery)
+        Utils.updateBackGroundColor(applicationContext, btnGallery, null)
+        btnGallery.setOnClickListener {
+                dialog.dismiss()
+                checkGalleryPermission()
+            }
+
         // Verificar se existe imagem para mostrar botão de deletar
         val btnDeleteImage = dialogView.findViewById<MaterialButton>(R.id.btn_delete_image)
+        Utils.updateBackGroundColor(applicationContext, btnDeleteImage, R.color.primary_red)
         val hasExistingImage = if (moodId > 0) {
             val mood = repository.get(moodId)
             !mood.imagePath.isNullOrEmpty()
         } else false
 
         btnDeleteImage.visibility = if (hasExistingImage) View.VISIBLE else View.GONE
-
-        dialogView.findViewById<MaterialButton>(R.id.btn_camera)
-            .setOnClickListener {
-                dialog.dismiss()
-                checkCameraPermission()
-            }
-
-        dialogView.findViewById<MaterialButton>(R.id.btn_gallery)
-            .setOnClickListener {
-                dialog.dismiss()
-                checkGalleryPermission()
-            }
 
         btnDeleteImage.setOnClickListener {
             dialog.dismiss()
@@ -445,7 +449,7 @@ class EditDayActivity : AppCompatActivity() {
                             binding.imageDay.setImageResource(R.drawable.edit_text_border)
                             selectedImageUri = null
                             checkForChanges()
-                            Toast.makeText(this, "Imagem deletada com sucesso!", Toast.LENGTH_SHORT).show()
+                            showCustomToast(this, "Imagem deletada com sucesso!")
                         }
                     }
                 }
