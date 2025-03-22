@@ -24,7 +24,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
     private val moodColors = mapOf(
         0 to Color.parseColor("#FFE500"), // Muito Feliz - Amarelo
         1 to Color.parseColor("#90EE90"), // Feliz - Verde claro
-        2 to Color.parseColor("#E0E0E0"), // Neutro - Cinza
+        2 to Color.parseColor("#CBC6C6"), // Neutro - Cinza
         3 to Color.parseColor("#87CEEB"), // Triste - Azul claro
         4 to Color.parseColor("#4682B4")  // Muito Triste - Azul escuro
     )

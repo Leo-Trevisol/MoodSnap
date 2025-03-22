@@ -48,12 +48,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:backgroundTint="@android:color/transparent"
+        android:background="@drawable/circular_fab_background"
         android:elevation="0dp"
         android:src="@drawable/icon_animation"
         app:layout_anchor="@id/bottomAppBar"
         app:maxImageSize="50dp"
         app:srcCompat="@drawable/sorriso_brilho"
-        app:tint="@null" />
+        android:backgroundTint="@android:color/transparent"
+        app:tint="@null"
+        app:rippleColor="@android:color/transparent" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
