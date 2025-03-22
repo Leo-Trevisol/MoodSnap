@@ -2,10 +2,12 @@ package com.br.leo.moodsnap.ui.dashboard
 
 import android.app.Application
 import android.graphics.Color
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.service.model.MoodModel
 import com.br.leo.moodsnap.service.repository.MoodRepository
 import java.util.Calendar
@@ -22,11 +24,11 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
 
     // Cores para cada tipo de humor
     private val moodColors = mapOf(
-        0 to Color.parseColor("#FFE500"), // Muito Feliz - Amarelo
-        1 to Color.parseColor("#90EE90"), // Feliz - Verde claro
-        2 to Color.parseColor("#CBC6C6"), // Neutro - Cinza
-        3 to Color.parseColor("#87CEEB"), // Triste - Azul claro
-        4 to Color.parseColor("#4682B4")  // Muito Triste - Azul escuro
+        0 to ContextCompat.getColor(application.applicationContext, R.color.very_happy_color), // Muito Feliz - Amarelo
+        1 to ContextCompat.getColor(application.applicationContext, R.color.happy_color), // Feliz - Verde claro
+        2 to ContextCompat.getColor(application.applicationContext, R.color.neutral_color), // Neutro - Cinza
+        3 to ContextCompat.getColor(application.applicationContext, R.color.sad_color), // Triste - Azul claro
+        4 to ContextCompat.getColor(application.applicationContext, R.color.very_sad_color)  // Muito Triste - Azul escuro
     )
 
     private val _moods = MutableLiveData<List<MoodModel>>()

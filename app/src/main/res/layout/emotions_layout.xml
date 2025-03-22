@@ -49,7 +49,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_margin="4dp"
-                app:cardBackgroundColor="#FFE500"
+                app:cardBackgroundColor="@color/very_happy_color"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp">
 
@@ -68,7 +68,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_margin="4dp"
-                app:cardBackgroundColor="#90EE90"
+                app:cardBackgroundColor="@color/happy_color"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp">
 
@@ -87,7 +87,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_margin="4dp"
-                app:cardBackgroundColor="#E0E0E0"
+                app:cardBackgroundColor="@color/neutral_color"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp">
 
@@ -106,7 +106,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_margin="4dp"
-                app:cardBackgroundColor="#87CEEB"
+                app:cardBackgroundColor="@color/sad_color"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp">
 
@@ -125,7 +125,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_margin="4dp"
-                app:cardBackgroundColor="#4682B4"
+                app:cardBackgroundColor="@color/very_sad_color"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp">
 

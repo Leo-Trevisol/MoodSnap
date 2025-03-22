@@ -23,6 +23,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textview.MaterialTextView
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -74,6 +75,17 @@ class DialogEmotions(
         val selectedDateText = view.findViewById<TextView>(R.id.selected_date)
         val dateFormat = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale("pt", "BR"))
         selectedDateText.text = dateFormat.format(selectedDate.time)
+
+        val today = Calendar.getInstance()
+        val isToday = selectedDate.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
+                selectedDate.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
+                selectedDate.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH)
+
+        if(isToday){
+            view.findViewById<MaterialTextView>(R.id.title_dialog).text = "Como você está se sentindo?"
+        }else{
+            view.findViewById<MaterialTextView>(R.id.title_dialog).text = "Como você estava se sentindo?"
+        }
 
         // Configurar botão de editar
         val btnEdit = view.findViewById<MaterialButton>(R.id.btn_edit)
@@ -179,6 +191,12 @@ class DialogEmotions(
                 dialogEmotions.show(parentFragmentManager, dialogEmotions.tag)
             }
         }
+    }
+
+    private fun isToday(dayOfMonth: Int): Boolean {
+        return selectedDate.get(Calendar.YEAR) == selectedDate.get(Calendar.YEAR) &&
+                selectedDate.get(Calendar.MONTH) == selectedDate.get(Calendar.MONTH) &&
+                selectedDate.get(Calendar.DAY_OF_MONTH) == dayOfMonth
     }
 
     override fun show(manager: FragmentManager, tag: String?) {

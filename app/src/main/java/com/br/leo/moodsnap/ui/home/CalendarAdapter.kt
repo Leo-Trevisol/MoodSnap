@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.service.model.MoodModel
@@ -25,13 +26,7 @@ class CalendarAdapter(
     private var firstDayOfWeek = 0 // Domingo = 0, Segunda = 1, etc
 
     // Cores para cada tipo de humor
-    private val moodColors = mapOf(
-        0 to Color.parseColor("#FFE500"), // Muito Feliz - Amarelo
-        1 to Color.parseColor("#90EE90"), // Feliz - Verde claro
-        2 to Color.parseColor("#CBC6C6"), // Neutro - Cinza
-        3 to Color.parseColor("#87CEEB"), // Triste - Azul claro
-        4 to Color.parseColor("#4682B4")  // Muito Triste - Azul escuro
-    )
+
 
     class CalendarViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val dayCard: CardView = view.findViewById(R.id.day_card)
@@ -46,6 +41,13 @@ class CalendarAdapter(
     }
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
+             val moodColors = mapOf(
+            0 to ContextCompat.getColor(holder.itemView.context, R.color.very_happy_color), // Muito Feliz - Amarelo
+            1 to ContextCompat.getColor(holder.itemView.context, R.color.happy_color), // Feliz - Verde claro
+            2 to ContextCompat.getColor(holder.itemView.context, R.color.neutral_color), // Neutro - Cinza
+            3 to ContextCompat.getColor(holder.itemView.context, R.color.sad_color), // Triste - Azul claro
+            4 to ContextCompat.getColor(holder.itemView.context, R.color.very_sad_color)  // Muito Triste - Azul escuro
+        )
         // Se a posição for menor que o primeiro dia da semana, é um espaço vazio
         if (position < firstDayOfWeek) {
             holder.dayNumber.text = ""
@@ -103,7 +105,7 @@ class CalendarAdapter(
                 if (mood != null) {
                     holder.dayCard.setCardBackgroundColor(
                         if (isSelected) holder.itemView.context.getColor(R.color.primary_green)
-                        else moodColors[mood.moodType] ?: R.color.green
+                        else moodColors[mood.moodType] ?: Color.WHITE
                     )
                 } else {
                     holder.dayCard.setCardBackgroundColor(
@@ -122,7 +124,7 @@ class CalendarAdapter(
                 if (mood != null) {
                     holder.dayCard.setCardBackgroundColor(
                         if (isSelected) holder.itemView.context.getColor(R.color.primary_green)
-                        else moodColors[mood.moodType] ?: holder.itemView.context.getColor(R.color.red)
+                        else moodColors[mood.moodType] ?: Color.WHITE
                     )
                     holder.moodIndicator.visibility = View.VISIBLE
                     holder.moodIndicator.setImageResource(getMoodDrawable(mood.moodType))

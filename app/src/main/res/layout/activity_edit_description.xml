@@ -86,12 +86,11 @@
         app:layout_constraintBottom_toTopOf="@id/btn_save"
         app:layout_constraintTop_toBottomOf="@id/date_container">
 
-        <com.google.android.material.card.MaterialCardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/card_moods"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/dark_secondary_variant"
             app:layout_constraintTop_toTopOf="parent"
             app:cardCornerRadius="8dp"
             app:cardElevation="2dp">
@@ -169,7 +168,7 @@
 
                 </LinearLayout>
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_description"
@@ -266,7 +265,7 @@
         app:icon="@drawable/ic_save"
         app:iconGravity="textStart"
         android:shadowColor="@color/white"
-        app:iconTint="@android:color/white"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
