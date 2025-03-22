@@ -47,14 +47,13 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchor="@id/bottomAppBar"
-        app:srcCompat="@drawable/sorriso_brilho"
-        app:maxImageSize="50dp"
+        android:layout_margin="16dp"
         android:backgroundTint="@android:color/transparent"
-        android:background="@android:color/transparent"
-        android:src="@drawable/icon_animation"
-        app:tint="@null"
         android:elevation="0dp"
-        android:layout_margin="16dp" />
+        android:src="@drawable/icon_animation"
+        app:layout_anchor="@id/bottomAppBar"
+        app:maxImageSize="50dp"
+        app:srcCompat="@drawable/sorriso_brilho"
+        app:tint="@null" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

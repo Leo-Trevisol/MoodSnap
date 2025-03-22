@@ -2,20 +2,31 @@
     <!-- Cores escuras principais -->
     <color name="primary">#FFF</color>
     <color name="secundary">#000</color>
-    <color name="primary_background">#FFFFF6</color>
+    <color name="primary_background">#E0E0E0 </color>
     <color name="secundary_background_background">#0A0A0A</color>
+    <color name="past_day_background_color">@color/gray_light</color>
+    <color name="future_day_background_color">@color/gray_dark</color>
+    <color name="day_text_color">@color/dark_secondary</color>
+
+
+
     <color name="dark_primary">#1E1E1E</color> <!-- Cinza bem escuro -->
     <color name="dark_primary_variant">#121212</color> <!-- Preto suave -->
     <color name="dark_secondary">#303030</color> <!-- Cinza médio escuro -->
     <color name="dark_secondary_variant">#1F1F1F</color> <!-- Cinza mais claro -->
     <color name="dark_background">#0A0A0A</color> <!-- Fundo quase preto -->
 
+    <color name="blue">#0000FF</color>
+    <color name="green">#008000</color>
+    <color name="red">#FF0000</color>
+    <color name="yellow">#FFFF00</color>
+
     <!-- Texto e detalhes -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000</color>
 
-    <color name="gray_light">#B0B0B0</color> <!-- Cinza claro -->
-    <color name="gray_dark">#757575</color> <!-- Cinza médio -->
+    <color name="gray_light">#F8EDED</color> <!-- Cinza claro -->
+    <color name="gray_dark">#CBC6C6</color> <!-- Cinza médio -->
 
     <color name="primary_green">#4CAF50</color>
     <color name="primary_red">#FC6C74</color> <!-- Cinza médio -->

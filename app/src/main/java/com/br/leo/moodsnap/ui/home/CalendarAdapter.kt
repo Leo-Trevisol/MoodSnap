@@ -67,7 +67,7 @@ class CalendarAdapter(
 
         // Resetar o background do TextView para garantir que não mantenha estados anteriores
         holder.dayNumber.setBackgroundResource(0)
-        holder.dayNumber.setTextColor(Color.LTGRAY)
+        holder.dayNumber.setTextColor(holder.itemView.context.getColor(R.color.day_text_color))
 
         // Verificar se é data futura
         val isFutureDate = isDateInFuture(dayOfMonth)
@@ -88,10 +88,10 @@ class CalendarAdapter(
         // Configurar aparência para datas futuras e dia atual
         when {
             isFutureDate -> {
-                holder.dayNumber.setTextColor(Color.LTGRAY)
+                holder.dayNumber.setTextColor(holder.itemView.context.getColor(R.color.day_text_color))
                 holder.dayCard.alpha = 0.5f
                 holder.dayCard.isClickable = false
-                holder.dayCard.setCardBackgroundColor(holder.itemView.context.getColor(android.R.color.white))
+                holder.dayCard.setCardBackgroundColor(holder.itemView.context.getColor(R.color.future_day_background_color))
                 holder.moodIndicator.visibility = View.GONE
             }
             isToday -> {
@@ -103,37 +103,37 @@ class CalendarAdapter(
                 if (mood != null) {
                     holder.dayCard.setCardBackgroundColor(
                         if (isSelected) holder.itemView.context.getColor(R.color.primary_green)
-                        else moodColors[mood.moodType] ?: Color.WHITE
+                        else moodColors[mood.moodType] ?: R.color.green
                     )
                 } else {
                     holder.dayCard.setCardBackgroundColor(
                         if (isSelected) holder.itemView.context.getColor(R.color.primary_green)
-                        else Color.WHITE
+                        else holder.itemView.context.getColor(R.color.past_day_background_color)
                     )
                 }
                 holder.moodIndicator.visibility = if (mood != null) View.VISIBLE else View.GONE
                 if (mood != null) holder.moodIndicator.setImageResource(getMoodDrawable(mood.moodType))
             }
             else -> {
-                holder.dayNumber.setTextColor(Color.LTGRAY)
+                holder.dayNumber.setTextColor(holder.itemView.context.getColor(R.color.day_text_color))
                 holder.dayCard.alpha = 1.0f
                 holder.dayCard.isClickable = true
                 
                 if (mood != null) {
                     holder.dayCard.setCardBackgroundColor(
                         if (isSelected) holder.itemView.context.getColor(R.color.primary_green)
-                        else moodColors[mood.moodType] ?: Color.WHITE
+                        else moodColors[mood.moodType] ?: holder.itemView.context.getColor(R.color.red)
                     )
                     holder.moodIndicator.visibility = View.VISIBLE
                     holder.moodIndicator.setImageResource(getMoodDrawable(mood.moodType))
-                    holder.dayNumber.setTextColor(if (isSelected) Color.WHITE else Color.LTGRAY)
+                    holder.dayNumber.setTextColor(if (isSelected) Color.WHITE else holder.itemView.context.getColor(R.color.day_text_color))
                 } else {
                     holder.dayCard.setCardBackgroundColor(
                         if (isSelected) holder.itemView.context.getColor(R.color.primary_green)
-                        else Color.WHITE
+                        else holder.itemView.context.getColor(R.color.past_day_background_color)
                     )
                     holder.moodIndicator.visibility = View.GONE
-                    holder.dayNumber.setTextColor(if (isSelected) Color.WHITE else Color.LTGRAY)
+                    holder.dayNumber.setTextColor(if (isSelected) Color.WHITE else holder.itemView.context.getColor(R.color.day_text_color))
                 }
             }
         }

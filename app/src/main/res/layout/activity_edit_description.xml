@@ -58,6 +58,7 @@
             android:textSize="20sp"
             android:drawableEnd="@drawable/ic_chevron_dowm_24"
             app:drawableTint="@color/primary_green"
+            android:textColor="@color/day_text_color"
             tools:text="Janeiro 2024"/>
 
         <ImageView
