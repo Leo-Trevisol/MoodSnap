@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">MoodSnap</string>
+    <string name="title_home">Start</string>
+    <string name="title_dashboard">Übersicht</string>
+    <string name="title_notifications">Benachrichtigungen</string>
+
+    <!-- Feedback-Nachrichten -->
+    <string name="success_message">Erfolg!</string>
+    <string name="error_message">Fehler</string>
+    <string name="loading">Wird geladen...</string>
+    <string name="saving">Wird gespeichert...</string>
+    <string name="saved_successfully">Erfolgreich gespeichert!</string>
+    <string name="error_saving">Fehler beim Speichern</string>
+    <string name="error_loading">Fehler beim Laden</string>
+    <string name="no_data">Keine Daten gefunden</string>
+
+    <!-- Schaltflächen -->
+    <string name="btn_save">Speichern</string>
+    <string name="btn_cancel">Abbrechen</string>
+    <string name="btn_delete">Löschen</string>
+    <string name="btn_edit">Bearbeiten</string>
+    <string name="btn_confirm">Bestätigen</string>
+    <string name="btn_back">Zurück</string>
+    <string name="btn_next">Weiter</string>
+    <string name="btn_skip">Überspringen</string>
+
+    <!-- Titel und Überschriften -->
+    <string name="title_how_are_you">Wie fühlst du dich?</string>
+    <string name="title_add_note">Notiz hinzufügen</string>
+    <string name="title_edit_note">Notiz bearbeiten</string>
+    <string name="title_delete_note">Notiz löschen</string>
+    <string name="title_confirm_delete">Löschen bestätigen</string>
+    <string name="title_settings">Einstellungen</string>
+    <string name="title_profile">Profil</string>
+    <string name="title_statistics">Statistiken</string>
+
+    <!-- Bestätigungsnachrichten -->
+    <string name="confirm_delete_note">Möchtest du diese Notiz wirklich löschen?</string>
+    <string name="confirm_exit">Möchtest du wirklich beenden?</string>
+    <string name="confirm_discard">Möchtest du die Änderungen verwerfen?</string>
+
+    <!-- Platzhalter und Hinweise -->
+    <string name="hint_add_note">Schreibe hier deine Notiz...</string>
+    <string name="hint_search">Suchen...</string>
+    <string name="hint_date">Datum auswählen</string>
+    <string name="hint_time">Uhrzeit auswählen</string>
+
+    <!-- Fehlermeldungen -->
+    <string name="error_invalid_date">Ungültiges Datum</string>
+    <string name="error_invalid_time">Ungültige Uhrzeit</string>
+    <string name="error_required_field">Pflichtfeld</string>
+    <string name="error_network">Verbindungsfehler</string>
+    <string name="error_try_again">Erneut versuchen</string>
+
+    <!-- Stimmungen -->
+    <string name="mood_very_happy">Sehr glücklich</string>
+    <string name="mood_happy">Glücklich</string>
+    <string name="mood_neutral">Neutral</string>
+    <string name="mood_sad">Traurig</string>
+    <string name="mood_very_sad">Sehr traurig</string>
+
+    <!-- Hilfenachrichten -->
+    <string name="help_tip_1">Tippe auf einen Tag, um deine Stimmung aufzuzeichnen</string>
+    <string name="help_tip_2">Wische für weitere Details</string>
+    <string name="help_tip_3">Füge Notizen hinzu, um dich an Geschehenes zu erinnern</string>
+    <string name="help_tip_4">Siehe dir deine Statistiken in der Übersicht an</string>
+</resources> 

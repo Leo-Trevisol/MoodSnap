@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">MoodSnap</string>
+    <string name="title_home">होम</string>
+    <string name="title_dashboard">डैशबोर्ड</string>
+    <string name="title_notifications">सूचनाएं</string>
+
+    <!-- फीडबैक संदेश -->
+    <string name="success_message">सफल!</string>
+    <string name="error_message">त्रुटि</string>
+    <string name="loading">लोड हो रहा है...</string>
+    <string name="saving">सहेज रहा है...</string>
+    <string name="saved_successfully">सफलतापूर्वक सहेजा गया!</string>
+    <string name="error_saving">सहेजने में त्रुटि</string>
+    <string name="error_loading">लोड करने में त्रुटि</string>
+    <string name="no_data">कोई डेटा नहीं मिला</string>
+
+    <!-- बटन -->
+    <string name="btn_save">सहेजें</string>
+    <string name="btn_cancel">रद्द करें</string>
+    <string name="btn_delete">हटाएं</string>
+    <string name="btn_edit">संपादित करें</string>
+    <string name="btn_confirm">पुष्टि करें</string>
+    <string name="btn_back">वापस</string>
+    <string name="btn_next">आगे</string>
+    <string name="btn_skip">छोड़ें</string>
+
+    <!-- शीर्षक और हेडर -->
+    <string name="title_how_are_you">आप कैसा महसूस कर रहे हैं?</string>
+    <string name="title_add_note">नोट जोड़ें</string>
+    <string name="title_edit_note">नोट संपादित करें</string>
+    <string name="title_delete_note">नोट हटाएं</string>
+    <string name="title_confirm_delete">हटाने की पुष्टि करें</string>
+    <string name="title_settings">सेटिंग्स</string>
+    <string name="title_profile">प्रोफ़ाइल</string>
+    <string name="title_statistics">आंकड़े</string>
+
+    <!-- पुष्टि संदेश -->
+    <string name="confirm_delete_note">क्या आप वाकई इस नोट को हटाना चाहते हैं?</string>
+    <string name="confirm_exit">क्या आप वाकई बाहर निकलना चाहते हैं?</string>
+    <string name="confirm_discard">क्या आप वाकई परिवर्तनों को छोड़ना चाहते हैं?</string>
+
+    <!-- प्लेसहोल्डर और संकेत -->
+    <string name="hint_add_note">यहाँ अपना नोट लिखें...</string>
+    <string name="hint_search">खोजें...</string>
+    <string name="hint_date">तारीख चुनें</string>
+    <string name="hint_time">समय चुनें</string>
+
+    <!-- त्रुटि संदेश -->
+    <string name="error_invalid_date">अमान्य तारीख</string>
+    <string name="error_invalid_time">अमान्य समय</string>
+    <string name="error_required_field">आवश्यक फ़ील्ड</string>
+    <string name="error_network">कनेक्शन त्रुटि</string>
+    <string name="error_try_again">पुनः प्रयास करें</string>
+
+    <!-- मूड स्टेट्स -->
+    <string name="mood_very_happy">बहुत खुश</string>
+    <string name="mood_happy">खुश</string>
+    <string name="mood_neutral">सामान्य</string>
+    <string name="mood_sad">दुखी</string>
+    <string name="mood_very_sad">बहुत दुखी</string>
+
+    <!-- सहायता संदेश -->
+    <string name="help_tip_1">अपना मूड रिकॉर्ड करने के लिए तारीख पर टैप करें</string>
+    <string name="help_tip_2">अधिक विवरण के लिए स्वाइप करें</string>
+    <string name="help_tip_3">होने वाली चीज़ों को याद रखने के लिए नोट जोड़ें</string>
+    <string name="help_tip_4">डैशबोर्ड में अपने आंकड़े देखें</string>
+</resources> 

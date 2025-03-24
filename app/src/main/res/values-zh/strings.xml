@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">MoodSnap</string>
+    <string name="title_home">首页</string>
+    <string name="title_dashboard">仪表板</string>
+    <string name="title_notifications">通知</string>
+
+    <!-- 反馈消息 -->
+    <string name="success_message">成功！</string>
+    <string name="error_message">错误</string>
+    <string name="loading">加载中...</string>
+    <string name="saving">保存中...</string>
+    <string name="saved_successfully">保存成功！</string>
+    <string name="error_saving">保存时出错</string>
+    <string name="error_loading">加载时出错</string>
+    <string name="no_data">未找到数据</string>
+
+    <!-- 按钮 -->
+    <string name="btn_save">保存</string>
+    <string name="btn_cancel">取消</string>
+    <string name="btn_delete">删除</string>
+    <string name="btn_edit">编辑</string>
+    <string name="btn_confirm">确认</string>
+    <string name="btn_back">返回</string>
+    <string name="btn_next">下一步</string>
+    <string name="btn_skip">跳过</string>
+
+    <!-- 标题和页眉 -->
+    <string name="title_how_are_you">你现在感觉如何？</string>
+    <string name="title_add_note">添加笔记</string>
+    <string name="title_edit_note">编辑笔记</string>
+    <string name="title_delete_note">删除笔记</string>
+    <string name="title_confirm_delete">确认删除</string>
+    <string name="title_settings">设置</string>
+    <string name="title_profile">个人资料</string>
+    <string name="title_statistics">统计</string>
+
+    <!-- 确认消息 -->
+    <string name="confirm_delete_note">确定要删除这条笔记吗？</string>
+    <string name="confirm_exit">确定要退出吗？</string>
+    <string name="confirm_discard">确定要放弃更改吗？</string>
+
+    <!-- 占位符和提示 -->
+    <string name="hint_add_note">在此输入你的笔记...</string>
+    <string name="hint_search">搜索...</string>
+    <string name="hint_date">选择日期</string>
+    <string name="hint_time">选择时间</string>
+
+    <!-- 错误消息 -->
+    <string name="error_invalid_date">无效日期</string>
+    <string name="error_invalid_time">无效时间</string>
+    <string name="error_required_field">必填字段</string>
+    <string name="error_network">连接错误</string>
+    <string name="error_try_again">请重试</string>
+
+    <!-- 心情状态 -->
+    <string name="mood_very_happy">非常开心</string>
+    <string name="mood_happy">开心</string>
+    <string name="mood_neutral">一般</string>
+    <string name="mood_sad">难过</string>
+    <string name="mood_very_sad">非常难过</string>
+
+    <!-- 帮助消息 -->
+    <string name="help_tip_1">点击日期记录你的心情</string>
+    <string name="help_tip_2">滑动查看更多详情</string>
+    <string name="help_tip_3">添加笔记记住发生的事情</string>
+    <string name="help_tip_4">在仪表板查看你的统计</string>
+</resources> 

@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">MoodSnap</string>
+    <string name="title_home">Inicio</string>
+    <string name="title_dashboard">Panel</string>
+    <string name="title_notifications">Notificaciones</string>
+
+    <!-- Mensajes de retroalimentación -->
+    <string name="success_message">¡Éxito!</string>
+    <string name="error_message">Error</string>
+    <string name="loading">Cargando...</string>
+    <string name="saving">Guardando...</string>
+    <string name="saved_successfully">¡Guardado con éxito!</string>
+    <string name="error_saving">Error al guardar</string>
+    <string name="error_loading">Error al cargar</string>
+    <string name="no_data">No se encontraron datos</string>
+
+    <!-- Botones -->
+    <string name="btn_save">Guardar</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="btn_delete">Eliminar</string>
+    <string name="btn_edit">Editar</string>
+    <string name="btn_confirm">Confirmar</string>
+    <string name="btn_back">Atrás</string>
+    <string name="btn_next">Siguiente</string>
+    <string name="btn_skip">Saltar</string>
+
+    <!-- Títulos y encabezados -->
+    <string name="title_how_are_you">¿Cómo te sientes?</string>
+    <string name="title_add_note">Añadir nota</string>
+    <string name="title_edit_note">Editar nota</string>
+    <string name="title_delete_note">Eliminar nota</string>
+    <string name="title_confirm_delete">Confirmar eliminación</string>
+    <string name="title_settings">Ajustes</string>
+    <string name="title_profile">Perfil</string>
+    <string name="title_statistics">Estadísticas</string>
+
+    <!-- Mensajes de confirmación -->
+    <string name="confirm_delete_note">¿Estás seguro de que quieres eliminar esta nota?</string>
+    <string name="confirm_exit">¿Realmente quieres salir?</string>
+    <string name="confirm_discard">¿Quieres descartar los cambios?</string>
+
+    <!-- Placeholders y sugerencias -->
+    <string name="hint_add_note">Escribe tu nota aquí...</string>
+    <string name="hint_search">Buscar...</string>
+    <string name="hint_date">Selecciona la fecha</string>
+    <string name="hint_time">Selecciona la hora</string>
+
+    <!-- Mensajes de error -->
+    <string name="error_invalid_date">Fecha inválida</string>
+    <string name="error_invalid_time">Hora inválida</string>
+    <string name="error_required_field">Campo requerido</string>
+    <string name="error_network">Error de conexión</string>
+    <string name="error_try_again">Inténtalo de nuevo</string>
+
+    <!-- Estados de ánimo -->
+    <string name="mood_very_happy">Muy feliz</string>
+    <string name="mood_happy">Feliz</string>
+    <string name="mood_neutral">Neutral</string>
+    <string name="mood_sad">Triste</string>
+    <string name="mood_very_sad">Muy triste</string>
+
+    <!-- Mensajes de ayuda -->
+    <string name="help_tip_1">Toca un día para registrar tu estado de ánimo</string>
+    <string name="help_tip_2">Desliza para ver más detalles</string>
+    <string name="help_tip_3">Añade notas para recordar lo que sucedió</string>
+    <string name="help_tip_4">Visualiza tus estadísticas en el panel</string>
+</resources> 

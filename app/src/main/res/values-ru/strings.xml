@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">MoodSnap</string>
+    <string name="title_home">Главная</string>
+    <string name="title_dashboard">Панель управления</string>
+    <string name="title_notifications">Уведомления</string>
+
+    <!-- Сообщения обратной связи -->
+    <string name="success_message">Успешно!</string>
+    <string name="error_message">Ошибка</string>
+    <string name="loading">Загрузка...</string>
+    <string name="saving">Сохранение...</string>
+    <string name="saved_successfully">Успешно сохранено!</string>
+    <string name="error_saving">Ошибка при сохранении</string>
+    <string name="error_loading">Ошибка при загрузке</string>
+    <string name="no_data">Данные не найдены</string>
+
+    <!-- Кнопки -->
+    <string name="btn_save">Сохранить</string>
+    <string name="btn_cancel">Отмена</string>
+    <string name="btn_delete">Удалить</string>
+    <string name="btn_edit">Редактировать</string>
+    <string name="btn_confirm">Подтвердить</string>
+    <string name="btn_back">Назад</string>
+    <string name="btn_next">Далее</string>
+    <string name="btn_skip">Пропустить</string>
+
+    <!-- Заголовки -->
+    <string name="title_how_are_you">Как вы себя чувствуете?</string>
+    <string name="title_add_note">Добавить заметку</string>
+    <string name="title_edit_note">Редактировать заметку</string>
+    <string name="title_delete_note">Удалить заметку</string>
+    <string name="title_confirm_delete">Подтвердить удаление</string>
+    <string name="title_settings">Настройки</string>
+    <string name="title_profile">Профиль</string>
+    <string name="title_statistics">Статистика</string>
+
+    <!-- Сообщения подтверждения -->
+    <string name="confirm_delete_note">Вы уверены, что хотите удалить эту заметку?</string>
+    <string name="confirm_exit">Вы действительно хотите выйти?</string>
+    <string name="confirm_discard">Вы хотите отменить изменения?</string>
+
+    <!-- Подсказки -->
+    <string name="hint_add_note">Введите вашу заметку здесь...</string>
+    <string name="hint_search">Поиск...</string>
+    <string name="hint_date">Выберите дату</string>
+    <string name="hint_time">Выберите время</string>
+
+    <!-- Сообщения об ошибках -->
+    <string name="error_invalid_date">Неверная дата</string>
+    <string name="error_invalid_time">Неверное время</string>
+    <string name="error_required_field">Обязательное поле</string>
+    <string name="error_network">Ошибка подключения</string>
+    <string name="error_try_again">Попробуйте снова</string>
+
+    <!-- Настроения -->
+    <string name="mood_very_happy">Очень счастлив</string>
+    <string name="mood_happy">Счастлив</string>
+    <string name="mood_neutral">Нейтральное</string>
+    <string name="mood_sad">Грустное</string>
+    <string name="mood_very_sad">Очень грустное</string>
+
+    <!-- Подсказки помощи -->
+    <string name="help_tip_1">Нажмите на день, чтобы записать настроение</string>
+    <string name="help_tip_2">Проведите пальцем для просмотра деталей</string>
+    <string name="help_tip_3">Добавляйте заметки, чтобы помнить, что произошло</string>
+    <string name="help_tip_4">Просматривайте статистику на панели управления</string>
+</resources> 
