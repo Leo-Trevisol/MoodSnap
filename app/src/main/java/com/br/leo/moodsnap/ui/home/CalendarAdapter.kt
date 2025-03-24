@@ -100,7 +100,7 @@ class CalendarAdapter(
                 holder.dayCard.alpha = 1.0f
                 holder.dayCard.isClickable = true
                 //holder.dayNumber.setBackgroundResource(R.drawable.background_rounded_60_green)
-                holder.dayNumber.setTextColor(Color.BLACK)
+                holder.dayNumber.setTextColor(holder.itemView.context.getColor(R.color.secundary))
 
                 if (mood != null) {
                     holder.dayCard.setCardBackgroundColor(
