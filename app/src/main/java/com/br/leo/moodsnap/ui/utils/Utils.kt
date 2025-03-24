@@ -52,12 +52,10 @@ object Utils {
         }
     }
 
-    fun updateBackGroundColor(context: Context, button: Button, color: Int?) {
-
-        val colorButton = color ?: getMainColor()
+    fun updateBackGroundColor(context: Context, button: Button, color: Int = getMainColor()) {
 
         button.setTextColor(Color.BLACK)
-        button.backgroundTintList = ColorStateList.valueOf(context.getResources().getColor(colorButton))
+        button.backgroundTintList = ColorStateList.valueOf(context.getResources().getColor(color))
     }
 
 }

@@ -348,7 +348,7 @@ class EditDayActivity : AppCompatActivity() {
             showImageSourceDialog()
         }
 
-        Utils.updateBackGroundColor(applicationContext, binding.btnSave, null)
+        Utils.updateBackGroundColor(applicationContext, binding.btnSave)
 
         // Adicionar listener para detectar mudanças na descrição
         binding.editDescription.addTextChangedListener(object : android.text.TextWatcher {
@@ -411,6 +411,7 @@ class EditDayActivity : AppCompatActivity() {
 
         // Verificar se existe imagem para mostrar botão de deletar
         val btnDeleteImage = dialogView.findViewById<MaterialButton>(R.id.btn_delete_image)
+        Utils.updateBackGroundColor(applicationContext, btnDeleteImage, R.color.primary_red)
         val hasExistingImage = if (moodId > 0) {
             val mood = repository.get(moodId)
             !mood.imagePath.isNullOrEmpty()
@@ -418,14 +419,15 @@ class EditDayActivity : AppCompatActivity() {
 
         btnDeleteImage.visibility = if (hasExistingImage) View.VISIBLE else View.GONE
 
-        dialogView.findViewById<MaterialButton>(R.id.btn_camera)
-            .setOnClickListener {
+        val btnCamera : Button = dialogView.findViewById<MaterialButton>(R.id.btn_camera)
+        Utils.updateBackGroundColor(applicationContext, btnCamera)
+        btnCamera.setOnClickListener {
                 dialog.dismiss()
                 checkCameraPermission()
             }
-
-        dialogView.findViewById<MaterialButton>(R.id.btn_gallery)
-            .setOnClickListener {
+        val btnGallery : Button = dialogView.findViewById<MaterialButton>(R.id.btn_gallery)
+        Utils.updateBackGroundColor(applicationContext, btnGallery)
+        btnGallery.setOnClickListener {
                 dialog.dismiss()
                 checkGalleryPermission()
             }

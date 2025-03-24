@@ -76,7 +76,7 @@ class CalendarAdapter(
         
         // Verificar se é o dia atual
         val isToday = isToday(dayOfMonth)
-        
+
         // Encontrar o humor para este dia
         val mood = moodList.find { mood ->
             val calendar = Calendar.getInstance()
@@ -99,9 +99,9 @@ class CalendarAdapter(
             isToday -> {
                 holder.dayCard.alpha = 1.0f
                 holder.dayCard.isClickable = true
-                holder.dayNumber.setBackgroundResource(R.drawable.background_rounded_60_green)
+                //holder.dayNumber.setBackgroundResource(R.drawable.background_rounded_60_green)
                 holder.dayNumber.setTextColor(Color.BLACK)
-                
+
                 if (mood != null) {
                     holder.dayCard.setCardBackgroundColor(
                         if (isSelected) holder.itemView.context.getColor(R.color.primary_green)
@@ -189,7 +189,7 @@ class CalendarAdapter(
     }
 
     fun setSelectedDay(dayOfMonth: Int) {
-        if (!isDateInFuture(dayOfMonth)) {
+        if (!isDateInFuture(dayOfMonth) && dayOfMonth > 0) {
             val previousSelected = selectedPosition
             selectedPosition = dayOfMonth - 1
             notifyItemChanged(previousSelected + firstDayOfWeek)

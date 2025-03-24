@@ -31,7 +31,7 @@ class CustomAlertDialog private constructor(context: Context, private val typeSy
 
         val mainColor: Int = context.getColor(R.color.primary_green)
         binding.btnNegative.setTextColor(mainColor)
-        Utils.updateBackGroundColor(context,  binding.btnPositive, null)
+        Utils.updateBackGroundColor(context,  binding.btnPositive)
     }
 
     fun setTitle(title: String?): CustomAlertDialog {
