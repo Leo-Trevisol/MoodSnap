@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Estatísticas de Humor"
+            android:text="@string/mood_statistics"
             android:textColor="@color/day_text_color"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -39,7 +39,7 @@
                     android:id="@+id/average_mood_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Humor Médio"
+                    android:text="@string/average_mood"
                     android:textStyle="bold"
                     android:textSize="18sp"/>
 
@@ -99,7 +99,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Distribuição de Humores"
+                            android:text="@string/mood_distribution"
                             android:textStyle="bold"
                             android:textSize="18sp"/>
 
@@ -156,7 +156,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sequência Atual"
+                        android:text="@string/current_streak"
                         android:textStyle="bold"
                         android:textSize="18sp"/>
 
@@ -206,7 +206,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Dia da Semana"
+                        android:text="@string/day_of_week"
                         android:textStyle="bold"
                         android:textSize="16sp"/>
 
@@ -223,7 +223,7 @@
                     android:id="@+id/best_day_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+                    android:layout_marginTop="8dp"
                     android:textSize="16sp"/>
 
             </LinearLayout>

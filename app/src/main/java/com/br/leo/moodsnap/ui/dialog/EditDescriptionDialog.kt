@@ -78,7 +78,7 @@ class EditDescriptionDialog(private val moodId: Int) : DialogFragment() {
             }
             
             repository.update(mood)
-            showCustomToast(requireContext(), "Descrição salva com sucesso!")
+            showCustomToast(requireContext(), getString(R.string.description_saved))
             dismiss()
         }
     }

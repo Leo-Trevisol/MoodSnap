@@ -150,7 +150,7 @@ class CalendarAdapter(
             } else {
                 Utils.run {
                     holder.dayCard.flashError {
-                        showCustomToast(holder.itemView.context, "Não é possível registrar humor em datas futuras")
+                        showCustomToast(holder.itemView.context, holder.itemView.context.getString(R.string.future_mood_not_allowed))
                     }
                 }
             }

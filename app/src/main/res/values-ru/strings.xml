@@ -64,4 +64,45 @@
     <string name="help_tip_2">Проведите пальцем для просмотра деталей</string>
     <string name="help_tip_3">Добавляйте заметки, чтобы помнить, что произошло</string>
     <string name="help_tip_4">Просматривайте статистику на панели управления</string>
+
+    <!-- Месяцы -->
+    <string name="month_january">Январь</string>
+    <string name="month_february">Февраль</string>
+    <string name="month_march">Март</string>
+    <string name="month_april">Апрель</string>
+    <string name="month_may">Май</string>
+    <string name="month_june">Июнь</string>
+    <string name="month_july">Июль</string>
+    <string name="month_august">Август</string>
+    <string name="month_september">Сентябрь</string>
+    <string name="month_october">Октябрь</string>
+    <string name="month_november">Ноябрь</string>
+    <string name="month_december">Декабрь</string>
+
+    <!-- Dias da Semana -->
+    <string name="weekday_sunday">Вс</string>
+    <string name="weekday_monday">Пн</string>
+    <string name="weekday_tuesday">Вт</string>
+    <string name="weekday_wednesday">Ср</string>
+    <string name="weekday_thursday">Чт</string>
+    <string name="weekday_friday">Пт</string>
+    <string name="weekday_saturday">Сб</string>
+
+    <!-- Dias da Semana Completos -->
+    <string name="weekday_full_sunday">Воскресенье</string>
+    <string name="weekday_full_monday">Понедельник</string>
+    <string name="weekday_full_tuesday">Вторник</string>
+    <string name="weekday_full_wednesday">Среда</string>
+    <string name="weekday_full_thursday">Четверг</string>
+    <string name="weekday_full_friday">Пятница</string>
+    <string name="weekday_full_saturday">Суббота</string>
+
+    <!-- Filtros de Dia -->
+    <string name="best_day">Лучший</string>
+    <string name="worst_day">Худший</string>
+
+    <!-- Mensagens de Estatísticas -->
+    <string name="register_more_moods">Запишите больше настроений, чтобы увидеть статистику</string>
+    <string name="best_day_usually">Ваш лучший день обычно %1$s</string>
+    <string name="worst_day_usually">Ваш худший день обычно %1$s</string>
 </resources> 

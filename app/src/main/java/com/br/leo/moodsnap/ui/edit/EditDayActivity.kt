@@ -55,7 +55,7 @@ class EditDayActivity : AppCompatActivity() {
         if (isGranted) {
             openCamera()
         } else {
-            showCustomToast(this, "Permissão de câmera necessária para esta função")
+            showCustomToast(this, getString(R.string.camera_permission_required))
         }
     }
 
@@ -65,7 +65,7 @@ class EditDayActivity : AppCompatActivity() {
         if (isGranted) {
             openGallery()
         } else {
-            showCustomToast(this, "Permissão de galeria necessária para esta função")
+            showCustomToast(this, getString(R.string.gallery_permission_required))
         }
     }
 
@@ -175,8 +175,23 @@ class EditDayActivity : AppCompatActivity() {
     }
 
     private fun updateDateText() {
-        val dateFormat = SimpleDateFormat("dd 'de' MMMM", Locale("pt", "BR"))
-        binding.dateText.text = dateFormat.format(calendar.time)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = when (calendar.get(Calendar.MONTH)) {
+            Calendar.JANUARY -> getString(R.string.month_january)
+            Calendar.FEBRUARY -> getString(R.string.month_february)
+            Calendar.MARCH -> getString(R.string.month_march)
+            Calendar.APRIL -> getString(R.string.month_april)
+            Calendar.MAY -> getString(R.string.month_may)
+            Calendar.JUNE -> getString(R.string.month_june)
+            Calendar.JULY -> getString(R.string.month_july)
+            Calendar.AUGUST -> getString(R.string.month_august)
+            Calendar.SEPTEMBER -> getString(R.string.month_september)
+            Calendar.OCTOBER -> getString(R.string.month_october)
+            Calendar.NOVEMBER -> getString(R.string.month_november)
+            Calendar.DECEMBER -> getString(R.string.month_december)
+            else -> ""
+        }
+        binding.dateText.text = "$day - $month"
     }
 
     private fun showDatePicker() {
@@ -185,11 +200,20 @@ class EditDayActivity : AppCompatActivity() {
         val yearPicker = dialogView.findViewById<NumberPicker>(R.id.year_picker)
         
         // Configurar o picker de meses
-        val months = (0..11).map { month ->
-            val tempCalendar = Calendar.getInstance()
-            tempCalendar.set(Calendar.MONTH, month)
-            tempCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale("pt", "BR"))
-        }.toTypedArray()
+        val months = arrayOf(
+            getString(R.string.month_january),
+            getString(R.string.month_february),
+            getString(R.string.month_march),
+            getString(R.string.month_april),
+            getString(R.string.month_may),
+            getString(R.string.month_june),
+            getString(R.string.month_july),
+            getString(R.string.month_august),
+            getString(R.string.month_september),
+            getString(R.string.month_october),
+            getString(R.string.month_november),
+            getString(R.string.month_december)
+        )
 
         val currentCalendar = Calendar.getInstance()
         val currentMonth = currentCalendar.get(Calendar.MONTH)
@@ -230,25 +254,23 @@ class EditDayActivity : AppCompatActivity() {
         }
 
         MaterialAlertDialogBuilder(this, R.style.CustomAlertDialog)
-            .setTitle("Selecione a Data")
+            .setTitle(getString(R.string.hint_date))
             .setView(dialogView)
             .setCancelable(false)
-            .setNegativeButton("CANCELAR", null)
-            .setPositiveButton("OK") { _, _ ->
+            .setNegativeButton(getString(R.string.btn_cancel), null)
+            .setPositiveButton(getString(R.string.btn_confirm)) { _, _ ->
                 val selectedYear = yearPicker.value
                 val selectedMonth = monthPicker.value
                 
                 // Verificar se a data selecionada é futura
                 if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
-                    showCustomToast(this, "Não é possível selecionar datas futuras")
+                    showCustomToast(this, getString(R.string.error_invalid_date))
                     return@setPositiveButton
                 }
 
                 calendar.set(Calendar.YEAR, selectedYear)
                 calendar.set(Calendar.MONTH, selectedMonth)
                 updateDateText()
-                
-                // Carregar dados do novo dia selecionado
                 loadExistingData()
             }
             .show()
@@ -361,7 +383,7 @@ class EditDayActivity : AppCompatActivity() {
 
         binding.btnSave.setOnClickListener {
             if (moodId == 0 && selectedMoodType == null) {
-                showCustomToast(this, "Por favor, selecione um humor para o dia")
+                showCustomToast(this, getString(R.string.select_mood))
                 return@setOnClickListener
             }
 
@@ -397,7 +419,7 @@ class EditDayActivity : AppCompatActivity() {
             }
             
             hasChanges = false
-            showCustomToast(this, "Humor salvo com sucesso!")
+            showCustomToast(this, getString(R.string.mood_saved))
             returnResult()
             finish()
         }
@@ -435,8 +457,8 @@ class EditDayActivity : AppCompatActivity() {
         btnDeleteImage.setOnClickListener {
             dialog.dismiss()
             CustomAlertDialog.create(this)
-                .setTitle("Atenção")
-                .setMessage("Deseja realmente deletar a imagem?")
+                .setTitle(getString(R.string.attention_dialog))
+                .setMessage(getString(R.string.confirm_delete_image))
                 .setPositiveListener {
                     // Deletar a imagem
                     if (moodId > 0) {
@@ -452,7 +474,7 @@ class EditDayActivity : AppCompatActivity() {
                             binding.imageDay.scaleType = ImageView.ScaleType.CENTER
                             selectedImageUri = null
                             checkForChanges()
-                            Toast.makeText(this, "Imagem deletada com sucesso!", Toast.LENGTH_SHORT).show()
+                            showCustomToast(this, getString(R.string.image_deleted))
                         }
                     }
                 }
@@ -588,8 +610,8 @@ class EditDayActivity : AppCompatActivity() {
 
     private fun showDiscardChangesDialog(onConfirm: () -> Unit) {
         CustomAlertDialog.create(this)
-            .setTitle("Atenção")
-            .setMessage("Você tem alterações não salvas. Deseja realmente descartá-las?")
+            .setTitle(getString(R.string.unsaved_changes_title))
+            .setMessage(getString(R.string.unsaved_changes_message))
             .setPositiveListener {
                 onConfirm()
             }
@@ -622,9 +644,9 @@ class EditDayActivity : AppCompatActivity() {
                      calendar.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH)
         
         binding.tvMoodQuestion.text = if (isToday) {
-            "Como está se sentindo?"
+            getString(R.string.how_are_you_feeling_today)
         } else {
-            "Como estava se sentindo?"
+            getString(R.string.how_were_you_feeling_that_day)
         }
     }
 

@@ -64,4 +64,73 @@
     <string name="help_tip_2">Glissez pour voir plus de détails</string>
     <string name="help_tip_3">Ajoutez des notes pour vous souvenir de ce qui s\'est passé</string>
     <string name="help_tip_4">Consultez vos statistiques dans le tableau de bord</string>
+
+    <!-- Mois -->
+    <string name="month_january">Janvier</string>
+    <string name="month_february">Février</string>
+    <string name="month_march">Mars</string>
+    <string name="month_april">Avril</string>
+    <string name="month_may">Mai</string>
+    <string name="month_june">Juin</string>
+    <string name="month_july">Juillet</string>
+    <string name="month_august">Août</string>
+    <string name="month_september">Septembre</string>
+    <string name="month_october">Octobre</string>
+    <string name="month_november">Novembre</string>
+    <string name="month_december">Décembre</string>
+
+    <!-- Dias da Semana -->
+    <string name="weekday_sunday">Dim</string>
+    <string name="weekday_monday">Lun</string>
+    <string name="weekday_tuesday">Mar</string>
+    <string name="weekday_wednesday">Mer</string>
+    <string name="weekday_thursday">Jeu</string>
+    <string name="weekday_friday">Ven</string>
+    <string name="weekday_saturday">Sam</string>
+
+    <!-- Dias da Semana Completos -->
+    <string name="weekday_full_sunday">Dimanche</string>
+    <string name="weekday_full_monday">Lundi</string>
+    <string name="weekday_full_tuesday">Mardi</string>
+    <string name="weekday_full_wednesday">Mercredi</string>
+    <string name="weekday_full_thursday">Jeudi</string>
+    <string name="weekday_full_friday">Vendredi</string>
+    <string name="weekday_full_saturday">Samedi</string>
+
+    <!-- Filtros de Dia -->
+    <string name="best_day">Meilleur</string>
+    <string name="worst_day">Pire</string>
+
+    <!-- Mensagens de Estatísticas -->
+    <string name="register_more_moods">Enregistrez plus d\'humeurs pour voir les statistiques</string>
+    <string name="best_day_usually">Votre meilleur jour est généralement %1$s</string>
+    <string name="worst_day_usually">Votre pire jour est généralement %1$s</string>
+
+    <!-- DialogEmotions -->
+    <string name="how_are_you_feeling">Comment vous sentez-vous ?</string>
+    <string name="how_were_you_feeling">Comment vous sentiez-vous ?</string>
+    <string name="attention">Attention</string>
+    <string name="confirm_delete_mood">Confirmez-vous la suppression de l\'humeur pour %1$s ?</string>
+    <string name="mood_deleted_success">Humeur supprimée avec succès !</string>
+    <string name="mood_registered_success">Humeur enregistrée avec succès !</string>
+    <string name="detail_day">Détail du jour</string>
+    <string name="delete_mood">Supprimer l\'humeur</string>
+    <string name="date_format">%1$d %2$s %3$d</string>
+
+    <!-- Dashboard -->
+    <string name="mood_statistics">Statistiques d\'Humeur</string>
+    <string name="average_mood">Humeur Moyenne</string>
+    <string name="no_mood_registered">Aucune humeur enregistrée pour le moment</string>
+    <string name="your_average_mood">Votre humeur moyenne est %1$s</string>
+    <string name="mood_distribution">Distribution des Humeurs</string>
+    <string name="no_mood_distribution">Aucune humeur enregistrée pour le moment</string>
+    <string name="you_were_mood">Vous étiez %1$s pendant %2$d%% des jours</string>
+    <string name="current_streak">Série Actuelle</string>
+    <string name="no_mood_today">Vous n\'avez pas encore enregistré votre humeur aujourd\'hui</string>
+    <string name="recorded_today">Vous avez enregistré votre humeur aujourd\'hui</string>
+    <string name="recorded_days">Vous avez enregistré votre humeur pendant %1$d jours d\'affilée !</string>
+    <string name="day_of_week">Jour de la Semaine</string>
+    <string name="last_record">Dernier enregistrement : %1$s</string>
+    <string name="longest_streak">Plus longue série : %1$d jours</string>
+    <string name="times_recorded">%1$dx</string>
 </resources> 

@@ -106,7 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="Como está se sentindo?"
+                    android:text="@string/how_are_you_feeling_now"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -189,7 +189,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="Descrição do dia"
+                    android:text="@string/day_description"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -199,7 +199,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:gravity="top|start"
-                    android:hint="Digite aqui sua descrição..."
+                    android:hint="@string/type_description_here"
                     android:importantForAutofill="no"
                     android:inputType="textMultiLine|textCapSentences"
                     android:maxLines="10"
@@ -233,7 +233,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="Imagem do dia"
+                    android:text="@string/day_image"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -256,7 +256,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Salvar"
+        android:text="@string/btn_save"
         android:textStyle="bold"
         android:padding="12dp"
         android:background="@drawable/rounded_button_shadow"

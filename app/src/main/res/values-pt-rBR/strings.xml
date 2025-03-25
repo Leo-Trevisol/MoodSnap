@@ -64,4 +64,109 @@
     <string name="help_tip_2">Deslize para ver mais detalhes</string>
     <string name="help_tip_3">Adicione notas para lembrar o que aconteceu</string>
     <string name="help_tip_4">Visualize suas estatísticas no painel</string>
+
+    <!-- Meses -->
+    <string name="month_january">Janeiro</string>
+    <string name="month_february">Fevereiro</string>
+    <string name="month_march">Março</string>
+    <string name="month_april">Abril</string>
+    <string name="month_may">Maio</string>
+    <string name="month_june">Junho</string>
+    <string name="month_july">Julho</string>
+    <string name="month_august">Agosto</string>
+    <string name="month_september">Setembro</string>
+    <string name="month_october">Outubro</string>
+    <string name="month_november">Novembro</string>
+    <string name="month_december">Dezembro</string>
+
+    <!-- Dias da Semana -->
+    <string name="weekday_sunday">Dom</string>
+    <string name="weekday_monday">Seg</string>
+    <string name="weekday_tuesday">Ter</string>
+    <string name="weekday_wednesday">Qua</string>
+    <string name="weekday_thursday">Qui</string>
+    <string name="weekday_friday">Sex</string>
+    <string name="weekday_saturday">Sáb</string>
+
+    <!-- Dias da Semana Completos -->
+    <string name="weekday_full_sunday">Domingo</string>
+    <string name="weekday_full_monday">Segunda-feira</string>
+    <string name="weekday_full_tuesday">Terça-feira</string>
+    <string name="weekday_full_wednesday">Quarta-feira</string>
+    <string name="weekday_full_thursday">Quinta-feira</string>
+    <string name="weekday_full_friday">Sexta-feira</string>
+    <string name="weekday_full_saturday">Sábado</string>
+
+    <!-- Filtros de Dia -->
+    <string name="best_day">Melhor</string>
+    <string name="worst_day">Pior</string>
+
+    <!-- Mensagens de Estatísticas -->
+    <string name="register_more_moods">Registre mais humores para ver as estatísticas</string>
+    <string name="best_day_usually">Seu melhor dia costuma ser %1$s</string>
+    <string name="worst_day_usually">Seu pior dia costuma ser %1$s</string>
+
+    <!-- DialogEmotions -->
+    <string name="how_are_you_feeling">Como você está se sentindo?</string>
+    <string name="how_were_you_feeling">Como você estava se sentindo?</string>
+    <string name="attention">Atenção</string>
+    <string name="confirm_delete_mood">Tem certeza que deseja excluir o humor do dia %1$s?</string>
+    <string name="delete_mood">Excluir Humor</string>
+    <string name="mood_deleted_success">Humor excluído com sucesso!</string>
+    <string name="mood_registered_success">Humor cadastrado com sucesso!</string>
+    <string name="detail_day">Detalhar dia</string>
+    <string name="date_format">%1$d de %2$s de %3$d</string>
+
+    <!-- Dashboard -->
+    <string name="mood_statistics">Estatísticas de Humor</string>
+    <string name="average_mood">Humor Médio</string>
+    <string name="no_mood_registered">Nenhum humor registrado ainda</string>
+    <string name="your_average_mood">Seu humor médio é %1$s</string>
+    <string name="mood_distribution">Distribuição de Humores</string>
+    <string name="no_mood_distribution">Nenhum humor registrado ainda</string>
+    <string name="you_were_mood">Você esteve %1$s em %2$d%% dos dias</string>
+    <string name="current_streak">Sequência Atual</string>
+    <string name="no_mood_today">Você ainda não registrou seu humor hoje</string>
+    <string name="recorded_today">Você registrou seu humor hoje</string>
+    <string name="recorded_days">Você registrou seu humor por %1$d dias seguidos!</string>
+    <string name="day_of_week">Dia da Semana</string>
+    <string name="last_record">Último registro: %1$s</string>
+    <string name="longest_streak">Maior sequência: %1$d dias</string>
+    <string name="times_recorded">%1$dx</string>
+
+    <!-- EditDescription Activity -->
+    <string name="how_are_you_feeling_now">Como está se sentindo?</string>
+    <string name="day_description">Descrição do dia</string>
+    <string name="type_description_here">Digite aqui sua descrição...</string>
+    <string name="day_image">Imagem do dia</string>
+
+    <!-- Mensagens Toast -->
+    <string name="camera_permission_required">Permissão de câmera necessária para esta função</string>
+    <string name="gallery_permission_required">Permissão de galeria necessária para esta função</string>
+    <string name="future_date_not_allowed">Não é possível selecionar datas futuras</string>
+    <string name="future_mood_not_allowed">Não é possível registrar humor em datas futuras</string>
+    <string name="select_mood">Por favor, selecione um humor para o dia</string>
+    <string name="mood_saved">Humor salvo com sucesso!</string>
+    <string name="attention_dialog">Atenção</string>
+    <string name="confirm_delete_image">Deseja realmente deletar a imagem?</string>
+    <string name="image_deleted">Imagem deletada com sucesso!</string>
+    <string name="description_saved">Descrição salva com sucesso!</string>
+
+    <!-- Diálogo de Descartar Alterações -->
+    <string name="unsaved_changes_title">Atenção</string>
+    <string name="unsaved_changes_message">Você tem alterações não salvas. Deseja realmente descartá-las?</string>
+
+    <!-- Botões de Diálogo -->
+    <string name="btn_yes">Sim</string>
+    <string name="btn_no">Não</string>
+
+    <!-- Diálogo de Fonte da Imagem -->
+    <string name="select_image_source">Selecionar Fonte da Imagem</string>
+    <string name="camera">Câmera</string>
+    <string name="gallery">Galeria</string>
+    <string name="delete_image">Deletar Imagem</string>
+
+    <!-- Perguntas de Humor -->
+    <string name="how_are_you_feeling_today">Como está se sentindo?</string>
+    <string name="how_were_you_feeling_that_day">Como estava se sentindo?</string>
 </resources> 

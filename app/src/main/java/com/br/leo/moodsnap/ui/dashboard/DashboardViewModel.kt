@@ -150,25 +150,27 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun getMoodName(moodType: Int): String {
+        val context = getApplication<Application>().applicationContext
         return when (moodType) {
-            0 -> "Muito Feliz"
-            1 -> "Feliz"
-            2 -> "Neutro"
-            3 -> "Triste"
-            4 -> "Muito Triste"
+            0 -> context.getString(R.string.mood_very_happy)
+            1 -> context.getString(R.string.mood_happy)
+            2 -> context.getString(R.string.mood_neutral)
+            3 -> context.getString(R.string.mood_sad)
+            4 -> context.getString(R.string.mood_very_sad)
             else -> "Desconhecido"
         }
     }
 
     fun getDayOfWeekName(dayOfWeek: Int): String {
+        val context = getApplication<Application>().applicationContext
         return when (dayOfWeek) {
-            Calendar.SUNDAY -> "Domingo"
-            Calendar.MONDAY -> "Segunda-feira"
-            Calendar.TUESDAY -> "Terça-feira"
-            Calendar.WEDNESDAY -> "Quarta-feira"
-            Calendar.THURSDAY -> "Quinta-feira"
-            Calendar.FRIDAY -> "Sexta-feira"
-            Calendar.SATURDAY -> "Sábado"
+            Calendar.SUNDAY -> context.getString(R.string.weekday_full_sunday)
+            Calendar.MONDAY -> context.getString(R.string.weekday_full_monday)
+            Calendar.TUESDAY -> context.getString(R.string.weekday_full_tuesday)
+            Calendar.WEDNESDAY -> context.getString(R.string.weekday_full_wednesday)
+            Calendar.THURSDAY -> context.getString(R.string.weekday_full_thursday)
+            Calendar.FRIDAY -> context.getString(R.string.weekday_full_friday)
+            Calendar.SATURDAY -> context.getString(R.string.weekday_full_saturday)
             else -> "Desconhecido"
         }
     }
@@ -183,18 +185,20 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun getFilterDescription(filter: DayFilter): String {
+        val context = getApplication<Application>().applicationContext
         return when (filter) {
-            DayFilter.BEST_DAY -> "Melhor"
-            DayFilter.WORST_DAY -> "Pior"
+            DayFilter.BEST_DAY -> context.getString(R.string.best_day)
+            DayFilter.WORST_DAY -> context.getString(R.string.worst_day)
         }
     }
 
     fun getDayStatisticsText(dayOfWeek: Int, filter: DayFilter): String {
-        if (dayOfWeek == -1) return "Registre mais humores para ver as estatísticas"
+        val context = getApplication<Application>().applicationContext
+        if (dayOfWeek == -1) return context.getString(R.string.register_more_moods)
         
         return when (filter) {
-            DayFilter.BEST_DAY -> "Seu melhor dia costuma ser ${getDayOfWeekName(dayOfWeek)}"
-            DayFilter.WORST_DAY -> "Seu pior dia costuma ser ${getDayOfWeekName(dayOfWeek)}"
+            DayFilter.BEST_DAY -> context.getString(R.string.best_day_usually, getDayOfWeekName(dayOfWeek))
+            DayFilter.WORST_DAY -> context.getString(R.string.worst_day_usually, getDayOfWeekName(dayOfWeek))
         }
     }
 

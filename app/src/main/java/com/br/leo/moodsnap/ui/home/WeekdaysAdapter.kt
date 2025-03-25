@@ -9,7 +9,15 @@ import com.br.leo.moodsnap.R
 
 class WeekdaysAdapter : RecyclerView.Adapter<WeekdaysAdapter.WeekdayViewHolder>() {
 
-    private val weekdays = listOf("Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab")
+    private val weekdays = listOf(
+        R.string.weekday_sunday,
+        R.string.weekday_monday,
+        R.string.weekday_tuesday,
+        R.string.weekday_wednesday,
+        R.string.weekday_thursday,
+        R.string.weekday_friday,
+        R.string.weekday_saturday
+    )
 
     class WeekdayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val weekdayText: TextView = view as TextView
@@ -22,7 +30,7 @@ class WeekdaysAdapter : RecyclerView.Adapter<WeekdaysAdapter.WeekdayViewHolder>(
     }
 
     override fun onBindViewHolder(holder: WeekdayViewHolder, position: Int) {
-        holder.weekdayText.text = weekdays[position]
+        holder.weekdayText.text = holder.itemView.context.getString(weekdays[position])
     }
 
     override fun getItemCount() = weekdays.size

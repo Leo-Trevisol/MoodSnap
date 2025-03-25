@@ -64,4 +64,109 @@
     <string name="help_tip_2">Swipe to see more details</string>
     <string name="help_tip_3">Add notes to remember what happened</string>
     <string name="help_tip_4">View your statistics in the dashboard</string>
+
+    <!-- Months -->
+    <string name="month_january">January</string>
+    <string name="month_february">February</string>
+    <string name="month_march">March</string>
+    <string name="month_april">April</string>
+    <string name="month_may">May</string>
+    <string name="month_june">June</string>
+    <string name="month_july">July</string>
+    <string name="month_august">August</string>
+    <string name="month_september">September</string>
+    <string name="month_october">October</string>
+    <string name="month_november">November</string>
+    <string name="month_december">December</string>
+
+    <!-- Dias da Semana -->
+    <string name="weekday_sunday">Sun</string>
+    <string name="weekday_monday">Mon</string>
+    <string name="weekday_tuesday">Tue</string>
+    <string name="weekday_wednesday">Wed</string>
+    <string name="weekday_thursday">Thu</string>
+    <string name="weekday_friday">Fri</string>
+    <string name="weekday_saturday">Sat</string>
+
+    <!-- Dias da Semana Completos -->
+    <string name="weekday_full_sunday">Sunday</string>
+    <string name="weekday_full_monday">Monday</string>
+    <string name="weekday_full_tuesday">Tuesday</string>
+    <string name="weekday_full_wednesday">Wednesday</string>
+    <string name="weekday_full_thursday">Thursday</string>
+    <string name="weekday_full_friday">Friday</string>
+    <string name="weekday_full_saturday">Saturday</string>
+
+    <!-- Filtros de Dia -->
+    <string name="best_day">Best</string>
+    <string name="worst_day">Worst</string>
+
+    <!-- Mensagens de Estatísticas -->
+    <string name="register_more_moods">Register more moods to see statistics</string>
+    <string name="best_day_usually">Your best day is usually %1$s</string>
+    <string name="worst_day_usually">Your worst day is usually %1$s</string>
+
+    <!-- DialogEmotions -->
+    <string name="how_are_you_feeling">How are you feeling?</string>
+    <string name="how_were_you_feeling">How were you feeling?</string>
+    <string name="attention">Attention</string>
+    <string name="confirm_delete_mood">Are you sure you want to delete the mood for %1$s?</string>
+    <string name="mood_deleted_success">Mood deleted successfully!</string>
+    <string name="mood_registered_success">Mood registered successfully!</string>
+    <string name="detail_day">Detail Day</string>
+    <string name="delete_mood">Delete Mood</string>
+    <string name="date_format">%1$d of %2$s of %3$d</string>
+
+    <!-- Dashboard -->
+    <string name="mood_statistics">Mood Statistics</string>
+    <string name="average_mood">Average Mood</string>
+    <string name="no_mood_registered">No mood registered yet</string>
+    <string name="your_average_mood">Your average mood is %1$s</string>
+    <string name="mood_distribution">Mood Distribution</string>
+    <string name="no_mood_distribution">No mood registered yet</string>
+    <string name="you_were_mood">You were %1$s on %2$d%% of days</string>
+    <string name="current_streak">Current Streak</string>
+    <string name="no_mood_today">You haven\'t recorded your mood today</string>
+    <string name="recorded_today">You recorded your mood today</string>
+    <string name="recorded_days">You recorded your mood for %1$d days in a row!</string>
+    <string name="day_of_week">Day of Week</string>
+    <string name="last_record">Last record: %1$s</string>
+    <string name="longest_streak">Longest streak: %1$d days</string>
+    <string name="times_recorded">%1$dx</string>
+
+    <!-- EditDescription Activity -->
+    <string name="how_are_you_feeling_now">How are you feeling?</string>
+    <string name="day_description">Day Description</string>
+    <string name="type_description_here">Type your description here...</string>
+    <string name="day_image">Day Image</string>
+
+    <!-- Toast Messages -->
+    <string name="camera_permission_required">Camera permission required for this feature</string>
+    <string name="gallery_permission_required">Gallery permission required for this feature</string>
+    <string name="future_date_not_allowed">Cannot select future dates</string>
+    <string name="future_mood_not_allowed">Cannot record mood for future dates</string>
+    <string name="select_mood">Please select a mood for the day</string>
+    <string name="mood_saved">Mood saved successfully!</string>
+    <string name="attention_dialog">Attention</string>
+    <string name="confirm_delete_image">Do you really want to delete the image?</string>
+    <string name="image_deleted">Image deleted successfully!</string>
+    <string name="description_saved">Description saved successfully!</string>
+
+    <!-- Discard Changes Dialog -->
+    <string name="unsaved_changes_title">Attention</string>
+    <string name="unsaved_changes_message">You have unsaved changes. Do you really want to discard them?</string>
+
+    <!-- Dialog Buttons -->
+    <string name="btn_yes">Yes</string>
+    <string name="btn_no">No</string>
+
+    <!-- Image Source Dialog -->
+    <string name="select_image_source">Select Image Source</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="delete_image">Delete Image</string>
+
+    <!-- Mood Questions -->
+    <string name="how_are_you_feeling_today">How are you feeling?</string>
+    <string name="how_were_you_feeling_that_day">How were you feeling?</string>
 </resources>

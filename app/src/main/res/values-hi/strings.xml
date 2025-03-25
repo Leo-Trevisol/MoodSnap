@@ -64,4 +64,109 @@
     <string name="help_tip_2">अधिक विवरण के लिए स्वाइप करें</string>
     <string name="help_tip_3">होने वाली चीज़ों को याद रखने के लिए नोट जोड़ें</string>
     <string name="help_tip_4">डैशबोर्ड में अपने आंकड़े देखें</string>
+
+    <!-- महीने -->
+    <string name="month_january">जनवरी</string>
+    <string name="month_february">फ़रवरी</string>
+    <string name="month_march">मार्च</string>
+    <string name="month_april">अप्रैल</string>
+    <string name="month_may">मई</string>
+    <string name="month_june">जून</string>
+    <string name="month_july">जुलाई</string>
+    <string name="month_august">अगस्त</string>
+    <string name="month_september">सितंबर</string>
+    <string name="month_october">अक्टूबर</string>
+    <string name="month_november">नवंबर</string>
+    <string name="month_december">दिसंबर</string>
+
+    <!-- Dias da Semana -->
+    <string name="weekday_sunday">रवि</string>
+    <string name="weekday_monday">सोम</string>
+    <string name="weekday_tuesday">मंगल</string>
+    <string name="weekday_wednesday">बुध</string>
+    <string name="weekday_thursday">गुरु</string>
+    <string name="weekday_friday">शुक्र</string>
+    <string name="weekday_saturday">शनि</string>
+
+    <!-- Dias da Semana Completos -->
+    <string name="weekday_full_sunday">रविवार</string>
+    <string name="weekday_full_monday">सोमवार</string>
+    <string name="weekday_full_tuesday">मंगलवार</string>
+    <string name="weekday_full_wednesday">बुधवार</string>
+    <string name="weekday_full_thursday">गुरुवार</string>
+    <string name="weekday_full_friday">शुक्रवार</string>
+    <string name="weekday_full_saturday">शनिवार</string>
+
+    <!-- Filtros de Dia -->
+    <string name="best_day">सर्वश्रेष्ठ</string>
+    <string name="worst_day">सबसे खराब</string>
+
+    <!-- Mensagens de Estatísticas -->
+    <string name="register_more_moods">आंकड़े देखने के लिए और मूड रिकॉर्ड करें</string>
+    <string name="best_day_usually">आपका सर्वश्रेष्ठ दिन आमतौर पर %1$s होता है</string>
+    <string name="worst_day_usually">आपका सबसे खराब दिन आमतौर पर %1$s होता है</string>
+
+    <!-- DialogEmotions -->
+    <string name="how_are_you_feeling">आप कैसा महसूस कर रहे हैं?</string>
+    <string name="how_were_you_feeling">आप कैसा महसूस कर रहे थे?</string>
+    <string name="attention">ध्यान दें</string>
+    <string name="confirm_delete_mood">क्या आप वाकई %1$s का मूड हटाना चाहते हैं?</string>
+    <string name="mood_deleted_success">मूड सफलतापूर्वक हटा दिया गया!</string>
+    <string name="mood_registered_success">मूड सफलतापूर्वक पंजीकृत किया गया!</string>
+    <string name="detail_day">दिन का विवरण</string>
+    <string name="delete_mood">मूड हटाएं</string>
+    <string name="date_format">%1$d %2$s %3$d</string>
+
+    <!-- Dashboard -->
+    <string name="mood_statistics">मूड आंकड़े</string>
+    <string name="average_mood">औसत मूड</string>
+    <string name="no_mood_registered">अभी तक कोई मूड दर्ज नहीं</string>
+    <string name="your_average_mood">आपका औसत मूड %1$s है</string>
+    <string name="mood_distribution">मूड वितरण</string>
+    <string name="no_mood_distribution">अभी तक कोई मूड दर्ज नहीं</string>
+    <string name="you_were_mood">आप %2$d%% दिनों में %1$s थे</string>
+    <string name="current_streak">वर्तमान स्ट्रीक</string>
+    <string name="no_mood_today">आपने आज अपना मूड दर्ज नहीं किया है</string>
+    <string name="recorded_today">आपने आज अपना मूड दर्ज किया</string>
+    <string name="recorded_days">आपने लगातार %1$d दिनों तक अपना मूड दर्ज किया!</string>
+    <string name="day_of_week">सप्ताह का दिन</string>
+    <string name="last_record">अंतिम रिकॉर्ड: %1$s</string>
+    <string name="longest_streak">सबसे लंबी स्ट्रीक: %1$d दिन</string>
+    <string name="times_recorded">%1$dx</string>
+
+    <!-- EditDescription Activity -->
+    <string name="how_are_you_feeling_now">आप कैसा महसूस कर रहे हैं?</string>
+    <string name="day_description">दिन का विवरण</string>
+    <string name="type_description_here">यहाँ अपना विवरण लिखें...</string>
+    <string name="day_image">दिन की छवि</string>
+
+    <!-- टोस्ट संदेश -->
+    <string name="camera_permission_required">इस सुविधा के लिए कैमरा अनुमति आवश्यक है</string>
+    <string name="gallery_permission_required">इस सुविधा के लिए गैलरी अनुमति आवश्यक है</string>
+    <string name="future_date_not_allowed">भविष्य की तारीखें नहीं चुन सकते</string>
+    <string name="future_mood_not_allowed">भविष्य की तारीखों के लिए मूड दर्ज नहीं कर सकते</string>
+    <string name="select_mood">कृपया दिन के लिए एक मूड चुनें</string>
+    <string name="mood_saved">मूड सफलतापूर्वक सहेजा गया!</string>
+    <string name="attention_dialog">ध्यान दें</string>
+    <string name="confirm_delete_image">क्या आप वाकई इस छवि को हटाना चाहते हैं?</string>
+    <string name="image_deleted">छवि सफलतापूर्वक हटा दी गई!</string>
+    <string name="description_saved">विवरण सफलतापूर्वक सहेजा गया!</string>
+
+    <!-- छवि स्रोत संवाद -->
+    <string name="select_image_source">छवि स्रोत चुनें</string>
+    <string name="camera">कैमरा</string>
+    <string name="gallery">गैलरी</string>
+    <string name="delete_image">छवि हटाएं</string>
+
+    <!-- मूड प्रश्न -->
+    <string name="how_are_you_feeling_today">आप कैसा महसूस कर रहे हैं?</string>
+    <string name="how_were_you_feeling_that_day">आप कैसा महसूस कर रहे थे?</string>
+
+    <!-- संवाद बटन -->
+    <string name="btn_yes">हाँ</string>
+    <string name="btn_no">नहीं</string>
+
+    <!-- परिवर्तन त्यागें संवाद -->
+    <string name="unsaved_changes_title">ध्यान दें</string>
+    <string name="unsaved_changes_message">आपके पास असहेजे गए परिवर्तन हैं। क्या आप वाकई इन्हें त्यागना चाहते हैं?</string>
 </resources> 

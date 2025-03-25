@@ -128,12 +128,12 @@ class DashboardFragment : Fragment() {
         dashboardViewModel.averageMood.observe(viewLifecycleOwner) { average ->
             if (average == null) {
                 binding.averageMoodIcon.setImageResource(R.drawable.neutro)
-                binding.averageMoodText.text = "Nenhum humor registrado ainda"
+                binding.averageMoodText.text = getString(R.string.no_mood_registered)
                 binding.cardAverageMood.setCardBackgroundColor(Color.WHITE)
             } else {
                 val moodType = average.roundToInt()
                 binding.averageMoodIcon.setImageResource(getMoodDrawable(moodType))
-                binding.averageMoodText.text = "Seu humor médio é ${dashboardViewModel.getMoodName(moodType)}"
+                binding.averageMoodText.text = getString(R.string.your_average_mood, dashboardViewModel.getMoodName(moodType))
                 binding.cardAverageMood.setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
             }
             
@@ -191,9 +191,9 @@ class DashboardFragment : Fragment() {
 
             // Texto da sequência
             binding.currentStreakText.text = when {
-                streak == 0 -> "Você ainda não registrou seu humor hoje"
-                streak == 1 -> "Você registrou seu humor hoje"
-                else -> "Você registrou seu humor por $streak dias seguidos!"
+                streak == 0 -> getString(R.string.no_mood_today)
+                streak == 1 -> getString(R.string.recorded_today)
+                else -> getString(R.string.recorded_days, streak)
             }
         }
 
@@ -216,7 +216,7 @@ class DashboardFragment : Fragment() {
 
         val total = distribution.values.sum().toFloat()
         if (total == 0f) {
-            binding.distributionSummary.text = "Nenhum humor registrado ainda"
+            binding.distributionSummary.text = getString(R.string.no_mood_distribution)
             return
         }
 
@@ -225,7 +225,9 @@ class DashboardFragment : Fragment() {
         val mostFrequentPercentage = ((mostFrequentMood?.value ?: 0) / total * 100).roundToInt()
         
         // Atualizar o resumo no cabeçalho
-        binding.distributionSummary.text = "Você esteve ${dashboardViewModel.getMoodName(mostFrequentMood?.key ?: 2)} em $mostFrequentPercentage% dos dias"
+        binding.distributionSummary.text = getString(R.string.you_were_mood, 
+            dashboardViewModel.getMoodName(mostFrequentMood?.key ?: 2),
+            mostFrequentPercentage)
 
         // Configurar o clique no cabeçalho
         binding.distributionHeader.setOnClickListener {
@@ -298,7 +300,7 @@ class DashboardFragment : Fragment() {
             val lastDate = dashboardViewModel.getLastMoodDate(moodType)
             if (lastDate != null) {
                 val lastOccurrenceText = TextView(context).apply {
-                    text = "Último registro: $lastDate"
+                    text = getString(R.string.last_record, lastDate)
                     setTextColor(Color.BLACK)
                     textSize = 14f
                     alpha = 0.8f
@@ -311,7 +313,7 @@ class DashboardFragment : Fragment() {
             val longestStreak = dashboardViewModel.getLongestStreak(moodType)
             if (longestStreak > 1) {
                 val streakText = TextView(context).apply {
-                    text = "Maior sequência: $longestStreak dias"
+                    text = getString(R.string.longest_streak, longestStreak)
                     setTextColor(Color.BLACK)
                     textSize = 14f
                     alpha = 0.8f
@@ -322,7 +324,7 @@ class DashboardFragment : Fragment() {
 
             // Total de registros
             val totalRegisters = TextView(context).apply {
-                text = "${distribution[moodType] ?: 0}x"
+                text = getString(R.string.times_recorded, distribution[moodType] ?: 0)
                 setTextColor(Color.BLACK)
                 textSize = 18f
                 textAlignment = View.TEXT_ALIGNMENT_VIEW_END

@@ -73,19 +73,37 @@ class DialogEmotions(
     private fun initComponents(view: View) {
         // Configurar a data selecionada
         val selectedDateText = view.findViewById<TextView>(R.id.selected_date)
-        val dateFormat = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale("pt", "BR"))
-        selectedDateText.text = dateFormat.format(selectedDate.time)
+        val day = selectedDate.get(Calendar.DAY_OF_MONTH)
+        val month = selectedDate.get(Calendar.MONTH)
+        val year = selectedDate.get(Calendar.YEAR)
+        
+        // Obter o nome do mês traduzido
+        val monthName = when (month) {
+            Calendar.JANUARY -> getString(R.string.month_january)
+            Calendar.FEBRUARY -> getString(R.string.month_february)
+            Calendar.MARCH -> getString(R.string.month_march)
+            Calendar.APRIL -> getString(R.string.month_april)
+            Calendar.MAY -> getString(R.string.month_may)
+            Calendar.JUNE -> getString(R.string.month_june)
+            Calendar.JULY -> getString(R.string.month_july)
+            Calendar.AUGUST -> getString(R.string.month_august)
+            Calendar.SEPTEMBER -> getString(R.string.month_september)
+            Calendar.OCTOBER -> getString(R.string.month_october)
+            Calendar.NOVEMBER -> getString(R.string.month_november)
+            Calendar.DECEMBER -> getString(R.string.month_december)
+            else -> ""
+        }
+        
+        selectedDateText.text = getString(R.string.date_format, day, monthName, year)
 
         val today = Calendar.getInstance()
         val isToday = selectedDate.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
                 selectedDate.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
                 selectedDate.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH)
 
-        if(isToday){
-            view.findViewById<MaterialTextView>(R.id.title_dialog).text = "Como você está se sentindo?"
-        }else{
-            view.findViewById<MaterialTextView>(R.id.title_dialog).text = "Como você estava se sentindo?"
-        }
+        view.findViewById<MaterialTextView>(R.id.title_dialog).text = 
+            if (isToday) getString(R.string.how_are_you_feeling) 
+            else getString(R.string.how_were_you_feeling)
 
         // Configurar botão de editar
         val btnEdit = view.findViewById<MaterialButton>(R.id.btn_edit)
@@ -99,57 +117,28 @@ class DialogEmotions(
         if (existingMoodId > 0) {
             btnDelete.visibility = View.VISIBLE
             btnDelete.setOnClickListener {
-                CustomAlertDialog.create(requireContext())
-                    .setTitle("Atenção")
-                    .setMessage("Confirmar exclusão do humor de ${selectedDateText.text}?")
-                    .setPositiveListener {
-                        viewModel.deleteMood(existingMoodId)
-                        showCustomToast(requireContext(), "Humor deletado com sucesso!")
-                        dismissAllowingStateLoss()
-                    }
-                    .setCancelable(false)
-                    .setNegativeListener(null).show()
+                showDeleteConfirmationDialog()
             }
         }
 
         view.findViewById<ImageView>(R.id.emotion_very_happy)?.setOnClickListener {
-            if (isAdded) {
-                viewModel.setSelectedEmotion(R.drawable.muito_feliz)
-                showCustomToast(requireContext(), "Humor cadastrado com sucesso!")
-                dismissAllowingStateLoss()
-            }
+            saveMood(R.drawable.muito_feliz)
         }
 
         view.findViewById<ImageView>(R.id.emotion_happy)?.setOnClickListener {
-            if (isAdded) {
-                viewModel.setSelectedEmotion(R.drawable.feliz)
-                showCustomToast(requireContext(), "Humor cadastrado com sucesso!")
-                dismissAllowingStateLoss()
-            }
+            saveMood(R.drawable.feliz)
         }
 
         view.findViewById<ImageView>(R.id.emotion_neutral)?.setOnClickListener {
-            if (isAdded) {
-                viewModel.setSelectedEmotion(R.drawable.neutro)
-                showCustomToast(requireContext(), "Humor cadastrado com sucesso!")
-                dismissAllowingStateLoss()
-            }
+            saveMood(R.drawable.neutro)
         }
 
         view.findViewById<ImageView>(R.id.emotion_sad)?.setOnClickListener {
-            if (isAdded) {
-                viewModel.setSelectedEmotion(R.drawable.triste)
-                showCustomToast(requireContext(), "Humor cadastrado com sucesso!")
-                dismissAllowingStateLoss()
-            }
+            saveMood(R.drawable.triste)
         }
 
         view.findViewById<ImageView>(R.id.emotion_very_sad)?.setOnClickListener {
-            if (isAdded) {
-                viewModel.setSelectedEmotion(R.drawable.muito_triste)
-                showCustomToast(requireContext(), "Humor cadastrado com sucesso!")
-                dismissAllowingStateLoss()
-            }
+            saveMood(R.drawable.muito_triste)
         }
     }
 
@@ -210,4 +199,26 @@ class DialogEmotions(
     }
 
     override fun getTheme(): Int = R.style.BottomSheetDialogTheme
+
+    private fun showDeleteConfirmationDialog() {
+        val selectedDateText = requireView().findViewById<TextView>(R.id.selected_date)
+        CustomAlertDialog.create(requireContext())
+            .setTitle(getString(R.string.attention))
+            .setMessage(getString(R.string.confirm_delete_mood, selectedDateText.text))
+            .setPositiveListener {
+                viewModel.deleteMood(existingMoodId)
+                showCustomToast(requireContext(), getString(R.string.mood_deleted_success))
+                dismissAllowingStateLoss()
+            }
+            .setNegativeListener(null)
+            .show()
+    }
+
+    private fun saveMood(emotionResId: Int) {
+        if (isAdded) {
+            viewModel.setSelectedEmotion(emotionResId)
+            showCustomToast(requireContext(), getString(R.string.mood_registered_success))
+            dismissAllowingStateLoss()
+        }
+    }
 }

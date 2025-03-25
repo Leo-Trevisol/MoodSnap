@@ -64,4 +64,45 @@
     <string name="help_tip_2">滑动查看更多详情</string>
     <string name="help_tip_3">添加笔记记住发生的事情</string>
     <string name="help_tip_4">在仪表板查看你的统计</string>
+
+    <!-- 月份 -->
+    <string name="month_january">一月</string>
+    <string name="month_february">二月</string>
+    <string name="month_march">三月</string>
+    <string name="month_april">四月</string>
+    <string name="month_may">五月</string>
+    <string name="month_june">六月</string>
+    <string name="month_july">七月</string>
+    <string name="month_august">八月</string>
+    <string name="month_september">九月</string>
+    <string name="month_october">十月</string>
+    <string name="month_november">十一月</string>
+    <string name="month_december">十二月</string>
+
+    <!-- Dias da Semana -->
+    <string name="weekday_sunday">日</string>
+    <string name="weekday_monday">一</string>
+    <string name="weekday_tuesday">二</string>
+    <string name="weekday_wednesday">三</string>
+    <string name="weekday_thursday">四</string>
+    <string name="weekday_friday">五</string>
+    <string name="weekday_saturday">六</string>
+
+    <!-- Dias da Semana Completos -->
+    <string name="weekday_full_sunday">星期日</string>
+    <string name="weekday_full_monday">星期一</string>
+    <string name="weekday_full_tuesday">星期二</string>
+    <string name="weekday_full_wednesday">星期三</string>
+    <string name="weekday_full_thursday">星期四</string>
+    <string name="weekday_full_friday">星期五</string>
+    <string name="weekday_full_saturday">星期六</string>
+
+    <!-- Filtros de Dia -->
+    <string name="best_day">最好</string>
+    <string name="worst_day">最差</string>
+
+    <!-- Mensagens de Estatísticas -->
+    <string name="register_more_moods">记录更多心情以查看统计信息</string>
+    <string name="best_day_usually">你最好的日子通常是 %1$s</string>
+    <string name="worst_day_usually">你最差的日子通常是 %1$s</string>
 </resources> 
