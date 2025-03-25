@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MoodSnap</string>
-    <string name="title_home">Домой</string>
-    <string name="title_dashboard">Панель приборов</string>
+    <string name="title_home">Главная</string>
+    <string name="title_dashboard">Панель управления</string>
 
     <!-- Buttons -->
     <string name="btn_save">Сохранить</string>
@@ -15,12 +15,12 @@
     <string name="btn_no">Нет</string>
 
     <!-- Titles and Headers -->
-    <string name="title_how_are_you">Как вы себя чувствуете?</string>
+    <string name="title_how_are_you">Как ты себя чувствуешь?</string>
     <string name="title_settings">Настройки</string>
     <string name="title_statistics">Статистика</string>
 
     <!-- Placeholders and Hints -->
-    <string name="hint_add_note">Введите заметку здесь...</string>
+    <string name="hint_add_note">Введите вашу заметку здесь...</string>
     <string name="hint_date">Выберите дату</string>
 
     <!-- Error Messages -->
@@ -47,7 +47,7 @@
     <string name="month_november">Ноябрь</string>
     <string name="month_december">Декабрь</string>
 
-    <!-- Dias da Semana -->
+    <!-- Days of the Week -->
     <string name="weekday_sunday">Вс</string>
     <string name="weekday_monday">Пн</string>
     <string name="weekday_tuesday">Вт</string>
@@ -55,4 +55,82 @@
     <string name="weekday_thursday">Чт</string>
     <string name="weekday_friday">Пт</string>
     <string name="weekday_saturday">Сб</string>
+
+    <!-- Full Days of the Week -->
+    <string name="weekday_full_sunday">Воскресенье</string>
+    <string name="weekday_full_monday">Понедельник</string>
+    <string name="weekday_full_tuesday">Вторник</string>
+    <string name="weekday_full_wednesday">Среда</string>
+    <string name="weekday_full_thursday">Четверг</string>
+    <string name="weekday_full_friday">Пятница</string>
+    <string name="weekday_full_saturday">Суббота</string>
+
+    <!-- Day Filters -->
+    <string name="best_day">Лучший</string>
+    <string name="worst_day">Худший</string>
+
+    <!-- Statistics Messages -->
+    <string name="register_more_moods">Зарегистрируйте больше настроений, чтобы увидеть статистику</string>
+    <string name="best_day_usually">Ваш лучший день обычно %1$s</string>
+    <string name="worst_day_usually">Ваш худший день обычно %1$s</string>
+
+    <!-- DialogEmotions -->
+    <string name="how_are_you_feeling">Как ты себя чувствуешь?</string>
+    <string name="how_were_you_feeling">Как ты себя чувствовал(а)?</string>
+    <string name="attention">Внимание</string>
+    <string name="confirm_delete_mood">Вы уверены, что хотите удалить настроение для %1$s?</string>
+    <string name="mood_deleted_success">Настроение успешно удалено!</string>
+    <string name="mood_registered_success">Настроение успешно зарегистрировано!</string>
+    <string name="detail_day">Детали дня</string>
+    <string name="delete_mood">Удалить настроение</string>
+    <string name="date_format">%1$d %2$s %3$d</string>
+
+    <!-- Dashboard -->
+    <string name="mood_statistics">Статистика настроений</string>
+    <string name="average_mood">Среднее настроение</string>
+    <string name="no_mood_registered">Настроение еще не зарегистрировано</string>
+    <string name="your_average_mood">Ваше среднее настроение: %1$s</string>
+    <string name="mood_distribution">Распределение настроений</string>
+    <string name="no_mood_distribution">Настроение еще не зарегистрировано</string>
+    <string name="you_were_mood">Вы были %1$s в %2$d%% дней</string>
+    <string name="current_streak">Текущая серия</string>
+    <string name="no_mood_today">Вы не записали настроение сегодня</string>
+    <string name="recorded_today">Вы записали настроение сегодня</string>
+    <string name="recorded_days">Вы записали настроение в течение %1$d дней подряд!</string>
+    <string name="day_of_week">День недели</string>
+    <string name="last_record">Последняя запись: %1$s</string>
+    <string name="longest_streak">Долгая серия: %1$d дней</string>
+    <string name="times_recorded">%1$dx</string>
+
+    <!-- EditDescription Activity -->
+    <string name="how_are_you_feeling_now">Как ты себя чувствуешь?</string>
+    <string name="day_description">Описание дня</string>
+    <string name="type_description_here">Введите описание здесь...</string>
+    <string name="day_image">Изображение дня</string>
+
+    <!-- Toast Messages -->
+    <string name="camera_permission_required">Для этой функции требуется разрешение на камеру</string>
+    <string name="gallery_permission_required">Для этой функции требуется разрешение на доступ к галерее</string>
+    <string name="future_date_not_allowed">Невозможно выбрать будущие даты</string>
+    <string name="future_mood_not_allowed">Невозможно записывать настроение для будущих дат</string>
+    <string name="select_mood">Пожалуйста, выберите настроение на день</string>
+    <string name="mood_saved">Настроение успешно сохранено!</string>
+    <string name="attention_dialog">Внимание</string>
+    <string name="confirm_delete_image">Вы уверены, что хотите удалить изображение?</string>
+    <string name="image_deleted">Изображение успешно удалено!</string>
+    <string name="description_saved">Описание успешно сохранено!</string>
+
+    <!-- Discard Changes Dialog -->
+    <string name="unsaved_changes_title">Внимание</string>
+    <string name="unsaved_changes_message">У вас есть несохраненные изменения. Вы уверены, что хотите их отклонить?</string>
+
+    <!-- Image Source Dialog -->
+    <string name="select_image_source">Выберите источник изображения</string>
+    <string name="camera">Камера</string>
+    <string name="gallery">Галерея</string>
+    <string name="delete_image">Удалить изображение</string>
+
+    <!-- Mood Questions -->
+    <string name="how_are_you_feeling_today">Как ты себя чувствуешь?</string>
+    <string name="how_were_you_feeling_that_day">Как ты себя чувствовал(а) в тот день?</string>
 </resources>

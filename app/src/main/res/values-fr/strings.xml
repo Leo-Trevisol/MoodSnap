@@ -20,8 +20,8 @@
     <string name="title_statistics">Statistiques</string>
 
     <!-- Placeholders and Hints -->
-    <string name="hint_add_note">Écrivez votre note ici...</string>
-    <string name="hint_date">Sélectionnez une date</string>
+    <string name="hint_add_note">Tapez votre note ici...</string>
+    <string name="hint_date">Sélectionnez la date</string>
 
     <!-- Error Messages -->
     <string name="error_invalid_date">Date invalide</string>
@@ -47,7 +47,7 @@
     <string name="month_november">Novembre</string>
     <string name="month_december">Décembre</string>
 
-    <!-- Dias da Semana -->
+    <!-- Days of the Week -->
     <string name="weekday_sunday">Dim</string>
     <string name="weekday_monday">Lun</string>
     <string name="weekday_tuesday">Mar</string>
@@ -56,7 +56,7 @@
     <string name="weekday_friday">Ven</string>
     <string name="weekday_saturday">Sam</string>
 
-    <!-- Dias da Semana Completos -->
+    <!-- Full Days of the Week -->
     <string name="weekday_full_sunday">Dimanche</string>
     <string name="weekday_full_monday">Lundi</string>
     <string name="weekday_full_tuesday">Mardi</string>
@@ -65,12 +65,12 @@
     <string name="weekday_full_friday">Vendredi</string>
     <string name="weekday_full_saturday">Samedi</string>
 
-    <!-- Filtros de Dia -->
+    <!-- Day Filters -->
     <string name="best_day">Meilleur</string>
     <string name="worst_day">Pire</string>
 
-    <!-- Mensagens de Estatísticas -->
-    <string name="register_more_moods">Enregistrez plus d\'humeurs pour voir les statistiques</string>
+    <!-- Statistics Messages -->
+    <string name="register_more_moods">Enregistrez plus d'humeurs pour voir les statistiques</string>
     <string name="best_day_usually">Votre meilleur jour est généralement %1$s</string>
     <string name="worst_day_usually">Votre pire jour est généralement %1$s</string>
 
@@ -78,24 +78,24 @@
     <string name="how_are_you_feeling">Comment vous sentez-vous ?</string>
     <string name="how_were_you_feeling">Comment vous sentiez-vous ?</string>
     <string name="attention">Attention</string>
-    <string name="confirm_delete_mood">Êtes-vous sûr de vouloir supprimer l\'humeur de %1$s ?</string>
+    <string name="confirm_delete_mood">Êtes-vous sûr de vouloir supprimer l'humeur de %1$s ?</string>
     <string name="mood_deleted_success">Humeur supprimée avec succès !</string>
     <string name="mood_registered_success">Humeur enregistrée avec succès !</string>
-    <string name="detail_day">Détail du jour</string>
-    <string name="delete_mood">Supprimer l\'humeur</string>
+    <string name="detail_day">Détails du jour</string>
+    <string name="delete_mood">Supprimer l'humeur</string>
     <string name="date_format">%1$d de %2$s de %3$d</string>
 
     <!-- Dashboard -->
-    <string name="mood_statistics">Statistiques d\'humeur</string>
+    <string name="mood_statistics">Statistiques de l'humeur</string>
     <string name="average_mood">Humeur moyenne</string>
     <string name="no_mood_registered">Aucune humeur enregistrée</string>
     <string name="your_average_mood">Votre humeur moyenne est %1$s</string>
     <string name="mood_distribution">Répartition des humeurs</string>
     <string name="no_mood_distribution">Aucune humeur enregistrée</string>
-    <string name="you_were_mood">Vous étiez %1$s pendant %2$d%% des jours</string>
+    <string name="you_were_mood">Vous avez été %1$s à %2$d%% des jours</string>
     <string name="current_streak">Série actuelle</string>
-    <string name="no_mood_today">Vous n\'avez pas enregistré votre humeur aujourd\'hui</string>
-    <string name="recorded_today">Vous avez enregistré votre humeur aujourd\'hui</string>
+    <string name="no_mood_today">Vous n'avez pas enregistré votre humeur aujourd'hui</string>
+    <string name="recorded_today">Vous avez enregistré votre humeur aujourd'hui</string>
     <string name="recorded_days">Vous avez enregistré votre humeur pendant %1$d jours consécutifs !</string>
     <string name="day_of_week">Jour de la semaine</string>
     <string name="last_record">Dernier enregistrement : %1$s</string>
@@ -103,8 +103,34 @@
     <string name="times_recorded">%1$dx</string>
 
     <!-- EditDescription Activity -->
-    <string name="how_are_you_feeling_now">Comment vous sentez-vous maintenant ?</string>
+    <string name="how_are_you_feeling_now">Comment vous sentez-vous ?</string>
     <string name="day_description">Description du jour</string>
-    <string name="type_description_here">Écrivez votre description ici...</string>
+    <string name="type_description_here">Tapez votre description ici...</string>
     <string name="day_image">Image du jour</string>
+
+    <!-- Toast Messages -->
+    <string name="camera_permission_required">Permission de la caméra requise pour cette fonctionnalité</string>
+    <string name="gallery_permission_required">Permission de la galerie requise pour cette fonctionnalité</string>
+    <string name="future_date_not_allowed">Il est impossible de sélectionner des dates futures</string>
+    <string name="future_mood_not_allowed">Impossible d'enregistrer l'humeur pour des dates futures</string>
+    <string name="select_mood">Veuillez sélectionner une humeur pour le jour</string>
+    <string name="mood_saved">Humeur enregistrée avec succès !</string>
+    <string name="attention_dialog">Attention</string>
+    <string name="confirm_delete_image">Voulez-vous vraiment supprimer l'image ?</string>
+    <string name="image_deleted">Image supprimée avec succès !</string>
+    <string name="description_saved">Description enregistrée avec succès !</string>
+
+    <!-- Discard Changes Dialog -->
+    <string name="unsaved_changes_title">Attention</string>
+    <string name="unsaved_changes_message">Vous avez des modifications non enregistrées. Voulez-vous vraiment les supprimer ?</string>
+
+    <!-- Image Source Dialog -->
+    <string name="select_image_source">Sélectionner la source de l'image</string>
+    <string name="camera">Caméra</string>
+    <string name="gallery">Galerie</string>
+    <string name="delete_image">Supprimer l'image</string>
+
+    <!-- Mood Questions -->
+    <string name="how_are_you_feeling_today">Comment vous sentez-vous ?</string>
+    <string name="how_were_you_feeling_that_day">Comment vous sentiez-vous ce jour-là ?</string>
 </resources>

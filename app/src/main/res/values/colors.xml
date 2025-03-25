@@ -8,13 +8,10 @@
     <color name="future_day_background_color">@color/gray_dark</color>
     <color name="day_text_color">@color/dark_secondary</color>
 
-
-
-    <color name="dark_primary">#1E1E1E</color> <!-- Cinza bem escuro -->
-    <color name="dark_primary_variant">#121212</color> <!-- Preto suave -->
-    <color name="dark_secondary">#303030</color> <!-- Cinza médio escuro -->
-    <color name="dark_secondary_variant">#1F1F1F</color> <!-- Cinza mais claro -->
-    <color name="dark_background">#0A0A0A</color> <!-- Fundo quase preto -->
+    <color name="dark_primary">#1E1E1E</color>
+    <color name="dark_secondary">#303030</color>
+    <color name="dark_secondary_variant">#1F1F1F</color>
+    <color name="dark_background">#0A0A0A</color>
 
     <color name="very_sad_color">#4682B4</color>
     <color name="sad_color">#87CEEB</color>
@@ -26,10 +23,10 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000</color>
 
-    <color name="gray_light">#F8EDED</color> <!-- Cinza claro -->
-    <color name="gray_dark">#CBC6C6</color> <!-- Cinza médio -->
+    <color name="gray_light">#F8EDED</color>
+    <color name="gray_dark">#CBC6C6</color>
 
     <color name="primary_green">#4CAF50</color>
-    <color name="primary_red">#FC6C74</color> <!-- Cinza médio -->
+    <color name="primary_red">#FC6C74</color>
 
 </resources>

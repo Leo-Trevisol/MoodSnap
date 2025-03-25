@@ -8,17 +8,12 @@
     <color name="future_day_background_color">@color/gray_light</color>
     <color name="day_text_color">@color/gray_light</color>
 
-    <color name="dark_primary">#1E1E1E</color> <!-- Cinza bem escuro -->
-    <color name="dark_primary_variant">#121212</color> <!-- Preto suave -->
-    <color name="dark_secondary_variant">#1F1F1F</color> <!-- Cinza mais claro -->
-    <color name="dark_background">#0A0A0A</color> <!-- Fundo quase preto -->
-
     <!-- Texto e detalhes -->
     <color name="white">#FFFFFF</color>
-    <color name="gray_light">#B0B0B0</color> <!-- Cinza claro -->
-    <color name="gray_dark">#757575</color> <!-- Cinza médio -->
+    <color name="gray_light">#B0B0B0</color>
+    <color name="gray_dark">#757575</color>
 
     <color name="primary_green">#4CAF50</color>
-    <color name="primary_red">#FC6C74</color> <!-- Cinza médio -->
+    <color name="primary_red">#FC6C74</color>
 
 </resources>

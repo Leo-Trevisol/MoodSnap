@@ -16,12 +16,12 @@
 
     <!-- Titles and Headers -->
     <string name="title_how_are_you">¿Cómo te sientes?</string>
-    <string name="title_settings">Configuración</string>
+    <string name="title_settings">Configuraciones</string>
     <string name="title_statistics">Estadísticas</string>
 
     <!-- Placeholders and Hints -->
     <string name="hint_add_note">Escribe tu nota aquí...</string>
-    <string name="hint_date">Selecciona una fecha</string>
+    <string name="hint_date">Selecciona la fecha</string>
 
     <!-- Error Messages -->
     <string name="error_invalid_date">Fecha inválida</string>
@@ -47,7 +47,7 @@
     <string name="month_november">Noviembre</string>
     <string name="month_december">Diciembre</string>
 
-    <!-- Days of the Week -->
+    <!-- Weekdays -->
     <string name="weekday_sunday">Dom</string>
     <string name="weekday_monday">Lun</string>
     <string name="weekday_tuesday">Mar</string>
@@ -56,7 +56,7 @@
     <string name="weekday_friday">Vie</string>
     <string name="weekday_saturday">Sáb</string>
 
-    <!-- Full Days of the Week -->
+    <!-- Full Weekdays -->
     <string name="weekday_full_sunday">Domingo</string>
     <string name="weekday_full_monday">Lunes</string>
     <string name="weekday_full_tuesday">Martes</string>
@@ -64,4 +64,73 @@
     <string name="weekday_full_thursday">Jueves</string>
     <string name="weekday_full_friday">Viernes</string>
     <string name="weekday_full_saturday">Sábado</string>
+
+    <!-- Day Filters -->
+    <string name="best_day">Mejor</string>
+    <string name="worst_day">Peor</string>
+
+    <!-- Statistics Messages -->
+    <string name="register_more_moods">Registra más estados de ánimo para ver estadísticas</string>
+    <string name="best_day_usually">Tu mejor día suele ser %1$s</string>
+    <string name="worst_day_usually">Tu peor día suele ser %1$s</string>
+
+    <!-- DialogEmotions -->
+    <string name="how_are_you_feeling">¿Cómo te sientes?</string>
+    <string name="how_were_you_feeling">¿Cómo te sentías?</string>
+    <string name="attention">Atención</string>
+    <string name="confirm_delete_mood">¿Estás seguro de que quieres eliminar el estado de ánimo para %1$s?</string>
+    <string name="mood_deleted_success">¡Estado de ánimo eliminado con éxito!</string>
+    <string name="mood_registered_success">¡Estado de ánimo registrado con éxito!</string>
+    <string name="detail_day">Detalle del día</string>
+    <string name="delete_mood">Eliminar estado de ánimo</string>
+    <string name="date_format">%1$d de %2$s de %3$d</string>
+
+    <!-- Dashboard -->
+    <string name="mood_statistics">Estadísticas de estado de ánimo</string>
+    <string name="average_mood">Estado de ánimo promedio</string>
+    <string name="no_mood_registered">Aún no se ha registrado ningún estado de ánimo</string>
+    <string name="your_average_mood">Tu estado de ánimo promedio es %1$s</string>
+    <string name="mood_distribution">Distribución del estado de ánimo</string>
+    <string name="no_mood_distribution">Aún no se ha registrado ningún estado de ánimo</string>
+    <string name="you_were_mood">Estuviste %1$s el %2$d%% de los días</string>
+    <string name="current_streak">Racha actual</string>
+    <string name="no_mood_today">No has registrado tu estado de ánimo hoy</string>
+    <string name="recorded_today">Has registrado tu estado de ánimo hoy</string>
+    <string name="recorded_days">¡Has registrado tu estado de ánimo durante %1$d días consecutivos!</string>
+    <string name="day_of_week">Día de la semana</string>
+    <string name="last_record">Último registro: %1$s</string>
+    <string name="longest_streak">Racha más larga: %1$d días</string>
+    <string name="times_recorded">%1$dx</string>
+
+    <!-- EditDescription Activity -->
+    <string name="how_are_you_feeling_now">¿Cómo te sientes?</string>
+    <string name="day_description">Descripción del día</string>
+    <string name="type_description_here">Escribe tu descripción aquí...</string>
+    <string name="day_image">Imagen del día</string>
+
+    <!-- Toast Messages -->
+    <string name="camera_permission_required">Se requiere permiso de la cámara para esta función</string>
+    <string name="gallery_permission_required">Se requiere permiso de la galería para esta función</string>
+    <string name="future_date_not_allowed">No se pueden seleccionar fechas futuras</string>
+    <string name="future_mood_not_allowed">No se puede registrar el estado de ánimo para fechas futuras</string>
+    <string name="select_mood">Por favor selecciona un estado de ánimo para el día</string>
+    <string name="mood_saved">¡Estado de ánimo guardado con éxito!</string>
+    <string name="attention_dialog">Atención</string>
+    <string name="confirm_delete_image">¿Realmente quieres eliminar la imagen?</string>
+    <string name="image_deleted">¡Imagen eliminada con éxito!</string>
+    <string name="description_saved">¡Descripción guardada con éxito!</string>
+
+    <!-- Discard Changes Dialog -->
+    <string name="unsaved_changes_title">Atención</string>
+    <string name="unsaved_changes_message">Tienes cambios no guardados. ¿Realmente quieres descartarlos?</string>
+
+    <!-- Image Source Dialog -->
+    <string name="select_image_source">Seleccionar fuente de imagen</string>
+    <string name="camera">Cámara</string>
+    <string name="gallery">Galería</string>
+    <string name="delete_image">Eliminar imagen</string>
+
+    <!-- Mood Questions -->
+    <string name="how_are_you_feeling_today">¿Cómo te sientes hoy?</string>
+    <string name="how_were_you_feeling_that_day">¿Cómo te sentías ese día?</string>
 </resources>

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MoodSnap</string>
-    <string name="title_home">主页</string>
+    <string name="title_home">首页</string>
     <string name="title_dashboard">仪表板</string>
 
     <!-- Buttons -->
@@ -20,16 +20,16 @@
     <string name="title_statistics">统计</string>
 
     <!-- Placeholders and Hints -->
-    <string name="hint_add_note">在这里输入笔记...</string>
+    <string name="hint_add_note">在这里输入你的笔记...</string>
     <string name="hint_date">选择日期</string>
 
     <!-- Error Messages -->
-    <string name="error_invalid_date">无效日期</string>
+    <string name="error_invalid_date">无效的日期</string>
 
     <!-- Mood States -->
-    <string name="mood_very_happy">非常开心</string>
-    <string name="mood_happy">开心</string>
-    <string name="mood_neutral">一般</string>
+    <string name="mood_very_happy">非常高兴</string>
+    <string name="mood_happy">高兴</string>
+    <string name="mood_neutral">中立</string>
     <string name="mood_sad">难过</string>
     <string name="mood_very_sad">非常难过</string>
 
@@ -47,7 +47,7 @@
     <string name="month_november">十一月</string>
     <string name="month_december">十二月</string>
 
-    <!-- Dias da Semana -->
+    <!-- Days of the Week -->
     <string name="weekday_sunday">周日</string>
     <string name="weekday_monday">周一</string>
     <string name="weekday_tuesday">周二</string>
@@ -55,4 +55,82 @@
     <string name="weekday_thursday">周四</string>
     <string name="weekday_friday">周五</string>
     <string name="weekday_saturday">周六</string>
+
+    <!-- Full Weekdays -->
+    <string name="weekday_full_sunday">星期天</string>
+    <string name="weekday_full_monday">星期一</string>
+    <string name="weekday_full_tuesday">星期二</string>
+    <string name="weekday_full_wednesday">星期三</string>
+    <string name="weekday_full_thursday">星期四</string>
+    <string name="weekday_full_friday">星期五</string>
+    <string name="weekday_full_saturday">星期六</string>
+
+    <!-- Day Filters -->
+    <string name="best_day">最佳</string>
+    <string name="worst_day">最差</string>
+
+    <!-- Statistics Messages -->
+    <string name="register_more_moods">注册更多情绪以查看统计数据</string>
+    <string name="best_day_usually">你最好的日子通常是 %1$s</string>
+    <string name="worst_day_usually">你最差的日子通常是 %1$s</string>
+
+    <!-- DialogEmotions -->
+    <string name="how_are_you_feeling">你感觉怎么样？</string>
+    <string name="how_were_you_feeling">你那时感觉怎么样？</string>
+    <string name="attention">注意</string>
+    <string name="confirm_delete_mood">你确定要删除 %1$s 的情绪吗？</string>
+    <string name="mood_deleted_success">情绪已成功删除！</string>
+    <string name="mood_registered_success">情绪已成功记录！</string>
+    <string name="detail_day">详细日程</string>
+    <string name="delete_mood">删除情绪</string>
+    <string name="date_format">%1$d %2$s %3$d</string>
+
+    <!-- Dashboard -->
+    <string name="mood_statistics">情绪统计</string>
+    <string name="average_mood">平均情绪</string>
+    <string name="no_mood_registered">尚未记录情绪</string>
+    <string name="your_average_mood">你的平均情绪是 %1$s</string>
+    <string name="mood_distribution">情绪分布</string>
+    <string name="no_mood_distribution">尚未记录情绪分布</string>
+    <string name="you_were_mood">你在 %2$d%% 的天数里是 %1$s</string>
+    <string name="current_streak">当前连续记录</string>
+    <string name="no_mood_today">你今天尚未记录情绪</string>
+    <string name="recorded_today">你今天记录了情绪</string>
+    <string name="recorded_days">你已经连续记录了 %1$d 天的情绪！</string>
+    <string name="day_of_week">星期几</string>
+    <string name="last_record">最后记录：%1$s</string>
+    <string name="longest_streak">最长连续：%1$d 天</string>
+    <string name="times_recorded">%1$dx</string>
+
+    <!-- EditDescription Activity -->
+    <string name="how_are_you_feeling_now">你现在感觉怎么样？</string>
+    <string name="day_description">日程描述</string>
+    <string name="type_description_here">在这里输入你的描述...</string>
+    <string name="day_image">日程图片</string>
+
+    <!-- Toast Messages -->
+    <string name="camera_permission_required">此功能需要相机权限</string>
+    <string name="gallery_permission_required">此功能需要图库权限</string>
+    <string name="future_date_not_allowed">不能选择未来的日期</string>
+    <string name="future_mood_not_allowed">不能记录未来日期的情绪</string>
+    <string name="select_mood">请选择今天的情绪</string>
+    <string name="mood_saved">情绪已成功保存！</string>
+    <string name="attention_dialog">注意</string>
+    <string name="confirm_delete_image">你确定要删除这张图片吗？</string>
+    <string name="image_deleted">图片已成功删除！</string>
+    <string name="description_saved">描述已成功保存！</string>
+
+    <!-- Discard Changes Dialog -->
+    <string name="unsaved_changes_title">注意</string>
+    <string name="unsaved_changes_message">你有未保存的更改。你确定要放弃它们吗？</string>
+
+    <!-- Image Source Dialog -->
+    <string name="select_image_source">选择图片来源</string>
+    <string name="camera">相机</string>
+    <string name="gallery">图库</string>
+    <string name="delete_image">删除图片</string>
+
+    <!-- Mood Questions -->
+    <string name="how_are_you_feeling_today">你今天感觉怎么样？</string>
+    <string name="how_were_you_feeling_that_day">你那天感觉怎么样？</string>
 </resources>

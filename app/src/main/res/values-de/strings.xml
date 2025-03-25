@@ -20,7 +20,7 @@
     <string name="title_statistics">Statistiken</string>
 
     <!-- Placeholders and Hints -->
-    <string name="hint_add_note">Geben Sie hier Ihre Notiz ein...</string>
+    <string name="hint_add_note">Gib hier deine Notiz ein...</string>
     <string name="hint_date">Datum auswählen</string>
 
     <!-- Error Messages -->
@@ -56,7 +56,7 @@
     <string name="weekday_friday">Fr</string>
     <string name="weekday_saturday">Sa</string>
 
-    <!-- Full Days of the Week -->
+    <!-- Full Weekdays -->
     <string name="weekday_full_sunday">Sonntag</string>
     <string name="weekday_full_monday">Montag</string>
     <string name="weekday_full_tuesday">Dienstag</string>
@@ -65,60 +65,64 @@
     <string name="weekday_full_friday">Freitag</string>
     <string name="weekday_full_saturday">Samstag</string>
 
-    <!-- Filters -->
-    <string name="best_day">Bester</string>
-    <string name="worst_day">Schlechtester</string>
+    <!-- Day Filters -->
+    <string name="best_day">Bester Tag</string>
+    <string name="worst_day">Schlechtester Tag</string>
 
     <!-- Statistics Messages -->
-    <string name="register_more_moods">Registrieren Sie mehr Stimmungen, um Statistiken zu sehen</string>
-    <string name="best_day_usually">Ihr bester Tag ist normalerweise %1$s</string>
-    <string name="worst_day_usually">Ihr schlechtester Tag ist normalerweise %1$s</string>
+    <string name="register_more_moods">Registriere mehr Stimmungen, um Statistiken zu sehen</string>
+    <string name="best_day_usually">Dein bester Tag ist normalerweise %1$s</string>
+    <string name="worst_day_usually">Dein schlechtester Tag ist normalerweise %1$s</string>
 
     <!-- DialogEmotions -->
     <string name="how_are_you_feeling">Wie fühlst du dich?</string>
     <string name="how_were_you_feeling">Wie hast du dich gefühlt?</string>
     <string name="attention">Achtung</string>
-    <string name="confirm_delete_mood">Sind Sie sicher, dass Sie die Stimmung für %1$s löschen möchten?</string>
+    <string name="confirm_delete_mood">Bist du sicher, dass du die Stimmung für %1$s löschen möchtest?</string>
     <string name="mood_deleted_success">Stimmung erfolgreich gelöscht!</string>
-    <string name="mood_registered_success">Stimmung erfolgreich gespeichert!</string>
-    <string name="detail_day">Detail Tag</string>
+    <string name="mood_registered_success">Stimmung erfolgreich registriert!</string>
+    <string name="detail_day">Tag im Detail</string>
     <string name="delete_mood">Stimmung löschen</string>
-    <string name="date_format">%1$d. %2$s %3$d</string>
+    <string name="date_format">%1$d von %2$s von %3$d</string>
 
     <!-- Dashboard -->
     <string name="mood_statistics">Stimmungsstatistiken</string>
     <string name="average_mood">Durchschnittliche Stimmung</string>
     <string name="no_mood_registered">Noch keine Stimmung registriert</string>
-    <string name="your_average_mood">Ihre durchschnittliche Stimmung ist %1$s</string>
+    <string name="your_average_mood">Deine durchschnittliche Stimmung ist %1$s</string>
     <string name="mood_distribution">Stimmungsverteilung</string>
     <string name="no_mood_distribution">Noch keine Stimmung registriert</string>
-    <string name="you_were_mood">Sie waren %1$s an %2$d%% der Tage</string>
+    <string name="you_were_mood">Du warst %1$s an %2$d%% der Tage</string>
     <string name="current_streak">Aktuelle Serie</string>
-    <string name="no_mood_today">Sie haben heute keine Stimmung aufgezeichnet</string>
-    <string name="recorded_today">Sie haben Ihre Stimmung heute aufgezeichnet</string>
-    <string name="recorded_days">Sie haben Ihre Stimmung %1$d Tage in Folge aufgezeichnet!</string>
+    <string name="no_mood_today">Du hast deine Stimmung heute noch nicht aufgezeichnet</string>
+    <string name="recorded_today">Du hast deine Stimmung heute aufgezeichnet</string>
+    <string name="recorded_days">Du hast deine Stimmung für %1$d Tage hintereinander aufgezeichnet!</string>
     <string name="day_of_week">Wochentag</string>
     <string name="last_record">Letzte Aufzeichnung: %1$s</string>
     <string name="longest_streak">Längste Serie: %1$d Tage</string>
     <string name="times_recorded">%1$dx</string>
 
     <!-- EditDescription Activity -->
-    <string name="how_are_you_feeling_now">Wie fühlst du dich?</string>
+    <string name="how_are_you_feeling_now">Wie fühlst du dich jetzt?</string>
     <string name="day_description">Tagesbeschreibung</string>
-    <string name="type_description_here">Geben Sie hier Ihre Beschreibung ein...</string>
+    <string name="type_description_here">Gib deine Beschreibung hier ein...</string>
     <string name="day_image">Tagesbild</string>
 
     <!-- Toast Messages -->
-    <string name="camera_permission_required">Kameraberechtigung erforderlich für diese Funktion</string>
-    <string name="gallery_permission_required">Galerieberechtigung erforderlich für diese Funktion</string>
-    <string name="future_date_not_allowed">Zukunftsdatum kann nicht ausgewählt werden</string>
+    <string name="camera_permission_required">Kamerazugriff erforderlich für diese Funktion</string>
+    <string name="gallery_permission_required">Galeriezugriff erforderlich für diese Funktion</string>
+    <string name="future_date_not_allowed">Zukünftige Daten können nicht ausgewählt werden</string>
     <string name="future_mood_not_allowed">Stimmung für zukünftige Daten kann nicht aufgezeichnet werden</string>
-    <string name="select_mood">Bitte wählen Sie eine Stimmung für den Tag</string>
+    <string name="select_mood">Bitte wähle eine Stimmung für den Tag</string>
     <string name="mood_saved">Stimmung erfolgreich gespeichert!</string>
+    <string name="attention_dialog">Achtung</string>
+    <string name="confirm_delete_image">Möchtest du das Bild wirklich löschen?</string>
+    <string name="image_deleted">Bild erfolgreich gelöscht!</string>
+    <string name="description_saved">Beschreibung erfolgreich gespeichert!</string>
 
     <!-- Discard Changes Dialog -->
     <string name="unsaved_changes_title">Achtung</string>
-    <string name="unsaved_changes_message">Sie haben nicht gespeicherte Änderungen. Möchten Sie sie wirklich verwerfen?</string>
+    <string name="unsaved_changes_message">Du hast nicht gespeicherte Änderungen. Möchtest du sie wirklich verwerfen?</string>
 
     <!-- Image Source Dialog -->
     <string name="select_image_source">Bildquelle auswählen</string>
