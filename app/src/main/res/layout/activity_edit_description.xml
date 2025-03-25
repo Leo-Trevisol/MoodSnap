@@ -123,7 +123,7 @@
                         android:layout_margin="8dp"
                         android:alpha="0.5"
                         android:background="@drawable/circle_very_happy"
-                        android:padding="8dp"
+                        android:padding="3dp"
                         android:src="@drawable/muito_feliz" />
 
                     <ImageView
@@ -133,7 +133,7 @@
                         android:layout_margin="8dp"
                         android:alpha="0.5"
                         android:background="@drawable/circle_happy"
-                        android:padding="8dp"
+                        android:padding="3dp"
                         android:src="@drawable/feliz" />
 
                     <ImageView
@@ -143,7 +143,7 @@
                         android:layout_margin="8dp"
                         android:alpha="0.5"
                         android:background="@drawable/circle_neutral"
-                        android:padding="8dp"
+                        android:padding="3dp"
                         android:src="@drawable/neutro" />
 
                     <ImageView
@@ -153,7 +153,7 @@
                         android:layout_margin="8dp"
                         android:alpha="0.5"
                         android:background="@drawable/circle_sad"
-                        android:padding="8dp"
+                        android:padding="3dp"
                         android:src="@drawable/triste" />
 
                     <ImageView
@@ -163,7 +163,7 @@
                         android:layout_margin="8dp"
                         android:alpha="0.5"
                         android:background="@drawable/circle_very_sad"
-                        android:padding="8dp"
+                        android:padding="3dp"
                         android:src="@drawable/muito_triste" />
 
                 </LinearLayout>

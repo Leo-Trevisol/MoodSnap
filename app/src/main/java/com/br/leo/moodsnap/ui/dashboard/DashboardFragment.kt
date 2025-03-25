@@ -161,8 +161,8 @@ class DashboardFragment : Fragment() {
                 // Container circular para o ícone
                 val iconContainer = CardView(requireContext()).apply {
                     layoutParams = LinearLayout.LayoutParams(
-                        48, // Tamanho do container
-                        48
+                        56, // Tamanho do container
+                        56
                     ).apply {
                         marginStart = resources.getDimensionPixelSize(R.dimen.spacing_small)
                     }
@@ -175,8 +175,8 @@ class DashboardFragment : Fragment() {
                 val icon = ImageView(context).apply {
                     setImageResource(getMoodDrawable(moodType))
                     layoutParams = LinearLayout.LayoutParams(
-                        40, // Tamanho do ícone um pouco menor que o container
-                        40
+                        48, // Tamanho do ícone um pouco menor que o container
+                        48
                     ).apply {
                         gravity = android.view.Gravity.CENTER
                         // Centralizar o ícone no container
