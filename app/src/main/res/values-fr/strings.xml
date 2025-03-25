@@ -2,19 +2,8 @@
     <string name="app_name">MoodSnap</string>
     <string name="title_home">Accueil</string>
     <string name="title_dashboard">Tableau de bord</string>
-    <string name="title_notifications">Notifications</string>
 
-    <!-- Messages de retour -->
-    <string name="success_message">Succès !</string>
-    <string name="error_message">Erreur</string>
-    <string name="loading">Chargement...</string>
-    <string name="saving">Enregistrement...</string>
-    <string name="saved_successfully">Enregistré avec succès !</string>
-    <string name="error_saving">Erreur lors de l\'enregistrement</string>
-    <string name="error_loading">Erreur lors du chargement</string>
-    <string name="no_data">Aucune donnée trouvée</string>
-
-    <!-- Boutons -->
+    <!-- Buttons -->
     <string name="btn_save">Enregistrer</string>
     <string name="btn_cancel">Annuler</string>
     <string name="btn_delete">Supprimer</string>
@@ -22,50 +11,29 @@
     <string name="btn_confirm">Confirmer</string>
     <string name="btn_back">Retour</string>
     <string name="btn_next">Suivant</string>
-    <string name="btn_skip">Passer</string>
+    <string name="btn_yes">Oui</string>
+    <string name="btn_no">Non</string>
 
-    <!-- Titres et en-têtes -->
+    <!-- Titles and Headers -->
     <string name="title_how_are_you">Comment vous sentez-vous ?</string>
-    <string name="title_add_note">Ajouter une note</string>
-    <string name="title_edit_note">Modifier la note</string>
-    <string name="title_delete_note">Supprimer la note</string>
-    <string name="title_confirm_delete">Confirmer la suppression</string>
     <string name="title_settings">Paramètres</string>
-    <string name="title_profile">Profil</string>
     <string name="title_statistics">Statistiques</string>
 
-    <!-- Messages de confirmation -->
-    <string name="confirm_delete_note">Êtes-vous sûr de vouloir supprimer cette note ?</string>
-    <string name="confirm_exit">Voulez-vous vraiment quitter ?</string>
-    <string name="confirm_discard">Voulez-vous abandonner les modifications ?</string>
+    <!-- Placeholders and Hints -->
+    <string name="hint_add_note">Écrivez votre note ici...</string>
+    <string name="hint_date">Sélectionnez une date</string>
 
-    <!-- Placeholders et conseils -->
-    <string name="hint_add_note">Tapez votre note ici...</string>
-    <string name="hint_search">Rechercher...</string>
-    <string name="hint_date">Sélectionnez la date</string>
-    <string name="hint_time">Sélectionnez l\'heure</string>
-
-    <!-- Messages d\'erreur -->
+    <!-- Error Messages -->
     <string name="error_invalid_date">Date invalide</string>
-    <string name="error_invalid_time">Heure invalide</string>
-    <string name="error_required_field">Champ requis</string>
-    <string name="error_network">Erreur de connexion</string>
-    <string name="error_try_again">Réessayer</string>
 
-    <!-- États d\'humeur -->
+    <!-- Mood States -->
     <string name="mood_very_happy">Très heureux</string>
     <string name="mood_happy">Heureux</string>
     <string name="mood_neutral">Neutre</string>
     <string name="mood_sad">Triste</string>
     <string name="mood_very_sad">Très triste</string>
 
-    <!-- Messages d\'aide -->
-    <string name="help_tip_1">Appuyez sur un jour pour enregistrer votre humeur</string>
-    <string name="help_tip_2">Glissez pour voir plus de détails</string>
-    <string name="help_tip_3">Ajoutez des notes pour vous souvenir de ce qui s\'est passé</string>
-    <string name="help_tip_4">Consultez vos statistiques dans le tableau de bord</string>
-
-    <!-- Mois -->
+    <!-- Months -->
     <string name="month_january">Janvier</string>
     <string name="month_february">Février</string>
     <string name="month_march">Mars</string>
@@ -110,27 +78,33 @@
     <string name="how_are_you_feeling">Comment vous sentez-vous ?</string>
     <string name="how_were_you_feeling">Comment vous sentiez-vous ?</string>
     <string name="attention">Attention</string>
-    <string name="confirm_delete_mood">Confirmez-vous la suppression de l\'humeur pour %1$s ?</string>
+    <string name="confirm_delete_mood">Êtes-vous sûr de vouloir supprimer l\'humeur de %1$s ?</string>
     <string name="mood_deleted_success">Humeur supprimée avec succès !</string>
     <string name="mood_registered_success">Humeur enregistrée avec succès !</string>
     <string name="detail_day">Détail du jour</string>
     <string name="delete_mood">Supprimer l\'humeur</string>
-    <string name="date_format">%1$d %2$s %3$d</string>
+    <string name="date_format">%1$d de %2$s de %3$d</string>
 
     <!-- Dashboard -->
-    <string name="mood_statistics">Statistiques d\'Humeur</string>
-    <string name="average_mood">Humeur Moyenne</string>
-    <string name="no_mood_registered">Aucune humeur enregistrée pour le moment</string>
+    <string name="mood_statistics">Statistiques d\'humeur</string>
+    <string name="average_mood">Humeur moyenne</string>
+    <string name="no_mood_registered">Aucune humeur enregistrée</string>
     <string name="your_average_mood">Votre humeur moyenne est %1$s</string>
-    <string name="mood_distribution">Distribution des Humeurs</string>
-    <string name="no_mood_distribution">Aucune humeur enregistrée pour le moment</string>
+    <string name="mood_distribution">Répartition des humeurs</string>
+    <string name="no_mood_distribution">Aucune humeur enregistrée</string>
     <string name="you_were_mood">Vous étiez %1$s pendant %2$d%% des jours</string>
-    <string name="current_streak">Série Actuelle</string>
-    <string name="no_mood_today">Vous n\'avez pas encore enregistré votre humeur aujourd\'hui</string>
+    <string name="current_streak">Série actuelle</string>
+    <string name="no_mood_today">Vous n\'avez pas enregistré votre humeur aujourd\'hui</string>
     <string name="recorded_today">Vous avez enregistré votre humeur aujourd\'hui</string>
-    <string name="recorded_days">Vous avez enregistré votre humeur pendant %1$d jours d\'affilée !</string>
-    <string name="day_of_week">Jour de la Semaine</string>
+    <string name="recorded_days">Vous avez enregistré votre humeur pendant %1$d jours consécutifs !</string>
+    <string name="day_of_week">Jour de la semaine</string>
     <string name="last_record">Dernier enregistrement : %1$s</string>
     <string name="longest_streak">Plus longue série : %1$d jours</string>
     <string name="times_recorded">%1$dx</string>
-</resources> 
+
+    <!-- EditDescription Activity -->
+    <string name="how_are_you_feeling_now">Comment vous sentez-vous maintenant ?</string>
+    <string name="day_description">Description du jour</string>
+    <string name="type_description_here">Écrivez votre description ici...</string>
+    <string name="day_image">Image du jour</string>
+</resources>

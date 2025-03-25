@@ -2,17 +2,6 @@
     <string name="app_name">MoodSnap</string>
     <string name="title_home">Início</string>
     <string name="title_dashboard">Painel</string>
-    <string name="title_notifications">Notificações</string>
-
-    <!-- Mensagens de feedback -->
-    <string name="success_message">Sucesso!</string>
-    <string name="error_message">Erro</string>
-    <string name="loading">Carregando...</string>
-    <string name="saving">Salvando...</string>
-    <string name="saved_successfully">Salvo com sucesso!</string>
-    <string name="error_saving">Erro ao salvar</string>
-    <string name="error_loading">Erro ao carregar</string>
-    <string name="no_data">Nenhum dado encontrado</string>
 
     <!-- Botões -->
     <string name="btn_save">Salvar</string>
@@ -22,35 +11,18 @@
     <string name="btn_confirm">Confirmar</string>
     <string name="btn_back">Voltar</string>
     <string name="btn_next">Próximo</string>
-    <string name="btn_skip">Pular</string>
 
     <!-- Títulos e cabeçalhos -->
     <string name="title_how_are_you">Como você está se sentindo?</string>
-    <string name="title_add_note">Adicionar nota</string>
-    <string name="title_edit_note">Editar nota</string>
-    <string name="title_delete_note">Excluir nota</string>
-    <string name="title_confirm_delete">Confirmar exclusão</string>
     <string name="title_settings">Configurações</string>
-    <string name="title_profile">Perfil</string>
     <string name="title_statistics">Estatísticas</string>
-
-    <!-- Mensagens de confirmação -->
-    <string name="confirm_delete_note">Tem certeza que deseja excluir esta nota?</string>
-    <string name="confirm_exit">Deseja realmente sair?</string>
-    <string name="confirm_discard">Deseja descartar as alterações?</string>
 
     <!-- Placeholders e dicas -->
     <string name="hint_add_note">Digite sua nota aqui...</string>
-    <string name="hint_search">Pesquisar...</string>
     <string name="hint_date">Selecione a data</string>
-    <string name="hint_time">Selecione o horário</string>
 
     <!-- Mensagens de erro -->
     <string name="error_invalid_date">Data inválida</string>
-    <string name="error_invalid_time">Horário inválido</string>
-    <string name="error_required_field">Campo obrigatório</string>
-    <string name="error_network">Erro de conexão</string>
-    <string name="error_try_again">Tente novamente</string>
 
     <!-- Estados de humor -->
     <string name="mood_very_happy">Muito feliz</string>
@@ -58,12 +30,6 @@
     <string name="mood_neutral">Neutro</string>
     <string name="mood_sad">Triste</string>
     <string name="mood_very_sad">Muito triste</string>
-
-    <!-- Mensagens de ajuda -->
-    <string name="help_tip_1">Toque em um dia para registrar seu humor</string>
-    <string name="help_tip_2">Deslize para ver mais detalhes</string>
-    <string name="help_tip_3">Adicione notas para lembrar o que aconteceu</string>
-    <string name="help_tip_4">Visualize suas estatísticas no painel</string>
 
     <!-- Meses -->
     <string name="month_january">Janeiro</string>

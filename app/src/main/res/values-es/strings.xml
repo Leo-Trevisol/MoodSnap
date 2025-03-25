@@ -2,19 +2,8 @@
     <string name="app_name">MoodSnap</string>
     <string name="title_home">Inicio</string>
     <string name="title_dashboard">Panel</string>
-    <string name="title_notifications">Notificaciones</string>
 
-    <!-- Mensajes de retroalimentación -->
-    <string name="success_message">¡Éxito!</string>
-    <string name="error_message">Error</string>
-    <string name="loading">Cargando...</string>
-    <string name="saving">Guardando...</string>
-    <string name="saved_successfully">¡Guardado con éxito!</string>
-    <string name="error_saving">Error al guardar</string>
-    <string name="error_loading">Error al cargar</string>
-    <string name="no_data">No se encontraron datos</string>
-
-    <!-- Botones -->
+    <!-- Buttons -->
     <string name="btn_save">Guardar</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="btn_delete">Eliminar</string>
@@ -22,50 +11,29 @@
     <string name="btn_confirm">Confirmar</string>
     <string name="btn_back">Atrás</string>
     <string name="btn_next">Siguiente</string>
-    <string name="btn_skip">Saltar</string>
+    <string name="btn_yes">Sí</string>
+    <string name="btn_no">No</string>
 
-    <!-- Títulos y encabezados -->
+    <!-- Titles and Headers -->
     <string name="title_how_are_you">¿Cómo te sientes?</string>
-    <string name="title_add_note">Añadir nota</string>
-    <string name="title_edit_note">Editar nota</string>
-    <string name="title_delete_note">Eliminar nota</string>
-    <string name="title_confirm_delete">Confirmar eliminación</string>
-    <string name="title_settings">Ajustes</string>
-    <string name="title_profile">Perfil</string>
+    <string name="title_settings">Configuración</string>
     <string name="title_statistics">Estadísticas</string>
 
-    <!-- Mensajes de confirmación -->
-    <string name="confirm_delete_note">¿Estás seguro de que quieres eliminar esta nota?</string>
-    <string name="confirm_exit">¿Realmente quieres salir?</string>
-    <string name="confirm_discard">¿Quieres descartar los cambios?</string>
-
-    <!-- Placeholders y sugerencias -->
+    <!-- Placeholders and Hints -->
     <string name="hint_add_note">Escribe tu nota aquí...</string>
-    <string name="hint_search">Buscar...</string>
-    <string name="hint_date">Selecciona la fecha</string>
-    <string name="hint_time">Selecciona la hora</string>
+    <string name="hint_date">Selecciona una fecha</string>
 
-    <!-- Mensajes de error -->
+    <!-- Error Messages -->
     <string name="error_invalid_date">Fecha inválida</string>
-    <string name="error_invalid_time">Hora inválida</string>
-    <string name="error_required_field">Campo requerido</string>
-    <string name="error_network">Error de conexión</string>
-    <string name="error_try_again">Inténtalo de nuevo</string>
 
-    <!-- Estados de ánimo -->
+    <!-- Mood States -->
     <string name="mood_very_happy">Muy feliz</string>
     <string name="mood_happy">Feliz</string>
     <string name="mood_neutral">Neutral</string>
     <string name="mood_sad">Triste</string>
     <string name="mood_very_sad">Muy triste</string>
 
-    <!-- Mensajes de ayuda -->
-    <string name="help_tip_1">Toca un día para registrar tu estado de ánimo</string>
-    <string name="help_tip_2">Desliza para ver más detalles</string>
-    <string name="help_tip_3">Añade notas para recordar lo que sucedió</string>
-    <string name="help_tip_4">Visualiza tus estadísticas en el panel</string>
-
-    <!-- Meses -->
+    <!-- Months -->
     <string name="month_january">Enero</string>
     <string name="month_february">Febrero</string>
     <string name="month_march">Marzo</string>
@@ -79,7 +47,7 @@
     <string name="month_november">Noviembre</string>
     <string name="month_december">Diciembre</string>
 
-    <!-- Dias da Semana -->
+    <!-- Days of the Week -->
     <string name="weekday_sunday">Dom</string>
     <string name="weekday_monday">Lun</string>
     <string name="weekday_tuesday">Mar</string>
@@ -88,7 +56,7 @@
     <string name="weekday_friday">Vie</string>
     <string name="weekday_saturday">Sáb</string>
 
-    <!-- Dias da Semana Completos -->
+    <!-- Full Days of the Week -->
     <string name="weekday_full_sunday">Domingo</string>
     <string name="weekday_full_monday">Lunes</string>
     <string name="weekday_full_tuesday">Martes</string>
@@ -96,41 +64,4 @@
     <string name="weekday_full_thursday">Jueves</string>
     <string name="weekday_full_friday">Viernes</string>
     <string name="weekday_full_saturday">Sábado</string>
-
-    <!-- Filtros de Dia -->
-    <string name="best_day">Mejor</string>
-    <string name="worst_day">Peor</string>
-
-    <!-- Mensagens de Estatísticas -->
-    <string name="register_more_moods">Registra más estados de ánimo para ver estadísticas</string>
-    <string name="best_day_usually">Tu mejor día suele ser %1$s</string>
-    <string name="worst_day_usually">Tu peor día suele ser %1$s</string>
-
-    <!-- DialogEmotions -->
-    <string name="how_are_you_feeling">¿Cómo te sientes?</string>
-    <string name="how_were_you_feeling">¿Cómo te sentías?</string>
-    <string name="attention">Atención</string>
-    <string name="confirm_delete_mood">¿Confirmas la eliminación del estado de ánimo para %1$s?</string>
-    <string name="mood_deleted_success">¡Estado de ánimo eliminado con éxito!</string>
-    <string name="mood_registered_success">¡Estado de ánimo registrado con éxito!</string>
-    <string name="detail_day">Detallar día</string>
-    <string name="delete_mood">Eliminar estado de ánimo</string>
-    <string name="date_format">%1$d de %2$s de %3$d</string>
-
-    <!-- Dashboard -->
-    <string name="mood_statistics">Estadísticas de Estado de Ánimo</string>
-    <string name="average_mood">Estado de Ánimo Promedio</string>
-    <string name="no_mood_registered">Ningún estado de ánimo registrado aún</string>
-    <string name="your_average_mood">Tu estado de ánimo promedio es %1$s</string>
-    <string name="mood_distribution">Distribución de Estados de Ánimo</string>
-    <string name="no_mood_distribution">Ningún estado de ánimo registrado aún</string>
-    <string name="you_were_mood">Estuviste %1$s en el %2$d%% de los días</string>
-    <string name="current_streak">Racha Actual</string>
-    <string name="no_mood_today">Aún no has registrado tu estado de ánimo hoy</string>
-    <string name="recorded_today">Has registrado tu estado de ánimo hoy</string>
-    <string name="recorded_days">¡Has registrado tu estado de ánimo durante %1$d días seguidos!</string>
-    <string name="day_of_week">Día de la Semana</string>
-    <string name="last_record">Último registro: %1$s</string>
-    <string name="longest_streak">Racha más larga: %1$d días</string>
-    <string name="times_recorded">%1$dx</string>
-</resources> 
+</resources>

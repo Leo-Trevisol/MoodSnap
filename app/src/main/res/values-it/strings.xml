@@ -2,19 +2,8 @@
     <string name="app_name">MoodSnap</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifiche</string>
 
-    <!-- Messaggi di feedback -->
-    <string name="success_message">Successo!</string>
-    <string name="error_message">Errore</string>
-    <string name="loading">Caricamento...</string>
-    <string name="saving">Salvataggio...</string>
-    <string name="saved_successfully">Salvato con successo!</string>
-    <string name="error_saving">Errore durante il salvataggio</string>
-    <string name="error_loading">Errore durante il caricamento</string>
-    <string name="no_data">Nessun dato trovato</string>
-
-    <!-- Pulsanti -->
+    <!-- Buttons -->
     <string name="btn_save">Salva</string>
     <string name="btn_cancel">Annulla</string>
     <string name="btn_delete">Elimina</string>
@@ -22,50 +11,29 @@
     <string name="btn_confirm">Conferma</string>
     <string name="btn_back">Indietro</string>
     <string name="btn_next">Avanti</string>
-    <string name="btn_skip">Salta</string>
+    <string name="btn_yes">Sì</string>
+    <string name="btn_no">No</string>
 
-    <!-- Titoli e intestazioni -->
+    <!-- Titles and Headers -->
     <string name="title_how_are_you">Come ti senti?</string>
-    <string name="title_add_note">Aggiungi nota</string>
-    <string name="title_edit_note">Modifica nota</string>
-    <string name="title_delete_note">Elimina nota</string>
-    <string name="title_confirm_delete">Conferma eliminazione</string>
     <string name="title_settings">Impostazioni</string>
-    <string name="title_profile">Profilo</string>
     <string name="title_statistics">Statistiche</string>
 
-    <!-- Messaggi di conferma -->
-    <string name="confirm_delete_note">Sei sicuro di voler eliminare questa nota?</string>
-    <string name="confirm_exit">Vuoi davvero uscire?</string>
-    <string name="confirm_discard">Vuoi scartare le modifiche?</string>
-
-    <!-- Placeholder e suggerimenti -->
+    <!-- Placeholders and Hints -->
     <string name="hint_add_note">Scrivi la tua nota qui...</string>
-    <string name="hint_search">Cerca...</string>
     <string name="hint_date">Seleziona data</string>
-    <string name="hint_time">Seleziona ora</string>
 
-    <!-- Messaggi di errore -->
+    <!-- Error Messages -->
     <string name="error_invalid_date">Data non valida</string>
-    <string name="error_invalid_time">Ora non valida</string>
-    <string name="error_required_field">Campo obbligatorio</string>
-    <string name="error_network">Errore di connessione</string>
-    <string name="error_try_again">Riprova</string>
 
-    <!-- Stati d\'umore -->
+    <!-- Mood States -->
     <string name="mood_very_happy">Molto felice</string>
     <string name="mood_happy">Felice</string>
-    <string name="mood_neutral">Neutro</string>
+    <string name="mood_neutral">Neutrale</string>
     <string name="mood_sad">Triste</string>
     <string name="mood_very_sad">Molto triste</string>
 
-    <!-- Messaggi di aiuto -->
-    <string name="help_tip_1">Tocca un giorno per registrare il tuo umore</string>
-    <string name="help_tip_2">Scorri per vedere più dettagli</string>
-    <string name="help_tip_3">Aggiungi note per ricordare cosa è successo</string>
-    <string name="help_tip_4">Visualizza le tue statistiche nella dashboard</string>
-
-    <!-- Mesi -->
+    <!-- Months -->
     <string name="month_january">Gennaio</string>
     <string name="month_february">Febbraio</string>
     <string name="month_march">Marzo</string>
@@ -87,86 +55,4 @@
     <string name="weekday_thursday">Gio</string>
     <string name="weekday_friday">Ven</string>
     <string name="weekday_saturday">Sab</string>
-
-    <!-- Dias da Semana Completos -->
-    <string name="weekday_full_sunday">Domenica</string>
-    <string name="weekday_full_monday">Lunedì</string>
-    <string name="weekday_full_tuesday">Martedì</string>
-    <string name="weekday_full_wednesday">Mercoledì</string>
-    <string name="weekday_full_thursday">Giovedì</string>
-    <string name="weekday_full_friday">Venerdì</string>
-    <string name="weekday_full_saturday">Sabato</string>
-
-    <!-- Filtros de Dia -->
-    <string name="best_day">Migliore</string>
-    <string name="worst_day">Peggiore</string>
-
-    <!-- Mensagens de Estatísticas -->
-    <string name="register_more_moods">Registra più stati d\'animo per vedere le statistiche</string>
-    <string name="best_day_usually">Il tuo giorno migliore è di solito %1$s</string>
-    <string name="worst_day_usually">Il tuo giorno peggiore è di solito %1$s</string>
-
-    <!-- DialogEmotions -->
-    <string name="how_are_you_feeling">Come ti senti?</string>
-    <string name="how_were_you_feeling">Come ti sentivi?</string>
-    <string name="attention">Attenzione</string>
-    <string name="confirm_delete_mood">Sei sicuro di voler eliminare l\'umore per %1$s?</string>
-    <string name="delete_mood">Elimina Umore</string>
-    <string name="mood_deleted_success">Umore eliminato con successo!</string>
-    <string name="mood_registered_success">Umore registrato con successo!</string>
-    <string name="detail_day">Dettagli giorno</string>
-    <string name="date_format">%1$d di %2$s del %3$d</string>
-
-    <!-- Dashboard -->
-    <string name="mood_statistics">Statistiche dell\'Umore</string>
-    <string name="average_mood">Umore Medio</string>
-    <string name="no_mood_registered">Nessun umore registrato ancora</string>
-    <string name="your_average_mood">Il tuo umore medio è %1$s</string>
-    <string name="mood_distribution">Distribuzione dell\'Umore</string>
-    <string name="no_mood_distribution">Nessun umore registrato ancora</string>
-    <string name="you_were_mood">Sei stato %1$s nel %2$d%% dei giorni</string>
-    <string name="current_streak">Serie Attuale</string>
-    <string name="no_mood_today">Non hai ancora registrato il tuo umore oggi</string>
-    <string name="recorded_today">Hai registrato il tuo umore oggi</string>
-    <string name="recorded_days">Hai registrato il tuo umore per %1$d giorni di fila!</string>
-    <string name="day_of_week">Giorno della Settimana</string>
-    <string name="last_record">Ultima registrazione: %1$s</string>
-    <string name="longest_streak">Serie più lunga: %1$d giorni</string>
-    <string name="times_recorded">%1$dx</string>
-
-    <!-- EditDescription Activity -->
-    <string name="how_are_you_feeling_now">Come ti senti?</string>
-    <string name="day_description">Descrizione del giorno</string>
-    <string name="type_description_here">Scrivi qui la tua descrizione...</string>
-    <string name="day_image">Immagine del giorno</string>
-
-    <!-- Messaggi Toast -->
-    <string name="camera_permission_required">Permesso fotocamera necessario per questa funzione</string>
-    <string name="gallery_permission_required">Permesso galleria necessario per questa funzione</string>
-    <string name="future_date_not_allowed">Non è possibile selezionare date future</string>
-    <string name="future_mood_not_allowed">Non è possibile registrare l\'umore per date future</string>
-    <string name="select_mood">Per favore, seleziona un umore per il giorno</string>
-    <string name="mood_saved">Umore salvato con successo!</string>
-    <string name="attention_dialog">Attenzione</string>
-    <string name="confirm_delete_image">Vuoi davvero eliminare l\'immagine?</string>
-    <string name="image_deleted">Immagine eliminata con successo!</string>
-    <string name="description_saved">Descrizione salvata con successo!</string>
-    
-    <!-- Dialogo Fonte Immagine -->
-    <string name="select_image_source">Seleziona Fonte Immagine</string>
-    <string name="camera">Fotocamera</string>
-    <string name="gallery">Galleria</string>
-    <string name="delete_image">Elimina Immagine</string>
-
-    <!-- Domande sull\'umore -->
-    <string name="how_are_you_feeling_today">Come ti senti?</string>
-    <string name="how_were_you_feeling_that_day">Come ti sentivi?</string>
-
-    <!-- Pulsanti di Dialogo -->
-    <string name="btn_yes">Sì</string>
-    <string name="btn_no">No</string>
-
-    <!-- Dialogo Scarta Modifiche -->
-    <string name="unsaved_changes_title">Attenzione</string>
-    <string name="unsaved_changes_message">Hai modifiche non salvate. Vuoi davvero scartarle?</string>
-</resources> 
+</resources>
