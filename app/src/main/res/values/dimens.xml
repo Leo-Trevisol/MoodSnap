@@ -12,4 +12,20 @@
     <dimen name="calendar_header_text_size">16sp</dimen>
     <dimen name="calendar_header_padding">8dp</dimen>
     <dimen name="calendar_grid_padding">4dp</dimen>
+    
+    <!-- Card dimensions -->
+    <dimen name="card_corner_radius">12dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
+    <dimen name="card_padding">16dp</dimen>
+    
+    <!-- Text sizes -->
+    <dimen name="text_size_small">10sp</dimen>
+    <dimen name="text_size_normal">12sp</dimen>
+    <dimen name="text_size_large">14sp</dimen>
+    <dimen name="text_size_xlarge">18sp</dimen>
+    
+    <!-- Button dimensions -->
+    <dimen name="button_height">46dp</dimen>
+    <dimen name="button_padding">10dp</dimen>
+    <dimen name="button_text_size">14sp</dimen>
 </resources>

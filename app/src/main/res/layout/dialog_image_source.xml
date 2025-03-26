@@ -4,21 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="@dimen/spacing_large">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/select_image_source"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_size_large"
         android:textStyle="bold"
         android:gravity="center"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="@dimen/spacing_large"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_camera"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height"
         android:text="@string/camera"
         app:icon="@drawable/ic_camera"
         app:iconGravity="textStart"
@@ -26,12 +26,14 @@
         android:shadowColor="@color/white"
         app:iconTint="@android:color/white"
         android:background="@drawable/rounded_button_shadow"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:textSize="@dimen/button_text_size"
+        android:padding="@dimen/button_padding"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_gallery"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height"
         android:background="@drawable/rounded_button_shadow"
         android:text="@string/gallery"
         app:icon="@drawable/ic_gallery"
@@ -39,7 +41,9 @@
         android:textStyle="bold"
         android:shadowColor="@color/white"
         app:iconTint="@android:color/white"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:textSize="@dimen/button_text_size"
+        android:padding="@dimen/button_padding"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_delete_image"

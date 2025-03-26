@@ -13,16 +13,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="@dimen/spacing_large">
 
         <TextView
             android:id="@+id/selected_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/spacing_normal"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_size_xlarge"
             android:textColor="@android:color/darker_gray">
         </TextView>
 
@@ -31,10 +31,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Como você está se sentindo?"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/spacing_large"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_large"
             android:textColor="@android:color/darker_gray">
         </TextView>
 
@@ -48,16 +48,16 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_margin="4dp"
+                android:layout_margin="@dimen/spacing_small"
                 app:cardBackgroundColor="@color/very_happy_color"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="2dp">
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation">
 
                 <ImageView
                     android:id="@+id/emotion_very_happy"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="3dp"
+                    android:padding="@dimen/spacing_small"
                     android:src="@drawable/muito_feliz">
                 </ImageView>
             </androidx.cardview.widget.CardView>
@@ -67,16 +67,16 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_margin="4dp"
+                android:layout_margin="@dimen/spacing_small"
                 app:cardBackgroundColor="@color/happy_color"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="2dp">
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation">
 
                 <ImageView
                     android:id="@+id/emotion_happy"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="3dp"
+                    android:padding="@dimen/spacing_small"
                     android:src="@drawable/feliz">
                 </ImageView>
             </androidx.cardview.widget.CardView>
@@ -86,16 +86,16 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_margin="4dp"
+                android:layout_margin="@dimen/spacing_small"
                 app:cardBackgroundColor="@color/neutral_color"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="2dp">
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation">
 
                 <ImageView
                     android:id="@+id/emotion_neutral"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="3dp"
+                    android:padding="@dimen/spacing_small"
                     android:src="@drawable/neutro">
                 </ImageView>
             </androidx.cardview.widget.CardView>
@@ -105,16 +105,16 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_margin="4dp"
+                android:layout_margin="@dimen/spacing_small"
                 app:cardBackgroundColor="@color/sad_color"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="2dp">
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation">
 
                 <ImageView
                     android:id="@+id/emotion_sad"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="3dp"
+                    android:padding="@dimen/spacing_small"
                     android:src="@drawable/triste">
                 </ImageView>
             </androidx.cardview.widget.CardView>
@@ -124,16 +124,16 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_margin="4dp"
+                android:layout_margin="@dimen/spacing_small"
                 app:cardBackgroundColor="@color/very_sad_color"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="2dp">
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation">
 
                 <ImageView
                     android:id="@+id/emotion_very_sad"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="3dp"
+                    android:padding="@dimen/spacing_small"
                     android:src="@drawable/muito_triste">
                 </ImageView>
             </androidx.cardview.widget.CardView>
@@ -143,28 +143,32 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_edit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_large"
             android:textStyle="bold"
             android:text="@string/detail_day"
             android:background="@drawable/rounded_button_shadow"
             app:icon="@drawable/ic_edit"
             app:iconGravity="textStart"
             android:shadowColor="@color/white"
-            app:iconTint="@android:color/white"/>
+            app:iconTint="@android:color/white"
+            android:textSize="@dimen/button_text_size"
+            android:padding="@dimen/button_padding"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_delete"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_large"
             android:textStyle="bold"
             android:text="@string/delete_mood"
             android:background="@drawable/rounded_button_shadow"
             app:icon="@drawable/ic_delete"
             app:iconGravity="textStart"
             app:iconTint="@android:color/white"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:textSize="@dimen/button_text_size"
+            android:padding="@dimen/button_padding"/>
 
     </LinearLayout>
 
