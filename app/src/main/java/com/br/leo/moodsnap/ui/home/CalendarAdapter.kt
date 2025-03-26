@@ -1,6 +1,7 @@
 package com.br.leo.moodsnap.ui.home
 
 import android.graphics.Color
+import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -150,7 +151,7 @@ class CalendarAdapter(
             } else {
                 Utils.run {
                     holder.dayCard.flashError {
-                        showCustomToast(holder.itemView.context, "Não é possível registrar humor em datas futuras")
+                        showCustomToast(holder.itemView.context, holder.itemView.context.getString(R.string.future_date_not_allowed))
                     }
                 }
             }

@@ -96,6 +96,8 @@ class EditDayActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEditDescriptionBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        overridePendingTransition(R.anim.dialog_enter, R.anim.dialog_exit)
+
 
         repository = MoodRepository(this)
         moodId = intent.getIntExtra("mood_id", 0)
@@ -236,7 +238,7 @@ class EditDayActivity : AppCompatActivity() {
             monthPicker.value = currentMonth
         }
 
-        MaterialAlertDialogBuilder(this, R.style.CustomAlertDialog)
+        val dialog = MaterialAlertDialogBuilder(this, R.style.CustomAlertDialog)
             .setTitle(getString(R.string.hint_date))
             .setView(dialogView)
             .setCancelable(false)
@@ -244,8 +246,7 @@ class EditDayActivity : AppCompatActivity() {
             .setPositiveButton(getString(R.string.btn_confirm)) { _, _ ->
                 val selectedYear = yearPicker.value
                 val selectedMonth = monthPicker.value
-                
-                // Verificar se a data selecionada é futura
+
                 if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
                     showCustomToast(this, getString(R.string.error_invalid_date))
                     return@setPositiveButton
@@ -256,7 +257,10 @@ class EditDayActivity : AppCompatActivity() {
                 updateDateText()
                 loadExistingData()
             }
-            .show()
+            .create()
+
+        dialog.window?.setWindowAnimations(R.style.DialogAnimation)
+        dialog.show()
     }
 
     private fun setupMoodSelection() {
@@ -414,6 +418,9 @@ class EditDayActivity : AppCompatActivity() {
             .setView(dialogView)
             .create()
 
+        // Aplica a animação de entrada e saída
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
         // Verificar se existe imagem para mostrar botão de deletar
         val btnDeleteImage = dialogView.findViewById<MaterialButton>(R.id.btn_delete_image)
         Utils.updateBackGroundColor(applicationContext, btnDeleteImage, R.color.primary_red)
@@ -424,18 +431,19 @@ class EditDayActivity : AppCompatActivity() {
 
         btnDeleteImage.visibility = if (hasExistingImage) View.VISIBLE else View.GONE
 
-        val btnCamera : Button = dialogView.findViewById<MaterialButton>(R.id.btn_camera)
+        val btnCamera: Button = dialogView.findViewById<MaterialButton>(R.id.btn_camera)
         Utils.updateBackGroundColor(applicationContext, btnCamera)
         btnCamera.setOnClickListener {
-                dialog.dismiss()
-                checkCameraPermission()
-            }
-        val btnGallery : Button = dialogView.findViewById<MaterialButton>(R.id.btn_gallery)
+            dialog.dismiss()
+            checkCameraPermission()
+        }
+
+        val btnGallery: Button = dialogView.findViewById<MaterialButton>(R.id.btn_gallery)
         Utils.updateBackGroundColor(applicationContext, btnGallery)
         btnGallery.setOnClickListener {
-                dialog.dismiss()
-                checkGalleryPermission()
-            }
+            dialog.dismiss()
+            checkGalleryPermission()
+        }
 
         btnDeleteImage.setOnClickListener {
             dialog.dismiss()
@@ -467,6 +475,7 @@ class EditDayActivity : AppCompatActivity() {
 
         dialog.show()
     }
+
 
     private fun checkCameraPermission() {
         when {
@@ -639,4 +648,9 @@ class EditDayActivity : AppCompatActivity() {
             super.onBackPressed()
         }
     }
-} 
+
+    override fun onDestroy() {
+        super.onDestroy()
+        overridePendingTransition(R.anim.dialog_exit, R.anim.dialog_enter)
+    }
+}

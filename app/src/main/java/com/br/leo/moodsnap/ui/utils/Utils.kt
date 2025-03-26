@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -28,12 +29,18 @@ object Utils {
 
         layout.findViewById<TextView>(R.id.toast_text).text = message
 
+        // Carrega e aplica a animação
+        val animation = AnimationUtils.loadAnimation(context, R.anim.toast_animation)
+        layout.startAnimation(animation)
+
+        // Exibe o Toast customizado
         Toast(context).apply {
             setDuration(duration)
             view = layout
             show()
         }
     }
+
 
     fun CardView.flashError(onComplete: () -> Unit) {
         val originalColor = cardBackgroundColor

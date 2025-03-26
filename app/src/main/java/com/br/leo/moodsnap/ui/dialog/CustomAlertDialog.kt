@@ -98,6 +98,7 @@ class CustomAlertDialog private constructor(
                 else WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
             )
         }
+        presentDialog?.window?.attributes?.windowAnimations = R.style.DialogAnimation;
         presentDialog?.show()
     }
 

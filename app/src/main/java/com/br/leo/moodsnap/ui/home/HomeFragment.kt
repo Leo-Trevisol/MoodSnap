@@ -282,8 +282,7 @@ class HomeFragment : Fragment() {
             yearPicker.value = currentYear
             monthPicker.value = currentMonth
         }
-
-        MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
+        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setTitle(getString(R.string.hint_date))
             .setView(dialogView)
             .setCancelable(false)
@@ -304,7 +303,12 @@ class HomeFragment : Fragment() {
                 updateCalendarForDate(calendar)
                 homeViewModel.loadMoodsForMonth(selectedYear, selectedMonth)
             }
-            .show()
+            .create()
+
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+        dialog.show()
+
     }
 
     private fun updateDateTexts() {
@@ -336,7 +340,7 @@ class HomeFragment : Fragment() {
 
         calendarAdapter.setOnDayClickListener { dayOfMonth ->
             if (isDateInFuture(dayOfMonth)) {
-                Utils.showCustomToast(requireContext(), "Não é possível selecionar datas futuras")
+                Utils.showCustomToast(requireContext(), requireContext().getString(R.string.future_date_not_allowed))
                 return@setOnDayClickListener
             }
             selectedDay = dayOfMonth
