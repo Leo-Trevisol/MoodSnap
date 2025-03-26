@@ -64,8 +64,13 @@ object Utils {
     }
 
     fun isDateInFuture(dayOfMonth: Int, displayMonth: Calendar): Boolean {
-        displayMonth.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-        return displayMonth.after(Calendar.getInstance())
+        val today = Calendar.getInstance()
+        val tempCalendar = Calendar.getInstance()
+        tempCalendar.set(Calendar.YEAR, displayMonth.get(Calendar.YEAR))
+        tempCalendar.set(Calendar.MONTH, displayMonth.get(Calendar.MONTH))
+        tempCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        
+        return tempCalendar.after(today)
     }
 
     fun isToday(dayOfMonth: Int, displayMonth: Calendar): Boolean {

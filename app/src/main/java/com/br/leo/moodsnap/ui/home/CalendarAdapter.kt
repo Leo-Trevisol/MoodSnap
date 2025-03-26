@@ -41,7 +41,7 @@ class CalendarAdapter(
     }
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
-             val moodColors = mapOf(
+        val moodColors = mapOf(
             0 to ContextCompat.getColor(holder.itemView.context, R.color.very_happy_color), // Muito Feliz - Amarelo
             1 to ContextCompat.getColor(holder.itemView.context, R.color.happy_color), // Feliz - Verde claro
             2 to ContextCompat.getColor(holder.itemView.context, R.color.neutral_color), // Neutro - Cinza
@@ -72,10 +72,10 @@ class CalendarAdapter(
         holder.dayNumber.setTextColor(holder.itemView.context.getColor(R.color.day_text_color))
 
         // Verificar se é data futura
-        val isFutureDate = Utils.isDateInFuture(dayOfMonth, displayMonth)
-        
+        val isFutureDate = isDateInFuture(dayOfMonth)
+
         // Verificar se é o dia atual
-        val isToday = Utils.isToday(dayOfMonth, displayMonth)
+        val isToday = isToday(dayOfMonth)
 
         // Encontrar o humor para este dia
         val mood = moodList.find { mood ->
@@ -86,7 +86,7 @@ class CalendarAdapter(
 
         // Configurar seleção
         val isSelected = (position - firstDayOfWeek) == selectedPosition && !isFutureDate
-        
+
         // Configurar aparência para datas futuras e dia atual
         when {
             isFutureDate -> {
@@ -114,20 +114,20 @@ class CalendarAdapter(
                     )
                 }
                 holder.moodIndicator.visibility = if (mood != null) View.VISIBLE else View.GONE
-                if (mood != null) holder.moodIndicator.setImageResource(Utils.getMoodDrawable(mood.moodType))
+                if (mood != null) holder.moodIndicator.setImageResource(getMoodDrawable(mood.moodType))
             }
             else -> {
                 holder.dayNumber.setTextColor(holder.itemView.context.getColor(R.color.day_text_color))
                 holder.dayCard.alpha = 1.0f
                 holder.dayCard.isClickable = true
-                
+
                 if (mood != null) {
                     holder.dayCard.setCardBackgroundColor(
                         if (isSelected) holder.itemView.context.getColor(R.color.primary_green)
                         else moodColors[mood.moodType] ?: Color.WHITE
                     )
                     holder.moodIndicator.visibility = View.VISIBLE
-                    holder.moodIndicator.setImageResource(Utils.getMoodDrawable(mood.moodType))
+                    holder.moodIndicator.setImageResource(getMoodDrawable(mood.moodType))
                     holder.dayNumber.setTextColor(if (isSelected) Color.WHITE else holder.itemView.context.getColor(R.color.day_text_color))
                 } else {
                     holder.dayCard.setCardBackgroundColor(
@@ -150,15 +150,36 @@ class CalendarAdapter(
             } else {
                 Utils.run {
                     holder.dayCard.flashError {
-                        showCustomToast(holder.itemView.context, holder.itemView.context.getString(R.string.future_mood_not_allowed))
+                        showCustomToast(holder.itemView.context, "Não é possível registrar humor em datas futuras")
                     }
                 }
             }
         }
     }
 
+    private fun isDateInFuture(dayOfMonth: Int): Boolean {
+        displayMonth.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        return displayMonth.after(today)
+    }
+
+    private fun isToday(dayOfMonth: Int): Boolean {
+        return today.get(Calendar.YEAR) == displayMonth.get(Calendar.YEAR) &&
+                today.get(Calendar.MONTH) == displayMonth.get(Calendar.MONTH) &&
+                today.get(Calendar.DAY_OF_MONTH) == dayOfMonth
+    }
 
     override fun getItemCount() = daysInMonth + firstDayOfWeek
+
+    private fun getMoodDrawable(moodType: Int): Int {
+        return when (moodType) {
+            0 -> R.drawable.muito_feliz
+            1 -> R.drawable.feliz
+            2 -> R.drawable.neutro
+            3 -> R.drawable.triste
+            4 -> R.drawable.muito_triste
+            else -> R.drawable.neutro
+        }
+    }
 
     fun updateData(newDaysInMonth: Int, newMoodList: List<MoodModel>) {
         daysInMonth = newDaysInMonth
@@ -168,7 +189,7 @@ class CalendarAdapter(
     }
 
     fun setSelectedDay(dayOfMonth: Int) {
-        if (!Utils.isDateInFuture(dayOfMonth, displayMonth) && dayOfMonth > 0) {
+        if (!isDateInFuture(dayOfMonth) && dayOfMonth > 0) {
             val previousSelected = selectedPosition
             selectedPosition = dayOfMonth - 1
             notifyItemChanged(previousSelected + firstDayOfWeek)

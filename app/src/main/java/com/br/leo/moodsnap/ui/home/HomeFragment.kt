@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.NumberPicker
 import android.widget.TextView
@@ -19,7 +20,6 @@ import com.br.leo.moodsnap.databinding.FragmentHomeBinding
 import com.br.leo.moodsnap.service.model.MoodModel
 import com.br.leo.moodsnap.ui.dialog.DialogEmotions
 import com.br.leo.moodsnap.ui.utils.Utils
-import com.br.leo.moodsnap.ui.utils.Utils.showCustomToast
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.Calendar
@@ -77,6 +77,14 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun isDateInFuture(dayOfMonth: Int): Boolean {
+        val today = Calendar.getInstance()
+        val selectedDate = Calendar.getInstance().apply {
+            set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), dayOfMonth)
+        }
+        return selectedDate.after(today)
+    }
+
     private fun setupFabListener() {
         activity?.findViewById<View>(R.id.fab)?.setOnClickListener {
             if (selectedDay == -1) {
@@ -103,8 +111,8 @@ class HomeFragment : Fragment() {
             val existingMood = homeViewModel.moodsForMonth.value?.find { mood ->
                 val moodCalendar = Calendar.getInstance().apply { time = mood.date }
                 moodCalendar.get(Calendar.DAY_OF_MONTH) == selectedDay &&
-                moodCalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
-                moodCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)
+                        moodCalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
+                        moodCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)
             }
 
             // Criar um Calendar com a data selecionada
@@ -142,8 +150,8 @@ class HomeFragment : Fragment() {
                 val existingMood = homeViewModel.moodsForMonth.value?.find { mood ->
                     val moodCalendar = Calendar.getInstance().apply { time = mood.date }
                     moodCalendar.get(Calendar.DAY_OF_MONTH) == selectedDay &&
-                    moodCalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
-                    moodCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)
+                            moodCalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
+                            moodCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)
                 }
 
                 val mood = existingMood?.apply {
@@ -220,7 +228,7 @@ class HomeFragment : Fragment() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_date_picker, null)
         val monthPicker = dialogView.findViewById<NumberPicker>(R.id.month_picker)
         val yearPicker = dialogView.findViewById<NumberPicker>(R.id.year_picker)
-        
+
         // Configurar o picker de meses
         val months = arrayOf(
             getString(R.string.month_january),
@@ -283,16 +291,17 @@ class HomeFragment : Fragment() {
             .setPositiveButton(getString(R.string.btn_confirm)) { _, _ ->
                 val selectedYear = yearPicker.value
                 val selectedMonth = monthPicker.value
-                
+
                 // Verificar se a data selecionada é futura
                 if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
-                    showCustomToast(requireContext(), getString(R.string.error_invalid_date))
+                    Utils.showCustomToast(requireContext(), getString(R.string.error_invalid_date))
                     return@setPositiveButton
                 }
 
                 calendar.set(Calendar.YEAR, selectedYear)
                 calendar.set(Calendar.MONTH, selectedMonth)
                 updateDateTexts()
+                updateCalendarForDate(calendar)
                 homeViewModel.loadMoodsForMonth(selectedYear, selectedMonth)
             }
             .show()
@@ -321,38 +330,39 @@ class HomeFragment : Fragment() {
     private fun setupCalendarView() {
         calendarAdapter = CalendarAdapter(getDaysInMonth())
         binding.calendarGrid.adapter = calendarAdapter
-        
+
         // Configurar o mês inicial
         updateCalendarForDate(calendar)
-        
+
         calendarAdapter.setOnDayClickListener { dayOfMonth ->
-            if (Utils.isDateInFuture(dayOfMonth, calendar)) {
-                showCustomToast(requireContext(), getString(R.string.future_date_not_allowed))
+            if (isDateInFuture(dayOfMonth)) {
+                Utils.showCustomToast(requireContext(), "Não é possível selecionar datas futuras")
                 return@setOnDayClickListener
             }
             selectedDay = dayOfMonth
             calendarAdapter.setSelectedDay(dayOfMonth)
-            
+
             // Verificar se já existe um humor para este dia
             val existingMood = homeViewModel.moodsForMonth.value?.find { mood ->
                 val moodCalendar = Calendar.getInstance().apply { time = mood.date }
                 moodCalendar.get(Calendar.DAY_OF_MONTH) == dayOfMonth &&
-                moodCalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
-                moodCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)
+                        moodCalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
+                        moodCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)
             }
-            
+
             // Criar um Calendar com a data selecionada
             val selectedCalendar = Calendar.getInstance().apply {
                 set(Calendar.YEAR, calendar.get(Calendar.YEAR))
                 set(Calendar.MONTH, calendar.get(Calendar.MONTH))
                 set(Calendar.DAY_OF_MONTH, dayOfMonth)
             }
-            
+
             // Mostrar o BottomSheet de emoções
             val moodId = existingMood?.id?.toLong() ?: 0L
             val dialogEmotions = DialogEmotions(mainViewModel, moodId, selectedCalendar)
             dialogEmotions.show(childFragmentManager, dialogEmotions.tag)
         }
+
     }
 
     private fun updateCalendarForDate(calendar: Calendar, keepSelectedDay: Boolean = false) {
@@ -360,7 +370,7 @@ class HomeFragment : Fragment() {
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH)
         )
-        
+
         // Atualizar o texto do mês
         val month = when (calendar.get(Calendar.MONTH)) {
             Calendar.JANUARY -> getString(R.string.month_january)
@@ -396,6 +406,13 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun isCurrentOrPastMonth(calendar: Calendar): Boolean {
+        val currentDate = Calendar.getInstance()
+        return calendar.get(Calendar.YEAR) < currentDate.get(Calendar.YEAR) ||
+                (calendar.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR) &&
+                        calendar.get(Calendar.MONTH) <= currentDate.get(Calendar.MONTH))
+    }
+
     private fun getDaysInMonth(): Int {
         return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
     }
@@ -413,7 +430,7 @@ class HomeFragment : Fragment() {
 
     private fun setupMonthYearSpinner() {
         val monthYearOptions = getMonthYearOptions()
-        
+
         val adapter = object : ArrayAdapter<String>(
             requireContext(),
             R.layout.spinner_item_month_year,
@@ -447,24 +464,24 @@ class HomeFragment : Fragment() {
         val options = mutableListOf<String>()
         val currentCalendar = Calendar.getInstance()
         val currentYear = currentCalendar.get(Calendar.YEAR)
-        
+
         // Gerar opções para os últimos 10 anos
         for (year in currentYear downTo currentYear - 10) {
             for (month in 11 downTo 0) { // De dezembro a janeiro
                 val tempCalendar = Calendar.getInstance()
                 tempCalendar.set(Calendar.YEAR, year)
                 tempCalendar.set(Calendar.MONTH, month)
-                
+
                 // Não incluir meses futuros do ano atual
                 if (year == currentYear && month > currentCalendar.get(Calendar.MONTH)) {
                     continue
                 }
-                
+
                 val monthName = tempCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
                 options.add("$monthName $year")
             }
         }
-        
+
         return options
     }
 
@@ -477,17 +494,17 @@ class HomeFragment : Fragment() {
                 velocityY: Float
             ): Boolean {
                 if (e1 == null) return false
-                
+
                 val SWIPE_THRESHOLD = 100
                 val SWIPE_VELOCITY_THRESHOLD = 100
-                
+
                 val diffX = e2.x - e1.x
                 val diffY = e2.y - e1.y
-                
-                if (abs(diffX) > abs(diffY) && 
-                    abs(diffX) > SWIPE_THRESHOLD && 
+
+                if (abs(diffX) > abs(diffY) &&
+                    abs(diffX) > SWIPE_THRESHOLD &&
                     abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                    
+
                     if (diffX < 0) { // Deslize para a esquerda
                         findNavController().navigate(R.id.action_home_to_dashboard)
                         return true
@@ -504,8 +521,8 @@ class HomeFragment : Fragment() {
         val todayMood = homeViewModel.moodsForMonth.value?.find { mood ->
             val moodCalendar = Calendar.getInstance().apply { time = mood.date }
             val isToday = moodCalendar.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH) &&
-                         moodCalendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
-                         moodCalendar.get(Calendar.YEAR) == today.get(Calendar.YEAR)
+                    moodCalendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
+                    moodCalendar.get(Calendar.YEAR) == today.get(Calendar.YEAR)
             isToday
         }
 
