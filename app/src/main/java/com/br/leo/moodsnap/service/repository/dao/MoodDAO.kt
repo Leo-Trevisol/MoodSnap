@@ -12,7 +12,6 @@ interface MoodDAO {
     @Update
     fun update(guest: MoodModel): Int
 
-
     @Delete
     fun delete(guest: MoodModel)
 
@@ -23,7 +22,7 @@ interface MoodDAO {
     fun getAll(): List<MoodModel>
 
     @Query("SELECT * FROM Mood WHERE mood_type = :moodType")
-    fun getMoodType(moodType : Int): List<MoodModel>
+    fun getMoodType(moodType: Int): List<MoodModel>
 
     @Query("SELECT * FROM mood WHERE date BETWEEN :startDate AND :endDate LIMIT 1")
     fun getMoodByDateRange(startDate: Date, endDate: Date): MoodModel?

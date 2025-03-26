@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -14,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
 
 object Utils {
 
@@ -30,7 +30,7 @@ object Utils {
 
         Toast(context).apply {
             setDuration(duration)
-            setView(layout)
+            view = layout
             show()
         }
     }
@@ -55,7 +55,82 @@ object Utils {
     fun updateBackGroundColor(context: Context, button: Button, color: Int = getMainColor()) {
 
         button.setTextColor(Color.BLACK)
-        button.backgroundTintList = ColorStateList.valueOf(context.getResources().getColor(color))
+        button.backgroundTintList = ColorStateList.valueOf(context.resources.getColor(color))
     }
 
+    fun isDateInFuture(calendar: Calendar): Boolean {
+        val today = Calendar.getInstance()
+        return calendar.after(today)
+    }
+
+    fun isDateInFuture(dayOfMonth: Int, displayMonth: Calendar): Boolean {
+        displayMonth.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        return displayMonth.after(Calendar.getInstance())
+    }
+
+    fun isToday(dayOfMonth: Int, displayMonth: Calendar): Boolean {
+        val today = Calendar.getInstance()
+        return today.get(Calendar.YEAR) == displayMonth.get(Calendar.YEAR) &&
+               today.get(Calendar.MONTH) == displayMonth.get(Calendar.MONTH) &&
+               today.get(Calendar.DAY_OF_MONTH) == dayOfMonth
+    }
+
+    fun isSameDay(cal1: Calendar, cal2: Calendar): Boolean {
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
+                cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)
+    }
+
+    fun getMonthName(context: Context, month: Int): String {
+        return when (month) {
+            Calendar.JANUARY -> context.getString(R.string.month_january)
+            Calendar.FEBRUARY -> context.getString(R.string.month_february)
+            Calendar.MARCH -> context.getString(R.string.month_march)
+            Calendar.APRIL -> context.getString(R.string.month_april)
+            Calendar.MAY -> context.getString(R.string.month_may)
+            Calendar.JUNE -> context.getString(R.string.month_june)
+            Calendar.JULY -> context.getString(R.string.month_july)
+            Calendar.AUGUST -> context.getString(R.string.month_august)
+            Calendar.SEPTEMBER -> context.getString(R.string.month_september)
+            Calendar.OCTOBER -> context.getString(R.string.month_october)
+            Calendar.NOVEMBER -> context.getString(R.string.month_november)
+            Calendar.DECEMBER -> context.getString(R.string.month_december)
+            else -> ""
+        }
+    }
+
+    fun getMoodName(context: Context, moodType: Int): String {
+        return when (moodType) {
+            0 -> context.getString(R.string.mood_very_happy)
+            1 -> context.getString(R.string.mood_happy)
+            2 -> context.getString(R.string.mood_neutral)
+            3 -> context.getString(R.string.mood_sad)
+            4 -> context.getString(R.string.mood_very_sad)
+            else -> "Desconhecido"
+        }
+    }
+
+    fun getDayOfWeekName(context: Context, dayOfWeek: Int): String {
+        return when (dayOfWeek) {
+            Calendar.SUNDAY -> context.getString(R.string.weekday_full_sunday)
+            Calendar.MONDAY -> context.getString(R.string.weekday_full_monday)
+            Calendar.TUESDAY -> context.getString(R.string.weekday_full_tuesday)
+            Calendar.WEDNESDAY -> context.getString(R.string.weekday_full_wednesday)
+            Calendar.THURSDAY -> context.getString(R.string.weekday_full_thursday)
+            Calendar.FRIDAY -> context.getString(R.string.weekday_full_friday)
+            Calendar.SATURDAY -> context.getString(R.string.weekday_full_saturday)
+            else -> "Desconhecido"
+        }
+    }
+
+    fun getMoodDrawable(moodType: Int): Int {
+        return when (moodType) {
+            0 -> R.drawable.muito_feliz
+            1 -> R.drawable.feliz
+            2 -> R.drawable.neutro
+            3 -> R.drawable.triste
+            4 -> R.drawable.muito_triste
+            else -> R.drawable.neutro
+        }
+    }
 }

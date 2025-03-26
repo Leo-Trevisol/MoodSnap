@@ -21,6 +21,7 @@ import androidx.navigation.fragment.findNavController
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.databinding.FragmentDashboardBinding
 import com.br.leo.moodsnap.ui.dialog.DialogEmotions
+import com.br.leo.moodsnap.ui.utils.Utils
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -59,33 +60,35 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setupGestureDetector() {
-        gestureDetector = GestureDetector(requireContext(), object : GestureDetector.SimpleOnGestureListener() {
-            override fun onFling(
-                e1: MotionEvent?,
-                e2: MotionEvent,
-                velocityX: Float,
-                velocityY: Float
-            ): Boolean {
-                if (e1 == null) return false
-                
-                val SWIPE_THRESHOLD = 100
-                val SWIPE_VELOCITY_THRESHOLD = 100
-                
-                val diffX = e2.x - e1.x
-                val diffY = e2.y - e1.y
-                
-                if (abs(diffX) > abs(diffY) && 
-                    abs(diffX) > SWIPE_THRESHOLD && 
-                    abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                    
-                    if (diffX > 0) { // Deslize para a direita
-                        findNavController().navigate(R.id.action_dashboard_to_home)
-                        return true
+        gestureDetector =
+            GestureDetector(requireContext(), object : GestureDetector.SimpleOnGestureListener() {
+                override fun onFling(
+                    e1: MotionEvent?,
+                    e2: MotionEvent,
+                    velocityX: Float,
+                    velocityY: Float
+                ): Boolean {
+                    if (e1 == null) return false
+
+                    val SWIPE_THRESHOLD = 100
+                    val SWIPE_VELOCITY_THRESHOLD = 100
+
+                    val diffX = e2.x - e1.x
+                    val diffY = e2.y - e1.y
+
+                    if (abs(diffX) > abs(diffY) &&
+                        abs(diffX) > SWIPE_THRESHOLD &&
+                        abs(velocityX) > SWIPE_VELOCITY_THRESHOLD
+                    ) {
+
+                        if (diffX > 0) { // Deslize para a direita
+                            findNavController().navigate(R.id.action_dashboard_to_home)
+                            return true
+                        }
                     }
+                    return false
                 }
-                return false
-            }
-        })
+            })
     }
 
     private fun setupDayFilterSpinner() {
@@ -98,14 +101,20 @@ class DashboardFragment : Fragment() {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
                 val filter = getItem(position)
-                (view as TextView).text = filter?.let { dashboardViewModel.getFilterDescription(it) }
+                (view as TextView).text =
+                    filter?.let { dashboardViewModel.getFilterDescription(it) }
                 return view
             }
 
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+            override fun getDropDownView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup
+            ): View {
                 val view = super.getDropDownView(position, convertView, parent)
                 val filter = getItem(position)
-                (view as TextView).text = filter?.let { dashboardViewModel.getFilterDescription(it) }
+                (view as TextView).text =
+                    filter?.let { dashboardViewModel.getFilterDescription(it) }
                 return view
             }
         }
@@ -113,14 +122,20 @@ class DashboardFragment : Fragment() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.dayFilterSpinner.adapter = adapter
 
-        binding.dayFilterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedFilter = filters[position]
-                dashboardViewModel.setDayFilter(selectedFilter)
-            }
+        binding.dayFilterSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val selectedFilter = filters[position]
+                    dashboardViewModel.setDayFilter(selectedFilter)
+                }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
     }
 
     private fun setupObservers() {
@@ -132,11 +147,16 @@ class DashboardFragment : Fragment() {
                 binding.cardAverageMood.setCardBackgroundColor(Color.WHITE)
             } else {
                 val moodType = average.roundToInt()
-                binding.averageMoodIcon.setImageResource(getMoodDrawable(moodType))
-                binding.averageMoodText.text = getString(R.string.your_average_mood, dashboardViewModel.getMoodName(moodType))
-                binding.cardAverageMood.setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
+                binding.averageMoodIcon.setImageResource(Utils.getMoodDrawable(moodType))
+                binding.averageMoodText.text =
+                    getString(R.string.your_average_mood, dashboardViewModel.getMoodName(moodType))
+                binding.cardAverageMood.setCardBackgroundColor(
+                    dashboardViewModel.getMoodColor(
+                        moodType
+                    )
+                )
             }
-            
+
             // Ajustar cor do texto baseado na cor de fundo
             val textColor = Color.BLACK
             binding.averageMoodTitle.setTextColor(textColor)
@@ -152,7 +172,7 @@ class DashboardFragment : Fragment() {
         dashboardViewModel.currentStreak.observe(viewLifecycleOwner) { streak ->
             // Atualizar ícones da sequência
             val streakMoods = dashboardViewModel.getCurrentStreakMoods()
-            
+
             // Limpar container de ícones
             binding.streakIconsContainer.removeAllViews()
 
@@ -173,7 +193,7 @@ class DashboardFragment : Fragment() {
 
                 // Ícone do humor
                 val icon = ImageView(context).apply {
-                    setImageResource(getMoodDrawable(moodType))
+                    setImageResource(Utils.getMoodDrawable(moodType))
                     layoutParams = LinearLayout.LayoutParams(
                         48, // Tamanho do ícone um pouco menor que o container
                         48
@@ -199,7 +219,8 @@ class DashboardFragment : Fragment() {
 
         // Observar melhor dia da semana
         dashboardViewModel.bestDayOfWeek.observe(viewLifecycleOwner) { dayOfWeek ->
-            val filter = dashboardViewModel.selectedDayFilter.value ?: DashboardViewModel.DayFilter.BEST_DAY
+            val filter =
+                dashboardViewModel.selectedDayFilter.value ?: DashboardViewModel.DayFilter.BEST_DAY
             binding.bestDayText.text = dashboardViewModel.getDayStatisticsText(dayOfWeek, filter)
         }
 
@@ -223,11 +244,13 @@ class DashboardFragment : Fragment() {
         // Encontrar o humor mais frequente
         val mostFrequentMood = distribution.entries.maxByOrNull { it.value }
         val mostFrequentPercentage = ((mostFrequentMood?.value ?: 0) / total * 100).roundToInt()
-        
+
         // Atualizar o resumo no cabeçalho
-        binding.distributionSummary.text = getString(R.string.you_were_mood, 
+        binding.distributionSummary.text = getString(
+            R.string.you_were_mood,
             dashboardViewModel.getMoodName(mostFrequentMood?.key ?: 2),
-            mostFrequentPercentage)
+            mostFrequentPercentage
+        )
 
         // Configurar o clique no cabeçalho
         binding.distributionHeader.setOnClickListener {
@@ -266,7 +289,7 @@ class DashboardFragment : Fragment() {
 
             // Ícone do humor
             val icon = ImageView(context).apply {
-                setImageResource(getMoodDrawable(moodType))
+                setImageResource(Utils.getMoodDrawable(moodType))
                 layoutParams = LinearLayout.LayoutParams(
                     60,
                     60
@@ -341,17 +364,6 @@ class DashboardFragment : Fragment() {
             cardContent.addView(totalRegisters)
             itemCard.addView(cardContent)
             container.addView(itemCard)
-        }
-    }
-
-    private fun getMoodDrawable(moodType: Int): Int {
-        return when (moodType) {
-            0 -> R.drawable.muito_feliz
-            1 -> R.drawable.feliz
-            2 -> R.drawable.neutro
-            3 -> R.drawable.triste
-            4 -> R.drawable.muito_triste
-            else -> R.drawable.neutro
         }
     }
 

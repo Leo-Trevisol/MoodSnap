@@ -8,7 +8,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.br.leo.moodsnap.R
@@ -17,7 +16,6 @@ import com.br.leo.moodsnap.service.repository.MoodRepository
 import com.br.leo.moodsnap.ui.utils.Utils.showCustomToast
 import java.io.File
 import java.io.FileOutputStream
-import java.util.*
 
 class EditDescriptionDialog(private val moodId: Int) : DialogFragment() {
 

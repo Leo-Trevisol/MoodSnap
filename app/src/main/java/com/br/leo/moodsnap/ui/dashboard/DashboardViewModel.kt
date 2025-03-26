@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.service.model.MoodModel
 import com.br.leo.moodsnap.service.repository.MoodRepository
+import com.br.leo.moodsnap.ui.utils.Utils
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -24,11 +25,11 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
 
     // Cores para cada tipo de humor
     private val moodColors = mapOf(
-        0 to ContextCompat.getColor(application.applicationContext, R.color.very_happy_color), // Muito Feliz - Amarelo
-        1 to ContextCompat.getColor(application.applicationContext, R.color.happy_color), // Feliz - Verde claro
-        2 to ContextCompat.getColor(application.applicationContext, R.color.neutral_color), // Neutro - Cinza
-        3 to ContextCompat.getColor(application.applicationContext, R.color.sad_color), // Triste - Azul claro
-        4 to ContextCompat.getColor(application.applicationContext, R.color.very_sad_color)  // Muito Triste - Azul escuro
+        0 to ContextCompat.getColor(application.applicationContext, R.color.very_happy_color),
+        1 to ContextCompat.getColor(application.applicationContext, R.color.happy_color),
+        2 to ContextCompat.getColor(application.applicationContext, R.color.neutral_color),
+        3 to ContextCompat.getColor(application.applicationContext, R.color.sad_color),
+        4 to ContextCompat.getColor(application.applicationContext, R.color.very_sad_color)
     )
 
     private val _moods = MutableLiveData<List<MoodModel>>()
@@ -93,7 +94,8 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         _currentStreak.postValue(streak)
 
         // Calcular estatísticas do dia da semana com base no filtro selecionado
-        val dayResult = calculateDayStatistics(moods, _selectedDayFilter.value ?: DayFilter.BEST_DAY)
+        val dayResult =
+            calculateDayStatistics(moods, _selectedDayFilter.value ?: DayFilter.BEST_DAY)
         _bestDayOfWeek.postValue(dayResult)
     }
 
@@ -108,7 +110,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             moodDate.time = mood.date
 
             // Verificar se a data do humor é o dia esperado na sequência
-            if (isSameDay(currentDate, moodDate)) {
+            if (Utils.isSameDay(currentDate, moodDate)) {
                 streak++
                 currentDate.add(Calendar.DAY_OF_MONTH, -1)
             } else {
@@ -120,7 +122,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     private fun calculateDayStatistics(moods: List<MoodModel>, filter: DayFilter): Int {
-        val dayMoods = moods.groupBy { 
+        val dayMoods = moods.groupBy {
             val calendar = Calendar.getInstance()
             calendar.time = it.date
             calendar.get(Calendar.DAY_OF_WEEK)
@@ -143,36 +145,12 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    private fun isSameDay(cal1: Calendar, cal2: Calendar): Boolean {
-        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-                cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
-                cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)
-    }
-
     fun getMoodName(moodType: Int): String {
-        val context = getApplication<Application>().applicationContext
-        return when (moodType) {
-            0 -> context.getString(R.string.mood_very_happy)
-            1 -> context.getString(R.string.mood_happy)
-            2 -> context.getString(R.string.mood_neutral)
-            3 -> context.getString(R.string.mood_sad)
-            4 -> context.getString(R.string.mood_very_sad)
-            else -> "Desconhecido"
-        }
+        return Utils.getMoodName(getApplication<Application>().applicationContext, moodType)
     }
 
     fun getDayOfWeekName(dayOfWeek: Int): String {
-        val context = getApplication<Application>().applicationContext
-        return when (dayOfWeek) {
-            Calendar.SUNDAY -> context.getString(R.string.weekday_full_sunday)
-            Calendar.MONDAY -> context.getString(R.string.weekday_full_monday)
-            Calendar.TUESDAY -> context.getString(R.string.weekday_full_tuesday)
-            Calendar.WEDNESDAY -> context.getString(R.string.weekday_full_wednesday)
-            Calendar.THURSDAY -> context.getString(R.string.weekday_full_thursday)
-            Calendar.FRIDAY -> context.getString(R.string.weekday_full_friday)
-            Calendar.SATURDAY -> context.getString(R.string.weekday_full_saturday)
-            else -> "Desconhecido"
-        }
+        return Utils.getDayOfWeekName(getApplication<Application>().applicationContext, dayOfWeek)
     }
 
     fun setDayFilter(filter: DayFilter) {
@@ -195,10 +173,17 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
     fun getDayStatisticsText(dayOfWeek: Int, filter: DayFilter): String {
         val context = getApplication<Application>().applicationContext
         if (dayOfWeek == -1) return context.getString(R.string.register_more_moods)
-        
+
         return when (filter) {
-            DayFilter.BEST_DAY -> context.getString(R.string.best_day_usually, getDayOfWeekName(dayOfWeek))
-            DayFilter.WORST_DAY -> context.getString(R.string.worst_day_usually, getDayOfWeekName(dayOfWeek))
+            DayFilter.BEST_DAY -> context.getString(
+                R.string.best_day_usually,
+                getDayOfWeekName(dayOfWeek)
+            )
+
+            DayFilter.WORST_DAY -> context.getString(
+                R.string.worst_day_usually,
+                getDayOfWeekName(dayOfWeek)
+            )
         }
     }
 
@@ -217,12 +202,12 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
 
         var maxStreak = 0
         var currentStreak = 1
-        
+
         // Ordenar por data e filtrar pelo tipo de humor
         val sortedMoods = moodsList.filter { it.moodType == moodType }
             .sortedBy { it.date }
             .map { mood ->
-                Calendar.getInstance().apply { 
+                Calendar.getInstance().apply {
                     time = mood.date
                     // Zerar hora, minuto, segundo para comparar apenas datas
                     set(Calendar.HOUR_OF_DAY, 0)
@@ -233,15 +218,15 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             }
 
         if (sortedMoods.isEmpty()) return 0
-        
+
         for (i in 1 until sortedMoods.size) {
             val previousDate = sortedMoods[i - 1]
             val currentDate = sortedMoods[i]
-            
+
             // Calcular diferença em dias
             val diffInMillis = currentDate.timeInMillis - previousDate.timeInMillis
             val diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS)
-            
+
             if (diffInDays == 1L) {
                 currentStreak++
             } else {
@@ -267,10 +252,10 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             val moodDate = Calendar.getInstance()
             moodDate.time = mood.date
 
-            if (isSameDay(currentDate, moodDate)) {
+            if (Utils.isSameDay(currentDate, moodDate)) {
                 streakMoods.add(mood.moodType)
                 currentDate.add(Calendar.DAY_OF_MONTH, -1)
-                
+
                 // Limitar a 5 humores
                 if (streakMoods.size >= 5) break
             } else {

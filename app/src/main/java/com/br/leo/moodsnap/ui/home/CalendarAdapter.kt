@@ -72,10 +72,10 @@ class CalendarAdapter(
         holder.dayNumber.setTextColor(holder.itemView.context.getColor(R.color.day_text_color))
 
         // Verificar se é data futura
-        val isFutureDate = isDateInFuture(dayOfMonth)
+        val isFutureDate = Utils.isDateInFuture(dayOfMonth, displayMonth)
         
         // Verificar se é o dia atual
-        val isToday = isToday(dayOfMonth)
+        val isToday = Utils.isToday(dayOfMonth, displayMonth)
 
         // Encontrar o humor para este dia
         val mood = moodList.find { mood ->
@@ -114,7 +114,7 @@ class CalendarAdapter(
                     )
                 }
                 holder.moodIndicator.visibility = if (mood != null) View.VISIBLE else View.GONE
-                if (mood != null) holder.moodIndicator.setImageResource(getMoodDrawable(mood.moodType))
+                if (mood != null) holder.moodIndicator.setImageResource(Utils.getMoodDrawable(mood.moodType))
             }
             else -> {
                 holder.dayNumber.setTextColor(holder.itemView.context.getColor(R.color.day_text_color))
@@ -127,7 +127,7 @@ class CalendarAdapter(
                         else moodColors[mood.moodType] ?: Color.WHITE
                     )
                     holder.moodIndicator.visibility = View.VISIBLE
-                    holder.moodIndicator.setImageResource(getMoodDrawable(mood.moodType))
+                    holder.moodIndicator.setImageResource(Utils.getMoodDrawable(mood.moodType))
                     holder.dayNumber.setTextColor(if (isSelected) Color.WHITE else holder.itemView.context.getColor(R.color.day_text_color))
                 } else {
                     holder.dayCard.setCardBackgroundColor(
@@ -157,29 +157,8 @@ class CalendarAdapter(
         }
     }
 
-    private fun isDateInFuture(dayOfMonth: Int): Boolean {
-        displayMonth.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-        return displayMonth.after(today)
-    }
-
-    private fun isToday(dayOfMonth: Int): Boolean {
-        return today.get(Calendar.YEAR) == displayMonth.get(Calendar.YEAR) &&
-               today.get(Calendar.MONTH) == displayMonth.get(Calendar.MONTH) &&
-               today.get(Calendar.DAY_OF_MONTH) == dayOfMonth
-    }
 
     override fun getItemCount() = daysInMonth + firstDayOfWeek
-
-    private fun getMoodDrawable(moodType: Int): Int {
-        return when (moodType) {
-            0 -> R.drawable.muito_feliz
-            1 -> R.drawable.feliz
-            2 -> R.drawable.neutro
-            3 -> R.drawable.triste
-            4 -> R.drawable.muito_triste
-            else -> R.drawable.neutro
-        }
-    }
 
     fun updateData(newDaysInMonth: Int, newMoodList: List<MoodModel>) {
         daysInMonth = newDaysInMonth
@@ -189,7 +168,7 @@ class CalendarAdapter(
     }
 
     fun setSelectedDay(dayOfMonth: Int) {
-        if (!isDateInFuture(dayOfMonth) && dayOfMonth > 0) {
+        if (!Utils.isDateInFuture(dayOfMonth, displayMonth) && dayOfMonth > 0) {
             val previousSelected = selectedPosition
             selectedPosition = dayOfMonth - 1
             notifyItemChanged(previousSelected + firstDayOfWeek)

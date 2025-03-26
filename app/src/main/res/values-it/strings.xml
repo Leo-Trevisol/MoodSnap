@@ -70,7 +70,7 @@
     <string name="worst_day">Peggiore</string>
 
     <!-- Mensagens de Estatísticas -->
-    <string name="register_more_moods">Registra più stati d'animo per vedere le statistiche</string>
+    <string name="register_more_moods">Registra più stati d\'animo per vedere le statistiche</string>
     <string name="best_day_usually">Il tuo miglior giorno è solitamente %1$s</string>
     <string name="worst_day_usually">Il tuo peggior giorno è solitamente %1$s</string>
 
@@ -78,7 +78,7 @@
     <string name="how_are_you_feeling">Come ti senti?</string>
     <string name="how_were_you_feeling">Come ti sentivi?</string>
     <string name="attention">Attenzione</string>
-    <string name="confirm_delete_mood">Sei sicuro di voler eliminare l'umore per %1$s?</string>
+    <string name="confirm_delete_mood">Sei sicuro di voler eliminare l\'umore per %1$s?</string>
     <string name="mood_deleted_success">Umore eliminato con successo!</string>
     <string name="mood_registered_success">Umore registrato con successo!</string>
     <string name="detail_day">Dettagli del giorno</string>
@@ -86,11 +86,11 @@
     <string name="date_format">%1$d di %2$s di %3$d</string>
 
     <!-- Dashboard -->
-    <string name="mood_statistics">Statistiche dell'umore</string>
+    <string name="mood_statistics">Statistiche dell\'umore</string>
     <string name="average_mood">Umore medio</string>
     <string name="no_mood_registered">Nessun umore registrato ancora</string>
     <string name="your_average_mood">Il tuo umore medio è %1$s</string>
-    <string name="mood_distribution">Distribuzione dell'umore</string>
+    <string name="mood_distribution">Distribuzione dell\'umore</string>
     <string name="no_mood_distribution">Nessun umore registrato ancora</string>
     <string name="you_were_mood">Sei stato %1$s nel %2$d%% dei giorni</string>
     <string name="current_streak">Serie attuale</string>
@@ -116,7 +116,7 @@
     <string name="select_mood">Seleziona un umore per il giorno</string>
     <string name="mood_saved">Umore salvato con successo!</string>
     <string name="attention_dialog">Attenzione</string>
-    <string name="confirm_delete_image">Vuoi davvero eliminare l'immagine?</string>
+    <string name="confirm_delete_image">Vuoi davvero eliminare l\'immagine?</string>
     <string name="image_deleted">Immagine eliminata con successo!</string>
     <string name="description_saved">Descrizione salvata con successo!</string>
 
@@ -125,7 +125,7 @@
     <string name="unsaved_changes_message">Hai delle modifiche non salvate. Vuoi davvero scartarle?</string>
 
     <!-- Image Source Dialog -->
-    <string name="select_image_source">Seleziona la fonte dell'immagine</string>
+    <string name="select_image_source">Seleziona la fonte dell\'immagine</string>
     <string name="camera">Fotocamera</string>
     <string name="gallery">Galleria</string>
     <string name="delete_image">Elimina immagine</string>

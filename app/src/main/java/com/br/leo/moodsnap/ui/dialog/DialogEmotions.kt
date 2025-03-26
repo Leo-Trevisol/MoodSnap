@@ -7,12 +7,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentManager
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.ui.edit.EditDayActivity
@@ -24,9 +21,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Locale
 
 class DialogEmotions(
     private val viewModel: MainViewModel,
@@ -78,21 +73,7 @@ class DialogEmotions(
         val year = selectedDate.get(Calendar.YEAR)
         
         // Obter o nome do mês traduzido
-        val monthName = when (month) {
-            Calendar.JANUARY -> getString(R.string.month_january)
-            Calendar.FEBRUARY -> getString(R.string.month_february)
-            Calendar.MARCH -> getString(R.string.month_march)
-            Calendar.APRIL -> getString(R.string.month_april)
-            Calendar.MAY -> getString(R.string.month_may)
-            Calendar.JUNE -> getString(R.string.month_june)
-            Calendar.JULY -> getString(R.string.month_july)
-            Calendar.AUGUST -> getString(R.string.month_august)
-            Calendar.SEPTEMBER -> getString(R.string.month_september)
-            Calendar.OCTOBER -> getString(R.string.month_october)
-            Calendar.NOVEMBER -> getString(R.string.month_november)
-            Calendar.DECEMBER -> getString(R.string.month_december)
-            else -> ""
-        }
+        val monthName = Utils.getMonthName(requireContext(), month)
         
         selectedDateText.text = getString(R.string.date_format, day, monthName, year)
 
@@ -180,12 +161,6 @@ class DialogEmotions(
                 dialogEmotions.show(parentFragmentManager, dialogEmotions.tag)
             }
         }
-    }
-
-    private fun isToday(dayOfMonth: Int): Boolean {
-        return selectedDate.get(Calendar.YEAR) == selectedDate.get(Calendar.YEAR) &&
-                selectedDate.get(Calendar.MONTH) == selectedDate.get(Calendar.MONTH) &&
-                selectedDate.get(Calendar.DAY_OF_MONTH) == dayOfMonth
     }
 
     override fun show(manager: FragmentManager, tag: String?) {

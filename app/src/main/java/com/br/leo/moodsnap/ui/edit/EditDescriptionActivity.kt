@@ -17,29 +17,6 @@ class EditDescriptionActivity : AppCompatActivity() {
         this.setTheme(R.style.DialogRounded)
         binding = ActivityEditDescriptionBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-//        repository = MoodRepository(this)
-//
-//        // Receber o ID do humor e carregar a descrição existente
-//        moodId = intent.getIntExtra("mood_id", 0)
-//        if (moodId > 0) {
-//            val mood = repository.get(moodId)
-//            binding.editDescription.setText(mood.description)
-//        }
-//
-//        setupListeners()
     }
 
-//    private fun setupListeners() {
-//        binding.btnSave.setOnClickListener {
-//            val description = binding.editDescription.text.toString()
-//
-//            // Atualizar a descrição no banco de dados
-//            val mood = repository.get(moodId)
-//            mood.description = description
-//            repository.update(mood)
-//
-//            finish()
-//        }
-//    }
-} 
+}

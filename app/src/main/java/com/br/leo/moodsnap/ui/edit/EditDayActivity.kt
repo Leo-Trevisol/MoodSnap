@@ -4,8 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -14,7 +12,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.NumberPicker
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -152,7 +149,7 @@ class EditDayActivity : AppCompatActivity() {
             // Não permitir navegar para dias futuros
             val nextDay = calendar.clone() as Calendar
             nextDay.add(Calendar.DAY_OF_MONTH, 1)
-            if (!isDateInFuture(nextDay)) {
+            if (!Utils.isDateInFuture(nextDay)) {
                 if (hasChanges) {
                     showDiscardChangesDialog {
                         calendar.add(Calendar.DAY_OF_MONTH, 1)
@@ -176,21 +173,7 @@ class EditDayActivity : AppCompatActivity() {
 
     private fun updateDateText() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
-        val month = when (calendar.get(Calendar.MONTH)) {
-            Calendar.JANUARY -> getString(R.string.month_january)
-            Calendar.FEBRUARY -> getString(R.string.month_february)
-            Calendar.MARCH -> getString(R.string.month_march)
-            Calendar.APRIL -> getString(R.string.month_april)
-            Calendar.MAY -> getString(R.string.month_may)
-            Calendar.JUNE -> getString(R.string.month_june)
-            Calendar.JULY -> getString(R.string.month_july)
-            Calendar.AUGUST -> getString(R.string.month_august)
-            Calendar.SEPTEMBER -> getString(R.string.month_september)
-            Calendar.OCTOBER -> getString(R.string.month_october)
-            Calendar.NOVEMBER -> getString(R.string.month_november)
-            Calendar.DECEMBER -> getString(R.string.month_december)
-            else -> ""
-        }
+        val month = Utils.getMonthName(this, calendar.get(Calendar.MONTH))
         binding.dateText.text = "$day - $month"
     }
 
@@ -593,11 +576,6 @@ class EditDayActivity : AppCompatActivity() {
         
         inputStream?.close()
         return file.absolutePath
-    }
-
-    private fun isDateInFuture(calendar: Calendar): Boolean {
-        val today = Calendar.getInstance()
-        return calendar.after(today)
     }
 
     private fun returnResult() {

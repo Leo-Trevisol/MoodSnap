@@ -3,8 +3,6 @@ package com.br.leo.moodsnap.ui.dialog
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Build
 import android.text.Html
 import android.view.LayoutInflater
@@ -15,7 +13,10 @@ import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.databinding.DialogCustomPositiveNegativeAltBinding
 import com.br.leo.moodsnap.ui.utils.Utils
 
-class CustomAlertDialog private constructor(context: Context, private val typeSystemAlert: Boolean) {
+class CustomAlertDialog private constructor(
+    context: Context,
+    private val typeSystemAlert: Boolean
+) {
     private var builder: AlertDialog.Builder? = null
     private val binding: DialogCustomPositiveNegativeAltBinding
     var presentDialog: AlertDialog? = null
@@ -31,7 +32,7 @@ class CustomAlertDialog private constructor(context: Context, private val typeSy
 
         val mainColor: Int = context.getColor(R.color.primary_green)
         binding.btnNegative.setTextColor(mainColor)
-        Utils.updateBackGroundColor(context,  binding.btnPositive)
+        Utils.updateBackGroundColor(context, binding.btnPositive)
     }
 
     fun setTitle(title: String?): CustomAlertDialog {
@@ -55,7 +56,10 @@ class CustomAlertDialog private constructor(context: Context, private val typeSy
         return this
     }
 
-    fun setCancelable(cancelable: Boolean, onCancelListener: DialogInterface.OnCancelListener? = null): CustomAlertDialog {
+    fun setCancelable(
+        cancelable: Boolean,
+        onCancelListener: DialogInterface.OnCancelListener? = null
+    ): CustomAlertDialog {
         builder?.setCancelable(cancelable)
         onCancelListener?.let { builder?.setOnCancelListener(it) }
         return this
@@ -69,11 +73,12 @@ class CustomAlertDialog private constructor(context: Context, private val typeSy
 
     fun setMessageHtml(message: String?): CustomAlertDialog {
         binding.textViewCustomDialogMessage.visibility = View.VISIBLE
-        binding.textViewCustomDialogMessage.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Html.fromHtml(message, Html.FROM_HTML_MODE_COMPACT)
-        } else {
-            Html.fromHtml(message)
-        }
+        binding.textViewCustomDialogMessage.text =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Html.fromHtml(message, Html.FROM_HTML_MODE_COMPACT)
+            } else {
+                Html.fromHtml(message)
+            }
         return this
     }
 

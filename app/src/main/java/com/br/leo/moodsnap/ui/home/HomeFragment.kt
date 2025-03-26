@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.NumberPicker
 import android.widget.TextView
@@ -76,14 +75,6 @@ class HomeFragment : Fragment() {
             gestureDetector.onTouchEvent(event)
             true
         }
-    }
-
-    private fun isDateInFuture(dayOfMonth: Int): Boolean {
-        val today = Calendar.getInstance()
-        val selectedDate = Calendar.getInstance().apply {
-            set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), dayOfMonth)
-        }
-        return selectedDate.after(today)
     }
 
     private fun setupFabListener() {
@@ -335,8 +326,8 @@ class HomeFragment : Fragment() {
         updateCalendarForDate(calendar)
         
         calendarAdapter.setOnDayClickListener { dayOfMonth ->
-            if (isDateInFuture(dayOfMonth)) {
-                Utils.showCustomToast(requireContext(), getString(R.string.future_date_not_allowed))
+            if (Utils.isDateInFuture(dayOfMonth, calendar)) {
+                showCustomToast(requireContext(), getString(R.string.future_date_not_allowed))
                 return@setOnDayClickListener
             }
             selectedDay = dayOfMonth
@@ -403,13 +394,6 @@ class HomeFragment : Fragment() {
             calendarAdapter.setSelectedDay(selectedDay)
             calendarAdapter.notifyDataSetChanged()
         }
-    }
-
-    private fun isCurrentOrPastMonth(calendar: Calendar): Boolean {
-        val currentDate = Calendar.getInstance()
-        return calendar.get(Calendar.YEAR) < currentDate.get(Calendar.YEAR) ||
-                (calendar.get(Calendar.YEAR) == currentDate.get(Calendar.YEAR) &&
-                 calendar.get(Calendar.MONTH) <= currentDate.get(Calendar.MONTH))
     }
 
     private fun getDaysInMonth(): Int {
