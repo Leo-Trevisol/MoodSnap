@@ -5,6 +5,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.br.leo.moodsnap.databinding.ActivityMainBinding
@@ -38,11 +39,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.navView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    navController.navigate(R.id.navigation_home)
+                    val navOptions = NavOptions.Builder()
+                        .setEnterAnim(R.anim.dialog_enter)
+                        .setExitAnim(R.anim.dialog_exit)
+                        .setPopEnterAnim(R.anim.dialog_enter)
+                        .setPopExitAnim(R.anim.dialog_exit)
+                        .build()
+                    navController.navigate(R.id.navigation_home, null, navOptions)
                     true
                 }
                 R.id.navigation_dashboard -> {
-                    navController.navigate(R.id.navigation_dashboard)
+                    val navOptions = NavOptions.Builder()
+                        .setEnterAnim(R.anim.dialog_enter)
+                        .setExitAnim(R.anim.dialog_exit)
+                        .setPopEnterAnim(R.anim.dialog_enter)
+                        .setPopExitAnim(R.anim.dialog_exit)
+                        .build()
+                    navController.navigate(R.id.navigation_dashboard, null, navOptions)
                     true
                 }
                 else -> false
