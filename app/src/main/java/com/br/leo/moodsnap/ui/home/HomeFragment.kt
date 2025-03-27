@@ -509,8 +509,42 @@ class HomeFragment : Fragment() {
                     abs(diffX) > SWIPE_THRESHOLD &&
                     abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
 
-                    if (diffX < 0) { // Deslize para a esquerda
-                        findNavController().navigate(R.id.action_home_to_dashboard)
+                    val currentCalendar = Calendar.getInstance()
+                    val currentYear = currentCalendar.get(Calendar.YEAR)
+                    val currentMonth = currentCalendar.get(Calendar.MONTH)
+                    val isCurrentMonth = calendar.get(Calendar.YEAR) == currentYear && 
+                                       calendar.get(Calendar.MONTH) == currentMonth
+                    val minYear = currentYear - 10 // Ano mínimo permitido
+
+                    if (diffX > 0) { // Deslize para a direita - Mês anterior
+                        // Verificar se está tentando navegar para um ano anterior ao mínimo permitido
+                        if (calendar.get(Calendar.MONTH) == Calendar.JANUARY) {
+                            val nextYear = calendar.get(Calendar.YEAR) - 1
+                            if (nextYear < minYear) {
+                                Utils.showCustomToast(requireContext(), getString(R.string.error_invalid_date))
+                                return false
+                            }
+                            calendar.set(Calendar.YEAR, nextYear)
+                            calendar.set(Calendar.MONTH, Calendar.DECEMBER)
+                        } else {
+                            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1)
+                        }
+                        updateCalendarForDate(calendar)
+                        return true
+                    } else { // Deslize para a esquerda
+                        if (isCurrentMonth) {
+                            // Se estiver no mês atual, navega para o dashboard
+                            findNavController().navigate(R.id.action_home_to_dashboard)
+                        } else {
+                            // Se estiver em um mês anterior, navega para o próximo mês
+                            if (calendar.get(Calendar.MONTH) == Calendar.DECEMBER) {
+                                calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1)
+                                calendar.set(Calendar.MONTH, Calendar.JANUARY)
+                            } else {
+                                calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1)
+                            }
+                            updateCalendarForDate(calendar)
+                        }
                         return true
                     }
                 }
