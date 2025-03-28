@@ -84,7 +84,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="16dp"
+                    android:paddingBottom="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="5dp"
                     android:gravity="center_vertical"
                     android:background="?attr/selectableItemBackground"
                     android:clickable="true"
@@ -96,12 +99,35 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/mood_distribution"
-                            android:textStyle="bold"
-                            android:textSize="18sp"/>
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="@string/mood_distribution"
+                                android:textStyle="bold"
+                                android:layout_weight="1"
+                                android:textSize="16sp"/>
+
+                            <Spinner
+                                android:id="@+id/distribution_view_spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:minHeight="40dp"
+                                android:layout_weight="1.5"
+                                android:layout_marginStart="4dp"/>
+
+                            <ImageView
+                                android:id="@+id/expand_arrow"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/ic_expand_more_24"
+                                android:rotation="0"/>
+
+                        </LinearLayout>
 
                         <TextView
                             android:id="@+id/distribution_summary"
@@ -112,19 +138,9 @@
 
                     </LinearLayout>
 
-                    <Spinner
-                        android:id="@+id/distribution_view_spinner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="40dp"
-                        android:layout_marginStart="8dp"/>
 
-                    <ImageView
-                        android:id="@+id/expand_arrow"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_expand_more_24"
-                        android:rotation="0"/>
+
+
 
                 </LinearLayout>
 

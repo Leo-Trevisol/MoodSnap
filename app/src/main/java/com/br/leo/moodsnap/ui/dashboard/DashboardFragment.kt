@@ -304,7 +304,7 @@ class DashboardFragment : Fragment() {
         adjustGraphsVisibility()
 
         // Configurar o clique no cabeçalho
-        binding.distributionHeader.setOnClickListener {
+        binding.expandArrow.setOnClickListener {
             adjustGraphsVisibility()
         }
 
