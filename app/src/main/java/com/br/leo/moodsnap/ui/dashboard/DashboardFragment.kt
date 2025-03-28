@@ -40,6 +40,7 @@ class DashboardFragment : Fragment() {
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var mainViewModel: MainViewModel
     private lateinit var gestureDetector: GestureDetector
+    private var firstTime = true;
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -177,9 +178,11 @@ class DashboardFragment : Fragment() {
                     position: Int,
                     id: Long
                 ) {
-                    val isDonutView = position == 1
-                    binding.pieChart.visibility = if (isDonutView) View.VISIBLE else View.GONE
-                    binding.moodDistributionContainer.visibility = if (isDonutView) View.GONE else View.VISIBLE
+                    if(!firstTime){
+                        val isDonutView = position == 1
+                        binding.pieChart.visibility = if (isDonutView) View.VISIBLE else View.GONE
+                        binding.moodDistributionContainer.visibility = if (isDonutView) View.GONE else View.VISIBLE
+                    }
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -301,10 +304,9 @@ class DashboardFragment : Fragment() {
             mostFrequentPercentage
         )
 
-        adjustGraphsVisibility()
-
         // Configurar o clique no cabeçalho
         binding.expandArrow.setOnClickListener {
+            firstTime = false
             adjustGraphsVisibility()
         }
 
@@ -374,7 +376,7 @@ class DashboardFragment : Fragment() {
                 val lastOccurrenceText = TextView(context).apply {
                     text = getString(R.string.last_record, lastDate)
                     setTextColor(Color.BLACK)
-                    textSize = 14f
+                    textSize = 18f
                     alpha = 0.8f
                     textAlignment = View.TEXT_ALIGNMENT_VIEW_START
                 }
@@ -431,6 +433,7 @@ class DashboardFragment : Fragment() {
         dataSet.colors = distribution.keys.map { moodType ->
             dashboardViewModel.getMoodColor(moodType)
         }
+        dataSet.valueTextSize = 16f
         dataSet.valueTextColor = Color.BLACK
 
         val pieData = PieData(dataSet)
@@ -463,13 +466,13 @@ class DashboardFragment : Fragment() {
         _binding = null
     }
 
-    fun adjustGraphsVisibility(){
+    private fun adjustGraphsVisibility(){
 
         val isDonutView = binding.distributionViewSpinner.selectedItemPosition == 1
         val isExpanded = if (isDonutView) {
-            binding.pieChart.visibility == View.VISIBLE
+            binding.pieChart.isVisible
         } else {
-            binding.moodDistributionContainer.visibility == View.VISIBLE
+            binding.moodDistributionContainer.isVisible
         }
 
         if (isDonutView) {
