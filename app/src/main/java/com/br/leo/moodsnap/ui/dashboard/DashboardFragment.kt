@@ -25,6 +25,11 @@ import com.br.leo.moodsnap.ui.utils.Utils
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
 import kotlin.math.abs
 import kotlin.math.roundToInt
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.ValueFormatter
 
 class DashboardFragment : Fragment() {
 
@@ -57,6 +62,9 @@ class DashboardFragment : Fragment() {
             gestureDetector.onTouchEvent(event)
             true
         }
+
+        // Initialize and configure the PieChart with initial data
+        dashboardViewModel.moodDistribution.value?.let { setupPieChart(it) }
     }
 
     private fun setupGestureDetector() {
@@ -166,6 +174,7 @@ class DashboardFragment : Fragment() {
         // Observar distribuição de humores
         dashboardViewModel.moodDistribution.observe(viewLifecycleOwner) { distribution ->
             updateMoodDistribution(distribution)
+            setupPieChart(distribution)
         }
 
         // Observar sequência atual
@@ -365,6 +374,38 @@ class DashboardFragment : Fragment() {
             itemCard.addView(cardContent)
             container.addView(itemCard)
         }
+    }
+
+    private fun setupPieChart(distribution: Map<Int, Int>) {
+        val pieChart: PieChart = binding.pieChart
+
+        // Convert distribution map to PieEntry list
+        val entries = distribution.map { (moodType, count) ->
+            PieEntry(count.toFloat(), dashboardViewModel.getMoodName(moodType))
+        }
+
+        val dataSet = PieDataSet(entries, "Mood Distribution")
+        dataSet.colors = distribution.keys.map { moodType ->
+            dashboardViewModel.getMoodColor(moodType)
+        }
+        dataSet.valueTextColor = Color.BLACK
+
+        val pieData = PieData(dataSet)
+        pieData.setValueFormatter(object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return "${value.toInt()}%"
+            }
+        })
+        pieChart.data = pieData
+
+        // Customize chart appearance
+        pieChart.description.isEnabled = false
+        pieChart.setDrawEntryLabels(false)
+        pieChart.setUsePercentValues(true)
+        pieChart.legend.isEnabled = true
+        pieChart.legend.textColor = Color.BLACK
+        pieChart.legend.textSize = 12f
+        pieChart.invalidate() // Refresh chart
     }
 
     override fun onDestroyView() {
