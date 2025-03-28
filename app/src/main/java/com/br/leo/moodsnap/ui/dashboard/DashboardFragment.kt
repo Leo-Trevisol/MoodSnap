@@ -30,6 +30,8 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
+import androidx.core.view.isVisible
+import com.github.mikephil.charting.components.Legend
 
 class DashboardFragment : Fragment() {
 
@@ -65,6 +67,14 @@ class DashboardFragment : Fragment() {
 
         // Initialize and configure the PieChart with initial data
         dashboardViewModel.moodDistribution.value?.let { setupPieChart(it) }
+
+        // Set initial visibility to ensure no chart is shown by default
+        binding.moodDistributionContainer.visibility = View.GONE
+        binding.pieChart.visibility = View.GONE
+        binding.expandArrow.rotation = 0f
+
+        // Set spinner to default to 'Barras' but keep views hidden
+        binding.distributionViewSpinner.setSelection(0)
     }
 
     private fun setupGestureDetector() {
@@ -140,6 +150,36 @@ class DashboardFragment : Fragment() {
                 ) {
                     val selectedFilter = filters[position]
                     dashboardViewModel.setDayFilter(selectedFilter)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+
+        // Setup distribution view spinner
+        setupDistributionViewSpinner()
+    }
+
+    private fun setupDistributionViewSpinner() {
+        val viewTypes = listOf("Barras", "Donut")
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            viewTypes
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.distributionViewSpinner.adapter = adapter
+
+        binding.distributionViewSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val isDonutView = position == 1
+                    binding.pieChart.visibility = if (isDonutView) View.VISIBLE else View.GONE
+                    binding.moodDistributionContainer.visibility = if (isDonutView) View.GONE else View.VISIBLE
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -261,11 +301,11 @@ class DashboardFragment : Fragment() {
             mostFrequentPercentage
         )
 
+        adjustGraphsVisibility()
+
         // Configurar o clique no cabeçalho
         binding.distributionHeader.setOnClickListener {
-            val isExpanded = container.visibility == View.VISIBLE
-            container.visibility = if (isExpanded) View.GONE else View.VISIBLE
-            binding.expandArrow.rotation = if (isExpanded) 0f else 180f
+            adjustGraphsVisibility()
         }
 
         // Criar cards para cada tipo de humor
@@ -374,6 +414,9 @@ class DashboardFragment : Fragment() {
             itemCard.addView(cardContent)
             container.addView(itemCard)
         }
+
+        // Update PieChart with real data
+        setupPieChart(distribution)
     }
 
     private fun setupPieChart(distribution: Map<Int, Int>) {
@@ -384,7 +427,7 @@ class DashboardFragment : Fragment() {
             PieEntry(count.toFloat(), dashboardViewModel.getMoodName(moodType))
         }
 
-        val dataSet = PieDataSet(entries, "Mood Distribution")
+        val dataSet = PieDataSet(entries, "")
         dataSet.colors = distribution.keys.map { moodType ->
             dashboardViewModel.getMoodColor(moodType)
         }
@@ -403,13 +446,38 @@ class DashboardFragment : Fragment() {
         pieChart.setDrawEntryLabels(false)
         pieChart.setUsePercentValues(true)
         pieChart.legend.isEnabled = true
-        pieChart.legend.textColor = Color.BLACK
-        pieChart.legend.textSize = 12f
+        pieChart.legend.textColor = Color.WHITE
+        pieChart.legend.textSize = resources.getDimension(R.dimen.text_size_legend)
+        pieChart.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+        pieChart.legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+        pieChart.legend.orientation = Legend.LegendOrientation.HORIZONTAL
+        pieChart.legend.setDrawInside(false)
+        pieChart.legend.xEntrySpace = 7f
+        pieChart.legend.yEntrySpace = 5f
+        pieChart.legend.yOffset = 10f
         pieChart.invalidate() // Refresh chart
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun adjustGraphsVisibility(){
+
+        val isDonutView = binding.distributionViewSpinner.selectedItemPosition == 1
+        val isExpanded = if (isDonutView) {
+            binding.pieChart.visibility == View.VISIBLE
+        } else {
+            binding.moodDistributionContainer.visibility == View.VISIBLE
+        }
+
+        if (isDonutView) {
+            binding.pieChart.visibility = if (isExpanded) View.GONE else View.VISIBLE
+        } else {
+            binding.moodDistributionContainer.visibility = if (isExpanded) View.GONE else View.VISIBLE
+        }
+
+        binding.expandArrow.rotation = if (isExpanded) 0f else 180f
     }
 }

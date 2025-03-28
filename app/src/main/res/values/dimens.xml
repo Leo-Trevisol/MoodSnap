@@ -23,6 +23,8 @@
     <dimen name="text_size_normal">12sp</dimen>
     <dimen name="text_size_large">14sp</dimen>
     <dimen name="text_size_xlarge">18sp</dimen>
+
+    <dimen name="text_size_legend">8sp</dimen>
     
     <!-- Button dimensions -->
     <dimen name="button_height">46dp</dimen>

@@ -65,16 +65,6 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pie_chart"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginBottom="16dp"
-            android:background="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/card_average_mood"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
         <!-- Card de Distribuição de Humores -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -122,6 +112,13 @@
 
                     </LinearLayout>
 
+                    <Spinner
+                        android:id="@+id/distribution_view_spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="40dp"
+                        android:layout_marginStart="8dp"/>
+
                     <ImageView
                         android:id="@+id/expand_arrow"
                         android:layout_width="24dp"
@@ -130,6 +127,13 @@
                         android:rotation="0"/>
 
                 </LinearLayout>
+
+                <!-- Gráfico de Pizza -->
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pie_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:visibility="gone"/>
 
                 <!-- Conteúdo Expansível -->
                 <LinearLayout
