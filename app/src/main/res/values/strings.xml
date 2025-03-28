@@ -133,4 +133,9 @@
     <!-- Mood Questions -->
     <string name="how_are_you_feeling_today">How are you feeling?</string>
     <string name="how_were_you_feeling_that_day">How were you feeling?</string>
+
+    <!-- Settings Dialog -->
+    <string name="select_settings_option">Selecione uma opção de configuração</string>
+    <string name="languages">Idiomas</string>
+    <string name="themes">Temas</string>
 </resources>

@@ -25,6 +25,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.Calendar
 import java.util.Locale
 import kotlin.math.abs
+import android.widget.PopupMenu
 
 class HomeFragment : Fragment() {
 
@@ -62,6 +63,7 @@ class HomeFragment : Fragment() {
         updateDateTexts()
         setupFabListener()
         observeMainViewModel()
+        setupSettingsMenu()
         // Carregar humores do mês atual
         homeViewModel.loadMoodsForMonth(
             calendar.get(Calendar.YEAR),
@@ -576,6 +578,30 @@ class HomeFragment : Fragment() {
 
         activity?.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)?.let { fab ->
             fab.setImageResource(iconResource)
+        }
+    }
+
+    private fun setupSettingsMenu() {
+        val settingsButton = view?.findViewById<View>(R.id.btn_settings)
+        settingsButton?.setOnClickListener {
+            val dialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
+            val dialog = MaterialAlertDialogBuilder(requireContext())
+                .setView(dialogView)
+                .create()
+
+            dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+            dialogView.findViewById<View>(R.id.btn_languages).setOnClickListener {
+                // Handle language option click
+                dialog.dismiss()
+            }
+
+            dialogView.findViewById<View>(R.id.btn_themes).setOnClickListener {
+                // Handle theme option click
+                dialog.dismiss()
+            }
+
+            dialog.show()
         }
     }
 

@@ -9,7 +9,7 @@
     <!-- Cabeçalho -->
     <LinearLayout
         android:id="@+id/date_container"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
@@ -17,6 +17,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/btn_settings"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_weight="1"
+            android:padding="4dp"
+            android:src="@drawable/ic_settings"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            app:tint="@color/primary_green"
+            android:scrollY="-4dp"/>
 
         <ImageView
             android:id="@+id/btn_previous_month"
@@ -32,8 +45,6 @@
             android:scrollY="-4dp"
             android:visibility="invisible"
             app:tint="@color/primary_green"/>
-
-
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/date_text"
