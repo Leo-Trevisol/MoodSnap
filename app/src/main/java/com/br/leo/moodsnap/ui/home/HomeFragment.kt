@@ -26,6 +26,9 @@ import java.util.Calendar
 import java.util.Locale
 import kotlin.math.abs
 import android.widget.PopupMenu
+import android.widget.RadioButton
+import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 
 class HomeFragment : Fragment() {
 
@@ -597,12 +600,95 @@ class HomeFragment : Fragment() {
             }
 
             dialogView.findViewById<View>(R.id.btn_themes).setOnClickListener {
-                // Handle theme option click
                 dialog.dismiss()
+                showThemeSelectionDialog()
             }
 
             dialog.show()
         }
+    }
+
+    private fun showThemeSelectionDialog() {
+        val themeDialogView = layoutInflater.inflate(R.layout.dialog_theme_selection, null)
+        val themeDialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(themeDialogView)
+            .create()
+
+        themeDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+        val radioLightTheme = themeDialogView.findViewById<RadioButton>(R.id.radio_light_theme)
+        val radioDarkTheme = themeDialogView.findViewById<RadioButton>(R.id.radio_dark_theme)
+
+        // Correct the logic to check the current theme
+        val currentNightMode = AppCompatDelegate.getDefaultNightMode()
+        if (currentNightMode == AppCompatDelegate.MODE_NIGHT_YES || (currentNightMode == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM && isSystemInDarkMode())) {
+            radioDarkTheme.isChecked = true
+        } else {
+            radioLightTheme.isChecked = true
+        }
+
+        themeDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
+            themeDialog.dismiss()
+            // Reopen the settings dialog
+            val settingsDialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
+            val settingsDialog = MaterialAlertDialogBuilder(requireContext())
+                .setView(settingsDialogView)
+                .create()
+
+            settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+            settingsDialogView.findViewById<View>(R.id.btn_languages).setOnClickListener {
+                settingsDialog.dismiss()
+            }
+
+            settingsDialogView.findViewById<View>(R.id.btn_themes).setOnClickListener {
+                settingsDialog.dismiss()
+                showThemeSelectionDialog()
+            }
+
+            settingsDialog.show()
+        }
+
+        themeDialogView.findViewById<View>(R.id.btn_confirm).setOnClickListener {
+            val nightMode = if (radioLightTheme.isChecked) {
+                AppCompatDelegate.MODE_NIGHT_NO
+            } else {
+                AppCompatDelegate.MODE_NIGHT_YES
+            }
+            AppCompatDelegate.setDefaultNightMode(nightMode)
+            themeDialog.dismiss()
+        }
+
+        themeDialog.show()
+    }
+
+    private fun getCurrentTheme(): Int {
+        // Retrieve the current theme from shared preferences or a default value
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getInt("current_theme", R.style.Theme_MoodSnap_Main)
+    }
+
+    private fun setTheme(theme: Int) {
+        // Save the selected theme to shared preferences
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putInt("current_theme", theme)
+            apply()
+        }
+        // Apply the theme using AppCompatDelegate
+        val nightMode = if (theme == R.style.Theme_MoodSnap_Main) {
+            AppCompatDelegate.MODE_NIGHT_NO
+        } else {
+            AppCompatDelegate.MODE_NIGHT_YES
+        }
+        AppCompatDelegate.setDefaultNightMode(nightMode)
+    }
+
+    // Helper function to check if the system is in dark mode
+    private fun isSystemInDarkMode(): Boolean {
+        val uiMode = resources.configuration.uiMode
+        val nightModeFlags = uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        return nightModeFlags == android.content.res.Configuration.UI_MODE_NIGHT_YES
     }
 
     override fun onDestroyView() {
