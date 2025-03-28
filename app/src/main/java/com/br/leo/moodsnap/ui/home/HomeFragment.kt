@@ -44,14 +44,24 @@ class HomeFragment : Fragment() {
     private var selectedDay: Int = -1
     private lateinit var gestureDetector: GestureDetector
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        
+        // Apply the saved theme preference
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val savedTheme = sharedPreferences.getInt("current_theme", AppCompatDelegate.MODE_NIGHT_NO)
+        AppCompatDelegate.setDefaultNightMode(savedTheme)
+        
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        mainViewModel.initialize(requireContext())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-        mainViewModel.initialize(requireContext())
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -613,7 +623,9 @@ class HomeFragment : Fragment() {
         val themeDialog = MaterialAlertDialogBuilder(requireContext())
             .setView(themeDialogView)
             .create()
+        
 
+        
         themeDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
         val radioLightTheme = themeDialogView.findViewById<RadioButton>(R.id.radio_light_theme)
@@ -656,6 +668,14 @@ class HomeFragment : Fragment() {
                 AppCompatDelegate.MODE_NIGHT_YES
             }
             AppCompatDelegate.setDefaultNightMode(nightMode)
+            
+            // Save the selected theme to shared preferences
+            val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            with(sharedPreferences.edit()) {
+                putInt("current_theme", nightMode)
+                apply()
+            }
+            
             themeDialog.dismiss()
         }
 
