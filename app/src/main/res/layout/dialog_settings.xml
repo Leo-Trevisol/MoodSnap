@@ -15,7 +15,7 @@
         android:gravity="center"
         android:layout_marginBottom="@dimen/spacing_large"/>
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/btn_languages"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
@@ -27,7 +27,7 @@
         android:textSize="@dimen/button_text_size"
         android:padding="@dimen/button_padding"/>
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/btn_themes"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"

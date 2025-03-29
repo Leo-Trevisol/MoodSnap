@@ -607,14 +607,17 @@ class HomeFragment : Fragment() {
 
             dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
-            dialogView.findViewById<View>(R.id.btn_languages).setOnClickListener {
-                // Handle language option click
+            val btnThemes : Button = dialogView.findViewById<Button>(R.id.btn_themes)
+            Utils.updateBackGroundColor(requireContext(), btnThemes)
+            btnThemes.setOnClickListener {
+                showThemeSelectionDialog()
                 dialog.dismiss()
             }
 
-            dialogView.findViewById<View>(R.id.btn_themes).setOnClickListener {
+            val btnLanguages : Button = dialogView.findViewById<Button>(R.id.btn_languages)
+            Utils.updateBackGroundColor(requireContext(), btnLanguages)
+            btnLanguages.setOnClickListener {
                 dialog.dismiss()
-                showThemeSelectionDialog()
             }
 
             dialog.show()
@@ -654,13 +657,17 @@ class HomeFragment : Fragment() {
 
             settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
-            settingsDialogView.findViewById<View>(R.id.btn_languages).setOnClickListener {
+            val btnThemes : Button = settingsDialogView.findViewById<Button>(R.id.btn_themes)
+            Utils.updateBackGroundColor(requireContext(), btnThemes)
+            btnThemes.setOnClickListener {
+                showThemeSelectionDialog()
                 settingsDialog.dismiss()
             }
 
-            settingsDialogView.findViewById<View>(R.id.btn_themes).setOnClickListener {
+            val btnLanguages : Button = settingsDialogView.findViewById<Button>(R.id.btn_languages)
+            Utils.updateBackGroundColor(requireContext(), btnLanguages)
+            btnLanguages.setOnClickListener {
                 settingsDialog.dismiss()
-                showThemeSelectionDialog()
             }
 
             settingsDialog.show()
