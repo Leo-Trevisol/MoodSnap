@@ -28,7 +28,10 @@ import kotlin.math.abs
 import android.widget.PopupMenu
 import android.widget.RadioButton
 import android.content.Context
+import android.widget.Button
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
+import com.google.android.material.button.MaterialButton
 
 class HomeFragment : Fragment() {
 
@@ -624,12 +627,14 @@ class HomeFragment : Fragment() {
             .setView(themeDialogView)
             .create()
         
-
-        
         themeDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
         val radioLightTheme = themeDialogView.findViewById<RadioButton>(R.id.radio_light_theme)
+        radioLightTheme.buttonTintList =  ContextCompat. getColorStateList(requireContext(), R.color.black)
+
+
         val radioDarkTheme = themeDialogView.findViewById<RadioButton>(R.id.radio_dark_theme)
+        radioDarkTheme.buttonTintList =  ContextCompat. getColorStateList(requireContext(), R.color.white)
 
         // Correct the logic to check the current theme
         val currentNightMode = AppCompatDelegate.getDefaultNightMode()
@@ -660,8 +665,9 @@ class HomeFragment : Fragment() {
 
             settingsDialog.show()
         }
-
-        themeDialogView.findViewById<View>(R.id.btn_confirm).setOnClickListener {
+        val btnConfirm : Button = themeDialogView.findViewById<Button>(R.id.btn_confirm)
+        Utils.updateBackGroundColor(requireContext(), btnConfirm)
+        btnConfirm.setOnClickListener {
             val nightMode = if (radioLightTheme.isChecked) {
                 AppCompatDelegate.MODE_NIGHT_NO
             } else {

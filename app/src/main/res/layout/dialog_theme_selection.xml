@@ -12,36 +12,54 @@
 
         <RadioButton
             android:id="@+id/radio_light_theme"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tema claro"
-            android:layout_marginBottom="@dimen/spacing_normal"/>
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:textColor="@color/black"
+            android:drawableEnd="@drawable/ic_light"
+            android:background="@drawable/background_rounded"
+            android:buttonTint="@color/black"
+            android:padding="16dp"/>
 
         <RadioButton
             android:id="@+id/radio_dark_theme"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tema escuro"
-            android:layout_marginBottom="@dimen/spacing_large"/>
+            android:layout_marginBottom="@dimen/spacing_large"
+            android:drawableEnd="@drawable/ic_dark"
+            android:drawableTint="@color/white"
+            android:background="@drawable/background_rounded"
+            android:backgroundTint="@color/black"
+            android:buttonTint="@color/white"
+            android:padding="16dp"/>
     </RadioGroup>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="end">
+        android:gravity="center">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Voltar"
-            android:layout_marginEnd="@dimen/spacing_normal"/>
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:background="@android:color/transparent"
+            android:textColor="@color/primary_green"
+            android:text="Voltar" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btn_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:background="@drawable/rounded_button_shadow_green"
+            android:textColor="@color/primary_green"
             android:text="Confirmar"/>
     </LinearLayout>
 
