@@ -618,6 +618,7 @@ class HomeFragment : Fragment() {
             Utils.updateBackGroundColor(requireContext(), btnLanguages)
             btnLanguages.setOnClickListener {
                 dialog.dismiss()
+                showLanguageSelectionDialog()
             }
 
             dialog.show()
@@ -722,6 +723,72 @@ class HomeFragment : Fragment() {
         val uiMode = resources.configuration.uiMode
         val nightModeFlags = uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
         return nightModeFlags == android.content.res.Configuration.UI_MODE_NIGHT_YES
+    }
+
+    private fun showLanguageSelectionDialog() {
+        val languageDialogView = layoutInflater.inflate(R.layout.dialog_language_selection, null)
+        val languageDialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(languageDialogView)
+            .create()
+
+        languageDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+        val radioEnglish = languageDialogView.findViewById<RadioButton>(R.id.radio_english)
+        val radioPortuguese = languageDialogView.findViewById<RadioButton>(R.id.radio_portuguese)
+
+        // Load the current language preference
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentLanguage = sharedPreferences.getString("current_language", "en")
+        if (currentLanguage == "pt") {
+            radioPortuguese.isChecked = true
+        } else {
+            radioEnglish.isChecked = true
+        }
+
+        languageDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
+            languageDialog.dismiss()
+            // Reopen the settings dialog
+            val settingsDialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
+            val settingsDialog = MaterialAlertDialogBuilder(requireContext())
+                .setView(settingsDialogView)
+                .create()
+
+            settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+            settingsDialogView.findViewById<View>(R.id.btn_languages).setOnClickListener {
+                settingsDialog.dismiss()
+                showLanguageSelectionDialog()
+            }
+
+            settingsDialogView.findViewById<View>(R.id.btn_themes).setOnClickListener {
+                settingsDialog.dismiss()
+                showThemeSelectionDialog()
+            }
+
+            settingsDialog.show()
+        }
+
+        languageDialogView.findViewById<View>(R.id.btn_confirm).setOnClickListener {
+            val selectedLanguage = if (radioEnglish.isChecked) "en" else "pt"
+            with(sharedPreferences.edit()) {
+                putString("current_language", selectedLanguage)
+                apply()
+            }
+            
+            // Set the locale to the selected language
+            val locale = Locale(selectedLanguage)
+            Locale.setDefault(locale)
+            val config = resources.configuration
+            config.setLocale(locale)
+            resources.updateConfiguration(config, resources.displayMetrics)
+            
+            languageDialog.dismiss()
+            
+            // Restart the activity to apply the language change
+            activity?.recreate()
+        }
+
+        languageDialog.show()
     }
 
     override fun onDestroyView() {

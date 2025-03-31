@@ -1,6 +1,7 @@
 package com.br.leo.moodsnap.ui.dashboard
 
 import android.app.Application
+import android.content.Context
 import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
@@ -145,12 +146,12 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun getMoodName(moodType: Int): String {
-        return Utils.getMoodName(getApplication<Application>().applicationContext, moodType)
+    fun getMoodName(context: Context, moodType: Int): String {
+        return Utils.getMoodName(context, moodType)
     }
 
-    fun getDayOfWeekName(dayOfWeek: Int): String {
-        return Utils.getDayOfWeekName(getApplication<Application>().applicationContext, dayOfWeek)
+    fun getDayOfWeekName(context: Context, dayOfWeek: Int): String {
+        return Utils.getDayOfWeekName(context, dayOfWeek)
     }
 
     fun setDayFilter(filter: DayFilter) {
@@ -162,27 +163,25 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun getFilterDescription(filter: DayFilter): String {
-        val context = getApplication<Application>().applicationContext
+    fun getFilterDescription(context: Context, filter: DayFilter): String {
         return when (filter) {
             DayFilter.BEST_DAY -> context.getString(R.string.best_day)
             DayFilter.WORST_DAY -> context.getString(R.string.worst_day)
         }
     }
 
-    fun getDayStatisticsText(dayOfWeek: Int, filter: DayFilter): String {
-        val context = getApplication<Application>().applicationContext
+    fun getDayStatisticsText(context: Context, dayOfWeek: Int, filter: DayFilter): String {
         if (dayOfWeek == -1) return context.getString(R.string.register_more_moods)
 
         return when (filter) {
             DayFilter.BEST_DAY -> context.getString(
                 R.string.best_day_usually,
-                getDayOfWeekName(dayOfWeek)
+                getDayOfWeekName(context, dayOfWeek)
             )
 
             DayFilter.WORST_DAY -> context.getString(
                 R.string.worst_day_usually,
-                getDayOfWeekName(dayOfWeek)
+                getDayOfWeekName(context, dayOfWeek)
             )
         }
     }

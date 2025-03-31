@@ -121,7 +121,7 @@ class DashboardFragment : Fragment() {
                 val view = super.getView(position, convertView, parent)
                 val filter = getItem(position)
                 (view as TextView).text =
-                    filter?.let { dashboardViewModel.getFilterDescription(it) }
+                    filter?.let { dashboardViewModel.getFilterDescription(requireContext(), it) }
                 return view
             }
 
@@ -133,7 +133,7 @@ class DashboardFragment : Fragment() {
                 val view = super.getDropDownView(position, convertView, parent)
                 val filter = getItem(position)
                 (view as TextView).text =
-                    filter?.let { dashboardViewModel.getFilterDescription(it) }
+                    filter?.let { dashboardViewModel.getFilterDescription(requireContext(), it) }
                 return view
             }
         }
@@ -200,7 +200,7 @@ class DashboardFragment : Fragment() {
                 val moodType = average.roundToInt()
                 binding.averageMoodIcon.setImageResource(Utils.getMoodDrawable(moodType))
                 binding.averageMoodText.text =
-                    getString(R.string.your_average_mood, dashboardViewModel.getMoodName(moodType))
+                    getString(R.string.your_average_mood, dashboardViewModel.getMoodName(requireContext(), moodType))
                 binding.cardAverageMood.setCardBackgroundColor(
                     dashboardViewModel.getMoodColor(
                         moodType
@@ -273,13 +273,13 @@ class DashboardFragment : Fragment() {
         dashboardViewModel.bestDayOfWeek.observe(viewLifecycleOwner) { dayOfWeek ->
             val filter =
                 dashboardViewModel.selectedDayFilter.value ?: DashboardViewModel.DayFilter.BEST_DAY
-            binding.bestDayText.text = dashboardViewModel.getDayStatisticsText(dayOfWeek, filter)
+            binding.bestDayText.text = dashboardViewModel.getDayStatisticsText(requireContext(), dayOfWeek, filter)
         }
 
         // Observar mudanças no filtro selecionado
         dashboardViewModel.selectedDayFilter.observe(viewLifecycleOwner) { filter ->
             val dayOfWeek = dashboardViewModel.bestDayOfWeek.value ?: -1
-            binding.bestDayText.text = dashboardViewModel.getDayStatisticsText(dayOfWeek, filter)
+            binding.bestDayText.text = dashboardViewModel.getDayStatisticsText(requireContext(), dayOfWeek, filter)
         }
     }
 
@@ -296,11 +296,10 @@ class DashboardFragment : Fragment() {
         // Encontrar o humor mais frequente
         val mostFrequentMood = distribution.entries.maxByOrNull { it.value }
         val mostFrequentPercentage = ((mostFrequentMood?.value ?: 0) / total * 100).roundToInt()
-
         // Atualizar o resumo no cabeçalho
         binding.distributionSummary.text = getString(
             R.string.you_were_mood,
-            dashboardViewModel.getMoodName(mostFrequentMood?.key ?: 2),
+            dashboardViewModel.getMoodName(requireContext(), mostFrequentMood?.key ?: 2),
             mostFrequentPercentage
         )
 
@@ -424,13 +423,16 @@ class DashboardFragment : Fragment() {
     private fun setupPieChart(distribution: Map<Int, Int>) {
         val pieChart: PieChart = binding.pieChart
 
-        // Convert distribution map to PieEntry list
-        val entries = distribution.map { (moodType, count) ->
-            PieEntry(count.toFloat(), dashboardViewModel.getMoodName(moodType))
+        // Ensure the legend is displayed in the order: very happy, happy, neutral, sad, very sad
+        val moodOrder = listOf(0, 1, 2, 3, 4)
+        val entries = moodOrder.mapNotNull { moodType ->
+            distribution[moodType]?.let { count ->
+                PieEntry(count.toFloat(), dashboardViewModel.getMoodName(requireContext(), moodType))
+            }
         }
 
         val dataSet = PieDataSet(entries, "")
-        dataSet.colors = distribution.keys.map { moodType ->
+        dataSet.colors = moodOrder.map { moodType ->
             dashboardViewModel.getMoodColor(moodType)
         }
         dataSet.valueTextSize = 16f
@@ -439,7 +441,7 @@ class DashboardFragment : Fragment() {
         val pieData = PieData(dataSet)
         pieData.setValueFormatter(object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
-                return "${value.toInt()}%"
+                return "${value.roundToInt()}%"
             }
         })
         pieChart.data = pieData

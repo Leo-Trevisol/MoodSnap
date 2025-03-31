@@ -12,6 +12,7 @@ import com.br.leo.moodsnap.databinding.ActivityMainBinding
 import com.br.leo.moodsnap.ui.dialog.DialogEmotions
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
 import java.util.*
+import android.content.Context
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -21,12 +22,28 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Load saved language preference
+        loadSavedLanguage()
+        
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupNavigation()
         setListeners()
         observeViewModel()
+    }
+
+    private fun loadSavedLanguage() {
+        val sharedPreferences = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentLanguage = sharedPreferences.getString("current_language", "en")
+        
+        // Set the locale to the saved language
+        val locale = Locale(currentLanguage)
+        Locale.setDefault(locale)
+        val config = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 
     private fun setupNavigation() {
