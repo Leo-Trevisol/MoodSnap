@@ -735,14 +735,25 @@ class HomeFragment : Fragment() {
 
         val radioEnglish = languageDialogView.findViewById<RadioButton>(R.id.radio_english)
         val radioPortuguese = languageDialogView.findViewById<RadioButton>(R.id.radio_portuguese)
+        val radioSpanish = languageDialogView.findViewById<RadioButton>(R.id.radio_spanish)
+        val radioItalian = languageDialogView.findViewById<RadioButton>(R.id.radio_italian)
+        val radioChinese = languageDialogView.findViewById<RadioButton>(R.id.radio_chinese)
+        val radioRussian = languageDialogView.findViewById<RadioButton>(R.id.radio_russian)
+        val radioGerman = languageDialogView.findViewById<RadioButton>(R.id.radio_german)
 
         // Load the current language preference
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentLanguage = sharedPreferences.getString("current_language", "en")
-        if (currentLanguage == "pt") {
-            radioPortuguese.isChecked = true
-        } else {
-            radioEnglish.isChecked = true
+        
+        // Check the appropriate radio button based on current language
+        when (currentLanguage) {
+            "pt" -> radioPortuguese.isChecked = true
+            "es" -> radioSpanish.isChecked = true
+            "it" -> radioItalian.isChecked = true
+            "zh" -> radioChinese.isChecked = true
+            "ru" -> radioRussian.isChecked = true
+            "de" -> radioGerman.isChecked = true
+            else -> radioEnglish.isChecked = true
         }
 
         languageDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
@@ -768,8 +779,19 @@ class HomeFragment : Fragment() {
             settingsDialog.show()
         }
 
-        languageDialogView.findViewById<View>(R.id.btn_confirm).setOnClickListener {
-            val selectedLanguage = if (radioEnglish.isChecked) "en" else "pt"
+        val btnConfirm : Button = languageDialogView.findViewById<Button>(R.id.btn_confirm)
+        Utils.updateBackGroundColor(requireContext(), btnConfirm)
+        btnConfirm.setOnClickListener {
+            val selectedLanguage = when {
+                radioPortuguese.isChecked -> "pt"
+                radioSpanish.isChecked -> "es"
+                radioItalian.isChecked -> "it"
+                radioChinese.isChecked -> "zh"
+                radioRussian.isChecked -> "ru"
+                radioGerman.isChecked -> "de"
+                else -> "en"
+            }
+            
             with(sharedPreferences.edit()) {
                 putString("current_language", selectedLanguage)
                 apply()

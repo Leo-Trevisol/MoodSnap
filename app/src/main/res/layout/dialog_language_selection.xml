@@ -23,6 +23,46 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Português"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:padding="16dp"/>
+
+        <RadioButton
+            android:id="@+id/radio_spanish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Español"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:padding="16dp"/>
+
+        <RadioButton
+            android:id="@+id/radio_italian"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Italiano"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:padding="16dp"/>
+
+        <RadioButton
+            android:id="@+id/radio_chinese"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="中文"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:padding="16dp"/>
+
+        <RadioButton
+            android:id="@+id/radio_russian"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Русский"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:padding="16dp"/>
+
+        <RadioButton
+            android:id="@+id/radio_german"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Deutsch"
             android:layout_marginBottom="@dimen/spacing_large"
             android:padding="16dp"/>
     </RadioGroup>
@@ -31,20 +71,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="end">
+        android:gravity="center">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Voltar"
-            android:layout_marginEnd="@dimen/spacing_normal"/>
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:background="@android:color/transparent"
+            android:textColor="@color/primary_green"
+            android:text="@string/btn_back" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btn_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Confirmar"/>
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:background="@drawable/rounded_button_shadow_green"
+            android:textColor="@color/primary_green"
+            android:text="@string/btn_confirm"/>
     </LinearLayout>
 
 </LinearLayout> 
