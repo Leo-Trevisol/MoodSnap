@@ -59,10 +59,10 @@ object Utils {
         }
     }
 
-    fun updateBackGroundColor(context: Context, button: Button, color: Int = getMainColor()) {
+    fun updateBackGroundColor(context: Context, button: Button, backgroundColor: Int = getMainColor(), textColor: Int = Color.BLACK) {
 
-        button.setTextColor(Color.BLACK)
-        button.backgroundTintList = ColorStateList.valueOf(context.resources.getColor(color))
+        button.setTextColor(textColor)
+        button.backgroundTintList = ColorStateList.valueOf(context.resources.getColor(backgroundColor))
     }
 
     fun isDateInFuture(calendar: Calendar): Boolean {

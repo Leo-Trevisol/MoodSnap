@@ -28,6 +28,7 @@ import kotlin.math.abs
 import android.widget.PopupMenu
 import android.widget.RadioButton
 import android.content.Context
+import android.content.res.ColorStateList
 import android.widget.Button
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
@@ -734,27 +735,79 @@ class HomeFragment : Fragment() {
 
         languageDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
-        val radioEnglish = languageDialogView.findViewById<RadioButton>(R.id.radio_english)
-        val radioPortuguese = languageDialogView.findViewById<RadioButton>(R.id.radio_portuguese)
-        val radioSpanish = languageDialogView.findViewById<RadioButton>(R.id.radio_spanish)
-        val radioItalian = languageDialogView.findViewById<RadioButton>(R.id.radio_italian)
-        val radioChinese = languageDialogView.findViewById<RadioButton>(R.id.radio_chinese)
-        val radioRussian = languageDialogView.findViewById<RadioButton>(R.id.radio_russian)
-        val radioGerman = languageDialogView.findViewById<RadioButton>(R.id.radio_german)
-
+        // Get all language buttons
+        val btnEnglish = languageDialogView.findViewById<Button>(R.id.btn_english)
+        val btnPortuguese = languageDialogView.findViewById<Button>(R.id.btn_portuguese)
+        val btnSpanish = languageDialogView.findViewById<Button>(R.id.btn_spanish)
+        val btnItalian = languageDialogView.findViewById<Button>(R.id.btn_italian)
+        val btnChinese = languageDialogView.findViewById<Button>(R.id.btn_chinese)
+        val btnRussian = languageDialogView.findViewById<Button>(R.id.btn_russian)
+        val btnGerman = languageDialogView.findViewById<Button>(R.id.btn_german)
         // Load the current language preference
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentLanguage = sharedPreferences.getString("current_language", "en")
         
-        // Check the appropriate radio button based on current language
+        // Function to reset all buttons to default state
+        fun resetAllButtons() {
+            val buttons = listOf(btnEnglish, btnPortuguese, btnSpanish, btnItalian, btnChinese, btnRussian, btnGerman)
+            buttons.forEach { button ->
+                Utils.updateBackGroundColor(requireContext(), button, R.color.dark_secondary, Color.WHITE)
+            }
+        }
+
+        resetAllButtons()
+
+        // Function to highlight selected button
+        fun highlightButton(button: Button) {
+            button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primary_green)))
+            button.setTextColor(Color.WHITE)
+        }
+
+        // Set initial selection based on current language
         when (currentLanguage) {
-            "pt" -> radioPortuguese.isChecked = true
-            "es" -> radioSpanish.isChecked = true
-            "it" -> radioItalian.isChecked = true
-            "zh" -> radioChinese.isChecked = true
-            "ru" -> radioRussian.isChecked = true
-            "de" -> radioGerman.isChecked = true
-            else -> radioEnglish.isChecked = true
+            "pt" -> highlightButton(btnPortuguese)
+            "es" -> highlightButton(btnSpanish)
+            "it" -> highlightButton(btnItalian)
+            "zh" -> highlightButton(btnChinese)
+            "ru" -> highlightButton(btnRussian)
+            "de" -> highlightButton(btnGerman)
+            else -> highlightButton(btnEnglish)
+        }
+
+        // Set click listeners for all buttons
+        btnEnglish.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnEnglish)
+        }
+
+        btnPortuguese.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnPortuguese)
+        }
+
+        btnSpanish.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnSpanish)
+        }
+
+        btnItalian.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnItalian)
+        }
+
+        btnChinese.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnChinese)
+        }
+
+        btnRussian.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnRussian)
+        }
+
+        btnGerman.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnGerman)
         }
 
         languageDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
@@ -788,12 +841,12 @@ class HomeFragment : Fragment() {
         Utils.updateBackGroundColor(requireContext(), btnConfirm)
         btnConfirm.setOnClickListener {
             val selectedLanguage = when {
-                radioPortuguese.isChecked -> "pt"
-                radioSpanish.isChecked -> "es"
-                radioItalian.isChecked -> "it"
-                radioChinese.isChecked -> "zh"
-                radioRussian.isChecked -> "ru"
-                radioGerman.isChecked -> "de"
+                btnPortuguese.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "pt"
+                btnSpanish.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "es"
+                btnItalian.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "it"
+                btnChinese.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "zh"
+                btnRussian.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "ru"
+                btnGerman.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "de"
                 else -> "en"
             }
             
