@@ -424,7 +424,7 @@ class DashboardFragment : Fragment() {
         val pieChart: PieChart = binding.pieChart
 
         // Ensure the legend is displayed in the order: very happy, happy, neutral, sad, very sad
-        val moodOrder = listOf(0, 1, 2, 3, 4)
+        val moodOrder = listOf(4, 3, 2, 1, 0)
         val entries = moodOrder.mapNotNull { moodType ->
             distribution[moodType]?.let { count ->
                 PieEntry(count.toFloat(), dashboardViewModel.getMoodName(requireContext(), moodType))

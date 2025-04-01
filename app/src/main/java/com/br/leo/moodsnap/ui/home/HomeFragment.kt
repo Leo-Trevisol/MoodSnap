@@ -668,6 +668,7 @@ class HomeFragment : Fragment() {
             val btnLanguages : Button = settingsDialogView.findViewById<Button>(R.id.btn_languages)
             Utils.updateBackGroundColor(requireContext(), btnLanguages)
             btnLanguages.setOnClickListener {
+                showLanguageSelectionDialog()
                 settingsDialog.dismiss()
             }
 
@@ -766,12 +767,16 @@ class HomeFragment : Fragment() {
 
             settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
-            settingsDialogView.findViewById<View>(R.id.btn_languages).setOnClickListener {
+            val btnLanguages : Button = settingsDialogView.findViewById<Button>(R.id.btn_languages)
+            Utils.updateBackGroundColor(requireContext(), btnLanguages)
+            btnLanguages.setOnClickListener {
                 settingsDialog.dismiss()
                 showLanguageSelectionDialog()
             }
 
-            settingsDialogView.findViewById<View>(R.id.btn_themes).setOnClickListener {
+            val btnThemes : Button = settingsDialogView.findViewById<Button>(R.id.btn_themes)
+            Utils.updateBackGroundColor(requireContext(), btnThemes)
+            btnThemes.setOnClickListener {
                 settingsDialog.dismiss()
                 showThemeSelectionDialog()
             }
