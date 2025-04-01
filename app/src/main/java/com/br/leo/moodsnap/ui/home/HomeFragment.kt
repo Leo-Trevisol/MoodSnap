@@ -634,19 +634,43 @@ class HomeFragment : Fragment() {
         
         themeDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
-        val radioLightTheme = themeDialogView.findViewById<RadioButton>(R.id.radio_light_theme)
-        radioLightTheme.buttonTintList =  ContextCompat. getColorStateList(requireContext(), R.color.black)
+        // Get theme buttons
+        val btnLightTheme = themeDialogView.findViewById<Button>(R.id.btn_light_theme)
+        val btnDarkTheme = themeDialogView.findViewById<Button>(R.id.btn_dark_theme)
 
+        // Function to reset all buttons to default state
+        fun resetAllButtons() {
+            val buttons = listOf(btnLightTheme, btnDarkTheme)
+            buttons.forEach { button ->
+                Utils.updateBackGroundColor(requireContext(), button, R.color.dark_secondary, Color.WHITE)
+            }
+        }
 
-        val radioDarkTheme = themeDialogView.findViewById<RadioButton>(R.id.radio_dark_theme)
-        radioDarkTheme.buttonTintList =  ContextCompat. getColorStateList(requireContext(), R.color.white)
+        resetAllButtons()
 
-        // Correct the logic to check the current theme
+        // Function to highlight selected button
+        fun highlightButton(button: Button) {
+            button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primary_green)))
+            button.setTextColor(Color.WHITE)
+        }
+
+        // Set initial selection based on current theme
         val currentNightMode = AppCompatDelegate.getDefaultNightMode()
         if (currentNightMode == AppCompatDelegate.MODE_NIGHT_YES || (currentNightMode == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM && isSystemInDarkMode())) {
-            radioDarkTheme.isChecked = true
+            highlightButton(btnDarkTheme)
         } else {
-            radioLightTheme.isChecked = true
+            highlightButton(btnLightTheme)
+        }
+
+        // Set click listeners for theme buttons
+        btnLightTheme.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnLightTheme)
+        }
+
+        btnDarkTheme.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnDarkTheme)
         }
 
         themeDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
@@ -675,10 +699,11 @@ class HomeFragment : Fragment() {
 
             settingsDialog.show()
         }
+
         val btnConfirm : Button = themeDialogView.findViewById<Button>(R.id.btn_confirm)
         Utils.updateBackGroundColor(requireContext(), btnConfirm)
         btnConfirm.setOnClickListener {
-            val nightMode = if (radioLightTheme.isChecked) {
+            val nightMode = if (btnLightTheme.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green)) {
                 AppCompatDelegate.MODE_NIGHT_NO
             } else {
                 AppCompatDelegate.MODE_NIGHT_YES
