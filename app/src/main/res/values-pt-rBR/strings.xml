@@ -135,4 +135,13 @@
     <!-- Perguntas de Humor -->
     <string name="how_are_you_feeling_today">Como está se sentindo?</string>
     <string name="how_were_you_feeling_that_day">Como estava se sentindo?</string>
+
+    <!-- Nomes dos Idiomas -->
+    <string name="language_english">Inglês - En</string>
+    <string name="language_portuguese">Português - Pt-Br</string>
+    <string name="language_spanish">Espanhol - Es</string>
+    <string name="language_italian">Italiano - It</string>
+    <string name="language_chinese">Chinês - Zh</string>
+    <string name="language_russian">Russo - Ru</string>
+    <string name="language_german">Alemão - De</string>
 </resources> 

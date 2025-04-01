@@ -3,7 +3,7 @@
     <!-- Cores escuras principais -->
     <color name="primary">#000</color>
     <color name="secundary">#FFF</color>
-    <color name="primary_background">#0A0A0A</color>
+    <color name="primary_background">#282424</color>
     <color name="secundary_background_background">#F4F1D6</color>
     <color name="past_day_background_color">@color/white</color>
     <color name="future_day_background_color">@color/gray_light</color>

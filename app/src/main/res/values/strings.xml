@@ -138,4 +138,13 @@
     <string name="select_settings_option">Selecione uma opção de configuração</string>
     <string name="languages">Idiomas</string>
     <string name="themes">Temas</string>
+
+    <!-- Language Names -->
+    <string name="language_english">English - En</string>
+    <string name="language_portuguese">Portuguese - Pt-Br</string>
+    <string name="language_spanish">Spanish - Es</string>
+    <string name="language_italian">Italian - It</string>
+    <string name="language_chinese">Chinese - Zh</string>
+    <string name="language_russian">Russian - Ru</string>
+    <string name="language_german">German - De</string>
 </resources>

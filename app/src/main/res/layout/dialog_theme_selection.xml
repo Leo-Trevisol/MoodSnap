@@ -23,6 +23,7 @@
             android:background="@drawable/rounded_button_shadow"
             android:backgroundTint="@color/white"
             android:textColor="@color/black"
+            android:drawableEnd="@drawable/ic_light"
             android:padding="16dp"/>
 
         <Button
@@ -34,6 +35,7 @@
             android:background="@drawable/rounded_button_shadow"
             android:backgroundTint="@color/white"
             android:textColor="@color/black"
+            android:drawableEnd="@drawable/ic_dark"
             android:padding="16dp"/>
 
     </LinearLayout>

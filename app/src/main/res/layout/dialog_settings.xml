@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/select_settings_option"
+        android:textColor="@color/secundary"
         android:textSize="@dimen/text_size_large"
         android:textStyle="bold"
         android:gravity="center"

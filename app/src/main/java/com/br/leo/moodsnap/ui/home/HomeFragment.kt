@@ -32,6 +32,7 @@ import android.content.res.ColorStateList
 import android.widget.Button
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
 import com.google.android.material.button.MaterialButton
 
 class HomeFragment : Fragment() {
@@ -602,7 +603,7 @@ class HomeFragment : Fragment() {
         val settingsButton = view?.findViewById<View>(R.id.btn_settings)
         settingsButton?.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
-            val dialog = MaterialAlertDialogBuilder(requireContext())
+            val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
                 .setView(dialogView)
                 .create()
 
@@ -628,7 +629,7 @@ class HomeFragment : Fragment() {
 
     private fun showThemeSelectionDialog() {
         val themeDialogView = layoutInflater.inflate(R.layout.dialog_theme_selection, null)
-        val themeDialog = MaterialAlertDialogBuilder(requireContext())
+        val themeDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setView(themeDialogView)
             .create()
         
@@ -642,7 +643,8 @@ class HomeFragment : Fragment() {
         fun resetAllButtons() {
             val buttons = listOf(btnLightTheme, btnDarkTheme)
             buttons.forEach { button ->
-                Utils.updateBackGroundColor(requireContext(), button, R.color.dark_secondary, Color.WHITE)
+                Utils.updateBackGroundColor(requireContext(), button, R.color.gray_dark, R.color.secundary)
+                TextViewCompat.setCompoundDrawableTintList(button, ContextCompat.getColorStateList(requireContext(), R.color.dark_secondary))
             }
         }
 
@@ -651,7 +653,8 @@ class HomeFragment : Fragment() {
         // Function to highlight selected button
         fun highlightButton(button: Button) {
             button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primary_green)))
-            button.setTextColor(Color.WHITE)
+            button.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            TextViewCompat.setCompoundDrawableTintList(button, ContextCompat.getColorStateList(requireContext(), R.color.white))
         }
 
         // Set initial selection based on current theme
@@ -677,7 +680,7 @@ class HomeFragment : Fragment() {
             themeDialog.dismiss()
             // Reopen the settings dialog
             val settingsDialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
-            val settingsDialog = MaterialAlertDialogBuilder(requireContext())
+            val settingsDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
                 .setView(settingsDialogView)
                 .create()
 
@@ -754,7 +757,7 @@ class HomeFragment : Fragment() {
 
     private fun showLanguageSelectionDialog() {
         val languageDialogView = layoutInflater.inflate(R.layout.dialog_language_selection, null)
-        val languageDialog = MaterialAlertDialogBuilder(requireContext())
+        val languageDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setView(languageDialogView)
             .create()
 
@@ -776,7 +779,7 @@ class HomeFragment : Fragment() {
         fun resetAllButtons() {
             val buttons = listOf(btnEnglish, btnPortuguese, btnSpanish, btnItalian, btnChinese, btnRussian, btnGerman)
             buttons.forEach { button ->
-                Utils.updateBackGroundColor(requireContext(), button, R.color.dark_secondary, Color.WHITE)
+                Utils.updateBackGroundColor(requireContext(), button, R.color.gray_dark, R.color.secundary)
             }
         }
 
@@ -839,7 +842,7 @@ class HomeFragment : Fragment() {
             languageDialog.dismiss()
             // Reopen the settings dialog
             val settingsDialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
-            val settingsDialog = MaterialAlertDialogBuilder(requireContext())
+            val settingsDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
                 .setView(settingsDialogView)
                 .create()
 

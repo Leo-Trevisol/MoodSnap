@@ -133,4 +133,13 @@
     <!-- Mood Questions -->
     <string name="how_are_you_feeling_today">¿Cómo te sientes hoy?</string>
     <string name="how_were_you_feeling_that_day">¿Cómo te sentías ese día?</string>
+
+    <!-- Nombres de Idiomas -->
+    <string name="language_english">Inglés - En</string>
+    <string name="language_portuguese">Portugués - Pt-Br</string>
+    <string name="language_spanish">Español - Es</string>
+    <string name="language_italian">Italiano - It</string>
+    <string name="language_chinese">Chino - Zh</string>
+    <string name="language_russian">Ruso - Ru</string>
+    <string name="language_german">Alemán - De</string>
 </resources>
