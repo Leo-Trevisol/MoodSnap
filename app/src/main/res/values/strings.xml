@@ -140,6 +140,7 @@
     <string name="themes">Themes</string>
 
     <!-- Language Names -->
+    <string name="language_settings">Language Settings</string>
     <string name="language_english">English - En</string>
     <string name="language_portuguese">Portuguese - Pt-Br</string>
     <string name="language_spanish">Spanish - Es</string>
@@ -149,6 +150,7 @@
     <string name="language_russian">Russian - Ru</string>
     <string name="language_german">German - De</string>
 
+    <string name="theme_settings">Theme Settings</string>
     <string name="light_theme">Light Theme</string>
     <string name="dark_theme">Dark Theme</string>
 
@@ -165,5 +167,6 @@
     <string name="open_sans_font">Open Sans</string>
     <string name="lato_font">Lato</string>
     <string name="poppins_font">Poppins</string>
+    <string name="mulish_font">Mulish</string>
 
 </resources>

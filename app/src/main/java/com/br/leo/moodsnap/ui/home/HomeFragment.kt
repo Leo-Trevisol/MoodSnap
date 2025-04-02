@@ -719,6 +719,20 @@ class HomeFragment : Fragment() {
                 settingsDialog.dismiss()
             }
 
+            val btnNotifications : Button = settingsDialogView.findViewById<Button>(R.id.btn_notifications)
+            Utils.updateBackGroundColor(requireContext(), btnNotifications)
+            btnNotifications.setOnClickListener {
+                settingsDialog.dismiss()
+                showNotificationSettingsDialog()
+            }
+
+            val btnFonts : Button = settingsDialogView.findViewById<Button>(R.id.btn_fonts)
+            Utils.updateBackGroundColor(requireContext(), btnFonts)
+            btnFonts.setOnClickListener {
+                settingsDialog.dismiss()
+                showFontSelectionDialog()
+            }
+
             settingsDialog.show()
         }
 
@@ -888,6 +902,20 @@ class HomeFragment : Fragment() {
                 showThemeSelectionDialog()
             }
 
+            val btnNotifications : Button = settingsDialogView.findViewById<Button>(R.id.btn_notifications)
+            Utils.updateBackGroundColor(requireContext(), btnNotifications)
+            btnNotifications.setOnClickListener {
+                settingsDialog.dismiss()
+                showNotificationSettingsDialog()
+            }
+
+            val btnFonts : Button = settingsDialogView.findViewById<Button>(R.id.btn_fonts)
+            Utils.updateBackGroundColor(requireContext(), btnFonts)
+            btnFonts.setOnClickListener {
+                settingsDialog.dismiss()
+                showFontSelectionDialog()
+            }
+
             settingsDialog.show()
         }
 
@@ -1045,6 +1073,7 @@ class HomeFragment : Fragment() {
         val btnOpenSans = fontDialogView.findViewById<Button>(R.id.btn_open_sans)
         val btnLato = fontDialogView.findViewById<Button>(R.id.btn_lato)
         val btnPoppins = fontDialogView.findViewById<Button>(R.id.btn_poppins)
+        val btnMulish = fontDialogView.findViewById<Button>(R.id.btn_mulish)
 
         // Load current font preference
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
@@ -1052,7 +1081,7 @@ class HomeFragment : Fragment() {
 
         // Function to reset all buttons to default state
         fun resetAllButtons() {
-            val buttons = listOf(btnDefaultFont, btnRoboto, btnOpenSans, btnLato, btnPoppins)
+            val buttons = listOf(btnDefaultFont, btnRoboto, btnOpenSans, btnLato, btnPoppins, btnMulish)
             buttons.forEach { button ->
                 Utils.updateBackGroundColor(requireContext(), button, R.color.gray_dark, R.color.secundary)
             }
@@ -1072,6 +1101,7 @@ class HomeFragment : Fragment() {
             "open_sans" -> highlightButton(btnOpenSans)
             "lato" -> highlightButton(btnLato)
             "poppins" -> highlightButton(btnPoppins)
+            "mulish" -> highlightButton(btnMulish)
             else -> highlightButton(btnDefaultFont)
         }
 
@@ -1101,6 +1131,11 @@ class HomeFragment : Fragment() {
             highlightButton(btnPoppins)
         }
 
+        btnMulish.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnMulish)
+        }
+
         fontDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
             fontDialog.dismiss()
             // Reopen the settings dialog
@@ -1110,13 +1145,6 @@ class HomeFragment : Fragment() {
                 .create()
 
             settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-
-            val btnFonts : Button = settingsDialogView.findViewById<Button>(R.id.btn_fonts)
-            Utils.updateBackGroundColor(requireContext(), btnFonts)
-            btnFonts.setOnClickListener {
-                settingsDialog.dismiss()
-                showFontSelectionDialog()
-            }
 
             val btnThemes : Button = settingsDialogView.findViewById<Button>(R.id.btn_themes)
             Utils.updateBackGroundColor(requireContext(), btnThemes)
@@ -1139,6 +1167,13 @@ class HomeFragment : Fragment() {
                 showNotificationSettingsDialog()
             }
 
+            val btnFonts : Button = settingsDialogView.findViewById<Button>(R.id.btn_fonts)
+            Utils.updateBackGroundColor(requireContext(), btnFonts)
+            btnFonts.setOnClickListener {
+                settingsDialog.dismiss()
+                showFontSelectionDialog()
+            }
+
             settingsDialog.show()
         }
 
@@ -1150,6 +1185,7 @@ class HomeFragment : Fragment() {
                 btnOpenSans.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "open_sans"
                 btnLato.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "lato"
                 btnPoppins.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "poppins"
+                btnMulish.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "mulish"
                 else -> "default"
             }
 
