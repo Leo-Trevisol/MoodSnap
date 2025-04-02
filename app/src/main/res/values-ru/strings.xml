@@ -133,4 +133,20 @@
     <!-- Mood Questions -->
     <string name="how_are_you_feeling_today">Как ты себя чувствуешь?</string>
     <string name="how_were_you_feeling_that_day">Как ты себя чувствовал(а) в тот день?</string>
+
+    <string name="select_settings_option">Выберите вариант настроек</string>
+    <string name="languages">Языки</string>
+    <string name="themes">Темы</string>
+
+    <string name="language_english">Английский - En</string>
+    <string name="language_portuguese">Португальский - Pt-Br</string>
+    <string name="language_spanish">Испанский - Es</string>
+    <string name="language_french">Французский - Fr</string>
+    <string name="language_italian">Итальянский - It</string>
+    <string name="language_chinese">Китайский - Zh</string>
+    <string name="language_russian">Русский - Ru</string>
+    <string name="language_german">Немецкий - De</string>
+
+    <string name="light_theme">Светлая тема</string>
+    <string name="dark_theme">Темная тема</string>
 </resources>

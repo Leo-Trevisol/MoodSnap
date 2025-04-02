@@ -134,12 +134,20 @@
     <string name="how_are_you_feeling_today">Come ti senti oggi?</string>
     <string name="how_were_you_feeling_that_day">Come ti sentivi quel giorno?</string>
 
+    <string name="select_settings_option">Seleziona un\'opzione di configurazione</string>
+    <string name="languages">Lingue</string>
+    <string name="themes">Temi</string>
+
     <!-- Nomi delle Lingue -->
     <string name="language_english">Inglese - En</string>
     <string name="language_portuguese">Portoghese - Pt-Br</string>
     <string name="language_spanish">Spagnolo - Es</string>
+    <string name="language_french">Francese - Fr</string>
     <string name="language_italian">Italiano - It</string>
     <string name="language_chinese">Cinese - Zh</string>
     <string name="language_russian">Russo - Ru</string>
     <string name="language_german">Tedesco - De</string>
+
+    <string name="light_theme">Tema chiaro</string>
+    <string name="dark_theme">Tema scuro</string>
 </resources>

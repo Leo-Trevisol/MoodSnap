@@ -56,7 +56,7 @@
             <Button
                 android:id="@+id/btn_negative"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/button_height"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/spacing_normal"
                 android:background="@android:color/transparent"
                 android:paddingHorizontal="@dimen/button_padding"
@@ -68,7 +68,7 @@
             <Button
                 android:id="@+id/btn_positive"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/button_height"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:background="@drawable/rounded_button_shadow"
                 android:paddingHorizontal="@dimen/button_padding"

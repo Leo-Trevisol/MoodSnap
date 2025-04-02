@@ -19,7 +19,7 @@
     <Button
         android:id="@+id/btn_languages"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
+        android:layout_height="wrap_content"
         android:text="@string/languages"
         android:textStyle="bold"
         android:shadowColor="@color/white"
@@ -31,7 +31,7 @@
     <Button
         android:id="@+id/btn_themes"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
+        android:layout_height="wrap_content"
         android:background="@drawable/rounded_button_shadow"
         android:text="@string/themes"
         android:textStyle="bold"

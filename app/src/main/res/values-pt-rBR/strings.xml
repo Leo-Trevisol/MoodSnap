@@ -136,12 +136,21 @@
     <string name="how_are_you_feeling_today">Como está se sentindo?</string>
     <string name="how_were_you_feeling_that_day">Como estava se sentindo?</string>
 
+    <string name="select_settings_option">Selecione uma opção de configuração</string>
+    <string name="languages">Idiomas</string>
+    <string name="themes">Temas</string>
+
     <!-- Nomes dos Idiomas -->
     <string name="language_english">Inglês - En</string>
     <string name="language_portuguese">Português - Pt-Br</string>
     <string name="language_spanish">Espanhol - Es</string>
+    <string name="language_french">Francês - Fr</string>
     <string name="language_italian">Italiano - It</string>
     <string name="language_chinese">Chinês - Zh</string>
     <string name="language_russian">Russo - Ru</string>
     <string name="language_german">Alemão - De</string>
+
+
+    <string name="light_theme">Tema claro</string>
+    <string name="dark_theme">Tema escuro</string>
 </resources> 

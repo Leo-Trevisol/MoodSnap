@@ -18,7 +18,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_camera"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
+        android:layout_height="wrap_content"
         android:text="@string/camera"
         app:icon="@drawable/ic_camera"
         app:iconGravity="textStart"
@@ -33,7 +33,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_gallery"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
+        android:layout_height="wrap_content"
         android:background="@drawable/rounded_button_shadow"
         android:text="@string/gallery"
         app:icon="@drawable/ic_gallery"

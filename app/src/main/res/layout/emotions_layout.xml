@@ -143,7 +143,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_edit"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_large"
             android:textStyle="bold"
             android:text="@string/detail_day"
@@ -158,7 +158,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_delete"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_large"
             android:textStyle="bold"
             android:text="@string/delete_mood"

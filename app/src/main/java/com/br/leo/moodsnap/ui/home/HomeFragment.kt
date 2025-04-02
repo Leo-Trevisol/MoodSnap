@@ -767,6 +767,7 @@ class HomeFragment : Fragment() {
         val btnEnglish = languageDialogView.findViewById<Button>(R.id.btn_english)
         val btnPortuguese = languageDialogView.findViewById<Button>(R.id.btn_portuguese)
         val btnSpanish = languageDialogView.findViewById<Button>(R.id.btn_spanish)
+        val btnFrench = languageDialogView.findViewById<Button>(R.id.btn_french)
         val btnItalian = languageDialogView.findViewById<Button>(R.id.btn_italian)
         val btnChinese = languageDialogView.findViewById<Button>(R.id.btn_chinese)
         val btnRussian = languageDialogView.findViewById<Button>(R.id.btn_russian)
@@ -777,7 +778,7 @@ class HomeFragment : Fragment() {
         
         // Function to reset all buttons to default state
         fun resetAllButtons() {
-            val buttons = listOf(btnEnglish, btnPortuguese, btnSpanish, btnItalian, btnChinese, btnRussian, btnGerman)
+            val buttons = listOf(btnEnglish, btnPortuguese, btnSpanish, btnFrench, btnItalian, btnChinese, btnRussian, btnGerman)
             buttons.forEach { button ->
                 Utils.updateBackGroundColor(requireContext(), button, R.color.gray_dark, R.color.secundary)
             }
@@ -795,6 +796,7 @@ class HomeFragment : Fragment() {
         when (currentLanguage) {
             "pt" -> highlightButton(btnPortuguese)
             "es" -> highlightButton(btnSpanish)
+            "fr" -> highlightButton(btnFrench)
             "it" -> highlightButton(btnItalian)
             "zh" -> highlightButton(btnChinese)
             "ru" -> highlightButton(btnRussian)
@@ -816,6 +818,11 @@ class HomeFragment : Fragment() {
         btnSpanish.setOnClickListener {
             resetAllButtons()
             highlightButton(btnSpanish)
+        }
+
+        btnFrench.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnFrench)
         }
 
         btnItalian.setOnClickListener {
@@ -871,6 +878,7 @@ class HomeFragment : Fragment() {
             val selectedLanguage = when {
                 btnPortuguese.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "pt"
                 btnSpanish.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "es"
+                btnFrench.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "fr"
                 btnItalian.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "it"
                 btnChinese.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "zh"
                 btnRussian.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "ru"
