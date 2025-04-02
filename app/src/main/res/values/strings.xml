@@ -152,5 +152,11 @@
     <string name="light_theme">Light Theme</string>
     <string name="dark_theme">Dark Theme</string>
 
+    <!-- Notification Settings -->
+    <string name="notifications">Notifications</string>
+    <string name="notification_settings">Notification Settings</string>
+    <string name="enable_notifications">Enable Daily Reminder</string>
+    <string name="notification_time">Reminder Time</string>
+    <string name="notification_message">How are you feeling today?</string>
 
 </resources>

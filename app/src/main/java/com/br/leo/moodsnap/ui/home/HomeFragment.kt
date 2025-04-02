@@ -1,5 +1,6 @@
 package com.br.leo.moodsnap.ui.home
 
+import android.content.ContentValues.TAG
 import android.graphics.Color
 import android.os.Bundle
 import android.view.GestureDetector
@@ -34,6 +35,10 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.widget.TextViewCompat
 import com.google.android.material.button.MaterialButton
+import android.widget.Switch
+import android.widget.TimePicker
+import com.br.leo.moodsnap.utils.NotificationHelper
+import android.util.Log
 
 class HomeFragment : Fragment() {
 
@@ -603,7 +608,7 @@ class HomeFragment : Fragment() {
         val settingsButton = view?.findViewById<View>(R.id.btn_settings)
         settingsButton?.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
-            val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
+            val dialog = MaterialAlertDialogBuilder(requireContext())
                 .setView(dialogView)
                 .create()
 
@@ -621,6 +626,13 @@ class HomeFragment : Fragment() {
             btnLanguages.setOnClickListener {
                 dialog.dismiss()
                 showLanguageSelectionDialog()
+            }
+
+            val btnNotifications : Button = dialogView.findViewById<Button>(R.id.btn_notifications)
+            Utils.updateBackGroundColor(requireContext(), btnNotifications)
+            btnNotifications.setOnClickListener {
+                dialog.dismiss()
+                showNotificationSettingsDialog()
             }
 
             dialog.show()
@@ -905,6 +917,104 @@ class HomeFragment : Fragment() {
         }
 
         languageDialog.show()
+    }
+
+    private fun showNotificationSettingsDialog() {
+        val notificationDialogView = layoutInflater.inflate(R.layout.dialog_notification_settings, null)
+        val notificationDialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(notificationDialogView)
+            .create()
+
+        notificationDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+        val switchNotifications = notificationDialogView.findViewById<Switch>(R.id.switch_notifications)
+        val timePicker = notificationDialogView.findViewById<TimePicker>(R.id.time_picker)
+        val notificationHelper = NotificationHelper(requireContext())
+
+        // Load saved notification settings
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val notificationsEnabled = sharedPreferences.getBoolean("notifications_enabled", false)
+        val notificationHour = sharedPreferences.getInt("notification_hour", 20) // Default to 8 PM
+        val notificationMinute = sharedPreferences.getInt("notification_minute", 0)
+
+        Log.d(TAG, "Loading notification settings - Enabled: $notificationsEnabled, Hour: $notificationHour, Minute: $notificationMinute")
+
+        switchNotifications.isChecked = notificationsEnabled
+        timePicker.hour = notificationHour
+        timePicker.minute = notificationMinute
+        timePicker.setIs24HourView(true)
+        timePicker.isEnabled = notificationsEnabled
+
+        switchNotifications.setOnCheckedChangeListener { _, isChecked ->
+            Log.d(TAG, "Notification switch changed to: $isChecked")
+            timePicker.isEnabled = isChecked
+            if (!isChecked) {
+                notificationHelper.cancelDailyNotification()
+            }
+        }
+
+        notificationDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
+            notificationDialog.dismiss()
+            // Reopen the settings dialog
+            val settingsDialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
+            val settingsDialog = MaterialAlertDialogBuilder(requireContext())
+                .setView(settingsDialogView)
+                .create()
+
+            settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+            val btnNotifications : Button = settingsDialogView.findViewById<Button>(R.id.btn_notifications)
+            Utils.updateBackGroundColor(requireContext(), btnNotifications)
+            btnNotifications.setOnClickListener {
+                settingsDialog.dismiss()
+                showNotificationSettingsDialog()
+            }
+
+            val btnThemes : Button = settingsDialogView.findViewById<Button>(R.id.btn_themes)
+            Utils.updateBackGroundColor(requireContext(), btnThemes)
+            btnThemes.setOnClickListener {
+                settingsDialog.dismiss()
+                showThemeSelectionDialog()
+            }
+
+            val btnLanguages : Button = settingsDialogView.findViewById<Button>(R.id.btn_languages)
+            Utils.updateBackGroundColor(requireContext(), btnLanguages)
+            btnLanguages.setOnClickListener {
+                settingsDialog.dismiss()
+                showLanguageSelectionDialog()
+            }
+
+            settingsDialog.show()
+        }
+
+        val btnConfirm : Button = notificationDialogView.findViewById<Button>(R.id.btn_confirm)
+        Utils.updateBackGroundColor(requireContext(), btnConfirm)
+        btnConfirm.setOnClickListener {
+            val isEnabled = switchNotifications.isChecked
+            val hour = timePicker.hour
+            val minute = timePicker.minute
+
+            Log.d(TAG, "Saving notification settings - Enabled: $isEnabled, Hour: $hour, Minute: $minute")
+
+            with(sharedPreferences.edit()) {
+                putBoolean("notifications_enabled", isEnabled)
+                putInt("notification_hour", hour)
+                putInt("notification_minute", minute)
+                apply()
+            }
+
+            if (isEnabled) {
+                notificationHelper.scheduleDailyNotification(hour, minute)
+                Log.d(TAG, "Notification scheduled for $hour:$minute")
+            } else {
+                notificationHelper.cancelDailyNotification()
+                Log.d(TAG, "Notifications cancelled")
+            }
+
+            notificationDialog.dismiss()
+        }
+
+        notificationDialog.show()
     }
 
     override fun onDestroyView() {

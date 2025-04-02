@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -108,6 +109,13 @@ class DashboardFragment : Fragment() {
                     return false
                 }
             })
+
+        // Aplique o onTouchListener ao ScrollView ou ao contêiner
+        val scrollView = view?.findViewById<ScrollView>(R.id.scroll_cards) // ou o seu contêiner
+        scrollView?.setOnTouchListener { v, event ->
+            gestureDetector.onTouchEvent(event) // Passe o evento para o GestureDetector
+            false // Retorna false para permitir que o ScrollView também processe o evento
+        }
     }
 
     private fun setupDayFilterSpinner() {
