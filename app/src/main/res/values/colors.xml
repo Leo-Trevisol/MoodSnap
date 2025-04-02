@@ -13,11 +13,11 @@
     <color name="dark_secondary_variant">#1F1F1F</color>
     <color name="dark_background">#0A0A0A</color>
 
-    <color name="very_sad_color">#4682B4</color>
-    <color name="sad_color">#87CEEB</color>
-    <color name="neutral_color">#CBC6C6</color>
-    <color name="happy_color">#90EE90</color>
-    <color name="very_happy_color">#FFE500</color>
+    <color name="very_sad_color">#b0c2f2</color>
+    <color name="sad_color">#b2e2f2</color>
+    <color name="neutral_color">#c5c6c8</color>
+    <color name="happy_color">#b0f2c2</color>
+    <color name="very_happy_color">#fdfd96</color>
 
     <!-- Texto e detalhes -->
     <color name="white">#FFFFFF</color>
@@ -26,7 +26,7 @@
     <color name="gray_light">#F8EDED</color>
     <color name="gray_dark">#CBC6C6</color>
 
-    <color name="primary_green">#4CAF50</color>
-    <color name="primary_red">#FC6C74</color>
+    <color name="primary_green">#77dd77</color>
+    <color name="primary_red">#ff94a2</color>
 
 </resources>
