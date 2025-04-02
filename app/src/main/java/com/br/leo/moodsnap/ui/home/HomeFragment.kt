@@ -991,6 +991,13 @@ class HomeFragment : Fragment() {
                 showLanguageSelectionDialog()
             }
 
+            val btnFonts : Button = settingsDialogView.findViewById<Button>(R.id.btn_fonts)
+            Utils.updateBackGroundColor(requireContext(), btnFonts)
+            btnFonts.setOnClickListener {
+                settingsDialog.dismiss()
+                showFontSelectionDialog()
+            }
+
             settingsDialog.show()
         }
 
@@ -1123,6 +1130,13 @@ class HomeFragment : Fragment() {
             btnLanguages.setOnClickListener {
                 settingsDialog.dismiss()
                 showLanguageSelectionDialog()
+            }
+
+            val btnNotifications : Button = settingsDialogView.findViewById<Button>(R.id.btn_notifications)
+            Utils.updateBackGroundColor(requireContext(), btnNotifications)
+            btnNotifications.setOnClickListener {
+                settingsDialog.dismiss()
+                showNotificationSettingsDialog()
             }
 
             settingsDialog.show()
