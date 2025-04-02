@@ -635,6 +635,13 @@ class HomeFragment : Fragment() {
                 showNotificationSettingsDialog()
             }
 
+            val btnFonts : Button = dialogView.findViewById<Button>(R.id.btn_fonts)
+            Utils.updateBackGroundColor(requireContext(), btnFonts)
+            btnFonts.setOnClickListener {
+                dialog.dismiss()
+                showFontSelectionDialog()
+            }
+
             dialog.show()
         }
     }
@@ -1015,6 +1022,135 @@ class HomeFragment : Fragment() {
         }
 
         notificationDialog.show()
+    }
+
+    private fun showFontSelectionDialog() {
+        val fontDialogView = layoutInflater.inflate(R.layout.dialog_font_selection, null)
+        val fontDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
+            .setView(fontDialogView)
+            .create()
+
+        fontDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+        // Get font buttons
+        val btnDefaultFont = fontDialogView.findViewById<Button>(R.id.btn_default_font)
+        val btnRoboto = fontDialogView.findViewById<Button>(R.id.btn_roboto)
+        val btnOpenSans = fontDialogView.findViewById<Button>(R.id.btn_open_sans)
+        val btnLato = fontDialogView.findViewById<Button>(R.id.btn_lato)
+        val btnPoppins = fontDialogView.findViewById<Button>(R.id.btn_poppins)
+
+        // Load current font preference
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+
+        // Function to reset all buttons to default state
+        fun resetAllButtons() {
+            val buttons = listOf(btnDefaultFont, btnRoboto, btnOpenSans, btnLato, btnPoppins)
+            buttons.forEach { button ->
+                Utils.updateBackGroundColor(requireContext(), button, R.color.gray_dark, R.color.secundary)
+            }
+        }
+
+        resetAllButtons()
+
+        // Function to highlight selected button
+        fun highlightButton(button: Button) {
+            button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primary_green)))
+            button.setTextColor(Color.WHITE)
+        }
+
+        // Set initial selection based on current font
+        when (currentFont) {
+            "roboto" -> highlightButton(btnRoboto)
+            "open_sans" -> highlightButton(btnOpenSans)
+            "lato" -> highlightButton(btnLato)
+            "poppins" -> highlightButton(btnPoppins)
+            else -> highlightButton(btnDefaultFont)
+        }
+
+        // Set click listeners for font buttons
+        btnDefaultFont.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnDefaultFont)
+        }
+
+        btnRoboto.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnRoboto)
+        }
+
+        btnOpenSans.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnOpenSans)
+        }
+
+        btnLato.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnLato)
+        }
+
+        btnPoppins.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnPoppins)
+        }
+
+        fontDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
+            fontDialog.dismiss()
+            // Reopen the settings dialog
+            val settingsDialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
+            val settingsDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
+                .setView(settingsDialogView)
+                .create()
+
+            settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+            val btnFonts : Button = settingsDialogView.findViewById<Button>(R.id.btn_fonts)
+            Utils.updateBackGroundColor(requireContext(), btnFonts)
+            btnFonts.setOnClickListener {
+                settingsDialog.dismiss()
+                showFontSelectionDialog()
+            }
+
+            val btnThemes : Button = settingsDialogView.findViewById<Button>(R.id.btn_themes)
+            Utils.updateBackGroundColor(requireContext(), btnThemes)
+            btnThemes.setOnClickListener {
+                settingsDialog.dismiss()
+                showThemeSelectionDialog()
+            }
+
+            val btnLanguages : Button = settingsDialogView.findViewById<Button>(R.id.btn_languages)
+            Utils.updateBackGroundColor(requireContext(), btnLanguages)
+            btnLanguages.setOnClickListener {
+                settingsDialog.dismiss()
+                showLanguageSelectionDialog()
+            }
+
+            settingsDialog.show()
+        }
+
+        val btnConfirm : Button = fontDialogView.findViewById<Button>(R.id.btn_confirm)
+        Utils.updateBackGroundColor(requireContext(), btnConfirm)
+        btnConfirm.setOnClickListener {
+            val selectedFont = when {
+                btnRoboto.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "roboto"
+                btnOpenSans.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "open_sans"
+                btnLato.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "lato"
+                btnPoppins.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "poppins"
+                else -> "default"
+            }
+
+            with(sharedPreferences.edit()) {
+                putString("current_font", selectedFont)
+                apply()
+            }
+
+            fontDialog.dismiss()
+            
+            // Restart the activity to apply the font change
+            activity?.recreate()
+        }
+
+        fontDialog.show()
     }
 
     override fun onDestroyView() {
