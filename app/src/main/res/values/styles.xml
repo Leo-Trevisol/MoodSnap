@@ -72,4 +72,18 @@
         <item name="android:windowExitAnimation">@anim/dialog_exit</item>
     </style>
 
+    <style name="TimePickerTheme">
+        <item name="android:timePickerStyle">@style/CustomTimePicker</item>
+        <item name="colorControlNormal">@color/primary_green</item>
+        <item name="android:textColorPrimary">@color/secundary</item>
+        <item name="android:background">@color/primary_background</item>
+    </style>
+
+    <style name="CustomTimePicker" parent="android:Widget.Material.TimePicker">
+        <item name="android:timePickerMode">spinner</item>
+        <item name="android:numbersTextColor">@color/primary_green</item>
+        <item name="android:numbersSelectorColor">@color/primary_green</item>
+        <item name="android:numbersBackgroundColor">@android:color/transparent</item>
+    </style>
+
 </resources>

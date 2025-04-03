@@ -636,7 +636,7 @@ class HomeFragment : Fragment() {
         val settingsButton = view?.findViewById<View>(R.id.btn_settings)
         settingsButton?.setOnClickListener {
             val dialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
-            val dialog = MaterialAlertDialogBuilder(requireContext())
+            val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
                 .setView(dialogView)
                 .create()
 
@@ -678,6 +678,7 @@ class HomeFragment : Fragment() {
         val themeDialogView = layoutInflater.inflate(R.layout.dialog_theme_selection, null)
         val themeDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setView(themeDialogView)
+            .setCancelable(false)
             .create()
         
         themeDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
@@ -820,6 +821,7 @@ class HomeFragment : Fragment() {
         val languageDialogView = layoutInflater.inflate(R.layout.dialog_language_selection, null)
         val languageDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setView(languageDialogView)
+            .setCancelable(false)
             .create()
 
         languageDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
@@ -984,8 +986,9 @@ class HomeFragment : Fragment() {
 
     private fun showNotificationSettingsDialog() {
         val notificationDialogView = layoutInflater.inflate(R.layout.dialog_notification_settings, null)
-        val notificationDialog = MaterialAlertDialogBuilder(requireContext())
+        val notificationDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setView(notificationDialogView)
+            .setCancelable(false)
             .create()
 
         notificationDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
@@ -1020,7 +1023,7 @@ class HomeFragment : Fragment() {
             notificationDialog.dismiss()
             // Reopen the settings dialog
             val settingsDialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
-            val settingsDialog = MaterialAlertDialogBuilder(requireContext())
+            val settingsDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
                 .setView(settingsDialogView)
                 .create()
 
@@ -1091,6 +1094,7 @@ class HomeFragment : Fragment() {
         val fontDialogView = layoutInflater.inflate(R.layout.dialog_font_selection, null)
         val fontDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setView(fontDialogView)
+            .setCancelable(false)
             .create()
 
         fontDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation

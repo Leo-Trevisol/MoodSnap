@@ -19,6 +19,7 @@
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold"
             android:gravity="center"
+            android:textColor="@color/secundary"
             android:layout_marginBottom="@dimen/spacing_large"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -12,6 +12,7 @@
         android:textSize="@dimen/text_size_large"
         android:textStyle="bold"
         android:gravity="center"
+        android:textColor="@color/secundary"
         android:layout_marginBottom="@dimen/spacing_large"/>
 
     <Switch
@@ -21,14 +22,20 @@
         android:text="@string/enable_notifications"
         android:textSize="@dimen/text_size_normal"
         android:padding="16dp"
+        android:thumbTint="@color/secundary"
+        android:textColor="@color/secundary"
+        android:trackTint="@color/switch_track_color"
         android:layout_marginBottom="@dimen/spacing_large"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/notification_time"
-        android:textSize="@dimen/text_size_normal"
-        android:layout_marginBottom="@dimen/spacing_small"/>
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/secundary"
+        android:layout_marginBottom="@dimen/spacing_normal"/>
 
     <TimePicker
         android:id="@+id/time_picker"
@@ -36,8 +43,7 @@
         android:layout_height="wrap_content"
         android:timePickerMode="spinner"
         android:padding="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:theme="@style/TimePickerTheme"
         android:enabled="false" />
 
     <LinearLayout
