@@ -61,35 +61,73 @@ class NotificationHelper(private val context: Context) {
             }
         }
 
-        // Cancelar qualquer notificação existente antes de agendar uma nova
-        cancelDailyNotification()
+        try {
+            // Cancelar qualquer notificação existente antes de agendar uma nova
+            cancelDailyNotification()
 
-        // Agendar a notificação
-        alarmManager.setRepeating(
-            AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis,
-            AlarmManager.INTERVAL_DAY,
-            pendingIntent
-        )
+            // Tentar usar setAlarmClock primeiro (mais confiável)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val showIntent = Intent(context, MainActivity::class.java)
+                val showPendingIntent = PendingIntent.getActivity(
+                    context,
+                    NOTIFICATION_REQUEST_CODE,
+                    showIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
 
-        Log.d(TAG, "Notification scheduled for ${calendar.time}")
+                val alarmInfo = AlarmManager.AlarmClockInfo(calendar.timeInMillis, showPendingIntent)
+                alarmManager.setAlarmClock(alarmInfo, pendingIntent)
+            } else {
+                // Fallback para versões mais antigas
+                alarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    AlarmManager.INTERVAL_DAY,
+                    pendingIntent
+                )
+            }
+
+            Log.d(TAG, "Notification successfully scheduled for ${calendar.time}")
+            
+            // Enviar uma notificação imediata para confirmar que foi configurado
+        } catch (e: Exception) {
+            Log.e(TAG, "Error scheduling notification", e)
+        }
+    }
+
+    private fun sendConfirmationNotification() {
+        val notification = NotificationCompat.Builder(context, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_notifications_black_24dp)
+            .setContentTitle("Notificações Ativadas")
+            .setContentText("Você receberá lembretes diários para registrar seu humor")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+            .build()
+
+        notificationManager.notify(CONFIRMATION_NOTIFICATION_ID, notification)
     }
 
     fun cancelDailyNotification() {
         Log.d(TAG, "Canceling daily notification")
-        val intent = Intent(context, NotificationReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
-            context,
-            NOTIFICATION_REQUEST_CODE,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-        alarmManager.cancel(pendingIntent)
+        try {
+            val intent = Intent(context, NotificationReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(
+                context,
+                NOTIFICATION_REQUEST_CODE,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            alarmManager.cancel(pendingIntent)
+            Log.d(TAG, "Daily notification successfully canceled")
+        } catch (e: Exception) {
+            Log.e(TAG, "Error canceling notification", e)
+        }
     }
 
     companion object {
         const val CHANNEL_ID = "moodsnap_notification_channel"
         const val NOTIFICATION_REQUEST_CODE = 123
+        const val CONFIRMATION_NOTIFICATION_ID = 456
         private const val TAG = "NotificationHelper"
     }
 } 

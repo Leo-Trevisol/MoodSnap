@@ -1,5 +1,6 @@
 package com.br.leo.moodsnap.ui.home
 
+import android.Manifest
 import android.content.ContentValues.TAG
 import android.graphics.Color
 import android.os.Bundle
@@ -40,6 +41,13 @@ import android.widget.TimePicker
 import com.br.leo.moodsnap.utils.NotificationHelper
 import android.util.Log
 import com.br.leo.moodsnap.ui.utils.FontManager
+import android.os.Build
+import android.content.pm.PackageManager
+import androidx.activity.result.contract.ActivityResultContracts
+import android.app.AlertDialog
+import android.provider.Settings
+import android.content.Intent
+import android.net.Uri
 
 class HomeFragment : Fragment() {
 
@@ -54,6 +62,16 @@ class HomeFragment : Fragment() {
     private val calendar = Calendar.getInstance()
     private var selectedDay: Int = -1
     private lateinit var gestureDetector: GestureDetector
+
+    private val notificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            showNotificationSettingsDialog()
+        } else {
+            showNotificationPermissionDeniedDialog()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -642,7 +660,7 @@ class HomeFragment : Fragment() {
             Utils.updateBackGroundColor(requireContext(), btnNotifications)
             btnNotifications.setOnClickListener {
                 dialog.dismiss()
-                showNotificationSettingsDialog()
+                checkNotificationPermission()
             }
 
             val btnFonts : Button = dialogView.findViewById<Button>(R.id.btn_fonts)
@@ -1221,6 +1239,57 @@ class HomeFragment : Fragment() {
         }
 
         fontDialog.show()
+    }
+
+    private fun checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            when {
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED -> {
+                    showNotificationSettingsDialog()
+                }
+                shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
+                    showNotificationPermissionRationaleDialog()
+                }
+                else -> {
+                    notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
+        } else {
+            showNotificationSettingsDialog()
+        }
+    }
+
+    private fun showNotificationPermissionRationaleDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.notifications))
+            .setMessage("Para receber lembretes diários, precisamos da sua permissão para enviar notificações.")
+            .setPositiveButton("Permitir") { _, _ ->
+                notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun showNotificationPermissionDeniedDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.notifications))
+            .setMessage("As notificações estão desativadas. Para receber lembretes diários, você precisa habilitar as notificações nas configurações do sistema.")
+            .setPositiveButton("Configurações") { _, _ ->
+                openNotificationSettings()
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    private fun openNotificationSettings() {
+        val intent = Intent().apply {
+            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            data = Uri.fromParts("package", requireContext().packageName, null)
+        }
+        startActivity(intent)
     }
 
     override fun onDestroyView() {
