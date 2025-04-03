@@ -116,6 +116,18 @@
         android:textSize="@dimen/button_text_size"
         android:padding="16dp"/>
 
+        <Button
+            android:id="@+id/btn_lime_light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_rounded"
+            android:text="Lime light"
+            android:textStyle="bold"
+            android:shadowColor="@color/white"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:textSize="@dimen/button_text_size"
+            android:padding="16dp"/>
+
         </LinearLayout>
 
     </ScrollView>

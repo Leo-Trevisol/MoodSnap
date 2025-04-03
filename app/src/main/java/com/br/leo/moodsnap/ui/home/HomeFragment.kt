@@ -39,6 +39,7 @@ import android.widget.Switch
 import android.widget.TimePicker
 import com.br.leo.moodsnap.utils.NotificationHelper
 import android.util.Log
+import com.br.leo.moodsnap.ui.utils.FontManager
 
 class HomeFragment : Fragment() {
 
@@ -78,6 +79,15 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentHomeBinding.bind(view)
+
+        // Apply current font
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        activity?.let { activity ->
+            FontManager.applyFontToActivity(activity, currentFont ?: "default")
+        }
+
         setupGestureDetector()
         setupDatePickers()
         setupWeekdaysGrid()
@@ -1074,6 +1084,7 @@ class HomeFragment : Fragment() {
         val btnLato = fontDialogView.findViewById<Button>(R.id.btn_lato)
         val btnPoppins = fontDialogView.findViewById<Button>(R.id.btn_poppins)
         val btnMulish = fontDialogView.findViewById<Button>(R.id.btn_mulish)
+        val btnLimeLight = fontDialogView.findViewById<Button>(R.id.btn_lime_light)
 
         // Load current font preference
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
@@ -1081,7 +1092,7 @@ class HomeFragment : Fragment() {
 
         // Function to reset all buttons to default state
         fun resetAllButtons() {
-            val buttons = listOf(btnDefaultFont, btnRoboto, btnOpenSans, btnLato, btnPoppins, btnMulish)
+            val buttons = listOf(btnDefaultFont, btnRoboto, btnOpenSans, btnLato, btnPoppins, btnMulish, btnLimeLight)
             buttons.forEach { button ->
                 Utils.updateBackGroundColor(requireContext(), button, R.color.gray_dark, R.color.secundary)
             }
@@ -1102,6 +1113,7 @@ class HomeFragment : Fragment() {
             "lato" -> highlightButton(btnLato)
             "poppins" -> highlightButton(btnPoppins)
             "mulish" -> highlightButton(btnMulish)
+            "limelight" -> highlightButton(btnLimeLight)
             else -> highlightButton(btnDefaultFont)
         }
 
@@ -1134,6 +1146,11 @@ class HomeFragment : Fragment() {
         btnMulish.setOnClickListener {
             resetAllButtons()
             highlightButton(btnMulish)
+        }
+
+        btnLimeLight.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnLimeLight)
         }
 
         fontDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
@@ -1186,6 +1203,7 @@ class HomeFragment : Fragment() {
                 btnLato.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "lato"
                 btnPoppins.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "poppins"
                 btnMulish.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "mulish"
+                btnLimeLight.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "limelight"
                 else -> "default"
             }
 
@@ -1194,10 +1212,12 @@ class HomeFragment : Fragment() {
                 apply()
             }
 
+            // Apply font change instantly
+            activity?.let { activity ->
+                FontManager.applyFontToActivity(activity, selectedFont)
+            }
+
             fontDialog.dismiss()
-            
-            // Restart the activity to apply the font change
-            activity?.recreate()
         }
 
         fontDialog.show()
