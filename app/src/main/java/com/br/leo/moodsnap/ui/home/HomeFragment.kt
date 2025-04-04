@@ -684,12 +684,13 @@ class HomeFragment : Fragment() {
         themeDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
         // Get theme buttons
+        val btnSystemTheme = themeDialogView.findViewById<Button>(R.id.btn_system_theme)
         val btnLightTheme = themeDialogView.findViewById<Button>(R.id.btn_light_theme)
         val btnDarkTheme = themeDialogView.findViewById<Button>(R.id.btn_dark_theme)
 
         // Function to reset all buttons to default state
         fun resetAllButtons() {
-            val buttons = listOf(btnLightTheme, btnDarkTheme)
+            val buttons = listOf(btnLightTheme, btnDarkTheme, btnSystemTheme)
             buttons.forEach { button ->
                 Utils.updateBackGroundColor(requireContext(), button, R.color.gray_dark, R.color.secundary)
                 TextViewCompat.setCompoundDrawableTintList(button, ContextCompat.getColorStateList(requireContext(), R.color.dark_secondary))
@@ -705,12 +706,21 @@ class HomeFragment : Fragment() {
             TextViewCompat.setCompoundDrawableTintList(button, ContextCompat.getColorStateList(requireContext(), R.color.white))
         }
 
-        // Set initial selection based on current theme
-        val currentNightMode = AppCompatDelegate.getDefaultNightMode()
-        if (currentNightMode == AppCompatDelegate.MODE_NIGHT_YES || (currentNightMode == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM && isSystemInDarkMode())) {
-            highlightButton(btnDarkTheme)
+        // Verificar se é a primeira execução do app
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val isFirstRun = sharedPreferences.getBoolean("is_first_run", true)
+        val isFirstThemeApply = sharedPreferences.getBoolean("is_first_theme_apply", true)
+
+        // Set initial selection based on current theme or first run
+        if (isFirstThemeApply) {
+            highlightButton(btnSystemTheme)
         } else {
-            highlightButton(btnLightTheme)
+            val currentNightMode = AppCompatDelegate.getDefaultNightMode()
+            when (currentNightMode) {
+                AppCompatDelegate.MODE_NIGHT_YES -> highlightButton(btnDarkTheme)
+                AppCompatDelegate.MODE_NIGHT_NO -> highlightButton(btnLightTheme)
+                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> highlightButton(btnSystemTheme)
+            }
         }
 
         // Set click listeners for theme buttons
@@ -722,6 +732,11 @@ class HomeFragment : Fragment() {
         btnDarkTheme.setOnClickListener {
             resetAllButtons()
             highlightButton(btnDarkTheme)
+        }
+
+        btnSystemTheme.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnSystemTheme)
         }
 
         themeDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
@@ -768,20 +783,33 @@ class HomeFragment : Fragment() {
         val btnConfirm : Button = themeDialogView.findViewById<Button>(R.id.btn_confirm)
         Utils.updateBackGroundColor(requireContext(), btnConfirm)
         btnConfirm.setOnClickListener {
-            val nightMode = if (btnLightTheme.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green)) {
-                AppCompatDelegate.MODE_NIGHT_NO
-            } else {
-                AppCompatDelegate.MODE_NIGHT_YES
+            val nightMode = when {
+                btnLightTheme.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> {
+                    AppCompatDelegate.MODE_NIGHT_NO
+                }
+                btnDarkTheme.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> {
+                    AppCompatDelegate.MODE_NIGHT_YES
+                }
+                else -> {
+                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                }
             }
-            AppCompatDelegate.setDefaultNightMode(nightMode)
-            
+
             // Save the selected theme to shared preferences
-            val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
             with(sharedPreferences.edit()) {
                 putInt("current_theme", nightMode)
                 apply()
             }
+            if(isFirstThemeApply){
+                with(sharedPreferences.edit()) {
+                    putBoolean("is_first_theme_apply", false)
+                    apply()
+                }
+            }
+
             
+            // Apply the theme
+            AppCompatDelegate.setDefaultNightMode(nightMode)
             themeDialog.dismiss()
         }
 

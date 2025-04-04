@@ -13,6 +13,8 @@ import com.br.leo.moodsnap.ui.dialog.DialogEmotions
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
 import java.util.*
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
+import android.content.res.Configuration
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -23,8 +25,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-        // Load saved language preference
-        loadSavedLanguage()
+        // Carregar configurações de idioma e tema
+        loadSettings()
         
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -34,12 +36,53 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         observeViewModel()
     }
 
-    private fun loadSavedLanguage() {
+    private fun loadSettings() {
         val sharedPreferences = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentLanguage = sharedPreferences.getString("current_language", "en")
         
-        // Set the locale to the saved language
-        val locale = Locale(currentLanguage)
+        // Verificar se é a primeira execução do app
+        val isFirstRun = sharedPreferences.getBoolean("is_first_run", true)
+        if (isFirstRun) {
+            // Aqui você pode adicionar qualquer lógica específica para primeira execução
+            with(sharedPreferences.edit()) {
+                putBoolean("is_first_run", false)
+                apply()
+            }
+        }
+        
+        // Configurar idioma
+        if (!sharedPreferences.contains("current_language")) {
+            // Se é a primeira vez, usar o idioma do sistema
+            val systemLanguage = Locale.getDefault().language
+            with(sharedPreferences.edit()) {
+                putString("current_language", systemLanguage)
+                apply()
+            }
+        }
+        
+        val currentLanguage = sharedPreferences.getString("current_language", Locale.getDefault().language)
+        updateLocale(currentLanguage ?: "en")
+
+        // Configurar tema
+        if (!sharedPreferences.contains("current_theme")) {
+            // Se é a primeira vez, usar o tema do sistema
+            val systemNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            val defaultNightMode = when (systemNightMode) {
+                Configuration.UI_MODE_NIGHT_YES -> AppCompatDelegate.MODE_NIGHT_YES
+                Configuration.UI_MODE_NIGHT_NO -> AppCompatDelegate.MODE_NIGHT_NO
+                else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            }
+            with(sharedPreferences.edit()) {
+                putInt("current_theme", defaultNightMode)
+                apply()
+            }
+        }
+        
+        val currentTheme = sharedPreferences.getInt("current_theme", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        AppCompatDelegate.setDefaultNightMode(currentTheme)
+    }
+
+    private fun updateLocale(languageCode: String) {
+        val locale = Locale(languageCode)
         Locale.setDefault(locale)
         val config = resources.configuration
         config.setLocale(locale)
@@ -92,8 +135,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun observeViewModel() {
-        viewModel.selectedEmotion.observe(this) { emotionResId ->
-            binding.fab.setImageResource(emotionResId)
-        }
+        // Implementar observadores do ViewModel se necessário
     }
 }
