@@ -46,6 +46,17 @@
                 >
 
                 <Button
+                    android:id="@+id/btn_system_language"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/language_system"
+                    android:layout_marginBottom="@dimen/spacing_normal"
+                    android:background="@drawable/background_rounded"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/black"
+                    android:padding="16dp"/>
+
+                <Button
                     android:id="@+id/btn_english"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

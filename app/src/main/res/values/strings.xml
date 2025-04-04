@@ -141,6 +141,7 @@
 
     <!-- Language Names -->
     <string name="language_settings">Language Settings</string>
+    <string name="language_system">System language</string>
     <string name="language_english">English - En</string>
     <string name="language_portuguese">Portuguese - Pt-Br</string>
     <string name="language_spanish">Spanish - Es</string>

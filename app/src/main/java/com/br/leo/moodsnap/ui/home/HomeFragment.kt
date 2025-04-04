@@ -708,7 +708,6 @@ class HomeFragment : Fragment() {
 
         // Verificar se é a primeira execução do app
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val isFirstRun = sharedPreferences.getBoolean("is_first_run", true)
         val isFirstThemeApply = sharedPreferences.getBoolean("is_first_theme_apply", true)
 
         // Set initial selection based on current theme or first run
@@ -800,6 +799,7 @@ class HomeFragment : Fragment() {
                 putInt("current_theme", nightMode)
                 apply()
             }
+
             if(isFirstThemeApply){
                 with(sharedPreferences.edit()) {
                     putBoolean("is_first_theme_apply", false)
@@ -807,7 +807,6 @@ class HomeFragment : Fragment() {
                 }
             }
 
-            
             // Apply the theme
             AppCompatDelegate.setDefaultNightMode(nightMode)
             themeDialog.dismiss()
@@ -855,6 +854,7 @@ class HomeFragment : Fragment() {
         languageDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
         // Get all language buttons
+        val btnSystem = languageDialogView.findViewById<Button>(R.id.btn_system_language)
         val btnEnglish = languageDialogView.findViewById<Button>(R.id.btn_english)
         val btnPortuguese = languageDialogView.findViewById<Button>(R.id.btn_portuguese)
         val btnSpanish = languageDialogView.findViewById<Button>(R.id.btn_spanish)
@@ -865,11 +865,11 @@ class HomeFragment : Fragment() {
         val btnGerman = languageDialogView.findViewById<Button>(R.id.btn_german)
         // Load the current language preference
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentLanguage = sharedPreferences.getString("current_language", "en")
+        val currentLanguage = sharedPreferences.getString("current_language", "system")
         
         // Function to reset all buttons to default state
         fun resetAllButtons() {
-            val buttons = listOf(btnEnglish, btnPortuguese, btnSpanish, btnFrench, btnItalian, btnChinese, btnRussian, btnGerman)
+            val buttons = listOf(btnSystem, btnEnglish, btnPortuguese, btnSpanish, btnFrench, btnItalian, btnChinese, btnRussian, btnGerman)
             buttons.forEach { button ->
                 Utils.updateBackGroundColor(requireContext(), button, R.color.gray_dark, R.color.secundary)
             }
@@ -883,19 +883,33 @@ class HomeFragment : Fragment() {
             button.setTextColor(Color.WHITE)
         }
 
-        // Set initial selection based on current language
-        when (currentLanguage) {
-            "pt" -> highlightButton(btnPortuguese)
-            "es" -> highlightButton(btnSpanish)
-            "fr" -> highlightButton(btnFrench)
-            "it" -> highlightButton(btnItalian)
-            "zh" -> highlightButton(btnChinese)
-            "ru" -> highlightButton(btnRussian)
-            "de" -> highlightButton(btnGerman)
-            else -> highlightButton(btnEnglish)
+        val isFirstLanguageApply = sharedPreferences.getBoolean("is_first_language_apply", true)
+
+        // Set initial selection based on current language or first run
+        if (isFirstLanguageApply) {
+            highlightButton(btnSystem)
+        }else{
+            // Set initial selection based on current language
+            when (currentLanguage) {
+                "system" -> highlightButton(btnSystem)
+                "pt" -> highlightButton(btnPortuguese)
+                "es" -> highlightButton(btnSpanish)
+                "fr" -> highlightButton(btnFrench)
+                "it" -> highlightButton(btnItalian)
+                "zh" -> highlightButton(btnChinese)
+                "ru" -> highlightButton(btnRussian)
+                "de" -> highlightButton(btnGerman)
+                else -> highlightButton(btnEnglish)
+            }
+
         }
 
         // Set click listeners for all buttons
+        btnSystem.setOnClickListener {
+            resetAllButtons()
+            highlightButton(btnSystem)
+        }
+
         btnEnglish.setOnClickListener {
             resetAllButtons()
             highlightButton(btnEnglish)
@@ -981,6 +995,7 @@ class HomeFragment : Fragment() {
         Utils.updateBackGroundColor(requireContext(), btnConfirm)
         btnConfirm.setOnClickListener {
             val selectedLanguage = when {
+                btnSystem.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> Locale.getDefault().language
                 btnPortuguese.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "pt"
                 btnSpanish.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "es"
                 btnFrench.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "fr"
@@ -1002,6 +1017,13 @@ class HomeFragment : Fragment() {
             val config = resources.configuration
             config.setLocale(locale)
             resources.updateConfiguration(config, resources.displayMetrics)
+
+            if(isFirstLanguageApply){
+                with(sharedPreferences.edit()) {
+                    putBoolean("is_first_language_apply", false)
+                    apply()
+                }
+            }
             
             languageDialog.dismiss()
             
