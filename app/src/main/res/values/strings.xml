@@ -171,4 +171,6 @@
     <string name="poppins_font">Poppins</string>
     <string name="mulish_font">Mulish</string>
 
+    <string name="font_preview_text">Escolha sua fonte preferida!</string>
+
 </resources>

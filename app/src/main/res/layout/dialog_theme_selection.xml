@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/theme_settings"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_xlarge"
             android:textStyle="bold"
             android:gravity="center"
             android:textColor="@color/secundary"

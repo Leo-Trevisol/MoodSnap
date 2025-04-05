@@ -778,6 +778,7 @@ class HomeFragment : Fragment() {
             val dialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
             val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
                 .setView(dialogView)
+                .setCancelable(false)
                 .create()
 
             dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
@@ -813,6 +814,11 @@ class HomeFragment : Fragment() {
             btnFonts.setOnClickListener {
                 dialog.dismiss()
                 showFontSelectionDialog()
+            }
+
+            val btnBack : Button = dialogView.findViewById<Button>(R.id.btn_back)
+            btnBack.setOnClickListener {
+                dialog.dismiss()
             }
 
             dialog.show()
@@ -893,6 +899,7 @@ class HomeFragment : Fragment() {
             val settingsDialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
             val settingsDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
                 .setView(settingsDialogView)
+                .setCancelable(false)
                 .create()
 
             settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
@@ -928,6 +935,11 @@ class HomeFragment : Fragment() {
             btnFonts.setOnClickListener {
                 settingsDialog.dismiss()
                 showFontSelectionDialog()
+            }
+
+            val btnBack : Button = settingsDialogView.findViewById<Button>(R.id.btn_back)
+            btnBack.setOnClickListener {
+                settingsDialog.dismiss()
             }
 
             settingsDialog.show()
@@ -1115,6 +1127,7 @@ class HomeFragment : Fragment() {
             val settingsDialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
             val settingsDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
                 .setView(settingsDialogView)
+                .setCancelable(false)
                 .create()
 
             settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
@@ -1150,6 +1163,11 @@ class HomeFragment : Fragment() {
             btnFonts.setOnClickListener {
                 settingsDialog.dismiss()
                 showFontSelectionDialog()
+            }
+
+            val btnBack : Button = settingsDialogView.findViewById<Button>(R.id.btn_back)
+            btnBack.setOnClickListener {
+                settingsDialog.dismiss()
             }
 
             settingsDialog.show()
@@ -1248,6 +1266,7 @@ class HomeFragment : Fragment() {
             val settingsDialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
             val settingsDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
                 .setView(settingsDialogView)
+                .setCancelable(false)
                 .create()
 
             settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
@@ -1283,6 +1302,11 @@ class HomeFragment : Fragment() {
             btnFonts.setOnClickListener {
                 settingsDialog.dismiss()
                 showFontSelectionDialog()
+            }
+
+            val btnBack : Button = settingsDialogView.findViewById<Button>(R.id.btn_back)
+            btnBack.setOnClickListener {
+                settingsDialog.dismiss()
             }
 
             settingsDialog.show()
@@ -1341,6 +1365,30 @@ class HomeFragment : Fragment() {
         val btnMulish = fontDialogView.findViewById<Button>(R.id.btn_mulish)
         val btnLimeLight = fontDialogView.findViewById<Button>(R.id.btn_lime_light)
 
+        // Get preview text
+        val previewText = fontDialogView.findViewById<TextView>(R.id.preview_text)
+        val weekText = fontDialogView.findViewById<TextView>(R.id.week_text)
+        val dayText = fontDialogView.findViewById<TextView>(R.id.day_text)
+        
+        // Get current date info
+        val today = Calendar.getInstance()
+        val currentDay = today.get(Calendar.DAY_OF_MONTH)
+        val currentDayOfWeek = today.get(Calendar.DAY_OF_WEEK)
+        
+        // Set current weekday abbreviation
+        val weekdayAbbr = when (currentDayOfWeek) {
+            Calendar.SUNDAY -> getString(R.string.weekday_sunday)
+            Calendar.MONDAY -> getString(R.string.weekday_monday)
+            Calendar.TUESDAY -> getString(R.string.weekday_tuesday)
+            Calendar.WEDNESDAY -> getString(R.string.weekday_wednesday)
+            Calendar.THURSDAY -> getString(R.string.weekday_thursday)
+            Calendar.FRIDAY -> getString(R.string.weekday_friday)
+            Calendar.SATURDAY -> getString(R.string.weekday_saturday)
+            else -> ""
+        }
+        weekText.text = weekdayAbbr
+        dayText.text = currentDay.toString()
+
         // Function to reset all buttons to default state
         fun resetAllButtons() {
             val buttons = listOf(btnDefaultFont, btnRoboto, btnOpenSans, btnLato, btnPoppins, btnMulish, btnLimeLight)
@@ -1351,57 +1399,64 @@ class HomeFragment : Fragment() {
 
         resetAllButtons()
 
-        // Function to highlight selected button
-        fun highlightButton(button: Button) {
+        // Function to highlight selected button and update preview text
+        fun highlightButtonAndUpdatePreview(button: Button, fontName: String) {
             button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primary_green)))
             button.setTextColor(Color.WHITE)
+            
+            // Update preview text with selected font
+            val typeface = ResourcesCompat.getFont(requireContext(), FontManager.getFontResourceId(fontName))
+            previewText.typeface = typeface
+            weekText.typeface = typeface
+            dayText.typeface = typeface
+
         }
 
         // Set initial selection based on current font
         when (currentFont) {
-            "roboto" -> highlightButton(btnRoboto)
-            "open_sans" -> highlightButton(btnOpenSans)
-            "lato" -> highlightButton(btnLato)
-            "poppins" -> highlightButton(btnPoppins)
-            "mulish" -> highlightButton(btnMulish)
-            "limelight" -> highlightButton(btnLimeLight)
-            else -> highlightButton(btnDefaultFont)
+            "roboto" -> highlightButtonAndUpdatePreview(btnRoboto, "roboto")
+            "open_sans" -> highlightButtonAndUpdatePreview(btnOpenSans, "open_sans")
+            "lato" -> highlightButtonAndUpdatePreview(btnLato, "lato")
+            "poppins" -> highlightButtonAndUpdatePreview(btnPoppins, "poppins")
+            "mulish" -> highlightButtonAndUpdatePreview(btnMulish, "mulish")
+            "limelight" -> highlightButtonAndUpdatePreview(btnLimeLight, "limelight")
+            else -> highlightButtonAndUpdatePreview(btnDefaultFont, "default")
         }
 
         // Set click listeners for font buttons
         btnDefaultFont.setOnClickListener {
             resetAllButtons()
-            highlightButton(btnDefaultFont)
+            highlightButtonAndUpdatePreview(btnDefaultFont, "default")
         }
 
         btnRoboto.setOnClickListener {
             resetAllButtons()
-            highlightButton(btnRoboto)
+            highlightButtonAndUpdatePreview(btnRoboto, "roboto")
         }
 
         btnOpenSans.setOnClickListener {
             resetAllButtons()
-            highlightButton(btnOpenSans)
+            highlightButtonAndUpdatePreview(btnOpenSans, "open_sans")
         }
 
         btnLato.setOnClickListener {
             resetAllButtons()
-            highlightButton(btnLato)
+            highlightButtonAndUpdatePreview(btnLato, "lato")
         }
 
         btnPoppins.setOnClickListener {
             resetAllButtons()
-            highlightButton(btnPoppins)
+            highlightButtonAndUpdatePreview(btnPoppins, "poppins")
         }
 
         btnMulish.setOnClickListener {
             resetAllButtons()
-            highlightButton(btnMulish)
+            highlightButtonAndUpdatePreview(btnMulish, "mulish")
         }
 
         btnLimeLight.setOnClickListener {
             resetAllButtons()
-            highlightButton(btnLimeLight)
+            highlightButtonAndUpdatePreview(btnLimeLight, "limelight")
         }
 
         fontDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
@@ -1410,6 +1465,7 @@ class HomeFragment : Fragment() {
             val settingsDialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
             val settingsDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
                 .setView(settingsDialogView)
+                .setCancelable(false)
                 .create()
 
             settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
@@ -1445,6 +1501,11 @@ class HomeFragment : Fragment() {
             btnFonts.setOnClickListener {
                 settingsDialog.dismiss()
                 showFontSelectionDialog()
+            }
+
+            val btnBack : Button = settingsDialogView.findViewById<Button>(R.id.btn_back)
+            btnBack.setOnClickListener {
+                settingsDialog.dismiss()
             }
 
             settingsDialog.show()

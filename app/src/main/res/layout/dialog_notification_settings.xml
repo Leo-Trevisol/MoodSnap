@@ -8,12 +8,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/notification_settings"
-        android:textSize="@dimen/text_size_large"
-        android:textStyle="bold"
+        android:layout_marginBottom="@dimen/spacing_large"
         android:gravity="center"
+        android:text="@string/notification_settings"
         android:textColor="@color/secundary"
-        android:layout_marginBottom="@dimen/spacing_large"/>
+        android:textSize="@dimen/text_size_xlarge"
+        android:textStyle="bold" />
 
     <Switch
         android:id="@+id/switch_notifications"
