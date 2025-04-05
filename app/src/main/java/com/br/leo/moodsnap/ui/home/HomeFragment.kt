@@ -47,6 +47,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import android.app.AlertDialog
 import android.provider.Settings
 import android.content.Intent
+import android.content.res.Resources
 import android.net.Uri
 
 class HomeFragment : Fragment() {
@@ -883,7 +884,7 @@ class HomeFragment : Fragment() {
             button.setTextColor(Color.WHITE)
         }
 
-        val isFirstLanguageApply = sharedPreferences.getBoolean("is_first_language_apply", true)
+        val isFirstLanguageApply = sharedPreferences.getBoolean("is_system_language_apply", true)
 
         // Set initial selection based on current language or first run
         if (isFirstLanguageApply) {
@@ -995,7 +996,7 @@ class HomeFragment : Fragment() {
         Utils.updateBackGroundColor(requireContext(), btnConfirm)
         btnConfirm.setOnClickListener {
             val selectedLanguage = when {
-                btnSystem.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> Locale.getDefault().language
+                btnSystem.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> Resources.getSystem().configuration.locales.get(0).language.toString()
                 btnPortuguese.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "pt"
                 btnSpanish.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "es"
                 btnFrench.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "fr"
@@ -1005,7 +1006,7 @@ class HomeFragment : Fragment() {
                 btnGerman.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "de"
                 else -> "en"
             }
-            
+
             with(sharedPreferences.edit()) {
                 putString("current_language", selectedLanguage)
                 apply()
@@ -1018,9 +1019,14 @@ class HomeFragment : Fragment() {
             config.setLocale(locale)
             resources.updateConfiguration(config, resources.displayMetrics)
 
-            if(isFirstLanguageApply){
+            if(btnSystem.backgroundTintList?.defaultColor != ContextCompat.getColor(requireContext(), R.color.primary_green)){
                 with(sharedPreferences.edit()) {
-                    putBoolean("is_first_language_apply", false)
+                    putBoolean("is_system_language_apply", false)
+                    apply()
+                }
+            }else{
+                with(sharedPreferences.edit()) {
+                    putBoolean("is_system_language_apply", true)
                     apply()
                 }
             }
