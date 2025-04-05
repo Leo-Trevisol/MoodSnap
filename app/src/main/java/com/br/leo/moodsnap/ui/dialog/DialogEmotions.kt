@@ -2,6 +2,7 @@ package com.br.leo.moodsnap.ui.dialog
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,6 +23,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import java.util.Calendar
+import com.br.leo.moodsnap.ui.utils.FontManager
 
 class DialogEmotions(
     private val viewModel: MainViewModel,
@@ -54,6 +56,11 @@ class DialogEmotions(
                 val screenHeight = displayMetrics.heightPixels
                 val marginFromBottom = (80 * displayMetrics.density).toInt() // 80dp em pixels
                 it.layoutParams.height = screenHeight - marginFromBottom
+
+                // Apply current font to the dialog
+                val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+                val currentFont = sharedPreferences.getString("current_font", "default")
+                FontManager.applyFontToView(requireContext(), it, currentFont ?: "default")
             }
         }
         
@@ -62,6 +69,12 @@ class DialogEmotions(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Apply current font
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        FontManager.applyFontToView(requireContext(), view, currentFont ?: "default")
+
         initComponents(view)
     }
 

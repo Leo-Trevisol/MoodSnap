@@ -1,5 +1,6 @@
 package com.br.leo.moodsnap.ui.home
 
+import android.content.Context
 import android.graphics.Color
 import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
@@ -9,14 +10,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.service.model.MoodModel
+import com.br.leo.moodsnap.ui.utils.FontManager
 import com.br.leo.moodsnap.ui.utils.Utils
 import java.util.Calendar
 
 class CalendarAdapter(
     private var daysInMonth: Int,
+    private val context: Context,
     private var moodList: List<MoodModel> = emptyList()
 ) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
 
@@ -25,9 +29,16 @@ class CalendarAdapter(
     private val today = Calendar.getInstance()
     private val displayMonth = Calendar.getInstance()
     private var firstDayOfWeek = 0 // Domingo = 0, Segunda = 1, etc
+    private var currentFont: String = "default"
 
     // Cores para cada tipo de humor
-
+    private val moodColors = mapOf(
+        0 to R.color.very_happy_color,
+        1 to R.color.happy_color,
+        2 to R.color.neutral_color,
+        3 to R.color.sad_color,
+        4 to R.color.very_sad_color
+    )
 
     class CalendarViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val dayCard: CardView = view.findViewById(R.id.day_card)
@@ -42,13 +53,6 @@ class CalendarAdapter(
     }
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
-        val moodColors = mapOf(
-            0 to ContextCompat.getColor(holder.itemView.context, R.color.very_happy_color), // Muito Feliz - Amarelo
-            1 to ContextCompat.getColor(holder.itemView.context, R.color.happy_color), // Feliz - Verde claro
-            2 to ContextCompat.getColor(holder.itemView.context, R.color.neutral_color), // Neutro - Cinza
-            3 to ContextCompat.getColor(holder.itemView.context, R.color.sad_color), // Triste - Azul claro
-            4 to ContextCompat.getColor(holder.itemView.context, R.color.very_sad_color)  // Muito Triste - Azul escuro
-        )
         // Se a posição for menor que o primeiro dia da semana, é um espaço vazio
         if (position < firstDayOfWeek) {
             holder.dayNumber.text = ""
@@ -68,9 +72,15 @@ class CalendarAdapter(
         holder.dayCard.visibility = View.VISIBLE
         holder.dayNumber.text = dayOfMonth.toString()
 
+        // Aplicar a fonte atual
+        if (currentFont != "default") {
+            val typeface = ResourcesCompat.getFont(context, FontManager.getFontResourceId(currentFont))
+            holder.dayNumber.typeface = typeface
+        }
+
         // Resetar o background do TextView para garantir que não mantenha estados anteriores
         holder.dayNumber.setBackgroundResource(0)
-        holder.dayNumber.setTextColor(holder.itemView.context.getColor(R.color.day_text_color))
+        holder.dayNumber.setTextColor(context.getColor(R.color.day_text_color))
 
         // Verificar se é data futura
         val isFutureDate = isDateInFuture(dayOfMonth)
@@ -91,52 +101,51 @@ class CalendarAdapter(
         // Configurar aparência para datas futuras e dia atual
         when {
             isFutureDate -> {
-                holder.dayNumber.setTextColor(holder.itemView.context.getColor(R.color.day_text_color))
+                holder.dayNumber.setTextColor(context.getColor(R.color.day_text_color))
                 holder.dayCard.alpha = 0.5f
                 holder.dayCard.isClickable = false
-                holder.dayCard.setCardBackgroundColor(holder.itemView.context.getColor(R.color.future_day_background_color))
+                holder.dayCard.setCardBackgroundColor(context.getColor(R.color.future_day_background_color))
                 holder.moodIndicator.visibility = View.GONE
             }
             isToday -> {
                 holder.dayCard.alpha = 1.0f
                 holder.dayCard.isClickable = true
-                //holder.dayNumber.setBackgroundResource(R.drawable.background_rounded_60_green)
-                holder.dayNumber.setTextColor(holder.itemView.context.getColor(R.color.secundary))
+                holder.dayNumber.setTextColor(context.getColor(R.color.secundary))
 
                 if (mood != null) {
                     holder.dayCard.setCardBackgroundColor(
-                        if (isSelected) holder.itemView.context.getColor(R.color.primary_green)
-                        else moodColors[mood.moodType] ?: Color.WHITE
+                        if (isSelected) context.getColor(R.color.primary_green)
+                        else context.getColor(moodColors[mood.moodType] ?: R.color.white)
                     )
                 } else {
                     holder.dayCard.setCardBackgroundColor(
-                        if (isSelected) holder.itemView.context.getColor(R.color.primary_green)
-                        else holder.itemView.context.getColor(R.color.past_day_background_color)
+                        if (isSelected) context.getColor(R.color.primary_green)
+                        else context.getColor(R.color.past_day_background_color)
                     )
                 }
                 holder.moodIndicator.visibility = if (mood != null) View.VISIBLE else View.GONE
                 if (mood != null) holder.moodIndicator.setImageResource(getMoodDrawable(mood.moodType))
             }
             else -> {
-                holder.dayNumber.setTextColor(holder.itemView.context.getColor(R.color.day_text_color))
+                holder.dayNumber.setTextColor(context.getColor(R.color.day_text_color))
                 holder.dayCard.alpha = 1.0f
                 holder.dayCard.isClickable = true
 
                 if (mood != null) {
                     holder.dayCard.setCardBackgroundColor(
-                        if (isSelected) holder.itemView.context.getColor(R.color.primary_green)
-                        else moodColors[mood.moodType] ?: Color.WHITE
+                        if (isSelected) context.getColor(R.color.primary_green)
+                        else context.getColor(moodColors[mood.moodType] ?: R.color.white)
                     )
                     holder.moodIndicator.visibility = View.VISIBLE
                     holder.moodIndicator.setImageResource(getMoodDrawable(mood.moodType))
-                    holder.dayNumber.setTextColor(if (isSelected) Color.WHITE else holder.itemView.context.getColor(R.color.day_text_color))
+                    holder.dayNumber.setTextColor(if (isSelected) Color.WHITE else context.getColor(R.color.day_text_color))
                 } else {
                     holder.dayCard.setCardBackgroundColor(
-                        if (isSelected) holder.itemView.context.getColor(R.color.primary_green)
-                        else holder.itemView.context.getColor(R.color.past_day_background_color)
+                        if (isSelected) context.getColor(R.color.primary_green)
+                        else context.getColor(R.color.past_day_background_color)
                     )
                     holder.moodIndicator.visibility = View.GONE
-                    holder.dayNumber.setTextColor(if (isSelected) Color.WHITE else holder.itemView.context.getColor(R.color.day_text_color))
+                    holder.dayNumber.setTextColor(if (isSelected) Color.WHITE else context.getColor(R.color.day_text_color))
                 }
             }
         }
@@ -151,11 +160,16 @@ class CalendarAdapter(
             } else {
                 Utils.run {
                     holder.dayCard.flashError {
-                        showCustomToast(holder.itemView.context, holder.itemView.context.getString(R.string.future_date_not_allowed))
+                        showCustomToast(context, context.getString(R.string.future_date_not_allowed))
                     }
                 }
             }
         }
+    }
+
+    fun updateFont(fontName: String) {
+        currentFont = fontName
+        notifyDataSetChanged()
     }
 
     private fun isDateInFuture(dayOfMonth: Int): Boolean {

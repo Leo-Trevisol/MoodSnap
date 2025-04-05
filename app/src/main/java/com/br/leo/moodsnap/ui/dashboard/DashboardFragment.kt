@@ -33,6 +33,8 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import androidx.core.view.isVisible
 import com.github.mikephil.charting.components.Legend
+import android.content.Context
+import com.br.leo.moodsnap.ui.utils.FontManager
 
 class DashboardFragment : Fragment() {
 
@@ -56,6 +58,14 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Apply current font
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        activity?.let { activity ->
+            FontManager.applyFontToActivity(activity, currentFont ?: "default")
+        }
+
         setupGestureDetector()
         setupDayFilterSpinner()
         setupObservers()

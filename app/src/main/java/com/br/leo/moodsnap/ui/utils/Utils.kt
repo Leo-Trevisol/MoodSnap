@@ -27,7 +27,13 @@ object Utils {
         val inflater = LayoutInflater.from(context)
         val layout = inflater.inflate(R.layout.custom_toast, null)
 
-        layout.findViewById<TextView>(R.id.toast_text).text = message
+        val toastText = layout.findViewById<TextView>(R.id.toast_text)
+        toastText.text = message
+
+        // Apply current font to toast
+        val sharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        FontManager.applyFontToView(context, layout, currentFont ?: "default")
 
         // Carrega e aplica a animação
         val animation = AnimationUtils.loadAnimation(context, R.anim.toast_animation)

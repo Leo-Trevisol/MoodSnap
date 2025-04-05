@@ -31,6 +31,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.button.MaterialButton
+import android.content.Context
+import com.br.leo.moodsnap.ui.utils.FontManager
 
 class EditDayActivity : AppCompatActivity() {
 
@@ -98,6 +100,10 @@ class EditDayActivity : AppCompatActivity() {
         setContentView(binding.root)
         overridePendingTransition(R.anim.dialog_enter, R.anim.dialog_exit)
 
+        // Apply current font
+        val sharedPreferences = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        FontManager.applyFontToActivity(this, currentFont ?: "default")
 
         repository = MoodRepository(this)
         moodId = intent.getIntExtra("mood_id", 0)
@@ -183,6 +189,11 @@ class EditDayActivity : AppCompatActivity() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_date_picker, null)
         val monthPicker = dialogView.findViewById<NumberPicker>(R.id.month_picker)
         val yearPicker = dialogView.findViewById<NumberPicker>(R.id.year_picker)
+        
+        // Apply current font to dialog view
+        val sharedPreferences = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        FontManager.applyFontToView(this, dialogView, currentFont ?: "default")
         
         // Configurar o picker de meses
         val months = arrayOf(

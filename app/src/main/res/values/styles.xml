@@ -13,6 +13,15 @@
         <item name="buttonBarStyle">@style/CustomButtonBarStyle</item>
         <item name="android:background">@color/primary_background</item>
         <item name="android:windowBackground">@color/primary_background</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/CustomBodyTextStyle</item>
+        <item name="android:textViewStyle">@style/CustomTextViewStyle</item>
+        <item name="android:buttonStyle">@style/CustomButtonStyle</item>
+        <item name="materialButtonStyle">@style/CustomButtonStyle</item>
+    </style>
+
+    <style name="CustomTextViewStyle" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/secundary</item>
     </style>
 
     <style name="CustomTitleTextStyle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
@@ -24,6 +33,14 @@
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:paddingTop">8dp</item>
+        <item name="android:textColor">@color/secundary</item>
+    </style>
+
+    <style name="CustomBodyTextStyle" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
         <item name="android:textColor">@color/secundary</item>
     </style>
 

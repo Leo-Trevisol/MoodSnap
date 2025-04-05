@@ -15,6 +15,16 @@ object FontManager {
         applyFontToViewHierarchy(activity, rootView as ViewGroup, getFontResourceId(fontName))
     }
 
+    fun applyFontToView(context: Context, view: View, fontName: String) {
+        when (view) {
+            is ViewGroup -> applyFontToViewHierarchy(context, view, getFontResourceId(fontName))
+            is TextView -> {
+                val typeface = ResourcesCompat.getFont(context, getFontResourceId(fontName))
+                view.typeface = typeface
+            }
+        }
+    }
+
     private fun applyFontToViewHierarchy(context: Context, root: ViewGroup, fontResourceId: Int) {
         val childCount = root.childCount
         for (i in 0 until childCount) {
@@ -29,13 +39,14 @@ object FontManager {
         }
     }
 
-    private fun getFontResourceId(fontName: String): Int {
+    fun getFontResourceId(fontName: String): Int {
         return when (fontName) {
             "roboto" -> R.font.roboto_regular
             "open_sans" -> R.font.open_sans_regular
             "lato" -> R.font.lato_regular
             "poppins" -> R.font.poppins_regular
             "mulish" -> R.font.mulish_regular
+            "limelight" -> R.font.lime_light_regular
             else -> R.font.poppins_regular // default font
         }
     }

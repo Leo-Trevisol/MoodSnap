@@ -49,6 +49,9 @@ import android.provider.Settings
 import android.content.Intent
 import android.content.res.Resources
 import android.net.Uri
+import android.graphics.Paint
+import android.widget.EditText
+import androidx.core.content.res.ResourcesCompat
 
 class HomeFragment : Fragment() {
 
@@ -129,6 +132,22 @@ class HomeFragment : Fragment() {
             gestureDetector.onTouchEvent(event)
             true
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        
+        // Reaplica a fonte atual quando o fragmento é retomado
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        
+        // Aplica a fonte na atividade
+        activity?.let { activity ->
+            FontManager.applyFontToActivity(activity, currentFont ?: "default")
+        }
+        
+        // Força atualização do calendário para reaplicar a fonte
+        calendarAdapter.notifyDataSetChanged()
     }
 
     private fun isDateInFuture(dayOfMonth: Int): Boolean {
@@ -283,6 +302,49 @@ class HomeFragment : Fragment() {
         val monthPicker = dialogView.findViewById<NumberPicker>(R.id.month_picker)
         val yearPicker = dialogView.findViewById<NumberPicker>(R.id.year_picker)
 
+        // Apply current font to date picker dialog
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+
+        // Função para aplicar a fonte ao NumberPicker
+        fun applyFontToNumberPicker(picker: NumberPicker) {
+            try {
+                val typeface = ResourcesCompat.getFont(requireContext(), FontManager.getFontResourceId(currentFont ?: "default"))
+                val pickerFields = NumberPicker::class.java.declaredFields
+                
+                // Aplicar fonte ao texto de entrada e à roda de seleção
+                for (field in pickerFields) {
+                    if (field.name == "mInputText" || field.name == "mSelectorWheelPaint") {
+                        field.isAccessible = true
+                        when (field.name) {
+                            "mInputText" -> {
+                                val inputText = field.get(picker) as EditText
+                                inputText.typeface = typeface
+                            }
+                            "mSelectorWheelPaint" -> {
+                                val paint = field.get(picker) as Paint
+                                paint.typeface = typeface
+                            }
+                        }
+                    }
+                }
+
+                // Aplicar fonte aos valores exibidos
+                val count = picker.childCount
+                for (i in 0 until count) {
+                    val child = picker.getChildAt(i)
+                    if (child is EditText) {
+                        child.typeface = typeface
+                    }
+                }
+
+                // Forçar atualização do NumberPicker
+                picker.invalidate()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
         // Configurar o picker de meses
         val months = arrayOf(
             getString(R.string.month_january),
@@ -308,6 +370,17 @@ class HomeFragment : Fragment() {
             maxValue = 11
             displayedValues = months
             value = calendar.get(Calendar.MONTH)
+            
+            // Apply font initially
+            applyFontToNumberPicker(this)
+            
+            // Apply font when value changes and when scrolling
+            setOnValueChangedListener { _, _, _ ->
+                applyFontToNumberPicker(this)
+            }
+            setOnScrollListener { _, _ ->
+                applyFontToNumberPicker(this)
+            }
         }
 
         // Configurar o picker de anos
@@ -315,17 +388,26 @@ class HomeFragment : Fragment() {
             minValue = currentYear - 10
             maxValue = currentYear
             value = calendar.get(Calendar.YEAR)
-        }
-
-        // Adicionar listener para controlar a seleção de meses futuros
-        yearPicker.setOnValueChangedListener { _, _, newVal ->
-            if (newVal == currentYear) {
-                monthPicker.maxValue = currentMonth
-                if (monthPicker.value > currentMonth) {
-                    monthPicker.value = currentMonth
+            
+            // Apply font initially
+            applyFontToNumberPicker(this)
+            
+            // Apply font when value changes and when scrolling
+            setOnValueChangedListener { _, _, newVal ->
+                applyFontToNumberPicker(this)
+                
+                // Controle de meses futuros
+                if (newVal == currentYear) {
+                    monthPicker.maxValue = currentMonth
+                    if (monthPicker.value > currentMonth) {
+                        monthPicker.value = currentMonth
+                    }
+                } else {
+                    monthPicker.maxValue = 11
                 }
-            } else {
-                monthPicker.maxValue = 11
+            }
+            setOnScrollListener { _, _ ->
+                applyFontToNumberPicker(this)
             }
         }
 
@@ -336,6 +418,7 @@ class HomeFragment : Fragment() {
             yearPicker.value = currentYear
             monthPicker.value = currentMonth
         }
+
         val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
             .setTitle(getString(R.string.hint_date))
             .setView(dialogView)
@@ -361,8 +444,60 @@ class HomeFragment : Fragment() {
 
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
-        dialog.show()
+        // Apply font to dialog title and buttons when dialog is shown
+        dialog.setOnShowListener {
+            // Apply font to dialog title
+            dialog.findViewById<TextView>(com.google.android.material.R.id.alertTitle)?.let { titleView ->
+                FontManager.applyFontToView(requireContext(), titleView, currentFont ?: "default")
+            }
 
+            // Apply font to dialog buttons
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.let { button ->
+                FontManager.applyFontToView(requireContext(), button, currentFont ?: "default")
+            }
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.let { button ->
+                FontManager.applyFontToView(requireContext(), button, currentFont ?: "default")
+            }
+
+            // Apply font to dialog message if exists
+            dialog.findViewById<TextView>(android.R.id.message)?.let { messageView ->
+                FontManager.applyFontToView(requireContext(), messageView, currentFont ?: "default")
+            }
+
+            // Apply font to all TextViews in the dialog
+            dialogView.findViewsByType(TextView::class.java).forEach { textView ->
+                FontManager.applyFontToView(requireContext(), textView, currentFont ?: "default")
+            }
+
+            // Apply font to all Buttons in the dialog
+            dialogView.findViewsByType(Button::class.java).forEach { button ->
+                FontManager.applyFontToView(requireContext(), button, currentFont ?: "default")
+            }
+
+            // Apply font to all MaterialButtons in the dialog
+            dialogView.findViewsByType(MaterialButton::class.java).forEach { button ->
+                FontManager.applyFontToView(requireContext(), button, currentFont ?: "default")
+            }
+
+            // Apply font to the dialog view itself to catch any remaining text elements
+            FontManager.applyFontToView(requireContext(), dialog.window?.decorView ?: return@setOnShowListener, currentFont ?: "default")
+        }
+
+        dialog.show()
+    }
+
+    // Extension function to find all views of a specific type in a view hierarchy
+    private fun <T : View> View.findViewsByType(type: Class<T>): List<T> {
+        val result = mutableListOf<T>()
+        if (type.isInstance(this)) {
+            result.add(type.cast(this))
+        }
+        if (this is ViewGroup) {
+            for (i in 0 until childCount) {
+                result.addAll(getChildAt(i).findViewsByType(type))
+            }
+        }
+        return result
     }
 
     private fun updateDateTexts() {
@@ -386,7 +521,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupCalendarView() {
-        calendarAdapter = CalendarAdapter(getDaysInMonth())
+        calendarAdapter = CalendarAdapter(getDaysInMonth(), requireContext())
         binding.calendarGrid.adapter = calendarAdapter
 
         // Configurar o mês inicial
@@ -420,7 +555,6 @@ class HomeFragment : Fragment() {
             val dialogEmotions = DialogEmotions(mainViewModel, moodId, selectedCalendar)
             dialogEmotions.show(childFragmentManager, dialogEmotions.tag)
         }
-
     }
 
     private fun updateCalendarForDate(calendar: Calendar, keepSelectedDay: Boolean = false) {
@@ -428,6 +562,11 @@ class HomeFragment : Fragment() {
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH)
         )
+
+        // Reaplica a fonte atual
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        calendarAdapter.updateFont(currentFont ?: "default")
 
         // Atualizar o texto do mês
         val month = when (calendar.get(Calendar.MONTH)) {
@@ -643,6 +782,11 @@ class HomeFragment : Fragment() {
 
             dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
+            // Apply current font to settings dialog
+            val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            val currentFont = sharedPreferences.getString("current_font", "default")
+            FontManager.applyFontToView(requireContext(), dialogView, currentFont ?: "default")
+
             val btnThemes : Button = dialogView.findViewById<Button>(R.id.btn_themes)
             Utils.updateBackGroundColor(requireContext(), btnThemes)
             btnThemes.setOnClickListener {
@@ -681,8 +825,13 @@ class HomeFragment : Fragment() {
             .setView(themeDialogView)
             .setCancelable(false)
             .create()
-        
+
         themeDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+        // Apply current font to theme dialog
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        FontManager.applyFontToView(requireContext(), themeDialogView, currentFont ?: "default")
 
         // Get theme buttons
         val btnSystemTheme = themeDialogView.findViewById<Button>(R.id.btn_system_theme)
@@ -708,7 +857,6 @@ class HomeFragment : Fragment() {
         }
 
         // Verificar se é a primeira execução do app
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val isFirstThemeApply = sharedPreferences.getBoolean("is_first_theme_apply", true)
 
         // Set initial selection based on current theme or first run
@@ -748,6 +896,11 @@ class HomeFragment : Fragment() {
                 .create()
 
             settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+            // Apply current font to settings dialog
+            val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            val currentFont = sharedPreferences.getString("current_font", "default")
+            FontManager.applyFontToView(requireContext(), settingsDialogView, currentFont ?: "default")
 
             val btnThemes : Button = settingsDialogView.findViewById<Button>(R.id.btn_themes)
             Utils.updateBackGroundColor(requireContext(), btnThemes)
@@ -854,6 +1007,11 @@ class HomeFragment : Fragment() {
 
         languageDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
+        // Apply current font to language dialog
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        FontManager.applyFontToView(requireContext(), languageDialogView, currentFont ?: "default")
+
         // Get all language buttons
         val btnSystem = languageDialogView.findViewById<Button>(R.id.btn_system_language)
         val btnEnglish = languageDialogView.findViewById<Button>(R.id.btn_english)
@@ -864,8 +1022,8 @@ class HomeFragment : Fragment() {
         val btnChinese = languageDialogView.findViewById<Button>(R.id.btn_chinese)
         val btnRussian = languageDialogView.findViewById<Button>(R.id.btn_russian)
         val btnGerman = languageDialogView.findViewById<Button>(R.id.btn_german)
+        
         // Load the current language preference
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentLanguage = sharedPreferences.getString("current_language", "system")
         
         // Function to reset all buttons to default state
@@ -961,6 +1119,11 @@ class HomeFragment : Fragment() {
 
             settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
+            // Apply current font to settings dialog
+            val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            val currentFont = sharedPreferences.getString("current_font", "default")
+            FontManager.applyFontToView(requireContext(), settingsDialogView, currentFont ?: "default")
+
             val btnLanguages : Button = settingsDialogView.findViewById<Button>(R.id.btn_languages)
             Utils.updateBackGroundColor(requireContext(), btnLanguages)
             btnLanguages.setOnClickListener {
@@ -1049,12 +1212,16 @@ class HomeFragment : Fragment() {
 
         notificationDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
+        // Apply current font to notification dialog
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        FontManager.applyFontToView(requireContext(), notificationDialogView, currentFont ?: "default")
+
         val switchNotifications = notificationDialogView.findViewById<Switch>(R.id.switch_notifications)
         val timePicker = notificationDialogView.findViewById<TimePicker>(R.id.time_picker)
         val notificationHelper = NotificationHelper(requireContext())
 
         // Load saved notification settings
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val notificationsEnabled = sharedPreferences.getBoolean("notifications_enabled", false)
         val notificationHour = sharedPreferences.getInt("notification_hour", 20) // Default to 8 PM
         val notificationMinute = sharedPreferences.getInt("notification_minute", 0)
@@ -1084,6 +1251,11 @@ class HomeFragment : Fragment() {
                 .create()
 
             settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+            // Apply current font to settings dialog
+            val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            val currentFont = sharedPreferences.getString("current_font", "default")
+            FontManager.applyFontToView(requireContext(), settingsDialogView, currentFont ?: "default")
 
             val btnNotifications : Button = settingsDialogView.findViewById<Button>(R.id.btn_notifications)
             Utils.updateBackGroundColor(requireContext(), btnNotifications)
@@ -1155,6 +1327,11 @@ class HomeFragment : Fragment() {
 
         fontDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
+        // Apply current font to font dialog
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        FontManager.applyFontToView(requireContext(), fontDialogView, currentFont ?: "default")
+
         // Get font buttons
         val btnDefaultFont = fontDialogView.findViewById<Button>(R.id.btn_default_font)
         val btnRoboto = fontDialogView.findViewById<Button>(R.id.btn_roboto)
@@ -1163,10 +1340,6 @@ class HomeFragment : Fragment() {
         val btnPoppins = fontDialogView.findViewById<Button>(R.id.btn_poppins)
         val btnMulish = fontDialogView.findViewById<Button>(R.id.btn_mulish)
         val btnLimeLight = fontDialogView.findViewById<Button>(R.id.btn_lime_light)
-
-        // Load current font preference
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
 
         // Function to reset all buttons to default state
         fun resetAllButtons() {
@@ -1240,6 +1413,11 @@ class HomeFragment : Fragment() {
                 .create()
 
             settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+            // Apply current font to settings dialog
+            val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            val currentFont = sharedPreferences.getString("current_font", "default")
+            FontManager.applyFontToView(requireContext(), settingsDialogView, currentFont ?: "default")
 
             val btnThemes : Button = settingsDialogView.findViewById<Button>(R.id.btn_themes)
             Utils.updateBackGroundColor(requireContext(), btnThemes)
