@@ -1,11 +1,13 @@
 package com.br.leo.moodsnap.ui.home
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
+import com.br.leo.moodsnap.ui.utils.FontManager
 
 class WeekdaysAdapter : RecyclerView.Adapter<WeekdaysAdapter.WeekdayViewHolder>() {
 
@@ -31,6 +33,11 @@ class WeekdaysAdapter : RecyclerView.Adapter<WeekdaysAdapter.WeekdayViewHolder>(
 
     override fun onBindViewHolder(holder: WeekdayViewHolder, position: Int) {
         holder.weekdayText.text = holder.itemView.context.getString(weekdays[position])
+        
+        // Apply current font to weekday text
+        val sharedPreferences = holder.itemView.context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        FontManager.applyFontToView(holder.itemView.context, holder.weekdayText, currentFont ?: "default")
     }
 
     override fun getItemCount() = weekdays.size
