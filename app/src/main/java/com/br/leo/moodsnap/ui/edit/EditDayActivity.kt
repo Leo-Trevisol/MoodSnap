@@ -432,6 +432,11 @@ class EditDayActivity : AppCompatActivity() {
         // Aplica a animação de entrada e saída
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
+        // Aplica a fonte atual
+        val sharedPreferences = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        FontManager.applyFontToView(this, dialogView, currentFont ?: "default")
+
         // Verificar se existe imagem para mostrar botão de deletar
         val btnDeleteImage = dialogView.findViewById<MaterialButton>(R.id.btn_delete_image)
         Utils.updateBackGroundColor(applicationContext, btnDeleteImage, R.color.primary_red)

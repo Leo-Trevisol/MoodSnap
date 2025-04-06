@@ -35,6 +35,9 @@ import androidx.core.view.isVisible
 import com.github.mikephil.charting.components.Legend
 import android.content.Context
 import com.br.leo.moodsnap.ui.utils.FontManager
+import android.graphics.Typeface
+import android.view.Gravity
+import androidx.core.content.res.ResourcesCompat
 
 class DashboardFragment : Fragment() {
 
@@ -130,6 +133,9 @@ class DashboardFragment : Fragment() {
 
     private fun setupDayFilterSpinner() {
         val filters = DashboardViewModel.DayFilter.values()
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        
         val adapter = object : ArrayAdapter<DashboardViewModel.DayFilter>(
             requireContext(),
             android.R.layout.simple_spinner_item,
@@ -138,20 +144,22 @@ class DashboardFragment : Fragment() {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
                 val filter = getItem(position)
-                (view as TextView).text =
-                    filter?.let { dashboardViewModel.getFilterDescription(requireContext(), it) }
+                (view as TextView).apply {
+                    text = filter?.let { dashboardViewModel.getFilterDescription(requireContext(), it) }
+                    typeface = ResourcesCompat.getFont(context, FontManager.getFontResourceId(currentFont ?: "default"))
+                }
                 return view
             }
 
-            override fun getDropDownView(
-                position: Int,
-                convertView: View?,
-                parent: ViewGroup
-            ): View {
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent)
                 val filter = getItem(position)
-                (view as TextView).text =
-                    filter?.let { dashboardViewModel.getFilterDescription(requireContext(), it) }
+                view.setBackgroundColor(Color.WHITE)
+                (view as TextView).apply {
+                    text = filter?.let { dashboardViewModel.getFilterDescription(requireContext(), it) }
+                    setTextColor(Color.BLACK)
+                    typeface = ResourcesCompat.getFont(context, FontManager.getFontResourceId(currentFont ?: "default"))
+                }
                 return view
             }
         }
@@ -180,11 +188,32 @@ class DashboardFragment : Fragment() {
 
     private fun setupDistributionViewSpinner() {
         val viewTypes = listOf("Barras", "Donut")
-        val adapter = ArrayAdapter(
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        
+        val adapter = object : ArrayAdapter<String>(
             requireContext(),
             android.R.layout.simple_spinner_item,
             viewTypes
-        )
+        ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                (view as TextView).apply {
+                    typeface = ResourcesCompat.getFont(context, FontManager.getFontResourceId(currentFont ?: "default"))
+                }
+                return view
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                view.setBackgroundColor(Color.WHITE)
+                (view as TextView).apply {
+                    setTextColor(Color.BLACK)
+                    typeface = ResourcesCompat.getFont(context, FontManager.getFontResourceId(currentFont ?: "default"))
+                }
+                return view
+            }
+        }
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.distributionViewSpinner.adapter = adapter
 
