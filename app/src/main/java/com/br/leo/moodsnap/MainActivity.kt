@@ -10,7 +10,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.br.leo.moodsnap.databinding.ActivityMainBinding
 import com.br.leo.moodsnap.ui.dialog.DialogEmotions
+import com.br.leo.moodsnap.ui.dialog.OnboardingDialog
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
+import com.br.leo.moodsnap.utils.PreferencesManager
 import java.util.*
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
@@ -35,6 +37,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setupNavigation()
         setListeners()
         observeViewModel()
+        
+        // Mostrar tutorial na primeira vez
+        val preferencesManager = PreferencesManager(this)
+        if (preferencesManager.isFirstTime()) {
+            showOnboardingTutorial()
+            preferencesManager.setFirstTimeDone()
+        }
     }
 
     private fun loadSettings() {
@@ -141,5 +150,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun observeViewModel() {
         // Implementar observadores do ViewModel se necessário
+    }
+
+    private fun showOnboardingTutorial() {
+        val onboardingDialog = OnboardingDialog(this)
+        onboardingDialog.setCancelable(false)
+        onboardingDialog.show()
     }
 }

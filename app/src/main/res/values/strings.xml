@@ -174,4 +174,18 @@
 
     <string name="font_preview_text">Choose your favorite font!</string>
 
+    <!-- Onboarding -->
+    <string name="tutorial_image">Tutorial Image</string>
+    <string name="btn_previous">Anterior</string>
+    <string name="btn_finish">Começar</string>
+    
+    <string name="onboarding_title_1">Bem-vindo ao MoodSnap!</string>
+    <string name="onboarding_description_1">Acompanhe seu humor diário e entenda melhor seus padrões emocionais</string>
+    
+    <string name="onboarding_title_2">Registre seu Humor</string>
+    <string name="onboarding_description_2">Faça registros diários do seu humor, adicione notas e acompanhe sua evolução ao longo do tempo</string>
+    
+    <string name="onboarding_title_3">Visualize seus Dados</string>
+    <string name="onboarding_description_3">Veja gráficos e estatísticas que ajudam a entender melhor seus padrões de humor</string>
+
 </resources>
