@@ -52,6 +52,7 @@ import android.net.Uri
 import android.graphics.Paint
 import android.widget.EditText
 import androidx.core.content.res.ResourcesCompat
+import com.br.leo.moodsnap.ui.dialog.OnboardingDialog
 
 class HomeFragment : Fragment() {
 
@@ -799,6 +800,15 @@ class HomeFragment : Fragment() {
             val currentFont = sharedPreferences.getString("current_font", "default")
             FontManager.applyFontToView(requireContext(), dialogView, currentFont ?: "default")
 
+            // Tutorial button
+            val btnTutorial : Button = dialogView.findViewById<Button>(R.id.btn_tutorial)
+            Utils.updateBackGroundColor(requireContext(), btnTutorial)
+            btnTutorial.setOnClickListener {
+                dialog.dismiss()
+                showOnboardingTutorial()
+            }
+
+            // Themes button
             val btnThemes : Button = dialogView.findViewById<Button>(R.id.btn_themes)
             Utils.updateBackGroundColor(requireContext(), btnThemes)
             btnThemes.setOnClickListener {
@@ -1600,6 +1610,12 @@ class HomeFragment : Fragment() {
             data = Uri.fromParts("package", requireContext().packageName, null)
         }
         startActivity(intent)
+    }
+
+    private fun showOnboardingTutorial() {
+        val onboardingDialog = OnboardingDialog(requireContext())
+        onboardingDialog.setCancelable(false)
+        onboardingDialog.show()
     }
 
     override fun onDestroyView() {

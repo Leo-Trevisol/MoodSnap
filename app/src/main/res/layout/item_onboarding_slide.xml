@@ -26,14 +26,24 @@
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/imageSlide"/>
 
-    <TextView
-        android:id="@+id/descriptionSlide"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="@dimen/spacing_normal"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:lineSpacingExtra="4dp"
-        app:layout_constraintTop_toBottomOf="@id/titleSlide"/>
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/titleSlide"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/descriptionSlide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:textColor="@color/secundary"
+            android:lineSpacingExtra="4dp"/>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout> 

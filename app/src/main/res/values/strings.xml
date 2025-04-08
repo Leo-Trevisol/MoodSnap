@@ -188,4 +188,6 @@
     <string name="onboarding_title_3">Visualize seus Dados</string>
     <string name="onboarding_description_3">Veja gráficos e estatísticas que ajudam a entender melhor seus padrões de humor</string>
 
+    <string name="tutorial">Tutorial</string>
+
 </resources>

@@ -12,6 +12,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.adapters.OnboardingAdapter
 import com.br.leo.moodsnap.models.OnboardingSlide
+import com.br.leo.moodsnap.ui.utils.FontManager
 
 class OnboardingDialog(context: Context) : Dialog(context) {
 
@@ -19,29 +20,43 @@ class OnboardingDialog(context: Context) : Dialog(context) {
     private lateinit var tabLayout: TabLayout
     private lateinit var btnNext: Button
     private lateinit var btnPrevious: Button
+    private lateinit var btnSkip: Button
+
+    private val sharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+    private val currentFont = sharedPreferences.getString("current_font", "default")
 
     private val slides = listOf(
         OnboardingSlide(
             R.drawable.onboarding_1,
             context.getString(R.string.onboarding_title_1),
-            context.getString(R.string.onboarding_description_1)
+            context.getString(R.string.onboarding_description_1),
+            currentFont ?: "default"
         ),
         OnboardingSlide(
             R.drawable.onboarding_1,
             context.getString(R.string.onboarding_title_2),
-            context.getString(R.string.onboarding_description_2)
+            context.getString(R.string.onboarding_description_2),
+            currentFont ?: "default"
         ),
         OnboardingSlide(
             R.drawable.onboarding_1,
             context.getString(R.string.onboarding_title_3),
-            context.getString(R.string.onboarding_description_3)
+            context.getString(R.string.onboarding_description_3),
+            currentFont ?: "default"
         )
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
+        window?.setBackgroundDrawableResource(android.R.color.transparent)
         setContentView(R.layout.dialog_onboarding)
+        window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+        // 🔤 Aplica a fonte ao diálogo
+        currentFont?.let {
+            FontManager.applyFontToView(context, findViewById(android.R.id.content), it)
+        }
 
         setupViews()
         setupViewPager()
@@ -51,8 +66,9 @@ class OnboardingDialog(context: Context) : Dialog(context) {
     private fun setupViews() {
         viewPager = findViewById(R.id.viewPager)
         tabLayout = findViewById(R.id.tabLayout)
-        btnNext = findViewById(R.id.btnNext)
-        btnPrevious = findViewById(R.id.btnPrevious)
+        btnNext = findViewById(R.id.btn_next)
+        btnPrevious = findViewById(R.id.btn_previous)
+        btnSkip = findViewById(R.id.btn_skip)
     }
 
     private fun setupViewPager() {
@@ -79,6 +95,10 @@ class OnboardingDialog(context: Context) : Dialog(context) {
 
         btnPrevious.setOnClickListener {
             viewPager.currentItem = viewPager.currentItem - 1
+        }
+
+        btnSkip.setOnClickListener {
+           dismiss()
         }
 
         updateButtonsVisibility(0)
