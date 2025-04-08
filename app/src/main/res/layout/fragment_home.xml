@@ -97,6 +97,8 @@
         app:layout_constraintTop_toBottomOf="@id/weekdays_grid"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="7"
+        android:overScrollMode="never"
+        android:nestedScrollingEnabled="false"
         tools:listitem="@layout/item_calendar_day"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

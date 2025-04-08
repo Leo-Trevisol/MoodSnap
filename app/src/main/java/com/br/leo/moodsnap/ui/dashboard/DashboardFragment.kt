@@ -470,6 +470,11 @@ class DashboardFragment : Fragment() {
     private fun setupPieChart(distribution: Map<Int, Int>) {
         val pieChart: PieChart = binding.pieChart
 
+        // Apply current font
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontManager.getFontResourceId(currentFont ?: "default"))
+
         // Ensure the legend is displayed in the order: very happy, happy, neutral, sad, very sad
         val moodOrder = listOf(4, 3, 2, 1, 0)
         val entries = moodOrder.mapNotNull { moodType ->
@@ -484,6 +489,7 @@ class DashboardFragment : Fragment() {
         }
         dataSet.valueTextSize = 16f
         dataSet.valueTextColor = Color.BLACK
+        dataSet.valueTypeface = typeface
 
         val pieData = PieData(dataSet)
         pieData.setValueFormatter(object : ValueFormatter() {
@@ -507,6 +513,7 @@ class DashboardFragment : Fragment() {
         pieChart.legend.xEntrySpace = 7f
         pieChart.legend.yEntrySpace = 5f
         pieChart.legend.yOffset = 10f
+        pieChart.legend.typeface = typeface
         pieChart.invalidate() // Refresh chart
     }
 

@@ -744,6 +744,17 @@ class HomeFragment : Fragment() {
                 return false
             }
         })
+
+        // Configurar o detector de gestos na view principal e no calendar_grid
+        binding.root.setOnTouchListener { _, event ->
+            gestureDetector.onTouchEvent(event)
+            true
+        }
+
+        binding.calendarGrid.setOnTouchListener { _, event ->
+            gestureDetector.onTouchEvent(event)
+            false // Retorna false para permitir que o evento continue para os itens do grid
+        }
     }
 
     private fun updateFabIcon() {
