@@ -163,6 +163,7 @@
     <string name="notification_time">Reminder Time</string>
     <string name="notification_message">How are you feeling today?</string>
 
+    <string name="font">Fonts</string>
     <string name="font_settings">Font Settings</string>
     <string name="default_font">Default Font</string>
     <string name="roboto_font">Roboto</string>
@@ -171,6 +172,6 @@
     <string name="poppins_font">Poppins</string>
     <string name="mulish_font">Mulish</string>
 
-    <string name="font_preview_text">Escolha sua fonte preferida!</string>
+    <string name="font_preview_text">Choose your favorite font!</string>
 
 </resources>

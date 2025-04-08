@@ -151,4 +151,27 @@
 
     <string name="light_theme">Light Theme</string>
     <string name="dark_theme">Dark Theme</string>
+
+    <string name="language_settings">Language Settings</string>
+    <string name="language_system">System language</string>
+
+    <string name="theme_settings">Theme Settings</string>
+    <string name="system_theme">System Theme</string>
+
+    <string name="notifications">Notifications</string>
+    <string name="notification_settings">Notification Settings</string>
+    <string name="enable_notifications">Enable Daily Reminder</string>
+    <string name="notification_time">Reminder Time</string>
+    <string name="notification_message">How are you feeling today?</string>
+
+    <string name="font">Fonts</string>
+    <string name="font_settings">Font Settings</string>
+    <string name="default_font">Default Font</string>
+    <string name="roboto_font">Roboto</string>
+    <string name="open_sans_font">Open Sans</string>
+    <string name="lato_font">Lato</string>
+    <string name="poppins_font">Poppins</string>
+    <string name="mulish_font">Mulish</string>
+
+    <string name="font_preview_text">Choose your favorite font!</string>
 </resources>

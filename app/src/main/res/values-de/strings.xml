@@ -150,4 +150,28 @@
 
     <string name="light_theme">Helles Thema</string>
     <string name="dark_theme">Dunkles Thema</string>
+
+    <string name="language_settings">Spracheinstellungen</string>
+    <string name="language_system">Systemsprache</string>
+
+    <string name="theme_settings">Design-Einstellungen</string>
+    <string name="system_theme">Systemdesign</string>
+
+    <string name="notifications">Benachrichtigungen</string>
+    <string name="notification_settings">Benachrichtigungseinstellungen</string>
+    <string name="enable_notifications">Tägliche Erinnerung aktivieren</string>
+    <string name="notification_time">Erinnerungszeit</string>
+    <string name="notification_message">Wie fühlst du dich heute?</string>
+
+    <string name="font">Schriftarten</string>
+    <string name="font_settings">Schriftarteinstellungen</string>
+    <string name="default_font">Standardschriftart</string>
+    <string name="roboto_font">Roboto</string>
+    <string name="open_sans_font">Open Sans</string>
+    <string name="lato_font">Lato</string>
+    <string name="poppins_font">Poppins</string>
+    <string name="mulish_font">Mulish</string>
+
+    <string name="font_preview_text">Wähle deine bevorzugte Schriftart!</string>
+
 </resources>

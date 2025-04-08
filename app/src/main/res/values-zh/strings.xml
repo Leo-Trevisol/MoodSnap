@@ -149,4 +149,28 @@
 
     <string name="light_theme">浅色主题</string>
     <string name="dark_theme">深色主题</string>
+
+    <string name="language_settings">语言设置</string>
+    <string name="language_system">系统语言</string>
+
+    <string name="theme_settings">主题设置</string>
+    <string name="system_theme">系统主题</string>
+
+    <string name="notifications">通知</string>
+    <string name="notification_settings">通知设置</string>
+    <string name="enable_notifications">启用每日提醒</string>
+    <string name="notification_time">提醒时间</string>
+    <string name="notification_message">你今天感觉怎么样？</string>
+
+    <string name="font">字体</string>
+    <string name="font_settings">字体设置</string>
+    <string name="default_font">默认字体</string>
+    <string name="roboto_font">Roboto</string>
+    <string name="open_sans_font">Open Sans</string>
+    <string name="lato_font">Lato</string>
+    <string name="poppins_font">Poppins</string>
+    <string name="mulish_font">Mulish</string>
+
+    <string name="font_preview_text">选择你喜欢的字体！</string>
+
 </resources>

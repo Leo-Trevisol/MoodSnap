@@ -86,7 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_button_shadow"
-        android:text="@string/font_settings"
+        android:text="@string/font"
         android:textStyle="bold"
         android:shadowColor="@color/white"
         android:layout_marginBottom="@dimen/spacing_normal"

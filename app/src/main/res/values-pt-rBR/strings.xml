@@ -153,4 +153,28 @@
 
     <string name="light_theme">Tema claro</string>
     <string name="dark_theme">Tema escuro</string>
+
+    <string name="language_settings">Configurações de idioma</string>
+    <string name="language_system">Idioma do sistema</string>
+
+    <string name="theme_settings">Configurações de tema</string>
+    <string name="system_theme">Tema do sistema</string>
+
+    <string name="notifications">Notificações</string>
+    <string name="notification_settings">Configurações de notificações</string>
+    <string name="enable_notifications">Ativar lembrete diário</string>
+    <string name="notification_time">Horário do lembrete</string>
+    <string name="notification_message">Como você está se sentindo hoje?</string>
+
+    <string name="font">Fontes</string>
+    <string name="font_settings">Configurações de fonte</string>
+    <string name="default_font">Fonte padrão</string>
+    <string name="roboto_font">Roboto</string>
+    <string name="open_sans_font">Open Sans</string>
+    <string name="lato_font">Lato</string>
+    <string name="poppins_font">Poppins</string>
+    <string name="mulish_font">Mulish</string>
+
+    <string name="font_preview_text">Escolha sua fonte preferida!</string>
+
 </resources> 
