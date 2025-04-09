@@ -14,7 +14,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.service.model.MoodModel
-import com.br.leo.moodsnap.ui.utils.FontManager
+import com.br.leo.moodsnap.ui.utils.FontUtils
 import com.br.leo.moodsnap.ui.utils.Utils
 import java.util.Calendar
 
@@ -74,7 +74,7 @@ class CalendarAdapter(
 
         // Aplicar a fonte atual
         if (currentFont != "default") {
-            val typeface = ResourcesCompat.getFont(context, FontManager.getFontResourceId(currentFont))
+            val typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont))
             holder.dayNumber.typeface = typeface
         }
 

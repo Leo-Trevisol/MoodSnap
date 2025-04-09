@@ -11,7 +11,7 @@ import android.view.WindowManager
 import androidx.annotation.DrawableRes
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.databinding.DialogCustomPositiveNegativeAltBinding
-import com.br.leo.moodsnap.ui.utils.FontManager
+import com.br.leo.moodsnap.ui.utils.FontUtils
 import com.br.leo.moodsnap.ui.utils.Utils
 
 class CustomAlertDialog private constructor(
@@ -32,7 +32,7 @@ class CustomAlertDialog private constructor(
         val sharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
         currentFont?.let {
-            FontManager.applyFontToView(context, binding.root, it)
+            FontUtils.applyFontToView(context, binding.root, it)
         }
 
         binding.imageViewIconDialog.setBackgroundResource(android.R.drawable.ic_dialog_alert)

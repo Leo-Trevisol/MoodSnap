@@ -17,7 +17,7 @@ import java.util.*
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import android.content.res.Configuration
-import com.br.leo.moodsnap.ui.utils.FontManager
+import com.br.leo.moodsnap.ui.utils.FontUtils
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -90,9 +90,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val currentTheme = sharedPreferences.getInt("current_theme", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         AppCompatDelegate.setDefaultNightMode(currentTheme)
 
-        // Configurar fonte
+        // Apply font
         val currentFont = sharedPreferences.getString("current_font", "default")
-        FontManager.applyFontToActivity(this, currentFont ?: "default")
+        FontUtils.applyFontToActivity(this, currentFont ?: "default")
     }
 
     private fun updateLocale(languageCode: String) {

@@ -34,7 +34,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import androidx.core.view.isVisible
 import com.github.mikephil.charting.components.Legend
 import android.content.Context
-import com.br.leo.moodsnap.ui.utils.FontManager
+import com.br.leo.moodsnap.ui.utils.FontUtils
 import android.graphics.Typeface
 import android.view.Gravity
 import androidx.core.content.res.ResourcesCompat
@@ -63,10 +63,10 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Apply current font
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
         activity?.let { activity ->
-            FontManager.applyFontToActivity(activity, currentFont ?: "default")
+            val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            val currentFont = sharedPreferences.getString("current_font", "default")
+            FontUtils.applyFontToActivity(activity, currentFont ?: "default")
         }
 
         setupGestureDetector()
@@ -146,7 +146,7 @@ class DashboardFragment : Fragment() {
                 val filter = getItem(position)
                 (view as TextView).apply {
                     text = filter?.let { dashboardViewModel.getFilterDescription(requireContext(), it) }
-                    typeface = ResourcesCompat.getFont(context, FontManager.getFontResourceId(currentFont ?: "default"))
+                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
@@ -158,7 +158,7 @@ class DashboardFragment : Fragment() {
                 (view as TextView).apply {
                     text = filter?.let { dashboardViewModel.getFilterDescription(requireContext(), it) }
                     setTextColor(Color.BLACK)
-                    typeface = ResourcesCompat.getFont(context, FontManager.getFontResourceId(currentFont ?: "default"))
+                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
@@ -199,7 +199,7 @@ class DashboardFragment : Fragment() {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
                 (view as TextView).apply {
-                    typeface = ResourcesCompat.getFont(context, FontManager.getFontResourceId(currentFont ?: "default"))
+                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
@@ -209,7 +209,7 @@ class DashboardFragment : Fragment() {
                 view.setBackgroundColor(Color.WHITE)
                 (view as TextView).apply {
                     setTextColor(Color.BLACK)
-                    typeface = ResourcesCompat.getFont(context, FontManager.getFontResourceId(currentFont ?: "default"))
+                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
@@ -473,7 +473,7 @@ class DashboardFragment : Fragment() {
         // Apply current font
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
-        val typeface = ResourcesCompat.getFont(requireContext(), FontManager.getFontResourceId(currentFont ?: "default"))
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
         // Ensure the legend is displayed in the order: very happy, happy, neutral, sad, very sad
         val moodOrder = listOf(4, 3, 2, 1, 0)

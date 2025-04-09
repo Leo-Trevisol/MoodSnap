@@ -12,7 +12,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.adapters.OnboardingAdapter
 import com.br.leo.moodsnap.models.OnboardingSlide
-import com.br.leo.moodsnap.ui.utils.FontManager
+import com.br.leo.moodsnap.ui.utils.FontUtils
 
 class OnboardingDialog(context: Context) : Dialog(context) {
 
@@ -55,7 +55,7 @@ class OnboardingDialog(context: Context) : Dialog(context) {
 
         // 🔤 Aplica a fonte ao diálogo
         currentFont?.let {
-            FontManager.applyFontToView(context, findViewById(android.R.id.content), it)
+            FontUtils.applyFontToView(context, findViewById(android.R.id.content), it)
         }
 
         setupViews()

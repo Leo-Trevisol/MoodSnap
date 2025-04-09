@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
-import com.br.leo.moodsnap.ui.utils.FontManager
+import com.br.leo.moodsnap.ui.utils.FontUtils
 
 class WeekdaysAdapter : RecyclerView.Adapter<WeekdaysAdapter.WeekdayViewHolder>() {
 
@@ -37,7 +37,7 @@ class WeekdaysAdapter : RecyclerView.Adapter<WeekdaysAdapter.WeekdayViewHolder>(
         // Apply current font to weekday text
         val sharedPreferences = holder.itemView.context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
-        FontManager.applyFontToView(holder.itemView.context, holder.weekdayText, currentFont ?: "default")
+        FontUtils.applyFontToView(holder.itemView.context, holder.weekdayText, currentFont ?: "default")
     }
 
     override fun getItemCount() = weekdays.size

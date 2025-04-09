@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
+import com.br.leo.moodsnap.ui.utils.FontUtils
 
 object Utils {
 
@@ -33,7 +34,7 @@ object Utils {
         // Apply current font to toast
         val sharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
-        FontManager.applyFontToView(context, layout, currentFont ?: "default")
+        FontUtils.applyFontToView(context, layout, currentFont ?: "default")
 
         // Carrega e aplica a animação
         val animation = AnimationUtils.loadAnimation(context, R.anim.toast_animation)
@@ -66,7 +67,6 @@ object Utils {
     }
 
     fun updateBackGroundColor(context: Context, button: Button, backgroundColor: Int = getMainColor(), textColor: Int = Color.BLACK) {
-
         button.setTextColor(textColor)
         button.backgroundTintList = ColorStateList.valueOf(context.resources.getColor(backgroundColor))
     }

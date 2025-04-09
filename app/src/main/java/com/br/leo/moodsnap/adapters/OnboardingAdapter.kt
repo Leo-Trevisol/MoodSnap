@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.models.OnboardingSlide
-import com.br.leo.moodsnap.ui.utils.FontManager
+import com.br.leo.moodsnap.ui.utils.FontUtils
 
 class OnboardingAdapter(private val slides: List<OnboardingSlide>) :
     RecyclerView.Adapter<OnboardingAdapter.OnboardingViewHolder>() {
@@ -23,8 +23,8 @@ class OnboardingAdapter(private val slides: List<OnboardingSlide>) :
             titleSlide.text = slide.title
             descriptionSlide.text = slide.description
             
-            FontManager.applyFontToView(itemView.context, titleSlide, slide.font)
-            FontManager.applyFontToView(itemView.context, descriptionSlide, slide.font)
+            FontUtils.applyFontToView(itemView.context, titleSlide, slide.font)
+            FontUtils.applyFontToView(itemView.context, descriptionSlide, slide.font)
         }
     }
 

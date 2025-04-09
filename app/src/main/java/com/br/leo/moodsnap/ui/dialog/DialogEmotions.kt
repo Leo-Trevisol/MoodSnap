@@ -23,7 +23,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import java.util.Calendar
-import com.br.leo.moodsnap.ui.utils.FontManager
+import com.br.leo.moodsnap.ui.utils.FontUtils
 
 class DialogEmotions(
     private val viewModel: MainViewModel,
@@ -60,7 +60,7 @@ class DialogEmotions(
                 // Apply current font to the dialog
                 val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
                 val currentFont = sharedPreferences.getString("current_font", "default")
-                FontManager.applyFontToView(requireContext(), it, currentFont ?: "default")
+                FontUtils.applyFontToView(requireContext(), it, currentFont ?: "default")
             }
         }
         
@@ -73,7 +73,7 @@ class DialogEmotions(
         // Apply current font
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
-        FontManager.applyFontToView(requireContext(), view, currentFont ?: "default")
+        FontUtils.applyFontToView(requireContext(), view, currentFont ?: "default")
 
         initComponents(view)
     }
