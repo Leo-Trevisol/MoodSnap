@@ -50,6 +50,7 @@ import android.graphics.Paint
 import android.widget.EditText
 import androidx.core.content.res.ResourcesCompat
 import com.br.leo.moodsnap.ui.dialog.OnboardingDialog
+import com.br.leo.moodsnap.ui.utils.ButtonUtils
 
 class HomeFragment : Fragment() {
 
@@ -822,54 +823,26 @@ class HomeFragment : Fragment() {
         val btnLightTheme = themeDialogView.findViewById<Button>(R.id.btn_light_theme)
         val btnDarkTheme = themeDialogView.findViewById<Button>(R.id.btn_dark_theme)
 
-        // Function to reset all buttons to default state
-        fun resetAllButtons() {
-            val buttons = listOf(btnLightTheme, btnDarkTheme, btnSystemTheme)
-            buttons.forEach { button ->
-                Utils.updateBackGroundColor(requireContext(), button, R.color.gray_dark, R.color.secundary)
-                TextViewCompat.setCompoundDrawableTintList(button, ContextCompat.getColorStateList(requireContext(), R.color.dark_secondary))
-            }
-        }
-
-        resetAllButtons()
-
-        // Function to highlight selected button
-        fun highlightButton(button: Button) {
-            button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primary_green)))
-            button.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-            TextViewCompat.setCompoundDrawableTintList(button, ContextCompat.getColorStateList(requireContext(), R.color.white))
-        }
+        val buttons = listOf(btnSystemTheme, btnLightTheme, btnDarkTheme)
 
         // Verificar se é a primeira execução do app
         val isFirstThemeApply = sharedPreferences.getBoolean("is_first_theme_apply", true)
 
         // Set initial selection based on current theme or first run
+        ButtonUtils.resetAllButtons(requireContext(), buttons)
         if (isFirstThemeApply) {
-            highlightButton(btnSystemTheme)
+            ButtonUtils.highlightButton(requireContext(), btnSystemTheme)
         } else {
             val currentNightMode = AppCompatDelegate.getDefaultNightMode()
             when (currentNightMode) {
-                AppCompatDelegate.MODE_NIGHT_YES -> highlightButton(btnDarkTheme)
-                AppCompatDelegate.MODE_NIGHT_NO -> highlightButton(btnLightTheme)
-                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> highlightButton(btnSystemTheme)
+                AppCompatDelegate.MODE_NIGHT_YES -> ButtonUtils.highlightButton(requireContext(), btnDarkTheme)
+                AppCompatDelegate.MODE_NIGHT_NO -> ButtonUtils.highlightButton(requireContext(), btnLightTheme)
+                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> ButtonUtils.highlightButton(requireContext(), btnSystemTheme)
             }
         }
 
-        // Set click listeners for theme buttons
-        btnLightTheme.setOnClickListener {
-            resetAllButtons()
-            highlightButton(btnLightTheme)
-        }
-
-        btnDarkTheme.setOnClickListener {
-            resetAllButtons()
-            highlightButton(btnDarkTheme)
-        }
-
-        btnSystemTheme.setOnClickListener {
-            resetAllButtons()
-            highlightButton(btnSystemTheme)
-        }
+        // Set up click listeners for theme buttons
+        ButtonUtils.setupToggleButtonGroup(requireContext(), buttons)
 
         themeDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
             themeDialog.dismiss()
@@ -985,88 +958,34 @@ class HomeFragment : Fragment() {
         // Load the current language preference
         val currentLanguage = sharedPreferences.getString("current_language", "system")
         
-        // Function to reset all buttons to default state
-        fun resetAllButtons() {
-            val buttons = listOf(btnSystem, btnEnglish, btnPortuguese, btnSpanish, btnFrench, btnItalian, btnChinese, btnRussian, btnGerman)
-            buttons.forEach { button ->
-                Utils.updateBackGroundColor(requireContext(), button, R.color.gray_dark, R.color.secundary)
-            }
-        }
-
-        resetAllButtons()
-
-        // Function to highlight selected button
-        fun highlightButton(button: Button) {
-            button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primary_green)))
-            button.setTextColor(Color.WHITE)
-        }
+        val buttons = listOf(btnSystem, btnEnglish, btnPortuguese, btnSpanish, btnFrench, btnItalian, btnChinese, btnRussian, btnGerman)
 
         val isFirstLanguageApply = sharedPreferences.getBoolean("is_system_language_apply", true)
 
+        // Create a map of language codes to buttons
+        val languageButtonMap = mapOf(
+            "system" to btnSystem,
+            "en" to btnEnglish,
+            "pt" to btnPortuguese,
+            "es" to btnSpanish,
+            "fr" to btnFrench,
+            "it" to btnItalian,
+            "zh" to btnChinese,
+            "ru" to btnRussian,
+            "de" to btnGerman
+        )
+
         // Set initial selection based on current language or first run
+        ButtonUtils.resetAllButtons(requireContext(), buttons)
         if (isFirstLanguageApply) {
-            highlightButton(btnSystem)
-        }else{
+            ButtonUtils.highlightButton(requireContext(), btnSystem)
+        } else {
             // Set initial selection based on current language
-            when (currentLanguage) {
-                "system" -> highlightButton(btnSystem)
-                "pt" -> highlightButton(btnPortuguese)
-                "es" -> highlightButton(btnSpanish)
-                "fr" -> highlightButton(btnFrench)
-                "it" -> highlightButton(btnItalian)
-                "zh" -> highlightButton(btnChinese)
-                "ru" -> highlightButton(btnRussian)
-                "de" -> highlightButton(btnGerman)
-                else -> highlightButton(btnEnglish)
-            }
-
+            ButtonUtils.highlightButton(requireContext(), languageButtonMap[currentLanguage] ?: btnEnglish)
         }
 
-        // Set click listeners for all buttons
-        btnSystem.setOnClickListener {
-            resetAllButtons()
-            highlightButton(btnSystem)
-        }
-
-        btnEnglish.setOnClickListener {
-            resetAllButtons()
-            highlightButton(btnEnglish)
-        }
-
-        btnPortuguese.setOnClickListener {
-            resetAllButtons()
-            highlightButton(btnPortuguese)
-        }
-
-        btnSpanish.setOnClickListener {
-            resetAllButtons()
-            highlightButton(btnSpanish)
-        }
-
-        btnFrench.setOnClickListener {
-            resetAllButtons()
-            highlightButton(btnFrench)
-        }
-
-        btnItalian.setOnClickListener {
-            resetAllButtons()
-            highlightButton(btnItalian)
-        }
-
-        btnChinese.setOnClickListener {
-            resetAllButtons()
-            highlightButton(btnChinese)
-        }
-
-        btnRussian.setOnClickListener {
-            resetAllButtons()
-            highlightButton(btnRussian)
-        }
-
-        btnGerman.setOnClickListener {
-            resetAllButtons()
-            highlightButton(btnGerman)
-        }
+        // Set up click listeners for all buttons
+        ButtonUtils.setupToggleButtonGroup(requireContext(), buttons)
 
         languageDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
             languageDialog.dismiss()
@@ -1274,74 +1193,45 @@ class HomeFragment : Fragment() {
         weekText.text = weekdayAbbr
         dayText.text = currentDay.toString()
 
-        // Function to reset all buttons to default state
-        fun resetAllButtons() {
-            val buttons = listOf(btnDefaultFont, btnRoboto, btnOpenSans, btnLato, btnPoppins, btnMulish, btnLimeLight)
-            buttons.forEach { button ->
-                Utils.updateBackGroundColor(requireContext(), button, R.color.gray_dark, R.color.secundary)
-            }
-        }
+        val buttons = listOf(btnDefaultFont, btnRoboto, btnOpenSans, btnLato, btnPoppins, btnMulish, btnLimeLight)
+        ButtonUtils.resetAllButtons(requireContext(), buttons)
 
-        resetAllButtons()
+        // Create a map of font names to their respective buttons and names
+        val fontButtonMap = mapOf(
+            "roboto" to Pair(btnRoboto, "roboto"),
+            "open_sans" to Pair(btnOpenSans, "open_sans"),
+            "lato" to Pair(btnLato, "lato"),
+            "poppins" to Pair(btnPoppins, "poppins"),
+            "mulish" to Pair(btnMulish, "mulish"),
+            "limelight" to Pair(btnLimeLight, "limelight"),
+            "default" to Pair(btnDefaultFont, "default")
+        )
 
-        // Function to highlight selected button and update preview text
-        fun highlightButtonAndUpdatePreview(button: Button, fontName: String) {
-            button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primary_green)))
-            button.setTextColor(Color.WHITE)
-            
-            // Update preview text with selected font
+        // Function to update preview text with selected font
+        fun updatePreviewText(fontName: String) {
             val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(fontName))
             previewText.typeface = typeface
             weekText.typeface = typeface
             dayText.typeface = typeface
-
         }
 
         // Set initial selection based on current font
-        when (currentFont) {
-            "roboto" -> highlightButtonAndUpdatePreview(btnRoboto, "roboto")
-            "open_sans" -> highlightButtonAndUpdatePreview(btnOpenSans, "open_sans")
-            "lato" -> highlightButtonAndUpdatePreview(btnLato, "lato")
-            "poppins" -> highlightButtonAndUpdatePreview(btnPoppins, "poppins")
-            "mulish" -> highlightButtonAndUpdatePreview(btnMulish, "mulish")
-            "limelight" -> highlightButtonAndUpdatePreview(btnLimeLight, "limelight")
-            else -> highlightButtonAndUpdatePreview(btnDefaultFont, "default")
-        }
+        val (button, fontName) = fontButtonMap[currentFont] ?: fontButtonMap["default"]!!
+        ButtonUtils.highlightButton(requireContext(), button)
+        updatePreviewText(fontName)
 
-        // Set click listeners for font buttons
-        btnDefaultFont.setOnClickListener {
-            resetAllButtons()
-            highlightButtonAndUpdatePreview(btnDefaultFont, "default")
-        }
-
-        btnRoboto.setOnClickListener {
-            resetAllButtons()
-            highlightButtonAndUpdatePreview(btnRoboto, "roboto")
-        }
-
-        btnOpenSans.setOnClickListener {
-            resetAllButtons()
-            highlightButtonAndUpdatePreview(btnOpenSans, "open_sans")
-        }
-
-        btnLato.setOnClickListener {
-            resetAllButtons()
-            highlightButtonAndUpdatePreview(btnLato, "lato")
-        }
-
-        btnPoppins.setOnClickListener {
-            resetAllButtons()
-            highlightButtonAndUpdatePreview(btnPoppins, "poppins")
-        }
-
-        btnMulish.setOnClickListener {
-            resetAllButtons()
-            highlightButtonAndUpdatePreview(btnMulish, "mulish")
-        }
-
-        btnLimeLight.setOnClickListener {
-            resetAllButtons()
-            highlightButtonAndUpdatePreview(btnLimeLight, "limelight")
+        // Set up click listeners for font buttons with preview update
+        ButtonUtils.setupToggleButtonGroup(requireContext(), buttons) { button ->
+            val fontName = when (button) {
+                btnRoboto -> "roboto"
+                btnOpenSans -> "open_sans"
+                btnLato -> "lato"
+                btnPoppins -> "poppins"
+                btnMulish -> "mulish"
+                btnLimeLight -> "limelight"
+                else -> "default"
+            }
+            updatePreviewText(fontName)
         }
 
         fontDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
