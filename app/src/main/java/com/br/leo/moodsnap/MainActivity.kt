@@ -12,7 +12,7 @@ import com.br.leo.moodsnap.databinding.ActivityMainBinding
 import com.br.leo.moodsnap.ui.dialog.DialogEmotions
 import com.br.leo.moodsnap.ui.dialog.OnboardingDialog
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
-import com.br.leo.moodsnap.utils.PreferencesManager
+import com.br.leo.moodsnap.ui.utils.PreferencesManager
 import java.util.*
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate

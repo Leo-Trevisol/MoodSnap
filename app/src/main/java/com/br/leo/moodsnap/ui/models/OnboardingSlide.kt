@@ -1,4 +1,4 @@
-package com.br.leo.moodsnap.models
+package com.br.leo.moodsnap.ui.models
 
 data class OnboardingSlide(
     val image: Int,

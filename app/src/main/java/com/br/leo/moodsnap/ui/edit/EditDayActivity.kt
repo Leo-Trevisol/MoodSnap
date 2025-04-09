@@ -34,6 +34,7 @@ import com.google.android.material.button.MaterialButton
 import android.content.Context
 import android.view.ViewGroup
 import android.widget.TextView
+import com.br.leo.moodsnap.ui.utils.DateUtils
 import com.br.leo.moodsnap.ui.utils.FontUtils
 import com.br.leo.moodsnap.ui.utils.FontUtils.updateFontDialogPicker
 import com.br.leo.moodsnap.ui.utils.Utils.findViewsByType
@@ -159,7 +160,7 @@ class EditDayActivity : AppCompatActivity() {
             // Não permitir navegar para dias futuros
             val nextDay = calendar.clone() as Calendar
             nextDay.add(Calendar.DAY_OF_MONTH, 1)
-            if (!Utils.isDateInFuture(nextDay)) {
+            if (!DateUtils.isDateInFuture(nextDay)) {
                 if (hasChanges) {
                     showDiscardChangesDialog {
                         calendar.add(Calendar.DAY_OF_MONTH, 1)
@@ -183,7 +184,7 @@ class EditDayActivity : AppCompatActivity() {
 
     private fun updateDateText() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
-        val month = Utils.getMonthName(this, calendar.get(Calendar.MONTH))
+        val month = DateUtils.getMonthName(this, calendar.get(Calendar.MONTH))
         binding.dateText.text = "$day - $month"
     }
 

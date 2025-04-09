@@ -14,6 +14,7 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.ui.edit.EditDayActivity
+import com.br.leo.moodsnap.ui.utils.DateUtils
 import com.br.leo.moodsnap.ui.utils.Utils
 import com.br.leo.moodsnap.ui.utils.Utils.showCustomToast
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
@@ -81,7 +82,7 @@ class DialogEmotions(
         val year = selectedDate.get(Calendar.YEAR)
         
         // Obter o nome do mês traduzido
-        val monthName = Utils.getMonthName(requireContext(), month)
+        val monthName = DateUtils.getMonthName(requireContext(), month)
         
         selectedDateText.text = getString(R.string.date_format, day, monthName, year)
 

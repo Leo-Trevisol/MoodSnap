@@ -1,4 +1,4 @@
-package com.br.leo.moodsnap.adapters
+package com.br.leo.moodsnap.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
-import com.br.leo.moodsnap.models.OnboardingSlide
+import com.br.leo.moodsnap.ui.models.OnboardingSlide
 import com.br.leo.moodsnap.ui.utils.FontUtils
 
 class OnboardingAdapter(private val slides: List<OnboardingSlide>) :

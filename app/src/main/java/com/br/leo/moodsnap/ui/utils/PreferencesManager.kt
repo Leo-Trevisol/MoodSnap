@@ -1,4 +1,4 @@
-package com.br.leo.moodsnap.utils
+package com.br.leo.moodsnap.ui.utils
 
 import android.content.Context
 import android.content.SharedPreferences

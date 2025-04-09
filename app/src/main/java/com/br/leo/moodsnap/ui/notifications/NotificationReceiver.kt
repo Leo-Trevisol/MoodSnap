@@ -1,4 +1,4 @@
-package com.br.leo.moodsnap.utils
+package com.br.leo.moodsnap.ui.notifications
 
 import android.app.NotificationManager
 import android.content.BroadcastReceiver

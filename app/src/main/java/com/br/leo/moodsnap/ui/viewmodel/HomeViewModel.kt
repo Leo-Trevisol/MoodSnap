@@ -1,4 +1,4 @@
-package com.br.leo.moodsnap.ui.home
+package com.br.leo.moodsnap.ui.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

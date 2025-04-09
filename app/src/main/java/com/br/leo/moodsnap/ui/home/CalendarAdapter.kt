@@ -119,7 +119,7 @@ class CalendarAdapter(
                     )
                 }
                 holder.moodIndicator.visibility = if (mood != null) View.VISIBLE else View.GONE
-                if (mood != null) holder.moodIndicator.setImageResource(getMoodDrawable(mood.moodType))
+                if (mood != null) holder.moodIndicator.setImageResource(Utils.getMoodDrawable(mood.moodType))
             }
             else -> {
                 holder.dayNumber.setTextColor(context.getColor(R.color.day_text_color))
@@ -132,7 +132,7 @@ class CalendarAdapter(
                         else context.getColor(moodColors[mood.moodType] ?: R.color.white)
                     )
                     holder.moodIndicator.visibility = View.VISIBLE
-                    holder.moodIndicator.setImageResource(getMoodDrawable(mood.moodType))
+                    holder.moodIndicator.setImageResource(Utils.getMoodDrawable(mood.moodType))
                     holder.dayNumber.setTextColor(if (isSelected) Color.WHITE else context.getColor(R.color.day_text_color))
                 } else {
                     holder.dayCard.setCardBackgroundColor(
@@ -174,17 +174,6 @@ class CalendarAdapter(
     }
 
     override fun getItemCount() = daysInMonth + firstDayOfWeek
-
-    private fun getMoodDrawable(moodType: Int): Int {
-        return when (moodType) {
-            0 -> R.drawable.muito_feliz
-            1 -> R.drawable.feliz
-            2 -> R.drawable.neutro
-            3 -> R.drawable.triste
-            4 -> R.drawable.muito_triste
-            else -> R.drawable.neutro
-        }
-    }
 
     fun updateData(newDaysInMonth: Int, newMoodList: List<MoodModel>) {
         daysInMonth = newDaysInMonth

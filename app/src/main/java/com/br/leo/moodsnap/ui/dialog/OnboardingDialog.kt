@@ -10,8 +10,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.br.leo.moodsnap.R
-import com.br.leo.moodsnap.adapters.OnboardingAdapter
-import com.br.leo.moodsnap.models.OnboardingSlide
+import com.br.leo.moodsnap.ui.adapters.OnboardingAdapter
+import com.br.leo.moodsnap.ui.models.OnboardingSlide
 import com.br.leo.moodsnap.ui.utils.FontUtils
 
 class OnboardingDialog(context: Context) : Dialog(context) {

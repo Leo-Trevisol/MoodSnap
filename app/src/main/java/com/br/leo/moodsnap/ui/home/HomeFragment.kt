@@ -27,19 +27,14 @@ import java.util.Calendar
 import java.util.Locale
 import kotlin.math.abs
 import android.content.Context
-import android.content.res.ColorStateList
 import android.widget.Button
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
-import androidx.core.widget.TextViewCompat
-import com.google.android.material.button.MaterialButton
 import android.widget.Switch
 import android.widget.TimePicker
-import com.br.leo.moodsnap.utils.NotificationHelper
+import com.br.leo.moodsnap.ui.notifications.NotificationHelper
 import android.util.Log
 import com.br.leo.moodsnap.ui.utils.FontUtils
-import android.os.Build
-import android.content.pm.PackageManager
 import androidx.activity.result.contract.ActivityResultContracts
 import android.app.AlertDialog
 import android.provider.Settings
@@ -49,11 +44,12 @@ import android.net.Uri
 import android.graphics.Paint
 import android.widget.EditText
 import androidx.core.content.res.ResourcesCompat
+import com.br.leo.moodsnap.ui.adapters.WeekdaysAdapter
 import com.br.leo.moodsnap.ui.dialog.OnboardingDialog
 import com.br.leo.moodsnap.ui.utils.ButtonUtils
 import com.br.leo.moodsnap.ui.utils.DateUtils
-import com.br.leo.moodsnap.ui.utils.DialogUtils
 import com.br.leo.moodsnap.ui.utils.FontUtils.updateFontDialogPicker
+import com.br.leo.moodsnap.ui.viewmodel.HomeViewModel
 
 class HomeFragment : Fragment() {
 
@@ -1224,35 +1220,35 @@ class HomeFragment : Fragment() {
         FontUtils.applyFontToView(requireContext(), settingsDialogView)
 
         val btnTutorial : Button = settingsDialogView.findViewById<Button>(R.id.btn_tutorial)
-        DialogUtils.setupDialogConfirmButton(requireContext(), btnTutorial)
+        Utils.setupDialogConfirmButton(requireContext(), btnTutorial)
         btnTutorial.setOnClickListener {
             settingsDialog.dismiss()
             showOnboardingTutorial()
         }
 
         val btnLanguages : Button = settingsDialogView.findViewById<Button>(R.id.btn_languages)
-        DialogUtils.setupDialogConfirmButton(requireContext(), btnLanguages)
+        Utils.setupDialogConfirmButton(requireContext(), btnLanguages)
         btnLanguages.setOnClickListener {
             settingsDialog.dismiss()
             showLanguageSelectionDialog()
         }
 
         val btnThemes : Button = settingsDialogView.findViewById<Button>(R.id.btn_themes)
-        DialogUtils.setupDialogConfirmButton(requireContext(), btnThemes)
+        Utils.setupDialogConfirmButton(requireContext(), btnThemes)
         btnThemes.setOnClickListener {
             settingsDialog.dismiss()
             showThemeSelectionDialog()
         }
 
         val btnNotifications : Button = settingsDialogView.findViewById<Button>(R.id.btn_notifications)
-        DialogUtils.setupDialogConfirmButton(requireContext(), btnNotifications)
+        Utils.setupDialogConfirmButton(requireContext(), btnNotifications)
         btnNotifications.setOnClickListener {
             settingsDialog.dismiss()
             showNotificationSettingsDialog()
         }
 
         val btnFonts : Button = settingsDialogView.findViewById<Button>(R.id.btn_fonts)
-        DialogUtils.setupDialogConfirmButton(requireContext(), btnFonts)
+        Utils.setupDialogConfirmButton(requireContext(), btnFonts)
         btnFonts.setOnClickListener {
             settingsDialog.dismiss()
             showFontSelectionDialog()

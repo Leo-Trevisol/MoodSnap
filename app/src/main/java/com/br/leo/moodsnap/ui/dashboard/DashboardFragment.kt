@@ -64,6 +64,8 @@ class DashboardFragment : Fragment() {
 
         // Apply current font
         activity?.let { activity ->
+            val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            val currentFont = sharedPreferences.getString("current_font", "default")
             FontUtils.applyFontToActivity(activity)
         }
 

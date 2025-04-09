@@ -52,7 +52,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <receiver android:name=".utils.NotificationReceiver" />
+        <receiver android:name=".ui.notifications.NotificationReceiver" />
 
     </application>
 

@@ -13,14 +13,11 @@ import com.br.leo.moodsnap.service.model.MoodModel
 import com.br.leo.moodsnap.service.repository.MoodRepository
 import com.br.leo.moodsnap.ui.utils.DateUtils
 import com.br.leo.moodsnap.ui.utils.Utils
-import com.br.leo.moodsnap.ui.utils.WeekDayUtils
 import java.util.Calendar
 import java.util.Date
-import java.util.Locale
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 
 class DashboardViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -113,7 +110,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             moodDate.time = mood.date
 
             // Verificar se a data do humor é o dia esperado na sequência
-            if (WeekDayUtils.isSameDay(currentDate, moodDate)) {
+            if (DateUtils.isSameDay(currentDate, moodDate)) {
                 streak++
                 currentDate.add(Calendar.DAY_OF_MONTH, -1)
             } else {
@@ -152,10 +149,6 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         return Utils.getMoodName(context, moodType)
     }
 
-    fun getDayOfWeekName(context: Context, dayOfWeek: Int): String {
-        return WeekDayUtils.getDayOfWeekName(context, dayOfWeek)
-    }
-
     fun setDayFilter(filter: DayFilter) {
         _selectedDayFilter.value = filter
         // Recalcular as estatísticas com o novo filtro
@@ -178,12 +171,12 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         return when (filter) {
             DayFilter.BEST_DAY -> context.getString(
                 R.string.best_day_usually,
-                WeekDayUtils.getDayOfWeekName(context, dayOfWeek)
+                DateUtils.getDayOfWeekName(context, dayOfWeek)
             )
 
             DayFilter.WORST_DAY -> context.getString(
                 R.string.worst_day_usually,
-                WeekDayUtils.getDayOfWeekName(context, dayOfWeek)
+                DateUtils.getDayOfWeekName(context, dayOfWeek)
             )
         }
     }
@@ -250,7 +243,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             val moodDate = Calendar.getInstance()
             moodDate.time = mood.date
 
-            if (WeekDayUtils.isSameDay(currentDate, moodDate)) {
+            if (DateUtils.isSameDay(currentDate, moodDate)) {
                 streakMoods.add(mood.moodType)
                 currentDate.add(Calendar.DAY_OF_MONTH, -1)
 

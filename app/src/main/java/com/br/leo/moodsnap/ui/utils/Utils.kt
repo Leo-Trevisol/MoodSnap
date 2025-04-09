@@ -67,50 +67,8 @@ object Utils {
         button.backgroundTintList = ColorStateList.valueOf(context.resources.getColor(backgroundColor))
     }
 
-    fun isDateInFuture(calendar: Calendar): Boolean {
-        val today = Calendar.getInstance()
-        return calendar.after(today)
-    }
-
-    fun isDateInFuture(dayOfMonth: Int, displayMonth: Calendar): Boolean {
-        val today = Calendar.getInstance()
-        val tempCalendar = Calendar.getInstance()
-        tempCalendar.set(Calendar.YEAR, displayMonth.get(Calendar.YEAR))
-        tempCalendar.set(Calendar.MONTH, displayMonth.get(Calendar.MONTH))
-        tempCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
-        return tempCalendar.after(today)
-    }
-
-    fun isToday(dayOfMonth: Int, displayMonth: Calendar): Boolean {
-        val today = Calendar.getInstance()
-        return today.get(Calendar.YEAR) == displayMonth.get(Calendar.YEAR) &&
-               today.get(Calendar.MONTH) == displayMonth.get(Calendar.MONTH) &&
-               today.get(Calendar.DAY_OF_MONTH) == dayOfMonth
-    }
-
-    fun isSameDay(cal1: Calendar, cal2: Calendar): Boolean {
-        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-                cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
-                cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)
-    }
-
-    fun getMonthName(context: Context, month: Int): String {
-        return when (month) {
-            Calendar.JANUARY -> context.getString(R.string.month_january)
-            Calendar.FEBRUARY -> context.getString(R.string.month_february)
-            Calendar.MARCH -> context.getString(R.string.month_march)
-            Calendar.APRIL -> context.getString(R.string.month_april)
-            Calendar.MAY -> context.getString(R.string.month_may)
-            Calendar.JUNE -> context.getString(R.string.month_june)
-            Calendar.JULY -> context.getString(R.string.month_july)
-            Calendar.AUGUST -> context.getString(R.string.month_august)
-            Calendar.SEPTEMBER -> context.getString(R.string.month_september)
-            Calendar.OCTOBER -> context.getString(R.string.month_october)
-            Calendar.NOVEMBER -> context.getString(R.string.month_november)
-            Calendar.DECEMBER -> context.getString(R.string.month_december)
-            else -> ""
-        }
+    fun setupDialogConfirmButton(context: Context, confirmButton: Button) {
+        updateBackGroundColor(context, confirmButton)
     }
 
     fun getMoodName(context: Context, moodType: Int): String {
