@@ -195,6 +195,67 @@
             android:textSize="@dimen/button_text_size"
             android:padding="16dp"/>
 
+            <Button
+                android:id="@+id/btn_alumni_sans_pinstripe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_rounded"
+                android:text="AlumniSansPinstripe"
+                android:textStyle="bold"
+                android:shadowColor="@color/white"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:textSize="@dimen/button_text_size"
+                android:padding="16dp"/>
+
+            <Button
+                android:id="@+id/btn_itim"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_rounded"
+                android:text="Itim"
+                android:textStyle="bold"
+                android:shadowColor="@color/white"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:textSize="@dimen/button_text_size"
+                android:padding="16dp"/>
+
+            <Button
+                android:id="@+id/btn_pangolin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_rounded"
+                android:text="Pangolin"
+                android:textStyle="bold"
+                android:shadowColor="@color/white"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:textSize="@dimen/button_text_size"
+                android:padding="16dp"/>
+
+
+            <Button
+                android:id="@+id/btn_tangerine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_rounded"
+                android:text="Tangerine"
+                android:textStyle="bold"
+                android:shadowColor="@color/white"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:textSize="@dimen/button_text_size"
+                android:padding="16dp"/>
+
+            <Button
+                android:id="@+id/btn_underdog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_rounded"
+                android:text="Underdog"
+                android:textStyle="bold"
+                android:shadowColor="@color/white"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:textSize="@dimen/button_text_size"
+                android:padding="16dp"/>
+
         </LinearLayout>
 
     </ScrollView>

@@ -1068,6 +1068,12 @@ class HomeFragment : Fragment() {
         val btnPoppins = fontDialogView.findViewById<Button>(R.id.btn_poppins)
         val btnMulish = fontDialogView.findViewById<Button>(R.id.btn_mulish)
         val btnLimeLight = fontDialogView.findViewById<Button>(R.id.btn_lime_light)
+        val btnAlumniSansPinstripe = fontDialogView.findViewById<Button>(R.id.btn_alumni_sans_pinstripe)
+        val btnItim = fontDialogView.findViewById<Button>(R.id.btn_itim)
+        val btnPangolin = fontDialogView.findViewById<Button>(R.id.btn_pangolin)
+        val btnTangerine = fontDialogView.findViewById<Button>(R.id.btn_tangerine)
+        val btnUnderdog = fontDialogView.findViewById<Button>(R.id.btn_underdog)
+
 
         // Get preview text
         val previewText = fontDialogView.findViewById<TextView>(R.id.preview_text)
@@ -1093,7 +1099,8 @@ class HomeFragment : Fragment() {
         weekText.text = weekdayAbbr
         dayText.text = currentDay.toString()
 
-        val buttons = listOf(btnDefaultFont, btnRoboto, btnOpenSans, btnLato, btnPoppins, btnMulish, btnLimeLight)
+        val buttons = listOf(btnDefaultFont, btnRoboto, btnOpenSans, btnLato, btnPoppins, btnMulish, btnLimeLight,
+            btnAlumniSansPinstripe, btnItim, btnPangolin, btnTangerine, btnUnderdog)
         ButtonUtils.resetAllButtons(requireContext(), buttons)
 
         // Create a map of font names to their respective buttons and names
@@ -1104,6 +1111,11 @@ class HomeFragment : Fragment() {
             "poppins" to Pair(btnPoppins, "poppins"),
             "mulish" to Pair(btnMulish, "mulish"),
             "limelight" to Pair(btnLimeLight, "limelight"),
+            "alumni_sans_pinstripe" to Pair(btnAlumniSansPinstripe, "alumni_sans_pinstripe"),
+            "itim" to Pair(btnItim, "itim"),
+            "pangolin" to Pair(btnPangolin, "pangolin"),
+            "tangerine" to Pair(btnTangerine, "tangerine"),
+            "underdog" to Pair(btnUnderdog, "underdog"),
             "default" to Pair(btnDefaultFont, "default")
         )
 
@@ -1121,7 +1133,23 @@ class HomeFragment : Fragment() {
         updatePreviewText(fontName)
 
         // Set up click listeners for font buttons with preview update
-        ButtonUtils.setupToggleButtonGroup(requireContext(), buttons)
+        ButtonUtils.setupToggleButtonGroup(requireContext(), buttons) { btn ->
+            val fontPreview = when (btn) {
+                btnRoboto -> "roboto"
+                btnOpenSans -> "open_sans"
+                btnLato -> "lato"
+                btnPoppins -> "poppins"
+                btnMulish -> "mulish"
+                btnLimeLight -> "limelight"
+                btnAlumniSansPinstripe -> "alumni_sans_pinstripe"
+                btnItim -> "itim"
+                btnPangolin -> "pangolin"
+                btnTangerine -> "tangerine"
+                btnUnderdog -> "underdog"
+                else -> "default"
+            }
+            updatePreviewText(fontPreview)
+        }
 
         fontDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
             fontDialog.dismiss()
@@ -1152,6 +1180,11 @@ class HomeFragment : Fragment() {
                 btnPoppins.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "poppins"
                 btnMulish.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "mulish"
                 btnLimeLight.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "limelight"
+                btnAlumniSansPinstripe.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "alumni_sans_pinstripe"
+                btnItim.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "itim"
+                btnPangolin.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "pangolin"
+                btnTangerine.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "tangerine"
+                btnUnderdog.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "underdog"
                 else -> "default"
             }
 

@@ -55,6 +55,11 @@ object FontUtils {
             "poppins" -> R.font.poppins_regular
             "mulish" -> R.font.mulish_regular
             "limelight" -> R.font.lime_light_regular
+            "alumni_sans_pinstripe" -> R.font.alumni_sans_pinstripe_regular
+            "itim" -> R.font.itim_regular
+            "pangolin" -> R.font.pangolin_regular
+            "tangerine" -> R.font.tangerine_regular
+            "underdog" -> R.font.underdog_regular
             else -> R.font.poppins_regular
         }
     }
