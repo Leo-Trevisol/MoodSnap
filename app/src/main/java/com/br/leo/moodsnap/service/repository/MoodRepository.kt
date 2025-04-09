@@ -3,6 +3,7 @@ package com.br.leo.moodsnap.service.repository
 import android.content.Context
 import com.br.leo.moodsnap.service.model.MoodModel
 import com.br.leo.moodsnap.service.repository.database.MoodDatabase
+import com.br.leo.moodsnap.ui.utils.DateUtils
 import java.util.*
 
 class MoodRepository (context: Context) {
@@ -35,21 +36,7 @@ class MoodRepository (context: Context) {
     }
 
     fun getMoodByDate(date: Date): MoodModel? {
-        val calendar = Calendar.getInstance().apply { time = date }
-        val startOfDay = calendar.apply {
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }.time
-        
-        val endOfDay = calendar.apply {
-            set(Calendar.HOUR_OF_DAY, 23)
-            set(Calendar.MINUTE, 59)
-            set(Calendar.SECOND, 59)
-            set(Calendar.MILLISECOND, 999)
-        }.time
-
+        val (startOfDay, endOfDay) = DateUtils.getStartAndEndOfDay(date)
         return dataBase.getMoodByDateRange(startOfDay, endOfDay)
     }
 

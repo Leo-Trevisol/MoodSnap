@@ -1,5 +1,6 @@
 package com.br.leo.moodsnap.ui.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -16,15 +17,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
-import com.br.leo.moodsnap.ui.utils.FontUtils
+import java.util.Calendar
 
 object Utils {
-
-    fun getMainColor() : Int{
+    fun getMainColor() : Int {
         return R.color.primary_green
     }
-
 
     fun showCustomToast(context: Context, message: String, duration: Int = Toast.LENGTH_SHORT) {
         val inflater = LayoutInflater.from(context)
@@ -46,7 +44,6 @@ object Utils {
             show()
         }
     }
-
 
     fun CardView.flashError(onComplete: () -> Unit) {
         val originalColor = cardBackgroundColor
@@ -81,7 +78,7 @@ object Utils {
         tempCalendar.set(Calendar.YEAR, displayMonth.get(Calendar.YEAR))
         tempCalendar.set(Calendar.MONTH, displayMonth.get(Calendar.MONTH))
         tempCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-        
+
         return tempCalendar.after(today)
     }
 
@@ -127,19 +124,6 @@ object Utils {
         }
     }
 
-    fun getDayOfWeekName(context: Context, dayOfWeek: Int): String {
-        return when (dayOfWeek) {
-            Calendar.SUNDAY -> context.getString(R.string.weekday_full_sunday)
-            Calendar.MONDAY -> context.getString(R.string.weekday_full_monday)
-            Calendar.TUESDAY -> context.getString(R.string.weekday_full_tuesday)
-            Calendar.WEDNESDAY -> context.getString(R.string.weekday_full_wednesday)
-            Calendar.THURSDAY -> context.getString(R.string.weekday_full_thursday)
-            Calendar.FRIDAY -> context.getString(R.string.weekday_full_friday)
-            Calendar.SATURDAY -> context.getString(R.string.weekday_full_saturday)
-            else -> "Desconhecido"
-        }
-    }
-
     fun getMoodDrawable(moodType: Int): Int {
         return when (moodType) {
             0 -> R.drawable.muito_feliz
@@ -163,5 +147,4 @@ object Utils {
         }
         return result
     }
-
 }

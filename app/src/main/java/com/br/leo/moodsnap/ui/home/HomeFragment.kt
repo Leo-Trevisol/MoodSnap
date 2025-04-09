@@ -51,6 +51,8 @@ import android.widget.EditText
 import androidx.core.content.res.ResourcesCompat
 import com.br.leo.moodsnap.ui.dialog.OnboardingDialog
 import com.br.leo.moodsnap.ui.utils.ButtonUtils
+import com.br.leo.moodsnap.ui.utils.DateUtils
+import com.br.leo.moodsnap.ui.utils.DialogUtils
 import com.br.leo.moodsnap.ui.utils.FontUtils.updateFontDialogPicker
 
 class HomeFragment : Fragment() {
@@ -464,23 +466,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateDateTexts() {
-        val month = when (calendar.get(Calendar.MONTH)) {
-            Calendar.JANUARY -> getString(R.string.month_january)
-            Calendar.FEBRUARY -> getString(R.string.month_february)
-            Calendar.MARCH -> getString(R.string.month_march)
-            Calendar.APRIL -> getString(R.string.month_april)
-            Calendar.MAY -> getString(R.string.month_may)
-            Calendar.JUNE -> getString(R.string.month_june)
-            Calendar.JULY -> getString(R.string.month_july)
-            Calendar.AUGUST -> getString(R.string.month_august)
-            Calendar.SEPTEMBER -> getString(R.string.month_september)
-            Calendar.OCTOBER -> getString(R.string.month_october)
-            Calendar.NOVEMBER -> getString(R.string.month_november)
-            Calendar.DECEMBER -> getString(R.string.month_december)
-            else -> ""
-        }
-        val year = calendar.get(Calendar.YEAR).toString()
-        binding.dateText.text = "$month $year"
+        binding.dateText.text = DateUtils.formatMonthYear(requireContext(), calendar)
     }
 
     private fun setupCalendarView() {
@@ -1139,18 +1125,7 @@ class HomeFragment : Fragment() {
         updatePreviewText(fontName)
 
         // Set up click listeners for font buttons with preview update
-        ButtonUtils.setupToggleButtonGroup(requireContext(), buttons) { button ->
-            val fontName = when (button) {
-                btnRoboto -> "roboto"
-                btnOpenSans -> "open_sans"
-                btnLato -> "lato"
-                btnPoppins -> "poppins"
-                btnMulish -> "mulish"
-                btnLimeLight -> "limelight"
-                else -> "default"
-            }
-            updatePreviewText(fontName)
-        }
+        ButtonUtils.setupToggleButtonGroup(requireContext(), buttons)
 
         fontDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
             fontDialog.dismiss()
@@ -1244,40 +1219,40 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun showDialogs(settingsDialogView: View, settingsDialog: androidx.appcompat.app.AlertDialog){
+    private fun showDialogs(settingsDialogView: View, settingsDialog: androidx.appcompat.app.AlertDialog) {
         // Apply current font to settings dialog
         FontUtils.applyFontToView(requireContext(), settingsDialogView)
 
         val btnTutorial : Button = settingsDialogView.findViewById<Button>(R.id.btn_tutorial)
-        Utils.updateBackGroundColor(requireContext(), btnTutorial)
+        DialogUtils.setupDialogConfirmButton(requireContext(), btnTutorial)
         btnTutorial.setOnClickListener {
             settingsDialog.dismiss()
             showOnboardingTutorial()
         }
 
         val btnLanguages : Button = settingsDialogView.findViewById<Button>(R.id.btn_languages)
-        Utils.updateBackGroundColor(requireContext(), btnLanguages)
+        DialogUtils.setupDialogConfirmButton(requireContext(), btnLanguages)
         btnLanguages.setOnClickListener {
             settingsDialog.dismiss()
             showLanguageSelectionDialog()
         }
 
         val btnThemes : Button = settingsDialogView.findViewById<Button>(R.id.btn_themes)
-        Utils.updateBackGroundColor(requireContext(), btnThemes)
+        DialogUtils.setupDialogConfirmButton(requireContext(), btnThemes)
         btnThemes.setOnClickListener {
             settingsDialog.dismiss()
             showThemeSelectionDialog()
         }
 
         val btnNotifications : Button = settingsDialogView.findViewById<Button>(R.id.btn_notifications)
-        Utils.updateBackGroundColor(requireContext(), btnNotifications)
+        DialogUtils.setupDialogConfirmButton(requireContext(), btnNotifications)
         btnNotifications.setOnClickListener {
             settingsDialog.dismiss()
             showNotificationSettingsDialog()
         }
 
         val btnFonts : Button = settingsDialogView.findViewById<Button>(R.id.btn_fonts)
-        Utils.updateBackGroundColor(requireContext(), btnFonts)
+        DialogUtils.setupDialogConfirmButton(requireContext(), btnFonts)
         btnFonts.setOnClickListener {
             settingsDialog.dismiss()
             showFontSelectionDialog()

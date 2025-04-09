@@ -11,7 +11,9 @@ import androidx.lifecycle.viewModelScope
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.service.model.MoodModel
 import com.br.leo.moodsnap.service.repository.MoodRepository
+import com.br.leo.moodsnap.ui.utils.DateUtils
 import com.br.leo.moodsnap.ui.utils.Utils
+import com.br.leo.moodsnap.ui.utils.WeekDayUtils
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -111,7 +113,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             moodDate.time = mood.date
 
             // Verificar se a data do humor é o dia esperado na sequência
-            if (Utils.isSameDay(currentDate, moodDate)) {
+            if (WeekDayUtils.isSameDay(currentDate, moodDate)) {
                 streak++
                 currentDate.add(Calendar.DAY_OF_MONTH, -1)
             } else {
@@ -151,7 +153,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun getDayOfWeekName(context: Context, dayOfWeek: Int): String {
-        return Utils.getDayOfWeekName(context, dayOfWeek)
+        return WeekDayUtils.getDayOfWeekName(context, dayOfWeek)
     }
 
     fun setDayFilter(filter: DayFilter) {
@@ -176,12 +178,12 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         return when (filter) {
             DayFilter.BEST_DAY -> context.getString(
                 R.string.best_day_usually,
-                getDayOfWeekName(context, dayOfWeek)
+                WeekDayUtils.getDayOfWeekName(context, dayOfWeek)
             )
 
             DayFilter.WORST_DAY -> context.getString(
                 R.string.worst_day_usually,
-                getDayOfWeekName(context, dayOfWeek)
+                WeekDayUtils.getDayOfWeekName(context, dayOfWeek)
             )
         }
     }
@@ -189,10 +191,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
     fun getLastMoodDate(moodType: Int): String? {
         val lastMood = moods.value?.filter { it.moodType == moodType }
             ?.maxByOrNull { it.date }
-        return if (lastMood != null) {
-            val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            formatter.format(lastMood.date)
-        } else null
+        return lastMood?.let { DateUtils.formatDateToString(it.date) }
     }
 
     fun getLongestStreak(moodType: Int): Int {
@@ -251,7 +250,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             val moodDate = Calendar.getInstance()
             moodDate.time = mood.date
 
-            if (Utils.isSameDay(currentDate, moodDate)) {
+            if (WeekDayUtils.isSameDay(currentDate, moodDate)) {
                 streakMoods.add(mood.moodType)
                 currentDate.add(Calendar.DAY_OF_MONTH, -1)
 
