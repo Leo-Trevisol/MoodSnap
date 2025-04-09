@@ -57,10 +57,7 @@ class DialogEmotions(
                 val marginFromBottom = (80 * displayMetrics.density).toInt() // 80dp em pixels
                 it.layoutParams.height = screenHeight - marginFromBottom
 
-                // Apply current font to the dialog
-                val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-                val currentFont = sharedPreferences.getString("current_font", "default")
-                FontUtils.applyFontToView(requireContext(), it, currentFont ?: "default")
+                FontUtils.applyFontToView(requireContext(), it)
             }
         }
         
@@ -71,9 +68,7 @@ class DialogEmotions(
         super.onViewCreated(view, savedInstanceState)
 
         // Apply current font
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        FontUtils.applyFontToView(requireContext(), view, currentFont ?: "default")
+        FontUtils.applyFontToView(requireContext(), view)
 
         initComponents(view)
     }

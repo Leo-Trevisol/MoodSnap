@@ -28,12 +28,7 @@ class CustomAlertDialog private constructor(
         binding = DialogCustomPositiveNegativeAltBinding.inflate(LayoutInflater.from(context))
         builder?.setView(binding.root)
 
-        // 🔤 Aplica a fonte ao diálogo
-        val sharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        currentFont?.let {
-            FontUtils.applyFontToView(context, binding.root, it)
-        }
+        FontUtils.applyFontToView(context, binding.root)
 
         binding.imageViewIconDialog.setBackgroundResource(android.R.drawable.ic_dialog_alert)
         binding.textViewCustomDialogMessage.visibility = View.GONE

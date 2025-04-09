@@ -29,7 +29,6 @@ class CalendarAdapter(
     private val today = Calendar.getInstance()
     private val displayMonth = Calendar.getInstance()
     private var firstDayOfWeek = 0 // Domingo = 0, Segunda = 1, etc
-    private var currentFont: String = "default"
 
     // Cores para cada tipo de humor
     private val moodColors = mapOf(
@@ -72,11 +71,7 @@ class CalendarAdapter(
         holder.dayCard.visibility = View.VISIBLE
         holder.dayNumber.text = dayOfMonth.toString()
 
-        // Aplicar a fonte atual
-        if (currentFont != "default") {
-            val typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont))
-            holder.dayNumber.typeface = typeface
-        }
+        FontUtils.applyFontToView(context, holder.dayNumber)
 
         // Resetar o background do TextView para garantir que não mantenha estados anteriores
         holder.dayNumber.setBackgroundResource(0)
@@ -165,11 +160,6 @@ class CalendarAdapter(
                 }
             }
         }
-    }
-
-    fun updateFont(fontName: String) {
-        currentFont = fontName
-        notifyDataSetChanged()
     }
 
     private fun isDateInFuture(dayOfMonth: Int): Boolean {

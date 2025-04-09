@@ -91,8 +91,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         AppCompatDelegate.setDefaultNightMode(currentTheme)
 
         // Apply font
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        FontUtils.applyFontToActivity(this, currentFont ?: "default")
+        FontUtils.applyFontToActivity(this)
     }
 
     private fun updateLocale(languageCode: String) {

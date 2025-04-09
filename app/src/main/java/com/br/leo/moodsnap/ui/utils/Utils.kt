@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
@@ -31,10 +33,7 @@ object Utils {
         val toastText = layout.findViewById<TextView>(R.id.toast_text)
         toastText.text = message
 
-        // Apply current font to toast
-        val sharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        FontUtils.applyFontToView(context, layout, currentFont ?: "default")
+        FontUtils.applyFontToView(context, layout)
 
         // Carrega e aplica a animação
         val animation = AnimationUtils.loadAnimation(context, R.anim.toast_animation)
@@ -151,4 +150,18 @@ object Utils {
             else -> R.drawable.neutro
         }
     }
+
+    fun <T : View> View.findViewsByType(type: Class<T>): List<T> {
+        val result = mutableListOf<T>()
+        if (type.isInstance(this)) {
+            result.add(type.cast(this))
+        }
+        if (this is ViewGroup) {
+            for (i in 0 until childCount) {
+                result.addAll(getChildAt(i).findViewsByType(type))
+            }
+        }
+        return result
+    }
+
 }

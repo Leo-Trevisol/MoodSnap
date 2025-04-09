@@ -34,10 +34,7 @@ class WeekdaysAdapter : RecyclerView.Adapter<WeekdaysAdapter.WeekdayViewHolder>(
     override fun onBindViewHolder(holder: WeekdayViewHolder, position: Int) {
         holder.weekdayText.text = holder.itemView.context.getString(weekdays[position])
         
-        // Apply current font to weekday text
-        val sharedPreferences = holder.itemView.context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        FontUtils.applyFontToView(holder.itemView.context, holder.weekdayText, currentFont ?: "default")
+        FontUtils.applyFontToView(holder.itemView.context, holder.weekdayText)
     }
 
     override fun getItemCount() = weekdays.size

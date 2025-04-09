@@ -32,7 +32,11 @@ import java.util.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.button.MaterialButton
 import android.content.Context
+import android.view.ViewGroup
+import android.widget.TextView
 import com.br.leo.moodsnap.ui.utils.FontUtils
+import com.br.leo.moodsnap.ui.utils.FontUtils.updateFontDialogPicker
+import com.br.leo.moodsnap.ui.utils.Utils.findViewsByType
 
 class EditDayActivity : AppCompatActivity() {
 
@@ -101,9 +105,7 @@ class EditDayActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.dialog_enter, R.anim.dialog_exit)
 
         // Apply font
-        val sharedPreferences = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        FontUtils.applyFontToActivity(this, currentFont ?: "default")
+        FontUtils.applyFontToActivity(this)
 
         repository = MoodRepository(this)
         moodId = intent.getIntExtra("mood_id", 0)
@@ -190,10 +192,7 @@ class EditDayActivity : AppCompatActivity() {
         val monthPicker = dialogView.findViewById<NumberPicker>(R.id.month_picker)
         val yearPicker = dialogView.findViewById<NumberPicker>(R.id.year_picker)
         
-        // Apply font
-        val sharedPreferences = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        FontUtils.applyFontToView(this, dialogView, currentFont ?: "default")
+        FontUtils.applyFontToView(this, dialogView)
         
         // Configurar o picker de meses
         val months = arrayOf(
@@ -270,7 +269,16 @@ class EditDayActivity : AppCompatActivity() {
             }
             .create()
 
-        dialog.window?.setWindowAnimations(R.style.DialogAnimation)
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+        // Apply current font to dialog title and buttons when dialog is shown
+        dialog.setOnShowListener {
+
+            updateFontDialogPicker(this, dialog, dialogView)
+
+            // Apply font to the dialog view itself to catch any remaining text elements
+            FontUtils.applyFontToView(this, dialog.window?.decorView ?: return@setOnShowListener)
+        }
         dialog.show()
     }
 
@@ -432,10 +440,7 @@ class EditDayActivity : AppCompatActivity() {
         // Aplica a animação de entrada e saída
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
-        // Aplica a fonte atual
-        val sharedPreferences = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        FontUtils.applyFontToView(this, dialogView, currentFont ?: "default")
+        FontUtils.applyFontToView(this, dialogView)
 
         // Verificar se existe imagem para mostrar botão de deletar
         val btnDeleteImage = dialogView.findViewById<MaterialButton>(R.id.btn_delete_image)
