@@ -50,6 +50,8 @@ import com.br.leo.moodsnap.ui.utils.ButtonUtils
 import com.br.leo.moodsnap.ui.utils.DateUtils
 import com.br.leo.moodsnap.ui.utils.FontUtils.updateFontDialogPicker
 import com.br.leo.moodsnap.ui.viewmodel.HomeViewModel
+import com.br.leo.moodsnap.ui.adapters.FontAdapter
+import androidx.recyclerview.widget.RecyclerView
 
 class HomeFragment : Fragment() {
 
@@ -1060,22 +1062,7 @@ class HomeFragment : Fragment() {
         // Apply current font to font dialog
         FontUtils.applyFontToView(requireContext(), fontDialogView)
 
-        // Get font buttons
-        val btnDefaultFont = fontDialogView.findViewById<Button>(R.id.btn_default_font)
-        val btnRoboto = fontDialogView.findViewById<Button>(R.id.btn_roboto)
-        val btnOpenSans = fontDialogView.findViewById<Button>(R.id.btn_open_sans)
-        val btnLato = fontDialogView.findViewById<Button>(R.id.btn_lato)
-        val btnPoppins = fontDialogView.findViewById<Button>(R.id.btn_poppins)
-        val btnMulish = fontDialogView.findViewById<Button>(R.id.btn_mulish)
-        val btnLimeLight = fontDialogView.findViewById<Button>(R.id.btn_lime_light)
-        val btnAlumniSansPinstripe = fontDialogView.findViewById<Button>(R.id.btn_alumni_sans_pinstripe)
-        val btnItim = fontDialogView.findViewById<Button>(R.id.btn_itim)
-        val btnPangolin = fontDialogView.findViewById<Button>(R.id.btn_pangolin)
-        val btnTangerine = fontDialogView.findViewById<Button>(R.id.btn_tangerine)
-        val btnUnderdog = fontDialogView.findViewById<Button>(R.id.btn_underdog)
-
-
-        // Get preview text
+        // Get preview text views
         val previewText = fontDialogView.findViewById<TextView>(R.id.preview_text)
         val weekText = fontDialogView.findViewById<TextView>(R.id.week_text)
         val dayText = fontDialogView.findViewById<TextView>(R.id.day_text)
@@ -1099,57 +1086,34 @@ class HomeFragment : Fragment() {
         weekText.text = weekdayAbbr
         dayText.text = currentDay.toString()
 
-        val buttons = listOf(btnDefaultFont, btnRoboto, btnOpenSans, btnLato, btnPoppins, btnMulish, btnLimeLight,
-            btnAlumniSansPinstripe, btnItim, btnPangolin, btnTangerine, btnUnderdog)
-        ButtonUtils.resetAllButtons(requireContext(), buttons)
+        // Get current font
+        val currentFont = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            .getString("current_font", "default") ?: "default"
 
-        // Create a map of font names to their respective buttons and names
-        val fontButtonMap = mapOf(
-            "roboto" to Pair(btnRoboto, "roboto"),
-            "open_sans" to Pair(btnOpenSans, "open_sans"),
-            "lato" to Pair(btnLato, "lato"),
-            "poppins" to Pair(btnPoppins, "poppins"),
-            "mulish" to Pair(btnMulish, "mulish"),
-            "limelight" to Pair(btnLimeLight, "limelight"),
-            "alumni_sans_pinstripe" to Pair(btnAlumniSansPinstripe, "alumni_sans_pinstripe"),
-            "itim" to Pair(btnItim, "itim"),
-            "pangolin" to Pair(btnPangolin, "pangolin"),
-            "tangerine" to Pair(btnTangerine, "tangerine"),
-            "underdog" to Pair(btnUnderdog, "underdog"),
-            "default" to Pair(btnDefaultFont, "default")
-        )
-
-        // Function to update preview text with selected font
-        fun updatePreviewText(fontName: String) {
-            val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(fontName))
+        // Setup RecyclerView
+        val recyclerView = fontDialogView.findViewById<RecyclerView>(R.id.fonts_recycler_view)
+        var selectedFont = currentFont
+        
+        val fontAdapter = FontAdapter(
+            requireContext(),
+            FontUtils.getAllFonts(requireContext())
+        ) { font ->
+            selectedFont = font.id
+            // Update preview text with selected font
+            val typeface = ResourcesCompat.getFont(requireContext(), font.resourceId)
             previewText.typeface = typeface
             weekText.typeface = typeface
             dayText.typeface = typeface
         }
+        
+        recyclerView.adapter = fontAdapter
+        fontAdapter.setSelectedFont(currentFont)
 
-        // Set initial selection based on current font
-        val (button, fontName) = fontButtonMap[requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getString("current_font", "default")] ?: fontButtonMap["default"]!!
-        ButtonUtils.highlightButton(requireContext(), button)
-        updatePreviewText(fontName)
-
-        // Set up click listeners for font buttons with preview update
-        ButtonUtils.setupToggleButtonGroup(requireContext(), buttons) { btn ->
-            val fontPreview = when (btn) {
-                btnRoboto -> "roboto"
-                btnOpenSans -> "open_sans"
-                btnLato -> "lato"
-                btnPoppins -> "poppins"
-                btnMulish -> "mulish"
-                btnLimeLight -> "limelight"
-                btnAlumniSansPinstripe -> "alumni_sans_pinstripe"
-                btnItim -> "itim"
-                btnPangolin -> "pangolin"
-                btnTangerine -> "tangerine"
-                btnUnderdog -> "underdog"
-                else -> "default"
-            }
-            updatePreviewText(fontPreview)
-        }
+        // Update preview text with current font
+        val currentTypeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont))
+        previewText.typeface = currentTypeface
+        weekText.typeface = currentTypeface
+        dayText.typeface = currentTypeface
 
         fontDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
             fontDialog.dismiss()
@@ -1173,21 +1137,6 @@ class HomeFragment : Fragment() {
         val btnConfirm : Button = fontDialogView.findViewById<Button>(R.id.btn_confirm)
         Utils.updateBackGroundColor(requireContext(), btnConfirm)
         btnConfirm.setOnClickListener {
-            val selectedFont = when {
-                btnRoboto.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "roboto"
-                btnOpenSans.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "open_sans"
-                btnLato.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "lato"
-                btnPoppins.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "poppins"
-                btnMulish.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "mulish"
-                btnLimeLight.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "limelight"
-                btnAlumniSansPinstripe.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "alumni_sans_pinstripe"
-                btnItim.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "itim"
-                btnPangolin.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "pangolin"
-                btnTangerine.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "tangerine"
-                btnUnderdog.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "underdog"
-                else -> "default"
-            }
-
             with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
                 putString("current_font", selectedFont)
                 apply()

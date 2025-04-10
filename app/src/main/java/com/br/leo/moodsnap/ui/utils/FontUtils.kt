@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
 import com.br.leo.moodsnap.R
+import com.br.leo.moodsnap.ui.model.FontModel
 import com.br.leo.moodsnap.ui.utils.Utils.findViewsByType
 import com.google.android.material.button.MaterialButton
 
@@ -44,6 +45,23 @@ object FontUtils {
         }
     }
 
+    fun getAllFonts(context: Context): List<FontModel> {
+        return listOf(
+            FontModel("default", context.getString(R.string.default_font), R.font.poppins_regular, true),
+            //FontModel("roboto", context.getString(R.string.roboto_font), R.font.roboto_regular),
+            FontModel("itim", "Itim", R.font.itim_regular),
+            FontModel("open_sans", context.getString(R.string.open_sans_font), R.font.open_sans_regular),
+            FontModel("pangolin", "Pangolin", R.font.pangolin_regular),
+            //FontModel("tangerine", "Tangerine", R.font.tangerine_regular),
+            FontModel("underdog", "Underdog", R.font.underdog_regular),
+            FontModel("lato", context.getString(R.string.lato_font), R.font.lato_regular),
+            FontModel("orbitron", "Orbitron", R.font.orbitron_regular),
+            FontModel("mulish", context.getString(R.string.mulish_font), R.font.mulish_regular),
+            FontModel("limelight", "LimeLight", R.font.lime_light_regular)
+            //FontModel("poppins", context.getString(R.string.poppins_font), R.font.poppins_regular),
+        )
+    }
+
     /**
      * Gets the resource ID for the specified font name
      */
@@ -60,6 +78,7 @@ object FontUtils {
             "pangolin" -> R.font.pangolin_regular
             "tangerine" -> R.font.tangerine_regular
             "underdog" -> R.font.underdog_regular
+            "orbitron" -> R.font.orbitron_regular
             else -> R.font.poppins_regular
         }
     }
