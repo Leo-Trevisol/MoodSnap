@@ -55,6 +55,7 @@
                     android:drawableEnd="@drawable/ic_light"
                     android:padding="16dp"
                     android:text="@string/system_theme"
+                    android:textSize="@dimen/button_size"
                     android:textColor="@color/black" />
 
                 <Button
@@ -67,6 +68,7 @@
                     android:drawableEnd="@drawable/ic_light"
                     android:padding="16dp"
                     android:text="@string/light_theme"
+                    android:textSize="@dimen/button_size"
                     android:textColor="@color/black" />
 
                 <Button
@@ -74,6 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/dark_theme"
+                    android:textSize="@dimen/button_size"
                     android:layout_marginBottom="@dimen/spacing_large"
                     android:background="@drawable/background_rounded"
                     android:backgroundTint="@color/white"
@@ -103,7 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="16sp"
+                android:textSize="@dimen/button_confirm_cancel"
                 android:background="@android:color/transparent"
                 android:textColor="@color/primary_green"
                 android:text="@string/btn_back" />
@@ -113,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="16sp"
+                android:textSize="@dimen/button_confirm_cancel"
                 android:background="@drawable/rounded_button_shadow_green"
                 android:textColor="@color/primary_green"
                 android:text="@string/btn_confirm"/>

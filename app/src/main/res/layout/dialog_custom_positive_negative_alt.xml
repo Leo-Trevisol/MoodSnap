@@ -60,7 +60,7 @@
                 android:layout_marginEnd="@dimen/spacing_normal"
                 android:background="@android:color/transparent"
                 android:paddingHorizontal="@dimen/button_padding"
-                android:textSize="@dimen/button_text_size"
+                android:textSize="@dimen/button_confirm_cancel"
                 android:textStyle="bold"
                 android:text="@string/btn_no"
                 android:textColor="@color/primary_green"/>
@@ -72,7 +72,7 @@
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:background="@drawable/rounded_button_shadow"
                 android:paddingHorizontal="@dimen/button_padding"
-                android:textSize="@dimen/button_text_size"
+                android:textSize="@dimen/button_confirm_cancel"
                 android:textStyle="bold"
                 android:text="@string/btn_yes" />
         </LinearLayout>

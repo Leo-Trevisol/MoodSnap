@@ -88,7 +88,7 @@
     <string name="average_mood">Humor Médio</string>
     <string name="no_mood_registered">Nenhum humor registrado ainda</string>
     <string name="your_average_mood">Seu humor médio é %1$s</string>
-    <string name="mood_distribution">Distribuição de Humores</string>
+    <string name="mood_distribution">Análise de Humores</string>
     <string name="no_mood_distribution">Nenhum humor registrado ainda</string>
     <string name="you_were_mood">Você esteve %1$s em %2$d%% dos dias</string>
     <string name="current_streak">Sequência Atual</string>

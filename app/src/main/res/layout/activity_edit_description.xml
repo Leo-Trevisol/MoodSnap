@@ -258,6 +258,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/btn_save"
+        android:textSize="@dimen/button_confirm_cancel"
         android:textStyle="bold"
         android:padding="12dp"
         android:background="@drawable/rounded_button_shadow"

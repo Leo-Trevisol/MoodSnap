@@ -152,7 +152,7 @@
             app:iconGravity="textStart"
             android:shadowColor="@color/white"
             app:iconTint="@android:color/white"
-            android:textSize="@dimen/button_text_size"
+            android:textSize="@dimen/button_size"
             android:padding="@dimen/button_padding"/>
 
         <com.google.android.material.button.MaterialButton
@@ -167,7 +167,7 @@
             app:iconGravity="textStart"
             app:iconTint="@android:color/white"
             android:visibility="gone"
-            android:textSize="@dimen/button_text_size"
+            android:textSize="@dimen/button_size"
             android:padding="@dimen/button_padding"/>
 
     </LinearLayout>

@@ -54,7 +54,7 @@
         android:shadowColor="@color/white"
         android:background="@drawable/rounded_button_shadow"
         android:layout_marginBottom="@dimen/spacing_normal"
-        android:textSize="@dimen/button_text_size"
+        android:textSize="@dimen/button_size"
         android:padding="@dimen/button_padding"/>
 
     <Button
@@ -66,7 +66,7 @@
         android:textStyle="bold"
         android:shadowColor="@color/white"
         android:layout_marginBottom="@dimen/spacing_normal"
-        android:textSize="@dimen/button_text_size"
+        android:textSize="@dimen/button_size"
         android:padding="@dimen/button_padding"/>
 
     <Button
@@ -78,7 +78,7 @@
         android:textStyle="bold"
         android:shadowColor="@color/white"
         android:layout_marginBottom="@dimen/spacing_normal"
-        android:textSize="@dimen/button_text_size"
+        android:textSize="@dimen/button_size"
         android:padding="@dimen/button_padding"/>
 
     <Button
@@ -90,7 +90,7 @@
         android:textStyle="bold"
         android:shadowColor="@color/white"
         android:layout_marginBottom="@dimen/spacing_normal"
-        android:textSize="@dimen/button_text_size"
+        android:textSize="@dimen/button_size"
         android:padding="@dimen/button_padding"/>
 
     <Button
@@ -102,7 +102,7 @@
         android:shadowColor="@color/white"
         android:background="@drawable/rounded_button_shadow"
         android:layout_marginBottom="@dimen/spacing_normal"
-        android:textSize="@dimen/button_text_size"
+        android:textSize="@dimen/button_size"
         android:padding="@dimen/button_padding"/>
 
         </LinearLayout>
@@ -126,7 +126,7 @@
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/button_text_size"
+            android:textSize="@dimen/button_confirm_cancel"
             android:background="@android:color/transparent"
             android:textColor="@color/primary_green"
             android:text="@string/btn_back"/>

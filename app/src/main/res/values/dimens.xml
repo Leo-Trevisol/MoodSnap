@@ -7,6 +7,8 @@
     <dimen name="spacing_normal">8dp</dimen>
     <dimen name="spacing_large">16dp</dimen>
 
+    <dimen name="item_calendar_day">45dp</dimen>
+
     <!-- Calendar dimensions -->
     <dimen name="calendar_day_corner_radius">20dp</dimen>
     <dimen name="calendar_header_text_size">16sp</dimen>
@@ -19,9 +21,9 @@
     <dimen name="card_padding">16dp</dimen>
     
     <!-- Text sizes -->
-    <dimen name="text_size_small">10sp</dimen>
-    <dimen name="text_size_normal">12sp</dimen>
-    <dimen name="text_size_large">14sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_normal">14sp</dimen>
+    <dimen name="text_size_large">16sp</dimen>
     <dimen name="text_size_xlarge">18sp</dimen>
 
     <dimen name="text_size_legend">8sp</dimen>
@@ -30,4 +32,7 @@
     <dimen name="button_height">46dp</dimen>
     <dimen name="button_padding">10dp</dimen>
     <dimen name="button_text_size">16sp</dimen>
+
+    <dimen name="button_size">16sp</dimen>
+    <dimen name="button_confirm_cancel">16sp</dimen>
 </resources>

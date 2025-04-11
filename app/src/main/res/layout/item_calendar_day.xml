@@ -11,8 +11,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/day_card"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="@dimen/item_calendar_day"
+        android:layout_height="@dimen/item_calendar_day"
         android:layout_gravity="center"
         app:cardCornerRadius="@dimen/calendar_day_corner_radius"
         app:cardElevation="0dp"

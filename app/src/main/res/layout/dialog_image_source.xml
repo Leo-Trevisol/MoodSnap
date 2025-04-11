@@ -27,7 +27,7 @@
         app:iconTint="@android:color/white"
         android:background="@drawable/rounded_button_shadow"
         android:layout_marginBottom="@dimen/spacing_normal"
-        android:textSize="@dimen/button_text_size"
+        android:textSize="@dimen/button_size"
         android:padding="@dimen/button_padding"/>
 
     <com.google.android.material.button.MaterialButton
@@ -42,7 +42,7 @@
         android:shadowColor="@color/white"
         app:iconTint="@android:color/white"
         android:layout_marginBottom="@dimen/spacing_normal"
-        android:textSize="@dimen/button_text_size"
+        android:textSize="@dimen/button_size"
         android:padding="@dimen/button_padding"/>
 
     <com.google.android.material.button.MaterialButton

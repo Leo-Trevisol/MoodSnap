@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/average_mood"
                     android:textStyle="bold"
-                    android:textSize="18sp"/>
+                    android:textSize="@dimen/text_size_xlarge"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                         android:id="@+id/average_mood_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"/>
+                        android:textSize="@dimen/text_size_large"/>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -103,9 +103,9 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingBottom="16dp"
-                    android:paddingTop="16dp"
+                    android:paddingTop="5dp"
                     android:paddingStart="16dp"
-                    android:paddingEnd="5dp"
+                    android:paddingEnd="16dp"
                     android:gravity="center_vertical"
                     android:background="?attr/selectableItemBackground"
                     android:clickable="true"
@@ -128,7 +128,7 @@
                                 android:text="@string/mood_distribution"
                                 android:textStyle="bold"
                                 android:layout_weight="1"
-                                android:textSize="16sp"/>
+                                android:textSize="@dimen/text_size_large"/>
 
                             <Spinner
                                 android:id="@+id/distribution_view_spinner"
@@ -151,7 +151,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:textSize="14sp"/>
+                            android:textSize="@dimen/text_size_large"/>
 
                     </LinearLayout>
 
@@ -188,7 +188,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingBottom="16dp"
+                android:paddingTop="5dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -201,7 +205,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/current_streak"
                         android:textStyle="bold"
-                        android:textSize="18sp"/>
+                        android:textSize="@dimen/text_size_large"/>
 
                     <!-- Container para os ícones será adicionado aqui programaticamente -->
                     <LinearLayout
@@ -219,7 +223,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/text_size_large"/>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -236,7 +240,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingBottom="16dp"
+                android:paddingTop="5dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -251,13 +258,14 @@
                         android:layout_weight="1"
                         android:text="@string/day_of_week"
                         android:textStyle="bold"
-                        android:textSize="16sp"/>
+                        android:textSize="@dimen/text_size_large"/>
 
                     <Spinner
                         android:id="@+id/day_filter_spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:minHeight="40dp"
+                        android:textSize="@dimen/text_size_large"
                         android:layout_marginStart="-8dp"/>
 
                 </LinearLayout>
@@ -267,7 +275,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/text_size_large"/>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
