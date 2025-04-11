@@ -22,7 +22,7 @@
         android:text="@string/enable_notifications"
         android:textSize="@dimen/text_size_normal"
         android:padding="16dp"
-        android:thumbTint="@color/secundary"
+        android:thumbTint="@color/switch_track_color"
         android:textColor="@color/secundary"
         android:trackTint="@color/switch_track_color"
         android:layout_marginBottom="@dimen/spacing_large"/>

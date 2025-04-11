@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/font_settings"
-        android:textSize="20sp"
+        android:textColor="@color/secundary"
+        android:textSize="@dimen/text_size_xlarge"
         android:textStyle="bold" />
 
     <androidx.cardview.widget.CardView
