@@ -174,4 +174,20 @@
 
     <string name="font_preview_text">¡Elige tu fuente preferida!</string>
 
+    <string name="tutorial_image">Imagen del tutorial</string>
+    <string name="btn_previous">Anterior</string>
+    <string name="btn_finish">Comenzar</string>
+
+    <string name="onboarding_title_1">¡Bienvenido a MoodSnap!</string>
+    <string name="onboarding_description_1">Haz un seguimiento de tu estado de ánimo diario y comprende mejor tus patrones emocionales</string>
+
+    <string name="onboarding_title_2">Registra tu estado de ánimo</string>
+    <string name="onboarding_description_2">Registra tu estado de ánimo a diario, añade notas y sigue tu evolución con el tiempo</string>
+
+    <string name="onboarding_title_3">Visualiza tus datos</string>
+    <string name="onboarding_description_3">Consulta gráficos y estadísticas que te ayudarán a comprender mejor tus patrones de ánimo</string>
+
+    <string name="tutorial">Tutorial</string>
+
+
 </resources>

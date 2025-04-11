@@ -173,4 +173,20 @@
 
     <string name="font_preview_text">Выберите свой любимый шрифт!</string>
 
+    <string name="tutorial_image">Изображение руководства</string>
+    <string name="btn_previous">Назад</string>
+    <string name="btn_finish">Начать</string>
+
+    <string name="onboarding_title_1">Добро пожаловать в MoodSnap!</string>
+    <string name="onboarding_description_1">Отслеживайте своё настроение каждый день и лучше понимайте свои эмоциональные шаблоны</string>
+
+    <string name="onboarding_title_2">Записывайте настроение</string>
+    <string name="onboarding_description_2">Ведите ежедневные записи настроения, добавляйте заметки и следите за своим прогрессом с течением времени</string>
+
+    <string name="onboarding_title_3">Просматривайте свои данные</string>
+    <string name="onboarding_description_3">Смотрите графики и статистику, которые помогут лучше понять ваши эмоциональные состояния</string>
+
+    <string name="tutorial">Руководство</string>
+
+
 </resources>

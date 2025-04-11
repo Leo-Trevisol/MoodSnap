@@ -174,4 +174,20 @@
 
     <string name="font_preview_text">Wähle deine bevorzugte Schriftart!</string>
 
+    <string name="tutorial_image">Tutorialbild</string>
+    <string name="btn_previous">Zurück</string>
+    <string name="btn_finish">Starten</string>
+
+    <string name="onboarding_title_1">Willkommen bei MoodSnap!</string>
+    <string name="onboarding_description_1">Verfolge täglich deine Stimmung und verstehe deine emotionalen Muster besser</string>
+
+    <string name="onboarding_title_2">Stimmung aufzeichnen</string>
+    <string name="onboarding_description_2">Führe tägliche Einträge zu deiner Stimmung, füge Notizen hinzu und beobachte deine Entwicklung im Laufe der Zeit</string>
+
+    <string name="onboarding_title_3">Daten visualisieren</string>
+    <string name="onboarding_description_3">Sieh dir Diagramme und Statistiken an, die dir helfen, deine Stimmungsmuster besser zu verstehen</string>
+
+    <string name="tutorial">Tutorial</string>
+
+
 </resources>

@@ -173,4 +173,20 @@
 
     <string name="font_preview_text">选择你喜欢的字体！</string>
 
+    <string name="tutorial_image">教程图片</string>
+    <string name="btn_previous">上一步</string>
+    <string name="btn_finish">开始</string>
+
+    <string name="onboarding_title_1">欢迎使用 MoodSnap！</string>
+    <string name="onboarding_description_1">记录每日情绪，更好地了解你的情绪模式</string>
+
+    <string name="onboarding_title_2">记录你的情绪</string>
+    <string name="onboarding_description_2">每天记录情绪，添加备注，追踪你的长期变化</string>
+
+    <string name="onboarding_title_3">可视化你的数据</string>
+    <string name="onboarding_description_3">查看图表和统计数据，帮助你更好地理解情绪变化</string>
+
+    <string name="tutorial">教程</string>
+
+
 </resources>

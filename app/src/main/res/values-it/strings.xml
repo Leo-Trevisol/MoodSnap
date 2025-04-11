@@ -174,4 +174,20 @@
 
     <string name="font_preview_text">Scegli il tuo carattere preferito!</string>
 
+    <string name="tutorial_image">Immagine del tutorial</string>
+    <string name="btn_previous">Precedente</string>
+    <string name="btn_finish">Inizia</string>
+
+    <string name="onboarding_title_1">Benvenuto su MoodSnap!</string>
+    <string name="onboarding_description_1">Tieni traccia del tuo umore quotidiano e comprendi meglio i tuoi schemi emotivi</string>
+
+    <string name="onboarding_title_2">Registrare il tuo umore</string>
+    <string name="onboarding_description_2">Fai registrazioni quotidiane del tuo umore, aggiungi note e monitora la tua evoluzione nel tempo</string>
+
+    <string name="onboarding_title_3">Visualizza i tuoi dati</string>
+    <string name="onboarding_description_3">Guarda grafici e statistiche che ti aiutano a comprendere meglio i tuoi schemi emotivi</string>
+
+    <string name="tutorial">Tutorial</string>
+
+
 </resources>

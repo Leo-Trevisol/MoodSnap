@@ -89,6 +89,17 @@
     <string name="no_mood_registered">Aucune humeur enregistrée</string>
     <string name="your_average_mood">Votre humeur moyenne est %1$s</string>
     <string name="mood_distribution">Répartition des humeurs</string>
+    <string name="no_mood_distribution">Aucune humeur enregistrée pour le moment</string>
+    <string name="you_were_mood">Tu étais %1$s pendant %2$d%% des jours</string>
+    <string name="current_streak">Série en cours</string>
+    <string name="no_mood_today">Tu n\'as pas encore enregistré ton humeur aujourd'hui</string>
+    <string name="recorded_today">Tu as enregistré ton humeur aujourd'hui</string>
+    <string name="recorded_days">Tu as enregistré ton humeur pendant %1$d jours consécutifs !</string>
+    <string name="day_of_week">Jour de la semaine</string>
+    <string name="last_record">Dernier enregistrement : %1$s</string>
+    <string name="longest_streak">Plus longue série : %1$d jours</string>
+    <string name="times_recorded">%1$d fois</string>
+
 
     <!-- Édition de la description -->
     <string name="how_are_you_feeling_now">Comment vous sentez-vous maintenant ?</string>
@@ -99,6 +110,15 @@
     <!-- Messages Toast -->
     <string name="camera_permission_required">Autorisation de la caméra requise</string>
     <string name="gallery_permission_required">Autorisation de la galerie requise</string>
+    <string name="future_date_not_allowed">Impossible de sélectionner une date future</string>
+    <string name="future_mood_not_allowed">Impossible d’enregistrer une humeur pour une date future</string>
+    <string name="select_mood">Veuillez sélectionner une humeur pour la journée</string>
+    <string name="mood_saved">Humeur enregistrée avec succès !</string>
+    <string name="attention_dialog">Attention</string>
+    <string name="confirm_delete_image">Voulez-vous vraiment supprimer l’image ?</string>
+    <string name="image_deleted">Image supprimée avec succès !</string>
+    <string name="description_saved">Description enregistrée avec succès !</string>
+
 
     <!-- Dialogue de confirmation -->
     <string name="unsaved_changes_title">Attention</string>
@@ -157,5 +177,21 @@
     <string name="mulish_font">Mulish</string>
 
     <string name="font_preview_text">Choisissez votre police préférée !</string>
+
+    <string name="tutorial_image">Image du tutoriel</string>
+    <string name="btn_previous">Précédent</string>
+    <string name="btn_finish">Commencer</string>
+
+    <string name="onboarding_title_1">Bienvenue sur MoodSnap !</string>
+    <string name="onboarding_description_1">Suivez votre humeur quotidienne et comprenez mieux vos schémas émotionnels</string>
+
+    <string name="onboarding_title_2">Enregistrez votre humeur</string>
+    <string name="onboarding_description_2">Notez votre humeur chaque jour, ajoutez des commentaires et suivez votre évolution au fil du temps</string>
+
+    <string name="onboarding_title_3">Visualisez vos données</string>
+    <string name="onboarding_description_3">Consultez des graphiques et des statistiques pour mieux comprendre vos schémas d’humeur</string>
+
+    <string name="tutorial">Tutoriel</string>
+
 
 </resources>
