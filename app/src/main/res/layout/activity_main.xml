@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
+    android:windowSoftInputMode="adjustResize"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,28 +11,25 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="50dp"
         app:defaultNavHost="true"
         app:navGraph="@navigation/mobile_navigation" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         app:fabAlignmentMode="center"
         app:fabAnchorMode="cradle"
         app:fabCradleMargin="10dp"
-        app:fabAnimationMode="slide"
         app:fabCradleVerticalOffset="1dp"
-        android:backgroundTint="@color/dark_secondary_variant"
-        app:fabCradleRoundedCornerRadius="20dp"
-        android:layout_gravity="bottom">
+        app:fabCradleRoundedCornerRadius="40dp"
+        android:backgroundTint="@color/dark_secondary">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/nav_view"
             android:layout_width="match_parent"
-            style="@style/Widget.MaterialComponents.BottomNavigationView"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             app:labelVisibilityMode="labeled"
             android:elevation="0dp"
@@ -40,7 +38,7 @@
             app:itemTextColor="@color/navigation_colors"
             app:menu="@menu/bottom_nav_menu"
             app:itemHorizontalTranslationEnabled="false"
-            android:paddingTop="8dp" />
+            android:paddingTop="0dp" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

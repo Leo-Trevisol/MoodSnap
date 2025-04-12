@@ -9,6 +9,8 @@
     <color name="future_day_background_color">@color/gray_light</color>
     <color name="day_text_color">@color/gray_light</color>
 
+    <color name="nav_bar_background">#303030</color>
+
     <!-- Texto e detalhes -->
     <color name="white">#FFFFFF</color>
     <color name="gray_light">#B0B0B0</color>

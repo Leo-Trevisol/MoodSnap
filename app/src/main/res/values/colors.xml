@@ -13,6 +13,8 @@
     <color name="dark_secondary_variant">#1F1F1F</color>
     <color name="dark_background">#0A0A0A</color>
 
+    <color name="nav_bar_background">#CBC6C6</color>
+
     <color name="very_sad_color">#b0c2f2</color>
     <color name="sad_color">#b2e2f2</color>
     <color name="neutral_color">#c5c6c8</color>
