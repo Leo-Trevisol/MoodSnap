@@ -193,4 +193,6 @@
     <string name="onboarding_description_3">Voyez des graphiques et des statistiques qui aident à mieux comprendre vos schémas d\'humeur</string>
 
     <string name="tutorial">Tutoriel</string>
+
+    <string name="add_your_image">Ajoutez votre image</string>
 </resources>

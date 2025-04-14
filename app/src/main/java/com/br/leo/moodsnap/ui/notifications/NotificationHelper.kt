@@ -95,18 +95,6 @@ class NotificationHelper(private val context: Context) {
         }
     }
 
-    private fun sendConfirmationNotification() {
-        val notification = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_notifications_black_24dp)
-            .setContentTitle("Notificações Ativadas")
-            .setContentText("Você receberá lembretes diários para registrar seu humor")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true)
-            .build()
-
-        notificationManager.notify(CONFIRMATION_NOTIFICATION_ID, notification)
-    }
-
     fun cancelDailyNotification() {
         Log.d(TAG, "Canceling daily notification")
         try {

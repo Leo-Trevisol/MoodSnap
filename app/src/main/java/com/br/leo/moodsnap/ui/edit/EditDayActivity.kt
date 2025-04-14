@@ -340,7 +340,7 @@ class EditDayActivity : AppCompatActivity() {
         
         // Limpar campos existentes
         binding.editDescription.setText("")
-        binding.imageDay.setImageResource(R.drawable.addimage_white)
+        binding.imageDay.setImageDrawable(null)
         binding.imageDay.scaleType = ImageView.ScaleType.CENTER
         selectedImageUri = null
         selectedMoodType = null
@@ -483,7 +483,7 @@ class EditDayActivity : AppCompatActivity() {
                             mood.imagePath = null
                             repository.update(mood)
                             // Resetar a ImageView
-                            binding.imageDay.setImageResource(R.drawable.addimage_white)
+                            binding.imageDay.setImageDrawable(null)
                             binding.imageDay.scaleType = ImageView.ScaleType.CENTER
                             selectedImageUri = null
                             checkForChanges()
@@ -592,7 +592,7 @@ class EditDayActivity : AppCompatActivity() {
             binding.imageDay.scaleType = ImageView.ScaleType.CENTER_CROP
             checkForChanges()
         } ?: run {
-            binding.imageDay.setImageResource(R.drawable.addimage_white)
+            binding.imageDay.setImageDrawable(null)
             binding.imageDay.scaleType = ImageView.ScaleType.CENTER
         }
     }

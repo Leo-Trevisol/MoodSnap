@@ -56,7 +56,9 @@
         android:textStyle="bold"
         android:shadowColor="@color/white"
         app:iconTint="@android:color/white"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:textSize="@dimen/button_size"
+        android:padding="@dimen/button_padding"
         android:visibility="gone"/>
 
 </LinearLayout> 

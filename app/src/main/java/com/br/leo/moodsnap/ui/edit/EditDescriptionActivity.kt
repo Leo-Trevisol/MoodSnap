@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.databinding.ActivityEditDescriptionBinding
 import com.br.leo.moodsnap.service.repository.MoodRepository
+import android.graphics.Bitmap
+import android.view.View
 
 class EditDescriptionActivity : AppCompatActivity() {
 
@@ -17,6 +19,23 @@ class EditDescriptionActivity : AppCompatActivity() {
         this.setTheme(R.style.DialogRounded)
         binding = ActivityEditDescriptionBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Inicialmente, mostra o placeholder
+        binding.placeholderContainer.visibility = View.VISIBLE
+        binding.imageDay.visibility = View.GONE
     }
 
+    // Método para ser chamado quando uma imagem for selecionada
+    private fun updateImageView(bitmap: Bitmap) {
+        binding.imageDay.setImageBitmap(bitmap)
+        binding.imageDay.visibility = View.VISIBLE
+        binding.placeholderContainer.visibility = View.GONE
+    }
+
+    // Método para limpar a imagem
+    private fun clearImage() {
+        binding.imageDay.setImageBitmap(null)
+        binding.imageDay.visibility = View.GONE
+        binding.placeholderContainer.visibility = View.VISIBLE
+    }
 }

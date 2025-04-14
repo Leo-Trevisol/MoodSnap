@@ -26,7 +26,7 @@ class NotificationReceiver : BroadcastReceiver() {
             )
 
             val notification = NotificationCompat.Builder(context, NotificationHelper.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notifications_black_24dp)
+                .setSmallIcon(R.mipmap.ic_logo)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(context.getString(R.string.notification_message))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
