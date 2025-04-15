@@ -341,7 +341,9 @@ class EditDayActivity : AppCompatActivity() {
         // Limpar campos existentes
         binding.editDescription.setText("")
         binding.imageDay.setImageDrawable(null)
-        binding.imageDay.scaleType = ImageView.ScaleType.CENTER
+        binding.imageDay.scaleType = ImageView.ScaleType.CENTER_CROP
+        binding.imageDay.visibility = View.GONE
+        binding.placeholderContainer.visibility = View.VISIBLE
         selectedImageUri = null
         selectedMoodType = null
         
@@ -357,7 +359,8 @@ class EditDayActivity : AppCompatActivity() {
                     Glide.with(this)
                         .load(imageFile)
                         .into(binding.imageDay)
-                    binding.imageDay.scaleType = ImageView.ScaleType.CENTER_CROP
+                    binding.imageDay.visibility = View.VISIBLE
+                    binding.placeholderContainer.visibility = View.GONE
                 }
             }
             moodId = mood.id
@@ -374,6 +377,14 @@ class EditDayActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         binding.imageDay.setOnClickListener {
+            showImageSourceDialog()
+        }
+
+        binding.cardImage.setOnClickListener {
+            showImageSourceDialog()
+        }
+
+        binding.placeholderContainer.setOnClickListener {
             showImageSourceDialog()
         }
 
@@ -484,7 +495,8 @@ class EditDayActivity : AppCompatActivity() {
                             repository.update(mood)
                             // Resetar a ImageView
                             binding.imageDay.setImageDrawable(null)
-                            binding.imageDay.scaleType = ImageView.ScaleType.CENTER
+                            binding.imageDay.visibility = View.GONE
+                            binding.placeholderContainer.visibility = View.VISIBLE
                             selectedImageUri = null
                             checkForChanges()
                             showCustomToast(this, getString(R.string.image_deleted))
@@ -589,11 +601,13 @@ class EditDayActivity : AppCompatActivity() {
             Glide.with(this)
                 .load(it)
                 .into(binding.imageDay)
-            binding.imageDay.scaleType = ImageView.ScaleType.CENTER_CROP
+            binding.imageDay.visibility = View.VISIBLE
+            binding.placeholderContainer.visibility = View.GONE
             checkForChanges()
         } ?: run {
             binding.imageDay.setImageDrawable(null)
-            binding.imageDay.scaleType = ImageView.ScaleType.CENTER
+            binding.imageDay.visibility = View.GONE
+            binding.placeholderContainer.visibility = View.VISIBLE
         }
     }
 
