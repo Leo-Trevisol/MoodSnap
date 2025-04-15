@@ -578,18 +578,22 @@ class DashboardFragment : Fragment() {
         val currentFont = sharedPreferences.getString("current_font", "default")
         val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
-        // Ensure the legend is displayed in the order: very happy, happy, neutral, sad, very sad
+        // Ordem dos humores: muito feliz -> muito triste (mesma ordem do BarChart)
         val moodOrder = listOf(4, 3, 2, 1, 0)
-        val entries = moodOrder.mapNotNull { moodType ->
-            distribution[moodType]?.let { count ->
-                PieEntry(count.toFloat(), dashboardViewModel.getMoodName(requireContext(), moodType))
+        val entries = ArrayList<PieEntry>()
+        val colors = ArrayList<Int>()
+
+        // Criar entradas na ordem correta
+        moodOrder.forEach { moodType ->
+            val count = distribution[moodType] ?: 0
+            if (count > 0) {
+                entries.add(PieEntry(count.toFloat(), dashboardViewModel.getMoodName(requireContext(), moodType)))
+                colors.add(dashboardViewModel.getMoodColor(moodType))
             }
         }
 
         val dataSet = PieDataSet(entries, "")
-        dataSet.colors = moodOrder.map { moodType ->
-            dashboardViewModel.getMoodColor(moodType)
-        }
+        dataSet.colors = colors
         dataSet.valueTextSize = 16f
         dataSet.valueTextColor = Color.BLACK
         dataSet.valueTypeface = typeface
