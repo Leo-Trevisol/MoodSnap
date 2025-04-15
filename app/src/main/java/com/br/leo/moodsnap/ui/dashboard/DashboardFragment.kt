@@ -38,6 +38,16 @@ import com.br.leo.moodsnap.ui.utils.FontUtils
 import android.graphics.Typeface
 import android.view.Gravity
 import androidx.core.content.res.ResourcesCompat
+import com.br.leo.moodsnap.ui.utils.RoundedBarChartRenderer
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.components.LegendEntry
+import java.util.*
 
 class DashboardFragment : Fragment() {
 
@@ -46,7 +56,19 @@ class DashboardFragment : Fragment() {
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var mainViewModel: MainViewModel
     private lateinit var gestureDetector: GestureDetector
-    private var firstTime = true;
+    private var firstTime = true
+    private var currentDayFilter = 0 // Novo: para controlar o filtro de dias atual
+
+    // Novo: Enum para os filtros de dias
+    private enum class DayFilterType(val days: Int, val description: String) {
+        LAST_7_DAYS(7, "Últimos 7 dias"),
+        LAST_MONTH(30, "Último mês"),
+        LAST_3_MONTHS(90, "Últimos 3 meses"),
+        LAST_6_MONTHS(180, "Últimos 6 meses"),
+        LAST_9_MONTHS(270, "Últimos 9 meses"),
+        LAST_YEAR(365, "Último ano"),
+        ALL(-1, "Tudo")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,6 +93,7 @@ class DashboardFragment : Fragment() {
 
         setupGestureDetector()
         setupDayFilterSpinner()
+        setupBarChartDayFilterSpinner()
         setupObservers()
         dashboardViewModel.loadMoods()
 
@@ -186,8 +209,70 @@ class DashboardFragment : Fragment() {
         setupDistributionViewSpinner()
     }
 
+    private fun setupBarChartDayFilterSpinner() {
+        val dayFilters = DayFilterType.values()
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+
+        val adapter = object : ArrayAdapter<DayFilterType>(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            dayFilters
+        ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                (view as TextView).apply {
+                    text = dayFilters[position].description
+                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
+                }
+                return view
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                view.setBackgroundColor(Color.WHITE)
+                (view as TextView).apply {
+                    text = dayFilters[position].description
+                    setTextColor(Color.BLACK)
+                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
+                }
+                return view
+            }
+        }
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.barChartDayFilterSpinner.adapter = adapter
+
+        binding.barChartDayFilterSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    currentDayFilter = position
+                    dashboardViewModel.moodDistribution.value?.let { distribution ->
+                        setupBarChart(filterDistributionByDays(distribution, dayFilters[position].days))
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+    }
+
+    private fun filterDistributionByDays(distribution: Map<Int, Int>, days: Int): Map<Int, Int> {
+        if (days == -1) return distribution // Retorna todos os dados
+
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, -days)
+        val filterDate = calendar.time
+
+        return dashboardViewModel.getMoodDistributionForPeriod(filterDate)
+    }
+
     private fun setupDistributionViewSpinner() {
-        val viewTypes = listOf("Barras", "Donut")
+        val viewTypes = listOf("Barras", "Donut", "Barra grupo")
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
         
@@ -226,9 +311,26 @@ class DashboardFragment : Fragment() {
                     id: Long
                 ) {
                     if(!firstTime){
-                        val isDonutView = position == 1
-                        binding.pieChart.visibility = if (isDonutView) View.VISIBLE else View.GONE
-                        binding.moodDistributionContainer.visibility = if (isDonutView) View.GONE else View.VISIBLE
+                        when (position) {
+                            0 -> { // Barras
+                                binding.pieChart.visibility = View.GONE
+                                binding.barChart.visibility = View.GONE
+                                binding.barChartFilterContainer.visibility = View.GONE
+                                binding.moodDistributionContainer.visibility = View.VISIBLE
+                            }
+                            1 -> { // Donut
+                                binding.pieChart.visibility = View.VISIBLE
+                                binding.barChart.visibility = View.GONE
+                                binding.barChartFilterContainer.visibility = View.GONE
+                                binding.moodDistributionContainer.visibility = View.GONE
+                            }
+                            2 -> { // Barra grupo
+                                binding.pieChart.visibility = View.GONE
+                                binding.barChart.visibility = View.VISIBLE
+                                binding.barChartFilterContainer.visibility = View.VISIBLE
+                                binding.moodDistributionContainer.visibility = View.GONE
+                            }
+                        }
                     }
                 }
 
@@ -465,6 +567,7 @@ class DashboardFragment : Fragment() {
 
         // Update PieChart with real data
         setupPieChart(distribution)
+        setupBarChart(distribution)
     }
 
     private fun setupPieChart(distribution: Map<Int, Int>) {
@@ -517,24 +620,159 @@ class DashboardFragment : Fragment() {
         pieChart.invalidate() // Refresh chart
     }
 
+    private fun setupBarChart(distribution: Map<Int, Int>) {
+        val barChart: BarChart = binding.barChart
+
+        // Aplicar fonte atual
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+
+        // Criar entradas para o gráfico
+        val entries = ArrayList<BarEntry>()
+        val labels = ArrayList<String>()
+
+        // Ordem dos humores: muito feliz -> muito triste
+        val moodOrder = listOf(4, 3, 2, 1, 0)
+        moodOrder.forEachIndexed { index, moodType ->
+            val count = distribution[moodType] ?: 0
+            entries.add(BarEntry(index.toFloat(), count.toFloat()))
+            labels.add(dashboardViewModel.getMoodName(requireContext(), moodType))
+        }
+
+        // Configurar o dataset
+        val dataSet = BarDataSet(entries, "")
+        dataSet.colors = moodOrder.map { moodType ->
+            dashboardViewModel.getMoodColor(moodType)
+        }
+        dataSet.valueTextSize = 12f
+        dataSet.valueTextColor = Color.WHITE
+        dataSet.valueTypeface = typeface
+        dataSet.setDrawValues(true)
+        dataSet.barShadowColor = R.color.black
+
+        // Configurar dados do gráfico
+        val barData = BarData(dataSet)
+        barData.barWidth = 0.7f
+
+        // Definir renderer com cantos arredondados
+        barChart.data = barData // Primeiro, atribui os dados
+
+        val renderer = RoundedBarChartRenderer(barChart, barChart.animator, barChart.viewPortHandler)
+        barChart.renderer = renderer
+
+        renderer.initBuffers() // Só agora que os buffers existem!
+
+        // Personalizar aparência
+        barChart.description.isEnabled = false
+        barChart.setDrawValueAboveBar(true)
+        barChart.isHighlightPerTapEnabled = true
+        barChart.setTouchEnabled(true)  // Garante que o gráfico possa interagir
+        barChart.isClickable = true  // Habilita o clique
+        barChart.isHighlightPerTapEnabled = true  // Habilita o destaque ao clicar
+
+        // Configurar eixo X
+        val xAxis = barChart.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.setDrawGridLines(false)
+        xAxis.granularity = 1f
+        xAxis.typeface = typeface
+        xAxis.textColor = Color.WHITE
+        xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+        xAxis.labelRotationAngle = -45f
+        xAxis.setDrawLabels(false)
+
+        // Configurar eixo Y esquerdo
+        val leftAxis = barChart.axisLeft
+        leftAxis.setDrawGridLines(true)
+        leftAxis.typeface = typeface
+        leftAxis.textColor = Color.WHITE
+        leftAxis.axisMinimum = 0f
+        leftAxis.granularity = 1f
+        leftAxis.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return value.toInt().toString()
+            }
+        }
+
+        // Desabilitar eixo Y direito
+        barChart.axisRight.isEnabled = false
+
+        // Configurar legenda
+        val legend = barChart.legend
+        legend.isEnabled = true
+        legend.textSize = 10f
+        legend.textColor = Color.WHITE
+        legend.typeface = typeface
+        legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+        legend.orientation = Legend.LegendOrientation.HORIZONTAL
+        legend.setDrawInside(false)
+        legend.yOffset = 5f
+        legend.xOffset = 0f
+        legend.yEntrySpace = 10f
+        legend.xEntrySpace = 15f
+        legend.form = Legend.LegendForm.SQUARE
+        legend.formSize = 12f
+        legend.formToTextSpace = 5f
+        legend.maxSizePercent = 0.70f
+
+        // Criar entradas personalizadas para a legenda
+        val legendEntries = moodOrder.mapIndexed { index, moodType ->
+            LegendEntry().apply {
+                label = labels[index]
+                formColor = dashboardViewModel.getMoodColor(moodType)
+                form = Legend.LegendForm.SQUARE
+            }
+        }
+        legend.setCustom(legendEntries)
+
+        // Ajustar margens do gráfico
+        barChart.setExtraTopOffset(10f)
+        barChart.setExtraBottomOffset(15f)
+        barChart.setExtraLeftOffset(10f)
+        barChart.setExtraRightOffset(10f)
+
+        // Animação
+        barChart.animateY(1000)
+        barChart.highlightValues(null) // limpa highlights antes
+        barChart.invalidate()
+
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    private fun adjustGraphsVisibility(){
-
-        val isDonutView = binding.distributionViewSpinner.selectedItemPosition == 1
-        val isExpanded = if (isDonutView) {
-            binding.pieChart.isVisible
-        } else {
-            binding.moodDistributionContainer.isVisible
+    private fun adjustGraphsVisibility() {
+        val selectedPosition = binding.distributionViewSpinner.selectedItemPosition
+        val isExpanded = when (selectedPosition) {
+            0 -> binding.moodDistributionContainer.isVisible
+            1 -> binding.pieChart.isVisible
+            2 -> binding.barChart.isVisible
+            else -> false
         }
 
-        if (isDonutView) {
-            binding.pieChart.visibility = if (isExpanded) View.GONE else View.VISIBLE
-        } else {
-            binding.moodDistributionContainer.visibility = if (isExpanded) View.GONE else View.VISIBLE
+        when (selectedPosition) {
+            0 -> { // Barras
+                binding.moodDistributionContainer.visibility = if (isExpanded) View.GONE else View.VISIBLE
+                binding.pieChart.visibility = View.GONE
+                binding.barChart.visibility = View.GONE
+                binding.barChartFilterContainer.visibility = View.GONE
+            }
+            1 -> { // Donut
+                binding.moodDistributionContainer.visibility = View.GONE
+                binding.pieChart.visibility = if (isExpanded) View.GONE else View.VISIBLE
+                binding.barChart.visibility = View.GONE
+                binding.barChartFilterContainer.visibility = View.GONE
+            }
+            2 -> { // Barra grupo
+                binding.moodDistributionContainer.visibility = View.GONE
+                binding.pieChart.visibility = View.GONE
+                binding.barChart.visibility = if (isExpanded) View.GONE else View.VISIBLE
+                binding.barChartFilterContainer.visibility = if (isExpanded) View.GONE else View.VISIBLE
+            }
         }
 
         binding.expandArrow.rotation = if (isExpanded) 0f else 180f

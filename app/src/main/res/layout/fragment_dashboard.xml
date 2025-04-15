@@ -83,6 +83,57 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="16dp"
+                android:paddingTop="5dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/current_streak"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_size_large"/>
+
+                    <!-- Container para os ícones será adicionado aqui programaticamente -->
+                    <LinearLayout
+                        android:id="@+id/streak_icons_container"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:orientation="horizontal"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/current_streak_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="@dimen/text_size_large"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
         <!-- Card de Distribuição de Humores -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -164,6 +215,32 @@
                     android:layout_height="300dp"
                     android:visibility="gone"/>
 
+                <!-- Filtro de Dias para Gráfico de Barras -->
+                <LinearLayout
+                    android:id="@+id/bar_chart_filter_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="end"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:visibility="gone">
+
+                    <Spinner
+                        android:id="@+id/bar_chart_day_filter_spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="40dp"/>
+
+                </LinearLayout>
+
+                <!-- Gráfico de Barras -->
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/bar_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:visibility="gone"/>
+
                 <!-- Conteúdo Expansível -->
                 <LinearLayout
                     android:id="@+id/mood_distribution_container"
@@ -177,56 +254,7 @@
         </androidx.cardview.widget.CardView>
 
         <!-- Card de Sequência Atual -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="16dp"
-                android:paddingTop="5dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/current_streak"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/text_size_large"/>
-
-                    <!-- Container para os ícones será adicionado aqui programaticamente -->
-                    <LinearLayout
-                        android:id="@+id/streak_icons_container"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:orientation="horizontal"/>
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/current_streak_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:textSize="@dimen/text_size_large"/>
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
         <!-- Card de Melhor Dia da Semana -->
         <androidx.cardview.widget.CardView

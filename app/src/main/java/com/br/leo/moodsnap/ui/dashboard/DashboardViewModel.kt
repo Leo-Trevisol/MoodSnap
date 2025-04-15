@@ -63,6 +63,15 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         return moodColors[moodType] ?: Color.WHITE
     }
 
+    fun getMoodDistributionForPeriod(startDate: Date): Map<Int, Int> {
+        val filteredMoods = _moods.value?.filter { mood ->
+            mood.date.after(startDate) || mood.date == startDate
+        } ?: emptyList()
+
+        return filteredMoods.groupBy { it.moodType }
+            .mapValues { it.value.size }
+    }
+
     fun loadMoods() {
         viewModelScope.launch(Dispatchers.IO) {
             val allMoods = repository.getAll()
