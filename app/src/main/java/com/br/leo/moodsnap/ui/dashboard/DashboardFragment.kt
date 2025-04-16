@@ -622,6 +622,12 @@ class DashboardFragment : Fragment() {
         pieChart.legend.yOffset = 10f
         pieChart.legend.typeface = typeface
         pieChart.invalidate() // Refresh chart
+
+        // Ajustar margens
+        pieChart.setExtraTopOffset(5f)
+        pieChart.setExtraBottomOffset(15f)
+        pieChart.setExtraLeftOffset(10f)
+        pieChart.setExtraRightOffset(10f)
     }
 
     private fun setupBarChart(distribution: Map<Int, Int>) {
@@ -732,10 +738,11 @@ class DashboardFragment : Fragment() {
         legend.setCustom(legendEntries)
 
         // Ajustar margens do gráfico
-        barChart.setExtraTopOffset(10f)
+        barChart.setExtraTopOffset(5f)
         barChart.setExtraBottomOffset(15f)
         barChart.setExtraLeftOffset(10f)
         barChart.setExtraRightOffset(10f)
+        barChart.setViewPortOffsets(50f, 0f, 30f, 50f) // left, top, right, bottom
 
         // Animação
         barChart.animateY(1000)
