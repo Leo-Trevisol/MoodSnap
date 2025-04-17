@@ -237,7 +237,7 @@ class DashboardFragment : Fragment() {
         
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
-
+        
         val adapter = object : ArrayAdapter<DayFilterType>(
             requireContext(),
             android.R.layout.simple_spinner_item,
@@ -824,7 +824,7 @@ class DashboardFragment : Fragment() {
 
         when (selectedPosition) {
             0 -> { // Barras
-                binding.moodDistributionContainer.visibility = if (isExpanded) View.GONE else View.VISIBLE
+            binding.moodDistributionContainer.visibility = if (isExpanded) View.GONE else View.VISIBLE
                 binding.pieChart.visibility = View.GONE
                 binding.barChart.visibility = View.GONE
                 binding.periodFilterContainer.visibility = View.GONE

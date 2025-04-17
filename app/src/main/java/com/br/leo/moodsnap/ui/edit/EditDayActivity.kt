@@ -38,6 +38,7 @@ import com.br.leo.moodsnap.ui.utils.DateUtils
 import com.br.leo.moodsnap.ui.utils.FontUtils
 import com.br.leo.moodsnap.ui.utils.FontUtils.updateFontDialogPicker
 import com.br.leo.moodsnap.ui.utils.Utils.findViewsByType
+import android.provider.Settings
 
 class EditDayActivity : AppCompatActivity() {
 
@@ -52,24 +53,43 @@ class EditDayActivity : AppCompatActivity() {
     private lateinit var selectedDate: Date
     private var hasChanges = false
     private var originalMood: MoodModel? = null
+    private var imageSourceDialog: AlertDialog? = null
 
-    private val cameraPermissionLauncher = registerForActivityResult(
+    private val requestCameraPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
             openCamera()
         } else {
-            showCustomToast(this, getString(R.string.camera_permission_required))
+            if (!shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                // Usuário negou permanentemente
+                showSettingsPermissionDialog(
+                    getString(R.string.camera_permission_denied_permanently)
+                )
+            } else {
+                showCustomToast(this, getString(R.string.camera_permission_required))
+            }
+            // Reabrir o diálogo de fonte de imagem
+            showImageSourceDialog()
         }
     }
 
-    private val galleryPermissionLauncher = registerForActivityResult(
+    private val requestGalleryPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
             openGallery()
         } else {
-            showCustomToast(this, getString(R.string.gallery_permission_required))
+            if (!shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                // Usuário negou permanentemente
+                showSettingsPermissionDialog(
+                    getString(R.string.gallery_permission_denied_permanently)
+                )
+            } else {
+                showCustomToast(this, getString(R.string.gallery_permission_required))
+            }
+            // Reabrir o diálogo de fonte de imagem
+            showImageSourceDialog()
         }
     }
 
@@ -445,12 +465,12 @@ class EditDayActivity : AppCompatActivity() {
 
     private fun showImageSourceDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_image_source, null)
-        val dialog = MaterialAlertDialogBuilder(this)
+        imageSourceDialog = MaterialAlertDialogBuilder(this)
             .setView(dialogView)
             .create()
 
         // Aplica a animação de entrada e saída
-        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        imageSourceDialog?.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
         FontUtils.applyFontToView(this, dialogView)
 
@@ -467,19 +487,19 @@ class EditDayActivity : AppCompatActivity() {
         val btnCamera: Button = dialogView.findViewById<MaterialButton>(R.id.btn_camera)
         Utils.updateBackGroundColor(applicationContext, btnCamera)
         btnCamera.setOnClickListener {
-            dialog.dismiss()
+            imageSourceDialog?.dismiss()
             checkCameraPermission()
         }
 
         val btnGallery: Button = dialogView.findViewById<MaterialButton>(R.id.btn_gallery)
         Utils.updateBackGroundColor(applicationContext, btnGallery)
         btnGallery.setOnClickListener {
-            dialog.dismiss()
+            imageSourceDialog?.dismiss()
             checkGalleryPermission()
         }
 
         btnDeleteImage.setOnClickListener {
-            dialog.dismiss()
+            imageSourceDialog?.dismiss()
             CustomAlertDialog.create(this)
                 .setTitle(getString(R.string.attention_dialog))
                 .setMessage(getString(R.string.confirm_delete_image))
@@ -507,9 +527,8 @@ class EditDayActivity : AppCompatActivity() {
                 .show()
         }
 
-        dialog.show()
+        imageSourceDialog?.show()
     }
-
 
     private fun checkCameraPermission() {
         when {
@@ -520,53 +539,46 @@ class EditDayActivity : AppCompatActivity() {
                 openCamera()
             }
             shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
-                showPermissionRationaleDialog(
-                    "Permissão da Câmera",
-                    "O acesso à câmera é necessário para tirar fotos.",
-                    Manifest.permission.CAMERA
-                )
+                showSettingsPermissionDialog(getString(R.string.camera_permission_denied_permanently))
             }
             else -> {
-                cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+                requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
             }
         }
     }
 
     private fun checkGalleryPermission() {
-        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            Manifest.permission.READ_MEDIA_IMAGES
-        } else {
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        }
-
         when {
-            ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED -> {
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED -> {
                 openGallery()
             }
-            shouldShowRequestPermissionRationale(permission) -> {
-                showPermissionRationaleDialog(
-                    "Permissão da Galeria",
-                    "O acesso à galeria é necessário para selecionar imagens.",
-                    permission
-                )
+            shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+                showSettingsPermissionDialog(getString(R.string.gallery_permission_denied_permanently))
             }
             else -> {
-                galleryPermissionLauncher.launch(permission)
+                requestGalleryPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             }
         }
     }
 
-    private fun showPermissionRationaleDialog(title: String, message: String, permission: String) {
-        AlertDialog.Builder(this)
-            .setTitle(title)
+    private fun showSettingsPermissionDialog(message: String) {
+
+        CustomAlertDialog .create(this)
+            .setTitle(getString(R.string.attention_dialog))
             .setMessage(message)
-            .setPositiveButton("Permitir") { _, _ ->
-                when (permission) {
-                    Manifest.permission.CAMERA -> cameraPermissionLauncher.launch(permission)
-                    else -> galleryPermissionLauncher.launch(permission)
-                }
+            .setPositiveListener {
+                // Abrir configurações do aplicativo
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", packageName, null)
+                intent.data = uri
+                startActivity(intent)
             }
-            .setNegativeButton("Cancelar", null)
+            .setDescricaoBtnPositive("Ir para Configurações")
+            .setDescricaoBtnNegative("Cancelar")
+            .setNegativeListener(null)
             .show()
     }
 
