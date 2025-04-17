@@ -469,7 +469,11 @@ class HomeFragment : Fragment() {
 
     private fun setupCalendarView() {
         calendarAdapter = CalendarAdapter(getDaysInMonth(), requireContext())
-        binding.calendarGrid.adapter = calendarAdapter
+        binding.calendarGrid.apply {
+            adapter = calendarAdapter
+            itemAnimator = null // Desabilitar animações do RecyclerView
+            setHasFixedSize(true) // Otimizar performance
+        }
 
         // Configurar o mês inicial
         updateCalendarForDate(calendar)
@@ -479,8 +483,14 @@ class HomeFragment : Fragment() {
                 Utils.showCustomToast(requireContext(), requireContext().getString(R.string.future_date_not_allowed))
                 return@setOnDayClickListener
             }
+            
+            // Atualizar seleção sem redesenhar todo o grid
+            val oldSelectedDay = selectedDay
             selectedDay = dayOfMonth
-            calendarAdapter.setSelectedDay(dayOfMonth)
+            if (oldSelectedDay != -1) {
+                calendarAdapter.notifyItemChanged(oldSelectedDay + calendarAdapter.getFirstDayOfWeek())
+            }
+            calendarAdapter.notifyItemChanged(selectedDay + calendarAdapter.getFirstDayOfWeek())
 
             // Verificar se já existe um humor para este dia
             val existingMood = homeViewModel.moodsForMonth.value?.find { mood ->

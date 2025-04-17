@@ -202,4 +202,8 @@ class CalendarAdapter(
     fun setOnDayClickListener(listener: (Int) -> Unit) {
         onDayClickListener = listener
     }
+
+    fun getFirstDayOfWeek(): Int {
+        return firstDayOfWeek
+    }
 } 
