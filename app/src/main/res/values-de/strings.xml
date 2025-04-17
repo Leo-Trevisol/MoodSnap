@@ -189,5 +189,16 @@
 
     <string name="tutorial">Tutorial</string>
 
+    <string name="add_your_image">Füge dein Bild hinzu</string>
+
+    <string name="period">Zeitraum</string>
+
+    <string name="camera_permission_denied_permanently">Du hast den Kamerazugriff dauerhaft verweigert. Um diese Funktion zu nutzen, musst du die Berechtigung in den App-Einstellungen aktivieren.</string>
+    <string name="gallery_permission_denied_permanently">Du hast den Galerie-Zugriff dauerhaft verweigert. Um diese Funktion zu nutzen, musst du die Berechtigung in den App-Einstellungen aktivieren.</string>
+
+    <string name="distribution_view_bars">Balken</string>
+    <string name="distribution_view_donut">Donut</string>
+    <string name="distribution_view_bar_group">Gruppierte Balken</string>
+
 
 </resources>

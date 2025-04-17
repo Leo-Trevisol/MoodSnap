@@ -193,6 +193,17 @@
 
     <string name="tutorial">Tutorial</string>
 
+    <string name="add_your_image">Adicione sua imagem</string>
+
     <string name="period">Período</string>
+
+    <string name="camera_permission_denied_permanently">Você negou permanentemente o acesso à câmera. Para usar esta função, você precisa habilitar a permissão nas configurações do app.</string>
+    <string name="gallery_permission_denied_permanently">Você negou permanentemente o acesso à galeria. Para usar esta função, você precisa habilitar a permissão nas configurações do app.</string>
+
+    <!-- Distribution View Types -->
+    <string name="distribution_view_bars">Barras</string>
+    <string name="distribution_view_donut">Donut</string>
+    <string name="distribution_view_bar_group">Barra grupo</string>
+
 
 </resources> 

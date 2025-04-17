@@ -189,5 +189,15 @@
 
     <string name="tutorial">Tutorial</string>
 
+    <string name="add_your_image">Agrega tu imagen</string>
+
+    <string name="period">Período</string>
+
+    <string name="camera_permission_denied_permanently">Has denegado permanentemente el acceso a la cámara. Para usar esta función, debes habilitar el permiso en la configuración de la aplicación.</string>
+    <string name="gallery_permission_denied_permanently">Has denegado permanentemente el acceso a la galería. Para usar esta función, debes habilitar el permiso en la configuración de la aplicación.</string>
+
+    <string name="distribution_view_bars">Barras</string>
+    <string name="distribution_view_donut">Donut</string>
+    <string name="distribution_view_bar_group">Barra agrupada</string>
 
 </resources>

@@ -188,5 +188,15 @@
 
     <string name="tutorial">教程</string>
 
+    <string name="add_your_image">添加你的图片</string>
+
+    <string name="period">周期</string>
+
+    <string name="camera_permission_denied_permanently">您已永久拒绝相机访问权限。要使用此功能，请在应用设置中启用权限。</string>
+    <string name="gallery_permission_denied_permanently">您已永久拒绝图库访问权限。要使用此功能，请在应用设置中启用权限。</string>
+
+    <string name="distribution_view_bars">柱状图</string>
+    <string name="distribution_view_donut">环形图</string>
+    <string name="distribution_view_bar_group">分组柱状图</string>
 
 </resources>

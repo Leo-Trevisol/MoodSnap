@@ -13,8 +13,8 @@
             android:textColor="@color/day_text_color"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
+            android:padding="16dp"
             android:gravity="center"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -185,7 +185,7 @@
                                 android:text="@string/mood_distribution"
                                 android:textStyle="bold"
                                 android:layout_weight="1"
-                                android:textSize="@dimen/text_size_xlarge"/>
+                                android:textSize="16sp"/>
 
                             <Spinner
                                 android:id="@+id/distribution_view_spinner"

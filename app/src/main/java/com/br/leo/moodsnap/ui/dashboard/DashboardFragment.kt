@@ -250,7 +250,6 @@ class DashboardFragment : Fragment() {
                     text = availableFilters[position].description
                     gravity = Gravity.START
                     setPadding(0, paddingTop, paddingRight, paddingBottom)
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
                     this.typeface = typeface
                 }
                 return view
@@ -306,21 +305,35 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setupDistributionViewSpinner() {
-        val viewTypes = listOf("Barras", "Donut", "Barra grupo")
+        val viewTypes = listOf(
+            getString(R.string.distribution_view_bars),
+            getString(R.string.distribution_view_donut),
+            getString(R.string.distribution_view_bar_group)
+        )
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
         
         val adapter = object : ArrayAdapter<String>(
             requireContext(),
             android.R.layout.simple_spinner_item,
             viewTypes
         ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                (view as TextView).apply {
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
+                    this.typeface = typeface
+                }
+                return view
+            }
+
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent)
                 view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
                 (view as TextView).apply {
                     setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
+                    this.typeface = typeface
                 }
                 return view
             }
@@ -428,13 +441,13 @@ class DashboardFragment : Fragment() {
                 val icon = ImageView(context).apply {
                     setImageResource(Utils.getMoodDrawable(moodType))
                     layoutParams = LinearLayout.LayoutParams(
-                        48, // Tamanho do ícone um pouco menor que o container
-                        48
+                        54, // Tamanho do ícone um pouco menor que o container
+                        54
                     ).apply {
                         gravity = android.view.Gravity.CENTER
                         // Centralizar o ícone no container
-                        marginStart = 4
-                        topMargin = 4
+                        marginStart = 1
+                        topMargin = 1
                     }
                 }
 

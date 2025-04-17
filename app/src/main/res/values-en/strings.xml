@@ -192,4 +192,13 @@
 
     <string name="add_your_image">Add your image</string>
 
+    <string name="period">Period</string>
+
+    <string name="camera_permission_denied_permanently">You have permanently denied camera access. To use this feature, you need to enable the permission in the app settings.</string>
+    <string name="gallery_permission_denied_permanently">You have permanently denied gallery access. To use this feature, you need to enable the permission in the app settings.</string>
+
+    <string name="distribution_view_bars">Bars</string>
+    <string name="distribution_view_donut">Donut</string>
+    <string name="distribution_view_bar_group">Grouped Bar</string>
+
 </resources>

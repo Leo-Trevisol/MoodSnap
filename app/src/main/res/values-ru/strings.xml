@@ -188,5 +188,15 @@
 
     <string name="tutorial">Руководство</string>
 
+    <string name="add_your_image">Добавьте своё изображение</string>
+
+    <string name="period">Период</string>
+
+    <string name="camera_permission_denied_permanently">Вы навсегда запретили доступ к камере. Чтобы использовать эту функцию, необходимо включить разрешение в настройках приложения.</string>
+    <string name="gallery_permission_denied_permanently">Вы навсегда запретили доступ к галерее. Чтобы использовать эту функцию, необходимо включить разрешение в настройках приложения.</string>
+
+    <string name="distribution_view_bars">Столбцы</string>
+    <string name="distribution_view_donut">Кольцевая диаграмма</string>
+    <string name="distribution_view_bar_group">Группированные столбцы</string>
 
 </resources>
