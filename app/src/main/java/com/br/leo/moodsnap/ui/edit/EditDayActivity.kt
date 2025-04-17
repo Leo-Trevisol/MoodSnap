@@ -576,8 +576,8 @@ class EditDayActivity : AppCompatActivity() {
                 intent.data = uri
                 startActivity(intent)
             }
-            .setDescricaoBtnPositive("Ir para Configurações")
-            .setDescricaoBtnNegative("Cancelar")
+            .setDescricaoBtnPositive(getString(R.string.btn_go_config))
+            .setDescricaoBtnNegative(getString(R.string.btn_cancel))
             .setNegativeListener(null)
             .show()
     }

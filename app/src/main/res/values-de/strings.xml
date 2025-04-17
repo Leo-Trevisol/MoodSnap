@@ -13,6 +13,7 @@
     <string name="btn_next">Weiter</string>
     <string name="btn_yes">Ja</string>
     <string name="btn_no">Nein</string>
+    <string name="btn_go_config">Gehe zu den Einstellungen</string>
 
     <!-- Titles and Headers -->
     <string name="title_how_are_you">Wie fühlst du dich?</string>

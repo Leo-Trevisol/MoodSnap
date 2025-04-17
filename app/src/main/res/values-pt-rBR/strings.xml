@@ -11,6 +11,7 @@
     <string name="btn_confirm">Confirmar</string>
     <string name="btn_back">Voltar</string>
     <string name="btn_next">Próximo</string>
+    <string name="btn_go_config">"Ir para Configurações</string>
 
     <!-- Títulos e cabeçalhos -->
     <string name="title_how_are_you">Como você está se sentindo?</string>
