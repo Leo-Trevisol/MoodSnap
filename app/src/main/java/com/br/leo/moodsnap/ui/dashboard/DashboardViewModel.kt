@@ -265,4 +265,10 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
 
         return streakMoods
     }
+
+    fun getOldestMoodDate(): Date? {
+        return repository.getAll()
+            .minByOrNull { it.date.time }
+            ?.date
+    }
 }

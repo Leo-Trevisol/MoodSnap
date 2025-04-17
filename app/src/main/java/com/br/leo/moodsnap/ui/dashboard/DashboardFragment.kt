@@ -210,20 +210,43 @@ class DashboardFragment : Fragment() {
         setupDistributionViewSpinner()
     }
 
+    private fun getAvailableFilters(oldestRecordDate: Date): List<DayFilterType> {
+        val today = Calendar.getInstance().time
+        val diffInMillis = today.time - oldestRecordDate.time
+        val diffInDays = (diffInMillis / (1000 * 60 * 60 * 24)).toInt()
+
+        return DayFilterType.values().filter { filter ->
+            when {
+                diffInDays < 7 -> filter == DayFilterType.LAST_7_DAYS
+                diffInDays < 30 -> filter in listOf(DayFilterType.LAST_7_DAYS, DayFilterType.LAST_MONTH)
+                diffInDays < 90 -> filter in listOf(DayFilterType.LAST_7_DAYS, DayFilterType.LAST_MONTH, DayFilterType.LAST_3_MONTHS)
+                diffInDays < 180 -> filter in listOf(DayFilterType.LAST_7_DAYS, DayFilterType.LAST_MONTH, DayFilterType.LAST_3_MONTHS, DayFilterType.LAST_6_MONTHS)
+                diffInDays < 270 -> filter in listOf(DayFilterType.LAST_7_DAYS, DayFilterType.LAST_MONTH, DayFilterType.LAST_3_MONTHS, DayFilterType.LAST_6_MONTHS, DayFilterType.LAST_9_MONTHS)
+                diffInDays < 365 -> filter in listOf(DayFilterType.LAST_7_DAYS, DayFilterType.LAST_MONTH, DayFilterType.LAST_3_MONTHS, DayFilterType.LAST_6_MONTHS, DayFilterType.LAST_9_MONTHS, DayFilterType.LAST_YEAR)
+                else -> true // Se for mais que 365 dias, mostra todas as opções
+            }
+        }
+    }
+
     private fun setupBarChartDayFilterSpinner() {
-        val dayFilters = DayFilterType.values()
+        // Obter a data do registro mais antigo do ViewModel
+        val oldestRecordDate = dashboardViewModel.getOldestMoodDate() ?: return
+
+        // Obter apenas os filtros disponíveis baseado na data mais antiga
+        val availableFilters = getAvailableFilters(oldestRecordDate)
+        
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
 
         val adapter = object : ArrayAdapter<DayFilterType>(
             requireContext(),
             android.R.layout.simple_spinner_item,
-            dayFilters
+            availableFilters
         ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
                 (view as TextView).apply {
-                    text = dayFilters[position].description
+                    text = availableFilters[position].description
                     gravity = Gravity.START
                     setPadding(0, paddingTop, paddingRight, paddingBottom)
                 }
@@ -234,7 +257,7 @@ class DashboardFragment : Fragment() {
                 val view = super.getDropDownView(position, convertView, parent)
                 view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
                 (view as TextView).apply {
-                    text = dayFilters[position].description
+                    text = availableFilters[position].description
                     setTextColor(ContextCompat.getColor(context, R.color.secundary))
                     typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                     gravity = Gravity.START
@@ -259,7 +282,7 @@ class DashboardFragment : Fragment() {
                 ) {
                     currentDayFilter = position
                     dashboardViewModel.moodDistribution.value?.let { distribution ->
-                        val filteredDistribution = filterDistributionByDays(distribution, dayFilters[position].days)
+                        val filteredDistribution = filterDistributionByDays(distribution, availableFilters[position].days)
                         setupPieChart(filteredDistribution)
                         setupBarChart(filteredDistribution)
                     }
