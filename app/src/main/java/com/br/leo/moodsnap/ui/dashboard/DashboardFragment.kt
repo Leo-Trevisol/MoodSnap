@@ -237,6 +237,7 @@ class DashboardFragment : Fragment() {
         
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
         
         val adapter = object : ArrayAdapter<DayFilterType>(
             requireContext(),
@@ -249,6 +250,8 @@ class DashboardFragment : Fragment() {
                     text = availableFilters[position].description
                     gravity = Gravity.START
                     setPadding(0, paddingTop, paddingRight, paddingBottom)
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
+                    this.typeface = typeface
                 }
                 return view
             }
@@ -259,7 +262,7 @@ class DashboardFragment : Fragment() {
                 (view as TextView).apply {
                     text = availableFilters[position].description
                     setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
+                    this.typeface = typeface
                     gravity = Gravity.START
                 }
                 return view
@@ -717,7 +720,7 @@ class DashboardFragment : Fragment() {
                 // Calcular a porcentagem baseada no total de registros
                 if (value > 0f) {
                     val percentage = (value / totalRecords * 100).roundToInt()
-                    return "${value.toInt()}\n($percentage%)"
+                    return "${value.toInt()}\n ($percentage%)"
                 }
                 return value.toInt().toString()
             }
