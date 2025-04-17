@@ -155,7 +155,7 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setupDayFilterSpinner() {
-        val filters = DashboardViewModel.DayFilter.values()
+        val filters = DashboardViewModel.DayFilter.entries.toTypedArray()
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
         
@@ -169,7 +169,6 @@ class DashboardFragment : Fragment() {
                 val filter = getItem(position)
                 (view as TextView).apply {
                     text = filter?.let { dashboardViewModel.getFilterDescription(requireContext(), it) }
-                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
@@ -177,18 +176,21 @@ class DashboardFragment : Fragment() {
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent)
                 val filter = getItem(position)
-                view.setBackgroundColor(Color.WHITE)
+                view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
                 (view as TextView).apply {
                     text = filter?.let { dashboardViewModel.getFilterDescription(requireContext(), it) }
-                    setTextColor(Color.BLACK)
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
                     typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
         }
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.dayFilterSpinner.adapter = adapter
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        binding.dayFilterSpinner.apply {
+            this.adapter = adapter
+            setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
+        }
 
         binding.dayFilterSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -223,25 +225,27 @@ class DashboardFragment : Fragment() {
                 val view = super.getView(position, convertView, parent)
                 (view as TextView).apply {
                     text = dayFilters[position].description
-                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
 
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent)
-                view.setBackgroundColor(Color.WHITE)
+                view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
                 (view as TextView).apply {
                     text = dayFilters[position].description
-                    setTextColor(Color.BLACK)
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
                     typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
         }
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.barChartDayFilterSpinner.adapter = adapter
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        binding.barChartDayFilterSpinner.apply {
+            this.adapter = adapter
+            setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
+        }
 
         binding.barChartDayFilterSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -281,26 +285,22 @@ class DashboardFragment : Fragment() {
             android.R.layout.simple_spinner_item,
             viewTypes
         ) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getView(position, convertView, parent)
-                (view as TextView).apply {
-                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
-                }
-                return view
-            }
-
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent)
-                view.setBackgroundColor(Color.WHITE)
+                view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
                 (view as TextView).apply {
-                    setTextColor(Color.BLACK)
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
                     typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
         }
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.distributionViewSpinner.adapter = adapter
+
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        binding.distributionViewSpinner.apply {
+            this.adapter = adapter
+            setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
+        }
 
         binding.distributionViewSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -453,7 +453,7 @@ class DashboardFragment : Fragment() {
         )
 
         // Configurar o clique no cabeçalho
-        binding.expandArrow.setOnClickListener {
+        binding.distributionHeader.setOnClickListener {
             firstTime = false
             adjustGraphsVisibility()
         }
@@ -594,25 +594,35 @@ class DashboardFragment : Fragment() {
 
         val dataSet = PieDataSet(entries, "")
         dataSet.colors = colors
-        dataSet.valueTextSize = 16f
-        dataSet.valueTextColor = Color.BLACK
+        dataSet.valueTextSize = 13f
+        dataSet.valueTextColor = Color.WHITE
         dataSet.valueTypeface = typeface
+        dataSet.yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+        dataSet.valueLinePart1Length = 0.6f
+        dataSet.valueLinePart2Length = 0.3f
+        dataSet.valueLineColor = Color.WHITE
+        dataSet.valueLineWidth = 2f
+        dataSet.sliceSpace = 3f
 
         val pieData = PieData(dataSet)
         pieData.setValueFormatter(object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
-                return "${value.roundToInt()}%"
+                val count = (value * distribution.values.sum() / 100).roundToInt()
+                return "${value.roundToInt()}% ($count)"
             }
         })
         pieChart.data = pieData
 
         // Customize chart appearance
         pieChart.description.isEnabled = false
-        pieChart.setDrawEntryLabels(false)
+        //pieChart.setExtraOffsets(50f, 50f, 50f, 50f) // Dar mais espaço para as linhas
         pieChart.setUsePercentValues(true)
+        pieChart.setDrawEntryLabels(false) // Não mostrar labels dentro das fatias
+        
+        // Configurar legenda
         pieChart.legend.isEnabled = true
         pieChart.legend.textColor = Color.WHITE
-        pieChart.legend.textSize = resources.getDimension(R.dimen.text_size_legend)
+        pieChart.legend.textSize = 13f
         pieChart.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
         pieChart.legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
         pieChart.legend.orientation = Legend.LegendOrientation.HORIZONTAL
@@ -621,27 +631,32 @@ class DashboardFragment : Fragment() {
         pieChart.legend.yEntrySpace = 5f
         pieChart.legend.yOffset = 10f
         pieChart.legend.typeface = typeface
-        pieChart.invalidate() // Refresh chart
 
-        // Ajustar margens
-        pieChart.setExtraTopOffset(5f)
-        pieChart.setExtraBottomOffset(15f)
-        pieChart.setExtraLeftOffset(10f)
-        pieChart.setExtraRightOffset(10f)
+        // Configurar o buraco do donut
+          pieChart.holeRadius = 35f
+          pieChart.transparentCircleRadius = 50f
+          pieChart.setHoleColor(Color.TRANSPARENT)
+          pieChart.setTransparentCircleColor(Color.TRANSPARENT)
+//        pieChart.setTransparentCircleAlpha(110)
+
+        pieChart.invalidate() // Refresh chart
     }
 
     private fun setupBarChart(distribution: Map<Int, Int>) {
         val barChart: BarChart = binding.barChart
-
+        
         // Aplicar fonte atual
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
         val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
+        // Calcular o total de registros para usar como base da porcentagem
+        val totalRecords = distribution.values.sum()
+
         // Criar entradas para o gráfico
         val entries = ArrayList<BarEntry>()
         val labels = ArrayList<String>()
-
+        
         // Ordem dos humores: muito feliz -> muito triste
         val moodOrder = listOf(4, 3, 2, 1, 0)
         moodOrder.forEachIndexed { index, moodType ->
@@ -655,7 +670,7 @@ class DashboardFragment : Fragment() {
         dataSet.colors = moodOrder.map { moodType ->
             dashboardViewModel.getMoodColor(moodType)
         }
-        dataSet.valueTextSize = 12f
+        dataSet.valueTextSize = 13f
         dataSet.valueTextColor = Color.WHITE
         dataSet.valueTypeface = typeface
         dataSet.setDrawValues(true)
@@ -664,6 +679,18 @@ class DashboardFragment : Fragment() {
         // Configurar dados do gráfico
         val barData = BarData(dataSet)
         barData.barWidth = 0.7f
+
+        // Configurar formatador de valores personalizado
+        barData.setValueFormatter(object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                // Calcular a porcentagem baseada no total de registros
+                if (value > 0f) {
+                    val percentage = (value / totalRecords * 100).roundToInt()
+                    return "${value.toInt()}\n($percentage%)"
+                }
+                return value.toInt().toString()
+            }
+        })
 
         // Definir renderer com cantos arredondados
         barChart.data = barData // Primeiro, atribui os dados
@@ -691,7 +718,7 @@ class DashboardFragment : Fragment() {
         xAxis.valueFormatter = IndexAxisValueFormatter(labels)
         xAxis.labelRotationAngle = -45f
         xAxis.setDrawLabels(false)
-
+        
         // Configurar eixo Y esquerdo
         val leftAxis = barChart.axisLeft
         leftAxis.setDrawGridLines(true)
@@ -704,7 +731,7 @@ class DashboardFragment : Fragment() {
                 return value.toInt().toString()
             }
         }
-
+        
         // Desabilitar eixo Y direito
         barChart.axisRight.isEnabled = false
 
@@ -736,7 +763,7 @@ class DashboardFragment : Fragment() {
             }
         }
         legend.setCustom(legendEntries)
-
+        
         // Ajustar margens do gráfico
         barChart.setExtraTopOffset(5f)
         barChart.setExtraBottomOffset(15f)
@@ -748,7 +775,6 @@ class DashboardFragment : Fragment() {
         barChart.animateY(1000)
         barChart.highlightValues(null) // limpa highlights antes
         barChart.invalidate()
-
     }
 
     override fun onDestroyView() {
