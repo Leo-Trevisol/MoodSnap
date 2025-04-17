@@ -24,7 +24,7 @@
     <dimen name="text_size_small">12sp</dimen>
     <dimen name="text_size_normal">14sp</dimen>
     <dimen name="text_size_large">16sp</dimen>
-    <dimen name="text_size_xlarge">18sp</dimen>
+    <dimen name="text_size_xlarge">21sp</dimen>
 
     <dimen name="text_size_legend">8sp</dimen>
     
@@ -35,4 +35,8 @@
 
     <dimen name="button_size">16sp</dimen>
     <dimen name="button_confirm_cancel">16sp</dimen>
+
+    <dimen name="legend_bar_chart">9px</dimen>
+
+    <dimen name="hole_pie_chart">35px</dimen>
 </resources>

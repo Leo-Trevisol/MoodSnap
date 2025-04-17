@@ -100,7 +100,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingBottom="16dp"
+                android:paddingTop="5dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                >
 
                 <TextView
                     android:id="@+id/tv_mood_question"
@@ -108,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:text="@string/how_are_you_feeling_now"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/text_size_xlarge"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -119,52 +123,52 @@
 
                     <ImageView
                         android:id="@+id/emotion_very_happy"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="@dimen/item_calendar_day"
+                        android:layout_height="@dimen/item_calendar_day"
                         android:layout_margin="8dp"
                         android:alpha="0.5"
                         android:background="@drawable/circle_very_happy"
-                        android:padding="3dp"
+                        android:padding="2dp"
                         android:src="@drawable/muito_feliz" />
 
                     <ImageView
                         android:id="@+id/emotion_happy"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="@dimen/item_calendar_day"
+                        android:layout_height="@dimen/item_calendar_day"
                         android:layout_margin="8dp"
                         android:alpha="0.5"
                         android:background="@drawable/circle_happy"
-                        android:padding="3dp"
+                        android:padding="2dp"
                         android:src="@drawable/feliz" />
 
                     <ImageView
                         android:id="@+id/emotion_neutral"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="@dimen/item_calendar_day"
+                        android:layout_height="@dimen/item_calendar_day"
                         android:layout_margin="8dp"
                         android:alpha="0.5"
                         android:background="@drawable/circle_neutral"
-                        android:padding="3dp"
+                        android:padding="2dp"
                         android:src="@drawable/neutro" />
 
                     <ImageView
                         android:id="@+id/emotion_sad"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="@dimen/item_calendar_day"
+                        android:layout_height="@dimen/item_calendar_day"
                         android:layout_margin="8dp"
                         android:alpha="0.5"
                         android:background="@drawable/circle_sad"
-                        android:padding="3dp"
+                        android:padding="2dp"
                         android:src="@drawable/triste" />
 
                     <ImageView
                         android:id="@+id/emotion_very_sad"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="@dimen/item_calendar_day"
+                        android:layout_height="@dimen/item_calendar_day"
                         android:layout_margin="8dp"
                         android:alpha="0.5"
                         android:background="@drawable/circle_very_sad"
-                        android:padding="3dp"
+                        android:padding="2dp"
                         android:src="@drawable/muito_triste" />
 
                 </LinearLayout>
@@ -184,14 +188,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingBottom="16dp"
+                android:paddingTop="5dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:text="@string/day_description"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/text_size_xlarge"
                     android:textStyle="bold" />
 
                 <EditText
@@ -228,19 +236,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingBottom="16dp"
+                android:paddingTop="5dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:text="@string/day_image"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/text_size_xlarge"
                     android:textStyle="bold" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    >
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -252,7 +265,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:clipToOutline="true"
-                            android:backgroundTint="@color/nav_bar_background"
+                            android:backgroundTint="@android:color/transparent"
                             android:background="@drawable/rounded_background">
 
                             <ImageView

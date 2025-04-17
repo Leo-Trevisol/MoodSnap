@@ -664,7 +664,7 @@ class DashboardFragment : Fragment() {
         pieChart.legend.typeface = typeface
 
         // Configurar o buraco do donut
-          pieChart.holeRadius = 35f
+          pieChart.holeRadius = resources.getDimension(R.dimen.hole_pie_chart)
           pieChart.transparentCircleRadius = 50f
           pieChart.setHoleColor(Color.TRANSPARENT)
           pieChart.setTransparentCircleColor(Color.TRANSPARENT)
@@ -701,7 +701,7 @@ class DashboardFragment : Fragment() {
         dataSet.colors = moodOrder.map { moodType ->
             dashboardViewModel.getMoodColor(moodType)
         }
-        dataSet.valueTextSize = 13f
+        dataSet.valueTextSize = 11f // Reduzido o tamanho do texto
         dataSet.valueTextColor = Color.WHITE
         dataSet.valueTypeface = typeface
         dataSet.setDrawValues(true)
@@ -724,20 +724,20 @@ class DashboardFragment : Fragment() {
         })
 
         // Definir renderer com cantos arredondados
-        barChart.data = barData // Primeiro, atribui os dados
+        barChart.data = barData
 
         val renderer = RoundedBarChartRenderer(barChart, barChart.animator, barChart.viewPortHandler)
         barChart.renderer = renderer
 
-        renderer.initBuffers() // Só agora que os buffers existem!
+        renderer.initBuffers()
 
         // Personalizar aparência
         barChart.description.isEnabled = false
         barChart.setDrawValueAboveBar(true)
         barChart.isHighlightPerTapEnabled = true
-        barChart.setTouchEnabled(true)  // Garante que o gráfico possa interagir
-        barChart.isClickable = true  // Habilita o clique
-        barChart.isHighlightPerTapEnabled = true  // Habilita o destaque ao clicar
+        barChart.setTouchEnabled(true)
+        barChart.isClickable = true
+        barChart.isHighlightPerTapEnabled = true
 
         // Configurar eixo X
         val xAxis = barChart.xAxis
@@ -757,6 +757,7 @@ class DashboardFragment : Fragment() {
         leftAxis.textColor = Color.WHITE
         leftAxis.axisMinimum = 0f
         leftAxis.granularity = 1f
+        leftAxis.spaceTop = 35f // Adicionar espaço extra no topo
         leftAxis.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 return value.toInt().toString()
@@ -769,14 +770,14 @@ class DashboardFragment : Fragment() {
         // Configurar legenda
         val legend = barChart.legend
         legend.isEnabled = true
-        legend.textSize = 10f
+        legend.textSize = resources.getDimension(R.dimen.legend_bar_chart)
         legend.textColor = Color.WHITE
         legend.typeface = typeface
         legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
         legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
         legend.orientation = Legend.LegendOrientation.HORIZONTAL
         legend.setDrawInside(false)
-        legend.yOffset = 5f
+        legend.yOffset = 2f
         legend.xOffset = 0f
         legend.yEntrySpace = 10f
         legend.xEntrySpace = 15f
@@ -796,15 +797,15 @@ class DashboardFragment : Fragment() {
         legend.setCustom(legendEntries)
         
         // Ajustar margens do gráfico
-        barChart.setExtraTopOffset(5f)
+        barChart.setExtraTopOffset(15f) // Aumentado o offset do topo
         barChart.setExtraBottomOffset(15f)
         barChart.setExtraLeftOffset(10f)
         barChart.setExtraRightOffset(10f)
-        barChart.setViewPortOffsets(50f, 0f, 30f, 50f) // left, top, right, bottom
+        barChart.setViewPortOffsets(50f, 15f, 30f, 50f) // Ajustado o offset do topo
 
         // Animação
         barChart.animateY(1000)
-        barChart.highlightValues(null) // limpa highlights antes
+        barChart.highlightValues(null)
         barChart.invalidate()
     }
 
