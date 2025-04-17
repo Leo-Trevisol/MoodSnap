@@ -322,7 +322,6 @@ class DashboardFragment : Fragment() {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
                 (view as TextView).apply {
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
                     this.typeface = typeface
                 }
                 return view
