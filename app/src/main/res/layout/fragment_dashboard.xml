@@ -205,6 +205,22 @@
                             android:layout_marginTop="4dp"
                             android:textSize="@dimen/text_size_large"/>
 
+                        <LinearLayout
+                            android:id="@+id/periodFilterContainer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <Spinner
+                                android:id="@+id/periodSpinner"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:spinnerMode="dropdown"
+                                android:gravity="start"/>
+
+                        </LinearLayout>
+
                     </LinearLayout>
 
                 </LinearLayout>
@@ -215,25 +231,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:visibility="gone"/>
-
-                <!-- Filtro de Dias para Gráfico de Barras -->
-                <LinearLayout
-                    android:id="@+id/bar_chart_filter_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="end"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp"
-                    android:visibility="gone">
-
-                    <Spinner
-                        android:id="@+id/bar_chart_day_filter_spinner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="40dp"/>
-
-                </LinearLayout>
 
                 <!-- Gráfico de Barras -->
                 <com.github.mikephil.charting.charts.BarChart

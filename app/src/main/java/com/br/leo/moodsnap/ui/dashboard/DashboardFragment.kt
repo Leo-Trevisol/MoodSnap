@@ -103,12 +103,11 @@ class DashboardFragment : Fragment() {
             true
         }
 
-        // Initialize and configure the PieChart with initial data
-        dashboardViewModel.moodDistribution.value?.let { setupPieChart(it) }
-
         // Set initial visibility to ensure no chart is shown by default
         binding.moodDistributionContainer.visibility = View.GONE
         binding.pieChart.visibility = View.GONE
+        binding.barChart.visibility = View.GONE
+        binding.periodFilterContainer.visibility = View.GONE
         binding.expandArrow.rotation = 0f
 
         // Set spinner to default to 'Barras' but keep views hidden
@@ -225,6 +224,8 @@ class DashboardFragment : Fragment() {
                 val view = super.getView(position, convertView, parent)
                 (view as TextView).apply {
                     text = dayFilters[position].description
+                    gravity = Gravity.START
+                    setPadding(0, paddingTop, paddingRight, paddingBottom)
                 }
                 return view
             }
@@ -236,18 +237,19 @@ class DashboardFragment : Fragment() {
                     text = dayFilters[position].description
                     setTextColor(ContextCompat.getColor(context, R.color.secundary))
                     typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
+                    gravity = Gravity.START
                 }
                 return view
             }
         }
 
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        binding.barChartDayFilterSpinner.apply {
+        binding.periodSpinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
         }
 
-        binding.barChartDayFilterSpinner.onItemSelectedListener =
+        binding.periodSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
@@ -257,7 +259,9 @@ class DashboardFragment : Fragment() {
                 ) {
                     currentDayFilter = position
                     dashboardViewModel.moodDistribution.value?.let { distribution ->
-                        setupBarChart(filterDistributionByDays(distribution, dayFilters[position].days))
+                        val filteredDistribution = filterDistributionByDays(distribution, dayFilters[position].days)
+                        setupPieChart(filteredDistribution)
+                        setupBarChart(filteredDistribution)
                     }
                 }
 
@@ -315,22 +319,24 @@ class DashboardFragment : Fragment() {
                             0 -> { // Barras
                                 binding.pieChart.visibility = View.GONE
                                 binding.barChart.visibility = View.GONE
-                                binding.barChartFilterContainer.visibility = View.GONE
+                                binding.periodFilterContainer.visibility = View.GONE
                                 binding.moodDistributionContainer.visibility = View.VISIBLE
                             }
                             1 -> { // Donut
                                 binding.pieChart.visibility = View.VISIBLE
                                 binding.barChart.visibility = View.GONE
-                                binding.barChartFilterContainer.visibility = View.GONE
+                                binding.periodFilterContainer.visibility = View.VISIBLE
                                 binding.moodDistributionContainer.visibility = View.GONE
                             }
                             2 -> { // Barra grupo
                                 binding.pieChart.visibility = View.GONE
                                 binding.barChart.visibility = View.VISIBLE
-                                binding.barChartFilterContainer.visibility = View.VISIBLE
+                                binding.periodFilterContainer.visibility = View.VISIBLE
                                 binding.moodDistributionContainer.visibility = View.GONE
                             }
                         }
+                    }else{
+                        firstTime = false
                     }
                 }
 
@@ -565,9 +571,11 @@ class DashboardFragment : Fragment() {
             container.addView(itemCard)
         }
 
-        // Update PieChart with real data
-        setupPieChart(distribution)
-        setupBarChart(distribution)
+        // Atualizar os gráficos com os dados filtrados pelo período atual
+        val dayFilters = DayFilterType.values()
+        val filteredDistribution = filterDistributionByDays(distribution, dayFilters[currentDayFilter].days)
+        setupPieChart(filteredDistribution)
+        setupBarChart(filteredDistribution)
     }
 
     private fun setupPieChart(distribution: Map<Int, Int>) {
@@ -796,19 +804,13 @@ class DashboardFragment : Fragment() {
                 binding.moodDistributionContainer.visibility = if (isExpanded) View.GONE else View.VISIBLE
                 binding.pieChart.visibility = View.GONE
                 binding.barChart.visibility = View.GONE
-                binding.barChartFilterContainer.visibility = View.GONE
+                binding.periodFilterContainer.visibility = View.GONE
             }
-            1 -> { // Donut
+            1, 2 -> { // Donut ou Barra grupo
                 binding.moodDistributionContainer.visibility = View.GONE
-                binding.pieChart.visibility = if (isExpanded) View.GONE else View.VISIBLE
-                binding.barChart.visibility = View.GONE
-                binding.barChartFilterContainer.visibility = View.GONE
-            }
-            2 -> { // Barra grupo
-                binding.moodDistributionContainer.visibility = View.GONE
-                binding.pieChart.visibility = View.GONE
-                binding.barChart.visibility = if (isExpanded) View.GONE else View.VISIBLE
-                binding.barChartFilterContainer.visibility = if (isExpanded) View.GONE else View.VISIBLE
+                binding.pieChart.visibility = if (selectedPosition == 1 && !isExpanded) View.VISIBLE else View.GONE
+                binding.barChart.visibility = if (selectedPosition == 2 && !isExpanded) View.VISIBLE else View.GONE
+                binding.periodFilterContainer.visibility = if (!isExpanded) View.VISIBLE else View.GONE
             }
         }
 
