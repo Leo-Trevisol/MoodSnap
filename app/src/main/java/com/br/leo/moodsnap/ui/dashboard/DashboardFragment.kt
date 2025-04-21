@@ -640,7 +640,7 @@ class DashboardFragment : Fragment() {
 
         val dataSet = PieDataSet(entries, "")
         dataSet.colors = colors
-        dataSet.valueTextSize = 13f
+        dataSet.valueTextSize = resources.getDimension(R.dimen.legend_pie_chart)
         dataSet.valueTextColor = Color.WHITE
         dataSet.valueTypeface = typeface
         dataSet.yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
@@ -661,14 +661,14 @@ class DashboardFragment : Fragment() {
 
         // Customize chart appearance
         pieChart.description.isEnabled = false
-        //pieChart.setExtraOffsets(50f, 50f, 50f, 50f) // Dar mais espaço para as linhas
+        pieChart.setExtraOffsets(0f, 0f, 0f, 10f) // Dar mais espaço para as linhas
         pieChart.setUsePercentValues(true)
         pieChart.setDrawEntryLabels(false) // Não mostrar labels dentro das fatias
         
         // Configurar legenda
         pieChart.legend.isEnabled = true
         pieChart.legend.textColor = Color.WHITE
-        pieChart.legend.textSize = 13f
+        pieChart.legend.textSize = resources.getDimension(R.dimen.legend_pie_chart)
         pieChart.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
         pieChart.legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
         pieChart.legend.orientation = Legend.LegendOrientation.HORIZONTAL

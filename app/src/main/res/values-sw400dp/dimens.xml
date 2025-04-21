@@ -38,5 +38,7 @@
 
     <dimen name="legend_bar_chart">10px</dimen>
 
+    <dimen name="legend_pie_chart">13px</dimen>
+
     <dimen name="hole_pie_chart">35px</dimen>
 </resources> 
