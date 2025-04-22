@@ -207,11 +207,11 @@
 
     <string name="period">Période</string>
 
-    <string name="camera_permission_denied_permanently">Vous avez définitivement refusé l\'accès à la caméra. Pour utiliser cette fonctionnalité, vous devez activer l\'autorisation dans les paramètres de l\'application.</string>
-    <string name="gallery_permission_denied_permanently">Vous avez définitivement refusé l\'accès à la galerie. Pour utiliser cette fonctionnalité, vous devez activer l\'autorisation dans les paramètres de l\'application.</string>
+    <string name="camera_permission_denied_permanently">Vous avez définitivement refusé l\'accès à l\'appareil photo. Pour utiliser cette fonction, vous devez activer l\'autorisation dans les paramètres de l\'application.</string>
+    <string name="gallery_permission_denied_permanently">Vous avez définitivement refusé l\'accès à la galerie. Pour utiliser cette fonction, vous devez activer l\'autorisation dans les paramètres de l\'application.</string>
 
     <string name="distribution_view_bars">Barres</string>
-    <string name="distribution_view_donut">Donut</string>
-    <string name="distribution_view_bar_group">Barre groupée</string>
+    <string name="distribution_view_donut">Anneau</string>
+    <string name="distribution_view_bar_group">Barres groupées</string>
 
 </resources>

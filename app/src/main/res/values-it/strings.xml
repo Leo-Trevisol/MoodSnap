@@ -207,7 +207,7 @@
     <string name="distribution_view_donut">Ciambella</string>
     <string name="distribution_view_bar_group">Barre raggruppate</string>
 
-    <string name="notification_permission_required">Per ricevere promemoria giornalieri, abbiamo bisogno del tuo permesso per inviare notifiche.</string>
+    <string name="notification_permission_required">Per ricevere promemoria giornalieri, abbiamo bisogno della tua autorizzazione per inviare notifiche.</string>
     <string name="notification_permission_denied_permanently">Le notifiche sono disabilitate. Per ricevere promemoria giornalieri, devi abilitare le notifiche nelle impostazioni di sistema.</string>
 
 </resources>
