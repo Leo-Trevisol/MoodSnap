@@ -915,13 +915,13 @@ class DashboardFragment : Fragment() {
 
         // Configurar o gráfico
         radarChart.description.isEnabled = false
-        radarChart.webLineWidth = 1f
+        radarChart.webLineWidth = 3f
         radarChart.webColor = Color.LTGRAY
-        radarChart.webLineWidthInner = 1f
+        radarChart.webLineWidthInner = 3f
         radarChart.webColorInner = Color.LTGRAY
         radarChart.webAlpha = 100
-        radarChart.setExtraOffsets(0f, 15f, 0f, 15f) // Ajustado para dar mais espaço à legenda
-        radarChart.minOffset = 50f
+        radarChart.minOffset = 5f
+
 
         // Configurar a fonte
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
@@ -994,7 +994,7 @@ class DashboardFragment : Fragment() {
         // Configure data
         val radarData = RadarData(dataSets)
         radarData.setValueTypeface(typeface)
-        radarData.setValueTextSize(10f)
+        radarData.setValueTextSize(14f)
         radarData.setDrawValues(true)
         radarData.setValueTextColor(Color.WHITE)
         radarData.setValueFormatter(object : ValueFormatter() {
@@ -1022,6 +1022,12 @@ class DashboardFragment : Fragment() {
         radarChart.data = radarData
 
         setupStandardizedLegend(radarChart.legend, moodOrder)
+
+        radarChart.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
+        radarChart.legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+        radarChart.legend.yOffset = -3f // quanto menor, mais colado no fundo
+        radarChart.legend.xOffset = -8f
+
 
         radarChart.invalidate()
     }
