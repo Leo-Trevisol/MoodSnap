@@ -669,12 +669,12 @@ class DashboardFragment : Fragment() {
     private fun setupStandardizedLegend(legend: Legend, moodOrder: List<Int>) {
         // Garantir que a legenda está habilitada antes de configurar
         legend.isEnabled = true
-        
+
         // Configuração padrão para todas as legendas
         legend.apply {
             textSize = resources.getDimension(R.dimen.legend_bar_chart)
             textColor = Color.WHITE
-            typeface = ResourcesCompat.getFont(requireContext(), 
+            typeface = ResourcesCompat.getFont(requireContext(),
                 FontUtils.getFontResourceId(
                     requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
                         .getString("current_font", "default") ?: "default"
@@ -710,7 +710,7 @@ class DashboardFragment : Fragment() {
 
     private fun setupPieChart(distribution: Map<Int, Int>) {
         val pieChart: PieChart = binding.pieChart
-        
+
         // Clear any existing data
         pieChart.clear()
         pieChart.data = null
@@ -731,36 +731,7 @@ class DashboardFragment : Fragment() {
         // Configurar legenda antes dos dados
         val moodOrder = listOf(4, 3, 2, 1, 0)
         val legend = pieChart.legend
-        legend.isEnabled = true
-        legend.textSize = resources.getDimension(R.dimen.legend_bar_chart)
-        legend.textColor = Color.WHITE
-        legend.typeface = ResourcesCompat.getFont(requireContext(), 
-            FontUtils.getFontResourceId(
-                requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-                    .getString("current_font", "default") ?: "default"
-            ))
-        legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-        legend.orientation = Legend.LegendOrientation.HORIZONTAL
-        legend.setDrawInside(false)
-        legend.yOffset = 0f
-        legend.xOffset = 0f
-        legend.yEntrySpace = 0f
-        legend.xEntrySpace = 15f
-        legend.form = Legend.LegendForm.SQUARE
-        legend.formSize = 12f
-        legend.formToTextSpace = 5f
-        legend.maxSizePercent = 0.70f
-
-        // Criar entradas da legenda
-        val legendEntries = moodOrder.map { moodType ->
-            LegendEntry().apply {
-                label = dashboardViewModel.getMoodName(requireContext(), moodType)
-                formColor = dashboardViewModel.getMoodColor(moodType)
-                form = Legend.LegendForm.SQUARE
-            }
-        }
-        legend.setCustom(legendEntries)
+        setupStandardizedLegend(pieChart.legend, moodOrder)
 
         // Check if there are any records
         if (distribution.isEmpty() || distribution.values.sum() == 0) {
@@ -825,7 +796,7 @@ class DashboardFragment : Fragment() {
             barChart.invalidate()
             return
         }
-        
+
         // Apply current font
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
@@ -837,7 +808,7 @@ class DashboardFragment : Fragment() {
         // Criar entradas para o gráfico
         val entries = ArrayList<BarEntry>()
         val labels = ArrayList<String>()
-        
+
         // Ordem dos humores: muito feliz -> muito triste
         val moodOrder = listOf(4, 3, 2, 1, 0)
         moodOrder.forEachIndexed { index, moodType ->
@@ -899,7 +870,7 @@ class DashboardFragment : Fragment() {
         xAxis.valueFormatter = IndexAxisValueFormatter(labels)
         xAxis.labelRotationAngle = -45f
         xAxis.setDrawLabels(false)
-        
+
         // Configurar eixo Y esquerdo
         val leftAxis = barChart.axisLeft
         leftAxis.setDrawGridLines(true)
@@ -913,19 +884,19 @@ class DashboardFragment : Fragment() {
                 return value.toInt().toString()
             }
         }
-        
+
         // Desabilitar eixo Y direito
         barChart.axisRight.isEnabled = false
 
         // Configurar legenda padronizada após os dados estarem prontos
         setupStandardizedLegend(barChart.legend, listOf(4, 3, 2, 1, 0))
-        
-        // Ajustar margens do gráfico
-        barChart.setExtraTopOffset(15f) // Aumentado o offset do topo
-        barChart.setExtraBottomOffset(15f)
-        barChart.setExtraLeftOffset(10f)
-        barChart.setExtraRightOffset(10f)
-        barChart.setViewPortOffsets(50f, 15f, 30f, 50f) // Ajustado o offset do topo
+
+//        // Ajustar margens do gráfico
+//        barChart.setExtraTopOffset(15f) // Aumentado o offset do topo
+//        barChart.setExtraBottomOffset(15f)
+//        barChart.setExtraLeftOffset(10f)
+//        barChart.setExtraRightOffset(10f)
+//        barChart.setViewPortOffsets(50f, 15f, 30f, 50f) // Ajustado o offset do topo
 
         // Animação
         barChart.animateY(1000)
@@ -949,8 +920,8 @@ class DashboardFragment : Fragment() {
         radarChart.webLineWidthInner = 1f
         radarChart.webColorInner = Color.LTGRAY
         radarChart.webAlpha = 100
-        radarChart.setExtraOffsets(0f, 0f, 35f, 0f) // Ajustado os offsets para dar mais espaço à legenda
-        radarChart.minOffset = 50f // Aumentado o offset mínimo
+        radarChart.setExtraOffsets(0f, 15f, 0f, 15f) // Ajustado para dar mais espaço à legenda
+        radarChart.minOffset = 50f
 
         // Configurar a fonte
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
@@ -1050,43 +1021,7 @@ class DashboardFragment : Fragment() {
         // Apply data to chart
         radarChart.data = radarData
 
-        // Configure legend only after data is set
-        val legend = radarChart.legend
-        legend.isEnabled = true
-        legend.textSize = resources.getDimension(R.dimen.legend_bar_chart)
-        legend.textColor = Color.WHITE
-        legend.typeface = typeface
-        legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT // Alterado para LEFT
-        legend.orientation = Legend.LegendOrientation.HORIZONTAL
-        legend.setDrawInside(false)
-        legend.yOffset = 15f // Aumentado o offset vertical
-        legend.xOffset = 15f // Adicionado um offset horizontal
-        legend.yEntrySpace = 0f
-        legend.xEntrySpace = 15f
-        legend.form = Legend.LegendForm.SQUARE
-        legend.formSize = 12f
-        legend.formToTextSpace = 5f
-        legend.maxSizePercent = 1f // Aumentado para permitir que a legenda use mais espaço
-
-        // Configurar legenda padronizada após os dados estarem prontos
-        setupStandardizedLegend(radarChart.legend, listOf(4, 3, 2, 1, 0))
-
-        // Ajustar margens do gráfico
-        radarChart.setExtraTopOffset(15f) // Aumentado o offset do topo
-        radarChart.setExtraBottomOffset(15f)
-        radarChart.setExtraLeftOffset(10f)
-        radarChart.setExtraRightOffset(10f)
-
-        // Create legend entries for all moods in standard order
-        val legendEntries = moodOrder.map { moodType ->
-            LegendEntry().apply {
-                label = dashboardViewModel.getMoodName(requireContext(), moodType)
-                formColor = dashboardViewModel.getMoodColor(moodType)
-                form = Legend.LegendForm.SQUARE
-            }
-        }
-        legend.setCustom(legendEntries)
+        setupStandardizedLegend(radarChart.legend, moodOrder)
 
         radarChart.invalidate()
     }
