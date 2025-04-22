@@ -7,9 +7,6 @@
     android:orientation="vertical"
     android:padding="@dimen/spacing_large">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/text_language"
@@ -25,146 +22,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <ScrollView
-            android:id="@+id/linear_language"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/languages_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_language"
-            app:layout_constraintBottom_toTopOf="@+id/linear_final_buttons"
-            >
-
-            <LinearLayout
-                android:id="@+id/language_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="@dimen/spacing_large"
-                android:paddingStart="@dimen/spacing_large"
-                android:paddingEnd="@dimen/spacing_large"
-                >
-
-                <Button
-                    android:id="@+id/btn_system_language"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/language_system"
-                    android:textSize="@dimen/button_size"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/spacing_normal"
-                    android:background="@drawable/background_rounded"
-                    android:backgroundTint="@color/white"
-                    android:textColor="@color/black"
-                    android:padding="16dp"/>
-
-                <Button
-                    android:id="@+id/btn_english"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/language_english"
-                    android:textSize="@dimen/button_size"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/spacing_normal"
-                    android:background="@drawable/background_rounded"
-                    android:backgroundTint="@color/white"
-                    android:textColor="@color/black"
-                    android:padding="16dp"/>
-
-                <Button
-                    android:id="@+id/btn_portuguese"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/language_portuguese"
-                    android:textSize="@dimen/button_size"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/spacing_normal"
-                    android:background="@drawable/background_rounded"
-                    android:backgroundTint="@color/white"
-                    android:textColor="@color/black"
-                    android:padding="16dp"/>
-
-                <Button
-                    android:id="@+id/btn_spanish"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/language_spanish"
-                    android:textSize="@dimen/button_size"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/spacing_normal"
-                    android:background="@drawable/background_rounded"
-                    android:backgroundTint="@color/white"
-                    android:textColor="@color/black"
-                    android:padding="16dp"/>
-
-                <Button
-                    android:id="@+id/btn_french"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/language_french"
-                    android:textSize="@dimen/button_size"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/spacing_normal"
-                    android:background="@drawable/background_rounded"
-                    android:backgroundTint="@color/white"
-                    android:textColor="@color/black"
-                    android:padding="16dp"/>
-
-                <Button
-                    android:id="@+id/btn_italian"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/language_italian"
-                    android:textSize="@dimen/button_size"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/spacing_normal"
-                    android:background="@drawable/background_rounded"
-                    android:backgroundTint="@color/white"
-                    android:textColor="@color/black"
-                    android:padding="16dp"/>
-
-                <Button
-                    android:id="@+id/btn_chinese"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/language_chinese"
-                    android:textSize="@dimen/button_size"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/spacing_normal"
-                    android:background="@drawable/background_rounded"
-                    android:backgroundTint="@color/white"
-                    android:textColor="@color/black"
-                    android:padding="16dp"/>
-
-                <Button
-                    android:id="@+id/btn_russian"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/language_russian"
-                    android:textSize="@dimen/button_size"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/spacing_normal"
-                    android:background="@drawable/background_rounded"
-                    android:backgroundTint="@color/white"
-                    android:textColor="@color/black"
-                    android:padding="16dp"/>
-
-                <Button
-                    android:id="@+id/btn_german"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/language_german"
-                    android:textSize="@dimen/button_size"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/spacing_large"
-                    android:background="@drawable/background_rounded"
-                    android:backgroundTint="@color/white"
-                    android:textColor="@color/black"
-                    android:padding="16dp"/>
-
-            </LinearLayout>
-
-        </ScrollView>
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <LinearLayout
             android:id="@+id/linear_final_buttons"
@@ -175,9 +39,8 @@
             android:paddingTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linear_language"
-            app:layout_constraintBottom_toBottomOf="parent"
-            >
+            app:layout_constraintTop_toBottomOf="@+id/languages_recycler_view"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_back"
@@ -201,7 +64,5 @@
                 android:textColor="@color/primary_green"
                 android:text="@string/btn_confirm"/>
         </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

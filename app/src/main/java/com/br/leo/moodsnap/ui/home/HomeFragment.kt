@@ -55,6 +55,8 @@ import androidx.recyclerview.widget.RecyclerView
 import android.content.pm.PackageManager
 import android.os.Build
 import com.br.leo.moodsnap.ui.dialog.CustomAlertDialog
+import com.br.leo.moodsnap.ui.adapters.LanguageAdapter
+import com.br.leo.moodsnap.ui.model.LanguageModel
 
 class HomeFragment : Fragment() {
 
@@ -867,48 +869,34 @@ class HomeFragment : Fragment() {
         // Apply current font to language dialog
         FontUtils.applyFontToView(requireContext(), languageDialogView)
 
-        // Get all language buttons
-        val btnSystem = languageDialogView.findViewById<Button>(R.id.btn_system_language)
-        val btnEnglish = languageDialogView.findViewById<Button>(R.id.btn_english)
-        val btnPortuguese = languageDialogView.findViewById<Button>(R.id.btn_portuguese)
-        val btnSpanish = languageDialogView.findViewById<Button>(R.id.btn_spanish)
-        val btnFrench = languageDialogView.findViewById<Button>(R.id.btn_french)
-        val btnItalian = languageDialogView.findViewById<Button>(R.id.btn_italian)
-        val btnChinese = languageDialogView.findViewById<Button>(R.id.btn_chinese)
-        val btnRussian = languageDialogView.findViewById<Button>(R.id.btn_russian)
-        val btnGerman = languageDialogView.findViewById<Button>(R.id.btn_german)
-        
-        // Load the current language preference
-        val currentLanguage = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getString("current_language", "system")
-        
-        val buttons = listOf(btnSystem, btnEnglish, btnPortuguese, btnSpanish, btnFrench, btnItalian, btnChinese, btnRussian, btnGerman)
-
-        val isFirstLanguageApply = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getBoolean("is_system_language_apply", true)
-
-        // Create a map of language codes to buttons
-        val languageButtonMap = mapOf(
-            "system" to btnSystem,
-            "en" to btnEnglish,
-            "pt" to btnPortuguese,
-            "es" to btnSpanish,
-            "fr" to btnFrench,
-            "it" to btnItalian,
-            "zh" to btnChinese,
-            "ru" to btnRussian,
-            "de" to btnGerman
+        // Lista de idiomas disponíveis
+        val languages = listOf(
+            LanguageModel("system", R.string.language_system, Resources.getSystem().configuration.locales.get(0).language),
+            LanguageModel("en", R.string.language_english, "en"),
+            LanguageModel("pt", R.string.language_portuguese, "pt"),
+            LanguageModel("es", R.string.language_spanish, "es"),
+            LanguageModel("fr", R.string.language_french, "fr"),
+            LanguageModel("it", R.string.language_italian, "it"),
+            LanguageModel("zh", R.string.language_chinese, "zh"),
+            LanguageModel("ru", R.string.language_russian, "ru"),
+            LanguageModel("de", R.string.language_german, "de")
         )
 
-        // Set initial selection based on current language or first run
-        ButtonUtils.resetAllButtons(requireContext(), buttons)
-        if (isFirstLanguageApply) {
-            ButtonUtils.highlightButton(requireContext(), btnSystem)
-        } else {
-            // Set initial selection based on current language
-            ButtonUtils.highlightButton(requireContext(), languageButtonMap[currentLanguage] ?: btnEnglish)
-        }
+        // Load the current language preference
+        val currentLanguage = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getString("current_language", "system")
+        val isFirstLanguageApply = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getBoolean("is_system_language_apply", true)
 
-        // Set up click listeners for all buttons
-        ButtonUtils.setupToggleButtonGroup(requireContext(), buttons)
+        var selectedLanguage = if (isFirstLanguageApply) "system" else (currentLanguage ?: "en")
+
+        // Setup RecyclerView
+        val recyclerView = languageDialogView.findViewById<RecyclerView>(R.id.languages_recycler_view)
+        val adapter = LanguageAdapter(requireContext(), languages) { language ->
+            selectedLanguage = language.code
+        }
+        recyclerView.adapter = adapter
+
+        // Set initial selection
+        adapter.setSelectedLanguage(selectedLanguage)
 
         languageDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
             languageDialog.dismiss()
@@ -932,18 +920,6 @@ class HomeFragment : Fragment() {
         val btnConfirm : Button = languageDialogView.findViewById<Button>(R.id.btn_confirm)
         Utils.updateBackGroundColor(requireContext(), btnConfirm)
         btnConfirm.setOnClickListener {
-            val selectedLanguage = when {
-                btnSystem.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> Resources.getSystem().configuration.locales.get(0).language.toString()
-                btnPortuguese.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "pt"
-                btnSpanish.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "es"
-                btnFrench.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "fr"
-                btnItalian.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "it"
-                btnChinese.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "zh"
-                btnRussian.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "ru"
-                btnGerman.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> "de"
-                else -> "en"
-            }
-
             with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
                 putString("current_language", selectedLanguage)
                 apply()
@@ -956,16 +932,9 @@ class HomeFragment : Fragment() {
             config.setLocale(locale)
             resources.updateConfiguration(config, resources.displayMetrics)
 
-            if(btnSystem.backgroundTintList?.defaultColor != ContextCompat.getColor(requireContext(), R.color.primary_green)){
-                with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
-                    putBoolean("is_system_language_apply", false)
-                    apply()
-                }
-            }else{
-                with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
-                    putBoolean("is_system_language_apply", true)
-                    apply()
-                }
+            with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
+                putBoolean("is_system_language_apply", selectedLanguage == "system")
+                apply()
             }
             
             languageDialog.dismiss()
