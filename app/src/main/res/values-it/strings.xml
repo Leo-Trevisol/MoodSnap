@@ -146,14 +146,14 @@
     <string name="themes">Temi</string>
 
     <!-- Nomi delle Lingue -->
-    <string name="language_english">Inglese - En</string>
-    <string name="language_portuguese">Portoghese - Pt-Br</string>
-    <string name="language_spanish">Spagnolo - Es</string>
-    <string name="language_french">Francese - Fr</string>
-    <string name="language_italian">Italiano - It</string>
-    <string name="language_chinese">Cinese - Zh</string>
-    <string name="language_russian">Russo - Ru</string>
-    <string name="language_german">Tedesco - De</string>
+    <string name="language_english">English - En</string>
+    <string name="language_portuguese">Portuguese - Pt-Br</string>
+    <string name="language_spanish">Spanish - Es</string>
+    <string name="language_french">French - Fr</string>
+    <string name="language_italian">Italian - It</string>
+    <string name="language_chinese">Chinese - Zh</string>
+    <string name="language_russian">Russian - Ru</string>
+    <string name="language_german">German - De</string>
 
     <string name="light_theme">Tema chiaro</string>
     <string name="dark_theme">Tema scuro</string>

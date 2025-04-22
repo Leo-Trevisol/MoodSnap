@@ -140,14 +140,14 @@
     <string name="themes">Themen</string>
 
     <!-- Sprachnamen -->
-    <string name="language_english">Englisch - En</string>
-    <string name="language_portuguese">Portugiesisch - Pt-Br</string>
-    <string name="language_spanish">Spanisch - Es</string>
-    <string name="language_french">Französisch - Fr</string>
-    <string name="language_italian">Italienisch - It</string>
-    <string name="language_chinese">Chinesisch - Zh</string>
-    <string name="language_russian">Russisch - Ru</string>
-    <string name="language_german">Deutsch - De</string>
+    <string name="language_english">English - En</string>
+    <string name="language_portuguese">Portuguese - Pt-Br</string>
+    <string name="language_spanish">Spanish - Es</string>
+    <string name="language_french">French - Fr</string>
+    <string name="language_italian">Italian - It</string>
+    <string name="language_chinese">Chinese - Zh</string>
+    <string name="language_russian">Russian - Ru</string>
+    <string name="language_german">German - De</string>
 
     <string name="light_theme">Helles Thema</string>
     <string name="dark_theme">Dunkles Thema</string>

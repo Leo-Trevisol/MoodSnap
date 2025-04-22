@@ -151,14 +151,14 @@
     <!-- Language Settings -->
     <string name="language_settings">Paramètres de langue</string>
     <string name="language_system">Langue du système</string>
-    <string name="language_english">Anglais - En</string>
-    <string name="language_portuguese">Portugais - Pt-Br</string>
-    <string name="language_spanish">Espagnol - Es</string>
-    <string name="language_french">Français - Fr</string>
-    <string name="language_italian">Italien - It</string>
-    <string name="language_chinese">Chinois - Zh</string>
-    <string name="language_russian">Russe - Ru</string>
-    <string name="language_german">Allemand - De</string>
+    <string name="language_english">English - En</string>
+    <string name="language_portuguese">Portuguese - Pt-Br</string>
+    <string name="language_spanish">Spanish - Es</string>
+    <string name="language_french">French - Fr</string>
+    <string name="language_italian">Italian - It</string>
+    <string name="language_chinese">Chinese - Zh</string>
+    <string name="language_russian">Russian - Ru</string>
+    <string name="language_german">German - De</string>
 
     <!-- Theme Settings -->
     <string name="theme_settings">Paramètres du thème</string>

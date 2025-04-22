@@ -139,14 +139,14 @@
     <string name="languages">Языки</string>
     <string name="themes">Темы</string>
 
-    <string name="language_english">Английский - En</string>
-    <string name="language_portuguese">Португальский - Pt-Br</string>
-    <string name="language_spanish">Испанский - Es</string>
-    <string name="language_french">Французский - Fr</string>
-    <string name="language_italian">Итальянский - It</string>
-    <string name="language_chinese">Китайский - Zh</string>
-    <string name="language_russian">Русский - Ru</string>
-    <string name="language_german">Немецкий - De</string>
+    <string name="language_english">English - En</string>
+    <string name="language_portuguese">Portuguese - Pt-Br</string>
+    <string name="language_spanish">Spanish - Es</string>
+    <string name="language_french">French - Fr</string>
+    <string name="language_italian">Italian - It</string>
+    <string name="language_chinese">Chinese - Zh</string>
+    <string name="language_russian">Russian - Ru</string>
+    <string name="language_german">German - De</string>
 
     <string name="light_theme">Светлая тема</string>
     <string name="dark_theme">Темная тема</string>
