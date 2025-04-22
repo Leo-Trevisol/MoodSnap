@@ -271,4 +271,52 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             .minByOrNull { it.date.time }
             ?.date
     }
+
+    fun getMoodsByWeekday(): Map<Int, Map<Int, Int>> {
+        val weekdayData = mutableMapOf<Int, MutableMap<Int, Int>>()
+        
+        // Initialize the map for each day of the week (0 = Sunday, 6 = Saturday)
+        for (day in 0..6) {
+            weekdayData[day] = mutableMapOf()
+            // Initialize counts for each mood type (0-4)
+            for (moodType in 0..4) {
+                weekdayData[day]!![moodType] = 0
+            }
+        }
+        
+        // Process existing moods
+        _moods.value?.forEach { mood ->
+            val calendar = Calendar.getInstance()
+            calendar.time = mood.date
+            val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1 // Convert to 0-based index
+            weekdayData[dayOfWeek]!![mood.moodType] = (weekdayData[dayOfWeek]!![mood.moodType] ?: 0) + 1
+        }
+        
+        return weekdayData
+    }
+
+    fun getMoodsByWeekdayForPeriod(startDate: Date): Map<Int, Map<Int, Int>> {
+        val weekdayData = mutableMapOf<Int, MutableMap<Int, Int>>()
+        
+        // Initialize the map for each day of the week (0 = Sunday, 6 = Saturday)
+        for (day in 0..6) {
+            weekdayData[day] = mutableMapOf()
+            // Initialize counts for each mood type (0-4)
+            for (moodType in 0..4) {
+                weekdayData[day]!![moodType] = 0
+            }
+        }
+        
+        // Process existing moods within the period
+        _moods.value?.filter { mood -> 
+            mood.date.after(startDate) || mood.date == startDate
+        }?.forEach { mood ->
+            val calendar = Calendar.getInstance()
+            calendar.time = mood.date
+            val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1 // Convert to 0-based index
+            weekdayData[dayOfWeek]!![mood.moodType] = (weekdayData[dayOfWeek]!![mood.moodType] ?: 0) + 1
+        }
+        
+        return weekdayData
+    }
 }

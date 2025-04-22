@@ -48,6 +48,10 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.components.LegendEntry
 import java.util.*
+import com.github.mikephil.charting.charts.RadarChart
+import com.github.mikephil.charting.data.RadarData
+import com.github.mikephil.charting.data.RadarDataSet
+import com.github.mikephil.charting.data.RadarEntry
 
 class DashboardFragment : Fragment() {
 
@@ -298,10 +302,12 @@ class DashboardFragment : Fragment() {
                         binding.pieChart.invalidate()
                         
                         binding.barChart.clear()
+                        binding.radarChart.clear()
                         
                         // Update charts with new data
                         setupPieChart(filteredDistribution)
                         setupBarChart(filteredDistribution)
+                        setupRadarChart(filteredDistribution)
                     }
                 }
 
@@ -321,12 +327,12 @@ class DashboardFragment : Fragment() {
 
     private fun getNoDataMessageForPeriod(days: Int): String {
         return when (days) {
-            7 -> getString(R.string.no_mood_distribution_7_days)
-            30 -> getString(R.string.no_mood_distribution_30_days)
-            90 -> getString(R.string.no_mood_distribution_90_days)
-            180 -> getString(R.string.no_mood_distribution_180_days)
-            270 -> getString(R.string.no_mood_distribution_270_days)
-            365 -> getString(R.string.no_mood_distribution_365_days)
+            DayFilterType.LAST_7_DAYS.days -> getString(R.string.no_mood_distribution_7_days)
+            DayFilterType.LAST_MONTH.days -> getString(R.string.no_mood_distribution_30_days)
+            DayFilterType.LAST_3_MONTHS.days -> getString(R.string.no_mood_distribution_90_days)
+            DayFilterType.LAST_6_MONTHS.days -> getString(R.string.no_mood_distribution_180_days)
+            DayFilterType.LAST_9_MONTHS.days -> getString(R.string.no_mood_distribution_270_days)
+            DayFilterType.LAST_YEAR.days -> getString(R.string.no_mood_distribution_365_days)
             else -> getString(R.string.no_mood_distribution)
         }
     }
@@ -335,7 +341,8 @@ class DashboardFragment : Fragment() {
         val viewTypes = listOf(
             getString(R.string.distribution_view_bars),
             getString(R.string.distribution_view_donut),
-            getString(R.string.distribution_view_bar_group)
+            getString(R.string.distribution_view_bar_group),
+            getString(R.string.distribution_view_spider)
         )
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
@@ -384,18 +391,28 @@ class DashboardFragment : Fragment() {
                             0 -> { // Barras
                                 binding.pieChart.visibility = View.GONE
                                 binding.barChart.visibility = View.GONE
+                                binding.radarChart.visibility = View.GONE
                                 binding.periodFilterContainer.visibility = View.GONE
                                 binding.moodDistributionContainer.visibility = View.VISIBLE
                             }
                             1 -> { // Donut
                                 binding.pieChart.visibility = View.VISIBLE
                                 binding.barChart.visibility = View.GONE
+                                binding.radarChart.visibility = View.GONE
                                 binding.periodFilterContainer.visibility = View.VISIBLE
                                 binding.moodDistributionContainer.visibility = View.GONE
                             }
                             2 -> { // Barra grupo
                                 binding.pieChart.visibility = View.GONE
                                 binding.barChart.visibility = View.VISIBLE
+                                binding.radarChart.visibility = View.GONE
+                                binding.periodFilterContainer.visibility = View.VISIBLE
+                                binding.moodDistributionContainer.visibility = View.GONE
+                            }
+                            3 -> { // Spider
+                                binding.pieChart.visibility = View.GONE
+                                binding.barChart.visibility = View.GONE
+                                binding.radarChart.visibility = View.VISIBLE
                                 binding.periodFilterContainer.visibility = View.VISIBLE
                                 binding.moodDistributionContainer.visibility = View.GONE
                             }
@@ -443,6 +460,7 @@ class DashboardFragment : Fragment() {
             updateMoodDistribution(distribution)
             setupPieChart(filteredDistribution)
             setupBarChart(filteredDistribution)
+            setupRadarChart(filteredDistribution)
         }
 
         // Observar sequência atual
@@ -648,36 +666,113 @@ class DashboardFragment : Fragment() {
         setupBarChart(filteredDistribution)
     }
 
+    private fun setupStandardizedLegend(legend: Legend, moodOrder: List<Int>) {
+        // Garantir que a legenda está habilitada antes de configurar
+        legend.isEnabled = true
+        
+        // Configuração padrão para todas as legendas
+        legend.apply {
+            textSize = resources.getDimension(R.dimen.legend_bar_chart)
+            textColor = Color.WHITE
+            typeface = ResourcesCompat.getFont(requireContext(), 
+                FontUtils.getFontResourceId(
+                    requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+                        .getString("current_font", "default") ?: "default"
+                ))
+            verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+            horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+            orientation = Legend.LegendOrientation.HORIZONTAL
+            setDrawInside(false)
+            yOffset = 0f
+            xOffset = 0f
+            yEntrySpace = 0f
+            xEntrySpace = 15f
+            form = Legend.LegendForm.SQUARE
+            formSize = 12f
+            formToTextSpace = 5f
+            maxSizePercent = 0.70f
+        }
+
+        // Criar entradas personalizadas para a legenda na ordem correta
+        val legendEntries = moodOrder.map { moodType ->
+            LegendEntry().apply {
+                label = dashboardViewModel.getMoodName(requireContext(), moodType)
+                formColor = dashboardViewModel.getMoodColor(moodType)
+                form = Legend.LegendForm.SQUARE
+            }
+        }
+
+        // Garantir que temos entradas antes de configurar
+        if (legendEntries.isNotEmpty()) {
+            legend.setCustom(legendEntries)
+        }
+    }
+
     private fun setupPieChart(distribution: Map<Int, Int>) {
         val pieChart: PieChart = binding.pieChart
         
         // Clear any existing data
         pieChart.clear()
         pieChart.data = null
-        pieChart.legend.resetCustom()
         pieChart.notifyDataSetChanged()
+
+        // Configurações básicas
+        pieChart.description.isEnabled = false
+        pieChart.setUsePercentValues(true)
+        pieChart.setDrawEntryLabels(false)
+        pieChart.setMinOffset(5f)
+
+        // Configurar o buraco do donut
+        pieChart.holeRadius = resources.getDimension(R.dimen.hole_pie_chart)
+        pieChart.transparentCircleRadius = 50f
+        pieChart.setHoleColor(Color.TRANSPARENT)
+        pieChart.setTransparentCircleColor(Color.TRANSPARENT)
+
+        // Configurar legenda antes dos dados
+        val moodOrder = listOf(4, 3, 2, 1, 0)
+        val legend = pieChart.legend
+        legend.isEnabled = true
+        legend.textSize = resources.getDimension(R.dimen.legend_bar_chart)
+        legend.textColor = Color.WHITE
+        legend.typeface = ResourcesCompat.getFont(requireContext(), 
+            FontUtils.getFontResourceId(
+                requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+                    .getString("current_font", "default") ?: "default"
+            ))
+        legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+        legend.orientation = Legend.LegendOrientation.HORIZONTAL
+        legend.setDrawInside(false)
+        legend.yOffset = 0f
+        legend.xOffset = 0f
+        legend.yEntrySpace = 0f
+        legend.xEntrySpace = 15f
+        legend.form = Legend.LegendForm.SQUARE
+        legend.formSize = 12f
+        legend.formToTextSpace = 5f
+        legend.maxSizePercent = 0.70f
+
+        // Criar entradas da legenda
+        val legendEntries = moodOrder.map { moodType ->
+            LegendEntry().apply {
+                label = dashboardViewModel.getMoodName(requireContext(), moodType)
+                formColor = dashboardViewModel.getMoodColor(moodType)
+                form = Legend.LegendForm.SQUARE
+            }
+        }
+        legend.setCustom(legendEntries)
 
         // Check if there are any records
         if (distribution.isEmpty() || distribution.values.sum() == 0) {
             val days = DayFilterType.values().getOrNull(currentDayFilter)?.days ?: -1
             pieChart.setNoDataText(getNoDataMessageForPeriod(days))
             pieChart.setNoDataTextColor(Color.WHITE)
-            pieChart.setExtraOffsets(15f, 15f, 15f, 15f)
-            pieChart.setMinOffset(15f)
             pieChart.invalidate()
             return
         }
 
-        // Apply current font
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        var typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
-
-        // Ordem dos humores: muito feliz -> muito triste (mesma ordem do BarChart)
-        val moodOrder = listOf(4, 3, 2, 1, 0)
         val entries = ArrayList<PieEntry>()
         val colors = ArrayList<Int>()
-        val legendEntries = ArrayList<LegendEntry>()
 
         // Criar entradas na ordem correta apenas para humores que têm registros
         moodOrder.forEach { moodType ->
@@ -685,32 +780,15 @@ class DashboardFragment : Fragment() {
             if (count > 0) {
                 entries.add(PieEntry(count.toFloat(), dashboardViewModel.getMoodName(requireContext(), moodType)))
                 colors.add(dashboardViewModel.getMoodColor(moodType))
-                // Adicionar entrada na legenda apenas para humores com registros
-                legendEntries.add(LegendEntry().apply {
-                    label = dashboardViewModel.getMoodName(requireContext(), moodType)
-                    formColor = dashboardViewModel.getMoodColor(moodType)
-                    form = Legend.LegendForm.SQUARE
-                })
             }
         }
 
-        // If no entries, show no data message
-        if (entries.isEmpty()) {
-            val days = DayFilterType.values().getOrNull(currentDayFilter)?.days ?: -1
-            pieChart.setNoDataText(getNoDataMessageForPeriod(days))
-            pieChart.setNoDataTextColor(Color.WHITE)
-            binding.periodSpinner.visibility = View.GONE
-            pieChart.setExtraOffsets(15f, 15f, 15f, 15f)
-            pieChart.setMinOffset(15f)
-            pieChart.invalidate()
-            return
-        }
-
+        // Configurar o dataset
         val dataSet = PieDataSet(entries, "")
         dataSet.colors = colors
         dataSet.valueTextSize = resources.getDimension(R.dimen.legend_pie_chart)
         dataSet.valueTextColor = Color.WHITE
-        dataSet.valueTypeface = typeface
+        dataSet.valueTypeface = legend.typeface
         dataSet.yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
         dataSet.valueLinePart1Length = 0.6f
         dataSet.valueLinePart2Length = 0.3f
@@ -718,6 +796,7 @@ class DashboardFragment : Fragment() {
         dataSet.valueLineWidth = 2f
         dataSet.sliceSpace = 3f
 
+        // Configurar os dados
         val pieData = PieData(dataSet)
         pieData.setValueFormatter(object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
@@ -726,65 +805,24 @@ class DashboardFragment : Fragment() {
                 return "${value.roundToInt()}% ($count)"
             }
         })
+
+        // Aplicar dados ao gráfico
         pieChart.data = pieData
-
-        // Customize chart appearance
-        pieChart.description.isEnabled = false
-        pieChart.setExtraOffsets(0f, 0f, 0f, 15f)
-        pieChart.setUsePercentValues(true)
-        pieChart.setDrawEntryLabels(false)
-        
-        // Configurar legenda apenas com as entradas que têm dados
-        pieChart.legend.apply {
-            isEnabled = true
-            textSize = resources.getDimension(R.dimen.legend_bar_chart)
-            textColor = Color.WHITE
-            typeface = typeface
-            verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-            horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-            orientation = Legend.LegendOrientation.HORIZONTAL
-            setDrawInside(false)
-            yOffset = 2f
-            xOffset = 0f
-            yEntrySpace = 10f
-            xEntrySpace = 7f
-            form = Legend.LegendForm.SQUARE
-            formSize = 12f
-            formToTextSpace = 5f
-            maxSizePercent = 1f
-            setCustom(legendEntries)
-        }
-
-        // Ajustar margens do gráfico igual ao BarChart
-        pieChart.setExtraTopOffset(15f)
-        pieChart.setExtraBottomOffset(15f)
-        pieChart.setExtraLeftOffset(10f)
-        pieChart.setExtraRightOffset(10f)
-        pieChart.setMinOffset(15f)
-
-        // Configurar o buraco do donut
-        pieChart.holeRadius = resources.getDimension(R.dimen.hole_pie_chart)
-        pieChart.transparentCircleRadius = 50f
-        pieChart.setHoleColor(Color.TRANSPARENT)
-        pieChart.setTransparentCircleColor(Color.TRANSPARENT)
-
         pieChart.invalidate()
     }
 
     private fun setupBarChart(distribution: Map<Int, Int>) {
         val barChart: BarChart = binding.barChart
 
-
         // Check if there are any records
         if (distribution.isEmpty() || distribution.values.sum() == 0) {
-            // Show period-specific no records message
             val days = DayFilterType.values().getOrNull(currentDayFilter)?.days ?: -1
-            binding.barChart.setNoDataText(getNoDataMessageForPeriod(days))
-            binding.barChart.setNoDataTextColor(Color.WHITE)
-            // Ajustar margens para manter consistência com o gráfico de pizza
-            binding.barChart.setExtraOffsets(15f, 15f, 15f, 15f)
-            binding.barChart.setViewPortOffsets(50f, 15f, 30f, 50f)
-            binding.barChart.invalidate()
+            barChart.setNoDataText(getNoDataMessageForPeriod(days))
+            barChart.setNoDataTextColor(Color.WHITE)
+            //barChart.setExtraOffsets(15f, 5f, 15f, 5f)
+            // Configurar legenda mesmo sem dados
+            setupStandardizedLegend(barChart.legend, listOf(4, 3, 2, 1, 0))
+            barChart.invalidate()
             return
         }
         
@@ -879,34 +917,8 @@ class DashboardFragment : Fragment() {
         // Desabilitar eixo Y direito
         barChart.axisRight.isEnabled = false
 
-        // Configurar legenda
-        val legend = barChart.legend
-        legend.isEnabled = true
-        legend.textSize = resources.getDimension(R.dimen.legend_bar_chart)
-        legend.textColor = Color.WHITE
-        legend.typeface = typeface
-        legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-        legend.orientation = Legend.LegendOrientation.HORIZONTAL
-        legend.setDrawInside(false)
-        legend.yOffset = 2f
-        legend.xOffset = 0f
-        legend.yEntrySpace = 10f
-        legend.xEntrySpace = 15f
-        legend.form = Legend.LegendForm.SQUARE
-        legend.formSize = 12f
-        legend.formToTextSpace = 5f
-        legend.maxSizePercent = 0.70f
-
-        // Criar entradas personalizadas para a legenda
-        val legendEntries = moodOrder.mapIndexed { index, moodType ->
-            LegendEntry().apply {
-                label = labels[index]
-                formColor = dashboardViewModel.getMoodColor(moodType)
-                form = Legend.LegendForm.SQUARE
-            }
-        }
-        legend.setCustom(legendEntries)
+        // Configurar legenda padronizada após os dados estarem prontos
+        setupStandardizedLegend(barChart.legend, listOf(4, 3, 2, 1, 0))
         
         // Ajustar margens do gráfico
         barChart.setExtraTopOffset(15f) // Aumentado o offset do topo
@@ -921,6 +933,164 @@ class DashboardFragment : Fragment() {
         barChart.invalidate()
     }
 
+    private fun setupRadarChart(distribution: Map<Int, Int>) {
+        val radarChart = binding.radarChart
+
+        // Disable legend and clear data first to prevent rendering issues during transitions
+        radarChart.legend.isEnabled = false
+        radarChart.clear()
+        radarChart.data = null
+        radarChart.invalidate()
+
+        // Configurar o gráfico
+        radarChart.description.isEnabled = false
+        radarChart.webLineWidth = 1f
+        radarChart.webColor = Color.LTGRAY
+        radarChart.webLineWidthInner = 1f
+        radarChart.webColorInner = Color.LTGRAY
+        radarChart.webAlpha = 100
+        radarChart.setExtraOffsets(0f, 0f, 35f, 0f) // Ajustado os offsets para dar mais espaço à legenda
+        radarChart.minOffset = 50f // Aumentado o offset mínimo
+
+        // Configurar a fonte
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+        radarChart.xAxis.typeface = typeface
+        radarChart.yAxis.typeface = typeface
+        radarChart.legend.typeface = typeface
+
+        // Obter dados por dia da semana com filtro de período
+        val days = DayFilterType.values().getOrNull(currentDayFilter)?.days ?: -1
+        val weekdayData = if (days > 0) {
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.DAY_OF_YEAR, -days)
+            val startDate = calendar.time
+            dashboardViewModel.getMoodsByWeekdayForPeriod(startDate)
+        } else {
+            dashboardViewModel.getMoodsByWeekday()
+        }
+
+        // Verificar se há dados
+        val hasData = weekdayData.values.any { dayData -> dayData.values.sum() > 0 }
+        if (!hasData) {
+            radarChart.setNoDataText(getNoDataMessageForPeriod(days))
+            radarChart.setNoDataTextColor(Color.WHITE)
+            radarChart.invalidate()
+            return
+        }
+
+        val weekdays = listOf(
+            getString(R.string.weekday_sunday),
+            getString(R.string.weekday_monday),
+            getString(R.string.weekday_tuesday),
+            getString(R.string.weekday_wednesday),
+            getString(R.string.weekday_thursday),
+            getString(R.string.weekday_friday),
+            getString(R.string.weekday_saturday)
+        )
+
+        // Criar entradas para cada tipo de humor na ordem padrão (4 a 0)
+        val moodOrder = listOf(4, 3, 2, 1, 0)
+        val entries = mutableListOf<List<RadarEntry>>()
+        val colors = mutableListOf<Int>()
+        val labels = mutableListOf<String>()
+
+        // Para cada tipo de humor na ordem padrão
+        for (moodType in moodOrder) {
+            val moodEntries = weekdays.indices.map { dayIndex ->
+                val count = weekdayData[dayIndex]?.get(moodType) ?: 0
+                RadarEntry(count.toFloat())
+            }
+            entries.add(moodEntries)
+            colors.add(dashboardViewModel.getMoodColor(moodType))
+            labels.add(dashboardViewModel.getMoodName(requireContext(), moodType))
+        }
+
+        // Create datasets
+        val dataSets = entries.mapIndexed { index, entries ->
+            RadarDataSet(entries, labels[index]).apply {
+                color = colors[index]
+                fillColor = colors[index]
+                setDrawFilled(true)
+                fillAlpha = 180
+                lineWidth = 2f
+                isDrawHighlightCircleEnabled = true
+                setDrawHighlightIndicators(false)
+            }
+        }
+
+        // Configure data
+        val radarData = RadarData(dataSets)
+        radarData.setValueTypeface(typeface)
+        radarData.setValueTextSize(10f)
+        radarData.setDrawValues(true)
+        radarData.setValueTextColor(Color.WHITE)
+        radarData.setValueFormatter(object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return if (value > 0) value.toInt().toString() else ""
+            }
+        })
+
+        // Configure X axis (weekdays)
+        val xAxis = radarChart.xAxis
+        xAxis.textSize = 12f
+        xAxis.yOffset = 0f
+        xAxis.xOffset = 0f
+        xAxis.valueFormatter = IndexAxisValueFormatter(weekdays)
+        xAxis.textColor = Color.WHITE
+
+        // Configure Y axis
+        val yAxis = radarChart.yAxis
+        yAxis.setLabelCount(5, false)
+        yAxis.textSize = 12f
+        yAxis.axisMinimum = 0f
+        yAxis.setDrawLabels(false)
+
+        // Apply data to chart
+        radarChart.data = radarData
+
+        // Configure legend only after data is set
+        val legend = radarChart.legend
+        legend.isEnabled = true
+        legend.textSize = resources.getDimension(R.dimen.legend_bar_chart)
+        legend.textColor = Color.WHITE
+        legend.typeface = typeface
+        legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT // Alterado para LEFT
+        legend.orientation = Legend.LegendOrientation.HORIZONTAL
+        legend.setDrawInside(false)
+        legend.yOffset = 15f // Aumentado o offset vertical
+        legend.xOffset = 15f // Adicionado um offset horizontal
+        legend.yEntrySpace = 0f
+        legend.xEntrySpace = 15f
+        legend.form = Legend.LegendForm.SQUARE
+        legend.formSize = 12f
+        legend.formToTextSpace = 5f
+        legend.maxSizePercent = 1f // Aumentado para permitir que a legenda use mais espaço
+
+        // Configurar legenda padronizada após os dados estarem prontos
+        setupStandardizedLegend(radarChart.legend, listOf(4, 3, 2, 1, 0))
+
+        // Ajustar margens do gráfico
+        radarChart.setExtraTopOffset(15f) // Aumentado o offset do topo
+        radarChart.setExtraBottomOffset(15f)
+        radarChart.setExtraLeftOffset(10f)
+        radarChart.setExtraRightOffset(10f)
+
+        // Create legend entries for all moods in standard order
+        val legendEntries = moodOrder.map { moodType ->
+            LegendEntry().apply {
+                label = dashboardViewModel.getMoodName(requireContext(), moodType)
+                formColor = dashboardViewModel.getMoodColor(moodType)
+                form = Legend.LegendForm.SQUARE
+            }
+        }
+        legend.setCustom(legendEntries)
+
+        radarChart.invalidate()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -932,6 +1102,7 @@ class DashboardFragment : Fragment() {
             0 -> binding.moodDistributionContainer.isVisible
             1 -> binding.pieChart.isVisible
             2 -> binding.barChart.isVisible
+            3 -> binding.radarChart.isVisible
             else -> false
         }
 
@@ -940,12 +1111,14 @@ class DashboardFragment : Fragment() {
             binding.moodDistributionContainer.visibility = if (isExpanded) View.GONE else View.VISIBLE
                 binding.pieChart.visibility = View.GONE
                 binding.barChart.visibility = View.GONE
+                binding.radarChart.visibility = View.GONE
                 binding.periodFilterContainer.visibility = View.GONE
             }
             1, 2 -> { // Donut ou Barra grupo
                 binding.moodDistributionContainer.visibility = View.GONE
                 binding.pieChart.visibility = if (selectedPosition == 1 && !isExpanded) View.VISIBLE else View.GONE
                 binding.barChart.visibility = if (selectedPosition == 2 && !isExpanded) View.VISIBLE else View.GONE
+                binding.radarChart.visibility = if (selectedPosition == 3 && !isExpanded) View.VISIBLE else View.GONE
                 binding.periodFilterContainer.visibility = if (!isExpanded) View.VISIBLE else View.GONE
             }
         }

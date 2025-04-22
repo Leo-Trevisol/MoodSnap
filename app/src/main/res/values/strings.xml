@@ -208,8 +208,9 @@
     <string name="gallery_permission_denied_permanently">You have permanently denied gallery access. To use this feature, you need to enable the permission in the app settings.</string>
 
 
-    <string name="distribution_view_bars">Bars</string>
+    <string name="distribution_view_bars">Barras</string>
     <string name="distribution_view_donut">Donut</string>
-    <string name="distribution_view_bar_group">Grouped Bar</string>
+    <string name="distribution_view_bar_group">Barra Grupo</string>
+    <string name="distribution_view_spider">Spider</string>
 
 </resources>
