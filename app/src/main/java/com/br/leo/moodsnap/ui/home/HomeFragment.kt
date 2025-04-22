@@ -52,6 +52,9 @@ import com.br.leo.moodsnap.ui.utils.FontUtils.updateFontDialogPicker
 import com.br.leo.moodsnap.ui.viewmodel.HomeViewModel
 import com.br.leo.moodsnap.ui.adapters.FontAdapter
 import androidx.recyclerview.widget.RecyclerView
+import android.content.pm.PackageManager
+import android.os.Build
+import com.br.leo.moodsnap.ui.dialog.CustomAlertDialog
 
 class HomeFragment : Fragment() {
 
@@ -1167,24 +1170,30 @@ class HomeFragment : Fragment() {
     }
 
     private fun showNotificationPermissionRationaleDialog() {
-        AlertDialog.Builder(requireContext())
+
+        CustomAlertDialog .create(requireContext())
             .setTitle(getString(R.string.notifications))
-            .setMessage("Para receber lembretes diários, precisamos da sua permissão para enviar notificações.")
-            .setPositiveButton("Permitir") { _, _ ->
+            .setMessage(getString(R.string.notification_permission_required))
+            .setPositiveListener {
                 notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
-            .setNegativeButton("Cancelar", null)
+            .setDescricaoBtnPositive(getString(R.string.btn_ok))
+            .setDescricaoBtnNegative(getString(R.string.btn_cancel))
+            .setNegativeListener(null)
             .show()
+
     }
 
     private fun showNotificationPermissionDeniedDialog() {
-        AlertDialog.Builder(requireContext())
-            .setTitle(getString(R.string.notifications))
-            .setMessage("As notificações estão desativadas. Para receber lembretes diários, você precisa habilitar as notificações nas configurações do sistema.")
-            .setPositiveButton("Configurações") { _, _ ->
+        CustomAlertDialog .create(requireContext())
+            .setTitle(getString(R.string.attention_dialog))
+            .setMessage(getString(R.string.notification_permission_denied_permanently))
+            .setPositiveListener {
                 openNotificationSettings()
             }
-            .setNegativeButton("Cancelar", null)
+            .setDescricaoBtnPositive(getString(R.string.btn_go_config))
+            .setDescricaoBtnNegative(getString(R.string.btn_cancel))
+            .setNegativeListener(null)
             .show()
     }
 
@@ -1236,7 +1245,21 @@ class HomeFragment : Fragment() {
         Utils.setupDialogConfirmButton(requireContext(), btnNotifications)
         btnNotifications.setOnClickListener {
             settingsDialog.dismiss()
-            showNotificationSettingsDialog()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                when {
+                    requireContext().checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED -> {
+                        showNotificationSettingsDialog()
+                    }
+                    shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
+                        showNotificationPermissionRationaleDialog()
+                    }
+                    else -> {
+                        notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    }
+                }
+            } else {
+                showNotificationSettingsDialog()
+            }
         }
 
         val btnFonts : Button = settingsDialogView.findViewById<Button>(R.id.btn_fonts)

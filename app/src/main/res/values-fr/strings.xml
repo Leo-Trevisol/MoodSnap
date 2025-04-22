@@ -73,6 +73,13 @@
     <string name="register_more_moods">Enregistrez plus d\'humeurs pour voir les statistiques</string>
     <string name="best_day_usually">Votre meilleur jour est généralement %1$s</string>
     <string name="worst_day_usually">Votre pire jour est généralement %1$s</string>
+    <string name="no_mood_distribution">Aucune humeur enregistrée pour le moment</string>
+    <string name="no_mood_distribution_7_days">Aucune humeur enregistrée ces 7 derniers jours</string>
+    <string name="no_mood_distribution_30_days">Aucune humeur enregistrée ce dernier mois</string>
+    <string name="no_mood_distribution_90_days">Aucune humeur enregistrée ces 3 derniers mois</string>
+    <string name="no_mood_distribution_180_days">Aucune humeur enregistrée ces 6 derniers mois</string>
+    <string name="no_mood_distribution_270_days">Aucune humeur enregistrée ces 9 derniers mois</string>
+    <string name="no_mood_distribution_365_days">Aucune humeur enregistrée cette dernière année</string>
 
     <!-- DialogEmotions -->
     <string name="how_are_you_feeling">Comment vous sentez-vous ?</string>
@@ -91,7 +98,6 @@
     <string name="no_mood_registered">Aucune humeur enregistrée</string>
     <string name="your_average_mood">Votre humeur moyenne est %1$s</string>
     <string name="mood_distribution">Répartition des humeurs</string>
-    <string name="no_mood_distribution">Aucune humeur enregistrée pour le moment</string>
     <string name="you_were_mood">Tu étais %1$s pendant %2$d%% des jours</string>
     <string name="current_streak">Série en cours</string>
     <string name="no_mood_today">Tu n\'as pas encore enregistré ton humeur aujourd\'hui</string>
@@ -166,6 +172,8 @@
     <string name="enable_notifications">Activer le rappel quotidien</string>
     <string name="notification_time">Heure du rappel</string>
     <string name="notification_message">Comment vous sentez-vous aujourd\'hui ?</string>
+    <string name="notification_permission_required">Pour recevoir des rappels quotidiens, nous avons besoin de votre autorisation pour envoyer des notifications.</string>
+    <string name="notification_permission_denied_permanently">Les notifications sont désactivées. Pour recevoir des rappels quotidiens, vous devez activer les notifications dans les paramètres système.</string>
 
     <!-- Font Settings -->
     <string name="font">Polices</string>

@@ -283,10 +283,30 @@ class DashboardFragment : Fragment() {
                     id: Long
                 ) {
                     currentDayFilter = position
+                    // Obter a distribuição atual e aplicar o novo filtro
                     dashboardViewModel.moodDistribution.value?.let { distribution ->
                         val filteredDistribution = filterDistributionByDays(distribution, availableFilters[position].days)
+                        
+                        // Limpar e reconfigurar os gráficos com os dados filtrados
+                        binding.pieChart.clear()
+                        binding.barChart.clear()
                         setupPieChart(filteredDistribution)
                         setupBarChart(filteredDistribution)
+                        
+                        // Se não houver dados no período, esconder os gráficos e mostrar a mensagem
+                        val hasData = filteredDistribution.isNotEmpty() && filteredDistribution.values.sum() > 0
+                        if (!hasData) {
+                            when (binding.distributionViewSpinner.selectedItemPosition) {
+                                1 -> { // Donut
+                                    binding.pieChart.setNoDataText(getNoDataMessageForPeriod(availableFilters[position].days))
+                                    binding.pieChart.invalidate()
+                                }
+                                2 -> { // Barra grupo
+                                    binding.barChart.setNoDataText(getNoDataMessageForPeriod(availableFilters[position].days))
+                                    binding.barChart.invalidate()
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -302,6 +322,18 @@ class DashboardFragment : Fragment() {
         val filterDate = calendar.time
 
         return dashboardViewModel.getMoodDistributionForPeriod(filterDate)
+    }
+
+    private fun getNoDataMessageForPeriod(days: Int): String {
+        return when (days) {
+            7 -> getString(R.string.no_mood_distribution_7_days)
+            30 -> getString(R.string.no_mood_distribution_30_days)
+            90 -> getString(R.string.no_mood_distribution_90_days)
+            180 -> getString(R.string.no_mood_distribution_180_days)
+            270 -> getString(R.string.no_mood_distribution_270_days)
+            365 -> getString(R.string.no_mood_distribution_365_days)
+            else -> getString(R.string.no_mood_distribution)
+        }
     }
 
     private fun setupDistributionViewSpinner() {
@@ -409,8 +441,13 @@ class DashboardFragment : Fragment() {
 
         // Observar distribuição de humores
         dashboardViewModel.moodDistribution.observe(viewLifecycleOwner) { distribution ->
+            // Aplicar o filtro atual antes de atualizar os gráficos
+            val dayFilters = DayFilterType.values()
+            val filteredDistribution = filterDistributionByDays(distribution, dayFilters[currentDayFilter].days)
+            
             updateMoodDistribution(distribution)
-            setupPieChart(distribution)
+            setupPieChart(filteredDistribution)
+            setupBarChart(filteredDistribution)
         }
 
         // Observar sequência atual
@@ -481,20 +518,11 @@ class DashboardFragment : Fragment() {
         container.removeAllViews()
 
         val total = distribution.values.sum().toFloat()
-        if (total == 0f) {
-            binding.distributionSummary.text = getString(R.string.no_mood_distribution)
-            return
-        }
+
 
         // Encontrar o humor mais frequente
         val mostFrequentMood = distribution.entries.maxByOrNull { it.value }
         val mostFrequentPercentage = ((mostFrequentMood?.value ?: 0) / total * 100).roundToInt()
-        // Atualizar o resumo no cabeçalho
-        binding.distributionSummary.text = getString(
-            R.string.you_were_mood,
-            dashboardViewModel.getMoodName(requireContext(), mostFrequentMood?.key ?: 2),
-            mostFrequentPercentage
-        )
 
         // Configurar o clique no cabeçalho
         binding.distributionHeader.setOnClickListener {
@@ -619,6 +647,19 @@ class DashboardFragment : Fragment() {
     private fun setupPieChart(distribution: Map<Int, Int>) {
         val pieChart: PieChart = binding.pieChart
 
+        // Check if there are any records
+        if (distribution.isEmpty() || distribution.values.sum() == 0) {
+            // Show period-specific no records message
+            val days = DayFilterType.values().getOrNull(currentDayFilter)?.days ?: -1
+            binding.pieChart.setNoDataText(getNoDataMessageForPeriod(days))
+            binding.pieChart.setNoDataTextColor(Color.WHITE)
+            // Ajustar margens para manter consistência com o gráfico de barras
+            binding.pieChart.setExtraOffsets(15f, 15f, 15f, 15f)
+            binding.pieChart.setMinOffset(15f)
+            binding.pieChart.invalidate()
+            return
+        }
+
         // Apply current font
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
@@ -661,29 +702,50 @@ class DashboardFragment : Fragment() {
 
         // Customize chart appearance
         pieChart.description.isEnabled = false
-        pieChart.setExtraOffsets(0f, 0f, 0f, 10f) // Dar mais espaço para as linhas
+        pieChart.setExtraOffsets(0f, 0f, 0f, 15f)
         pieChart.setUsePercentValues(true)
         pieChart.setDrawEntryLabels(false) // Não mostrar labels dentro das fatias
         
         // Configurar legenda
         pieChart.legend.isEnabled = true
+        pieChart.legend.textSize = resources.getDimension(R.dimen.legend_bar_chart)
         pieChart.legend.textColor = Color.WHITE
-        pieChart.legend.textSize = resources.getDimension(R.dimen.legend_pie_chart)
-        pieChart.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+        pieChart.legend.typeface = typeface
         pieChart.legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+        pieChart.legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
         pieChart.legend.orientation = Legend.LegendOrientation.HORIZONTAL
         pieChart.legend.setDrawInside(false)
+        pieChart.legend.yOffset = 2f
+        pieChart.legend.xOffset = 0f
+        pieChart.legend.yEntrySpace = 10f
         pieChart.legend.xEntrySpace = 7f
-        pieChart.legend.yEntrySpace = 5f
-        pieChart.legend.yOffset = 10f
-        pieChart.legend.typeface = typeface
+        pieChart.legend.form = Legend.LegendForm.SQUARE
+        pieChart.legend.formSize = 12f
+        pieChart.legend.formToTextSpace = 5f
+        pieChart.legend.maxSizePercent = 1f
+
+        // Criar entradas personalizadas para a legenda na mesma ordem do BarChart
+        val legendEntries = moodOrder.mapIndexed { index, moodType ->
+            LegendEntry().apply {
+                label = dashboardViewModel.getMoodName(requireContext(), moodType)
+                formColor = dashboardViewModel.getMoodColor(moodType)
+                form = Legend.LegendForm.SQUARE
+            }
+        }
+        pieChart.legend.setCustom(legendEntries)
+
+        // Ajustar margens do gráfico igual ao BarChart
+        pieChart.setExtraTopOffset(15f)
+        pieChart.setExtraBottomOffset(15f)
+        pieChart.setExtraLeftOffset(10f)
+        pieChart.setExtraRightOffset(10f)
+        pieChart.setMinOffset(15f)
 
         // Configurar o buraco do donut
-          pieChart.holeRadius = resources.getDimension(R.dimen.hole_pie_chart)
-          pieChart.transparentCircleRadius = 50f
-          pieChart.setHoleColor(Color.TRANSPARENT)
-          pieChart.setTransparentCircleColor(Color.TRANSPARENT)
-//        pieChart.setTransparentCircleAlpha(110)
+        pieChart.holeRadius = resources.getDimension(R.dimen.hole_pie_chart)
+        pieChart.transparentCircleRadius = 50f
+        pieChart.setHoleColor(Color.TRANSPARENT)
+        pieChart.setTransparentCircleColor(Color.TRANSPARENT)
 
         pieChart.invalidate() // Refresh chart
     }
@@ -691,7 +753,20 @@ class DashboardFragment : Fragment() {
     private fun setupBarChart(distribution: Map<Int, Int>) {
         val barChart: BarChart = binding.barChart
         
-        // Aplicar fonte atual
+        // Check if there are any records
+        if (distribution.isEmpty() || distribution.values.sum() == 0) {
+            // Show period-specific no records message
+            val days = DayFilterType.values().getOrNull(currentDayFilter)?.days ?: -1
+            binding.barChart.setNoDataText(getNoDataMessageForPeriod(days))
+            binding.barChart.setNoDataTextColor(Color.WHITE)
+            // Ajustar margens para manter consistência com o gráfico de pizza
+            binding.barChart.setExtraOffsets(15f, 15f, 15f, 15f)
+            binding.barChart.setViewPortOffsets(50f, 15f, 30f, 50f)
+            binding.barChart.invalidate()
+            return
+        }
+        
+        // Apply current font
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
         val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))

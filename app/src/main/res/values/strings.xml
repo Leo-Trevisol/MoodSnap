@@ -6,6 +6,7 @@
     <!-- Buttons -->
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
+    <string name="btn_ok">OK</string>
     <string name="btn_delete">Delete</string>
     <string name="btn_edit">Edit</string>
     <string name="btn_confirm">Confirm</string>
@@ -93,6 +94,12 @@
     <string name="your_average_mood">Your average mood is %1$s</string>
     <string name="mood_distribution">Mood Distribution</string>
     <string name="no_mood_distribution">No mood registered yet</string>
+    <string name="no_mood_distribution_7_days">No mood registered in the last 7 days</string>
+    <string name="no_mood_distribution_30_days">No mood registered in the last month</string>
+    <string name="no_mood_distribution_90_days">No mood registered in the last 3 months</string>
+    <string name="no_mood_distribution_180_days">No mood registered in the last 6 months</string>
+    <string name="no_mood_distribution_270_days">No mood registered in the last 9 months</string>
+    <string name="no_mood_distribution_365_days">No mood registered in the last year</string>
     <string name="you_were_mood">You were %1$s on %2$d%% of days</string>
     <string name="current_streak">Current Streak</string>
     <string name="no_mood_today">You haven\'t recorded your mood today</string>
@@ -120,6 +127,8 @@
     <string name="confirm_delete_image">Do you really want to delete the image?</string>
     <string name="image_deleted">Image deleted successfully!</string>
     <string name="description_saved">Description saved successfully!</string>
+    <string name="notification_permission_required">To receive daily reminders, we need your permission to send notifications.</string>
+    <string name="notification_permission_denied_permanently">Notifications are disabled. To receive daily reminders, you need to enable notifications in system settings.</string>
 
     <!-- Discard Changes Dialog -->
     <string name="unsaved_changes_title">Attention</string>

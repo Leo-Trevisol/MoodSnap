@@ -74,6 +74,13 @@
     <string name="register_more_moods">Registra più stati d\'animo per vedere le statistiche</string>
     <string name="best_day_usually">Il tuo miglior giorno è solitamente %1$s</string>
     <string name="worst_day_usually">Il tuo peggior giorno è solitamente %1$s</string>
+    <string name="no_mood_distribution">Nessun umore registrato ancora</string>
+    <string name="no_mood_distribution_7_days">Nessun umore registrato negli ultimi 7 giorni</string>
+    <string name="no_mood_distribution_30_days">Nessun umore registrato nell\'ultimo mese</string>
+    <string name="no_mood_distribution_90_days">Nessun umore registrato negli ultimi 3 mesi</string>
+    <string name="no_mood_distribution_180_days">Nessun umore registrato negli ultimi 6 mesi</string>
+    <string name="no_mood_distribution_270_days">Nessun umore registrato negli ultimi 9 mesi</string>
+    <string name="no_mood_distribution_365_days">Nessun umore registrato nell\'ultimo anno</string>
 
     <!-- DialogEmotions -->
     <string name="how_are_you_feeling">Come ti senti?</string>
@@ -92,7 +99,6 @@
     <string name="no_mood_registered">Nessun umore registrato ancora</string>
     <string name="your_average_mood">Il tuo umore medio è %1$s</string>
     <string name="mood_distribution">Distribuzione dell\'umore</string>
-    <string name="no_mood_distribution">Nessun umore registrato ancora</string>
     <string name="you_were_mood">Sei stato %1$s nel %2$d%% dei giorni</string>
     <string name="current_streak">Serie attuale</string>
     <string name="no_mood_today">Non hai registrato il tuo umore oggi</string>
@@ -200,5 +206,8 @@
     <string name="distribution_view_bars">Barre</string>
     <string name="distribution_view_donut">Ciambella</string>
     <string name="distribution_view_bar_group">Barre raggruppate</string>
+
+    <string name="notification_permission_required">Per ricevere promemoria giornalieri, abbiamo bisogno del tuo permesso per inviare notifiche.</string>
+    <string name="notification_permission_denied_permanently">Le notifiche sono disabilitate. Per ricevere promemoria giornalieri, devi abilitare le notifiche nelle impostazioni di sistema.</string>
 
 </resources>
