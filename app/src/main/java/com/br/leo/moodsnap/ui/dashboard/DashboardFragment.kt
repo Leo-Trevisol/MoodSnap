@@ -101,7 +101,7 @@ class DashboardFragment : Fragment() {
         dashboardViewModel.loadMoods()
 
         // Set initial visibility to ensure no chart is shown by default
-        binding.moodDistributionContainer.visibility = View.GONE
+       // binding.moodDistributionContainer.visibility = View.GONE
         binding.pieChart.visibility = View.GONE
         binding.barChart.visibility = View.GONE
         binding.periodFilterContainer.visibility = View.GONE
@@ -293,7 +293,7 @@ class DashboardFragment : Fragment() {
 
     private fun setupDistributionViewSpinner() {
         val viewTypes = listOf(
-            getString(R.string.distribution_view_bars),
+           // getString(R.string.distribution_view_bars),
             getString(R.string.distribution_view_donut),
             getString(R.string.distribution_view_bar_group),
             getString(R.string.distribution_view_spider)
@@ -342,14 +342,14 @@ class DashboardFragment : Fragment() {
                 ) {
                     if(!firstTime){
                         when (position) {
-                            0 -> { // Barras
-                                binding.pieChart.visibility = View.GONE
-                                binding.barChart.visibility = View.GONE
-                                binding.radarChart.visibility = View.GONE
-                                binding.periodFilterContainer.visibility = View.GONE
-                                binding.moodDistributionContainer.visibility = View.VISIBLE
-                            }
-                            1 -> { // Donut
+//                            0 -> { // Barras
+//                                binding.pieChart.visibility = View.GONE
+//                                binding.barChart.visibility = View.GONE
+//                                binding.radarChart.visibility = View.GONE
+//                                binding.periodFilterContainer.visibility = View.GONE
+//                                binding.moodDistributionContainer.visibility = View.VISIBLE
+//                            }
+                            0 -> { // Donut
                                 binding.pieChart.visibility = View.VISIBLE
                                 binding.barChart.visibility = View.GONE
                                 binding.radarChart.visibility = View.GONE
@@ -357,7 +357,7 @@ class DashboardFragment : Fragment() {
                                 binding.moodDistributionContainer.visibility = View.GONE
                                 binding.legendItemsContainer.visibility = View.VISIBLE
                             }
-                            2 -> { // Barra grupo
+                            1 -> { // Barra grupo
                                 binding.pieChart.visibility = View.GONE
                                 binding.barChart.visibility = View.VISIBLE
                                 binding.radarChart.visibility = View.GONE
@@ -365,7 +365,7 @@ class DashboardFragment : Fragment() {
                                 binding.moodDistributionContainer.visibility = View.GONE
                                 binding.legendItemsContainer.visibility = View.VISIBLE
                             }
-                            3 -> { // Spider
+                            2 -> { // Spider
                                 binding.pieChart.visibility = View.GONE
                                 binding.barChart.visibility = View.GONE
                                 binding.radarChart.visibility = View.VISIBLE
@@ -1065,26 +1065,26 @@ class DashboardFragment : Fragment() {
     private fun adjustGraphsVisibility() {
         val selectedPosition = binding.distributionViewSpinner.selectedItemPosition
         val isExpanded = when (selectedPosition) {
-            0 -> binding.moodDistributionContainer.isVisible
-            1 -> binding.pieChart.isVisible
-            2 -> binding.barChart.isVisible
-            3 -> binding.radarChart.isVisible
+            //0 -> binding.moodDistributionContainer.isVisible
+            0 -> binding.pieChart.isVisible
+            1 -> binding.barChart.isVisible
+            2 -> binding.radarChart.isVisible
             else -> false
         }
 
         when (selectedPosition) {
-            0 -> { // Barras
-            binding.moodDistributionContainer.visibility = if (isExpanded) View.GONE else View.VISIBLE
-                binding.pieChart.visibility = View.GONE
-                binding.barChart.visibility = View.GONE
-                binding.radarChart.visibility = View.GONE
-                binding.periodFilterContainer.visibility = View.GONE
-            }
-            1, 2, 3 -> { // Donut ou Barra grupo
+//            0 -> { // Barras
+//            binding.moodDistributionContainer.visibility = if (isExpanded) View.GONE else View.VISIBLE
+//                binding.pieChart.visibility = View.GONE
+//                binding.barChart.visibility = View.GONE
+//                binding.radarChart.visibility = View.GONE
+//                binding.periodFilterContainer.visibility = View.GONE
+//            }
+            0, 1, 2 -> { // Donut ou Barra grupo
                 binding.moodDistributionContainer.visibility = View.GONE
-                binding.pieChart.visibility = if (selectedPosition == 1 && !isExpanded) View.VISIBLE else View.GONE
-                binding.barChart.visibility = if (selectedPosition == 2 && !isExpanded) View.VISIBLE else View.GONE
-                binding.radarChart.visibility = if (selectedPosition == 3 && !isExpanded) View.VISIBLE else View.GONE
+                binding.pieChart.visibility = if (selectedPosition == 0 && !isExpanded) View.VISIBLE else View.GONE
+                binding.barChart.visibility = if (selectedPosition == 1 && !isExpanded) View.VISIBLE else View.GONE
+                binding.radarChart.visibility = if (selectedPosition == 2 && !isExpanded) View.VISIBLE else View.GONE
                 binding.periodFilterContainer.visibility = if (!isExpanded) View.VISIBLE else View.GONE
                 binding.legendItemsContainer.visibility =  if (!isExpanded) View.VISIBLE else View.GONE
             }
