@@ -8,12 +8,27 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.br.leo.moodsnap.MainActivity
 import com.br.leo.moodsnap.R
+import java.util.Locale
+import android.content.res.Configuration
 
 class NotificationReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         Log.d(TAG, "Notification received")
         
         try {
+            // Configurar o idioma antes de criar a notificação
+            val sharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            val currentLanguage = sharedPreferences.getString("current_language", Locale.getDefault().language)
+            
+            // Criar uma configuração com o idioma selecionado
+            val locale = Locale(currentLanguage ?: "en")
+            Locale.setDefault(locale)
+            val config = Configuration(context.resources.configuration)
+            config.setLocale(locale)
+            
+            // Criar um contexto com o idioma atualizado
+            val contextWithLocale = context.createConfigurationContext(config)
+            
             val notificationIntent = Intent(context, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             }
@@ -27,8 +42,8 @@ class NotificationReceiver : BroadcastReceiver() {
 
             val notification = NotificationCompat.Builder(context, NotificationHelper.CHANNEL_ID)
                 .setSmallIcon(R.mipmap.icon_ofc)
-                .setContentTitle(context.getString(R.string.app_name))
-                .setContentText(context.getString(R.string.notification_message))
+                .setContentTitle(contextWithLocale.getString(R.string.app_name))
+                .setContentText(contextWithLocale.getString(R.string.notification_message))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_REMINDER)
                 .setAutoCancel(true)
@@ -42,7 +57,6 @@ class NotificationReceiver : BroadcastReceiver() {
             Log.d(TAG, "Notification sent successfully")
 
             // Reagendar a próxima notificação
-            val sharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
             val notificationsEnabled = sharedPreferences.getBoolean("notifications_enabled", false)
             
             if (notificationsEnabled) {
