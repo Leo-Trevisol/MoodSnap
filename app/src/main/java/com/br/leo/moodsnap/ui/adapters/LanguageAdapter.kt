@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.ui.model.LanguageModel
 import com.br.leo.moodsnap.ui.utils.ButtonUtils
+import com.br.leo.moodsnap.ui.utils.FontUtils
 import com.br.leo.moodsnap.ui.utils.Utils
 
 class LanguageAdapter(
@@ -18,6 +20,8 @@ class LanguageAdapter(
 ) : RecyclerView.Adapter<LanguageAdapter.LanguageViewHolder>() {
 
     private var selectedPosition = -1
+    private val currentFont = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        .getString("current_font", "default")
 
     inner class LanguageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val languageButton: Button = itemView.findViewById(R.id.btn_language)
@@ -26,6 +30,9 @@ class LanguageAdapter(
             // Configurar o texto do botão
             languageButton.text = context.getString(language.name)
             
+            // Aplicar a fonte atual ao botão
+            languageButton.typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
+
             // Atualizar o estado visual do botão
             if (position == selectedPosition) {
                 ButtonUtils.highlightButton(context, languageButton)
