@@ -200,4 +200,26 @@
     <string name="distribution_view_donut">Кольцевая диаграмма</string>
     <string name="distribution_view_bar_group">Группированные столбцы</string>
 
+    <string name="btn_ok">ОК</string>
+
+    <string name="no_mood_distribution_7_days">Настроение не было зарегистрировано за последние 7 дней</string>
+    <string name="no_mood_distribution_30_days">Настроение не было зарегистрировано за последний месяц</string>
+    <string name="no_mood_distribution_90_days">Настроение не было зарегистрировано за последние 3 месяца</string>
+    <string name="no_mood_distribution_180_days">Настроение не было зарегистрировано за последние 6 месяцев</string>
+    <string name="no_mood_distribution_270_days">Настроение не было зарегистрировано за последние 9 месяцев</string>
+    <string name="no_mood_distribution_365_days">Настроение не было зарегистрировано за последний год</string>
+
+    <string name="notification_permission_required">Чтобы получать ежедневные напоминания, нам нужно ваше разрешение на отправку уведомлений.</string>
+    <string name="notification_permission_denied_permanently">Уведомления отключены. Чтобы получать ежедневные напоминания, включите уведомления в настройках системы.</string>
+
+    <string name="distribution_view_spider">Паук</string>
+
+    <plurals name="mood_count">
+        <item quantity="one">%d запись в этот день</item>
+        <item quantity="few">%d записи в этот день</item>
+        <item quantity="many">%d записей в этот день</item>
+        <item quantity="other">%d записи в этот день</item>
+    </plurals>
+
+
 </resources>

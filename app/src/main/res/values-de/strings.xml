@@ -201,5 +201,25 @@
     <string name="distribution_view_donut">Donut</string>
     <string name="distribution_view_bar_group">Gruppierte Balken</string>
 
+    <string name="btn_ok">OK</string>
+
+    <string name="no_mood_distribution_7_days">In den letzten 7 Tagen wurde keine Stimmung erfasst</string>
+    <string name="no_mood_distribution_30_days">Im letzten Monat wurde keine Stimmung erfasst</string>
+    <string name="no_mood_distribution_90_days">In den letzten 3 Monaten wurde keine Stimmung erfasst</string>
+    <string name="no_mood_distribution_180_days">In den letzten 6 Monaten wurde keine Stimmung erfasst</string>
+    <string name="no_mood_distribution_270_days">In den letzten 9 Monaten wurde keine Stimmung erfasst</string>
+    <string name="no_mood_distribution_365_days">Im letzten Jahr wurde keine Stimmung erfasst</string>
+
+    <string name="notification_permission_required">Um tägliche Erinnerungen zu erhalten, benötigen wir Ihre Erlaubnis, Benachrichtigungen zu senden.</string>
+    <string name="notification_permission_denied_permanently">Benachrichtigungen sind deaktiviert. Um tägliche Erinnerungen zu erhalten, müssen Sie Benachrichtigungen in den Systemeinstellungen aktivieren.</string>
+
+    <string name="distribution_view_spider">Spinnennetz</string>
+
+    <plurals name="mood_count">
+        <item quantity="one">%d Eintrag an diesem Tag</item>
+        <item quantity="other">%d Einträge an diesem Tag</item>
+    </plurals>
+
+
 
 </resources>

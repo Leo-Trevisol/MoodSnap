@@ -210,4 +210,10 @@
     <string name="notification_permission_required">Per ricevere promemoria giornalieri, abbiamo bisogno della tua autorizzazione per inviare notifiche.</string>
     <string name="notification_permission_denied_permanently">Le notifiche sono disabilitate. Per ricevere promemoria giornalieri, devi abilitare le notifiche nelle impostazioni di sistema.</string>
 
+    <string name="distribution_view_spider">Ragno</string>
+
+    <plurals name="mood_count">
+        <item quantity="one">%d registrazione in questo giorno</item>
+        <item quantity="other">%d registrazioni in questo giorno</item>
+    </plurals>
 </resources>

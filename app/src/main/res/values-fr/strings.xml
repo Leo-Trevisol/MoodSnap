@@ -214,4 +214,11 @@
     <string name="distribution_view_donut">Anneau</string>
     <string name="distribution_view_bar_group">Barres groupées</string>
 
+    <string name="distribution_view_spider">Toile</string>
+
+    <plurals name="mood_count">
+        <item quantity="one">%d enregistrement ce jour-là</item>
+        <item quantity="other">%d enregistrements ce jour-là</item>
+    </plurals>
+
 </resources>

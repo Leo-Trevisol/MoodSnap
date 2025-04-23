@@ -206,5 +206,24 @@
     <string name="distribution_view_donut">Donut</string>
     <string name="distribution_view_bar_group">Barra grupo</string>
 
+    <string name="btn_ok">OK</string>
+
+    <string name="no_mood_distribution_7_days">Nenhum humor registrado nos últimos 7 dias</string>
+    <string name="no_mood_distribution_30_days">Nenhum humor registrado no último mês</string>
+    <string name="no_mood_distribution_90_days">Nenhum humor registrado nos últimos 3 meses</string>
+    <string name="no_mood_distribution_180_days">Nenhum humor registrado nos últimos 6 meses</string>
+    <string name="no_mood_distribution_270_days">Nenhum humor registrado nos últimos 9 meses</string>
+    <string name="no_mood_distribution_365_days">Nenhum humor registrado no último ano</string>
+
+    <string name="notification_permission_required">Para receber lembretes diários, precisamos da sua permissão para enviar notificações.</string>
+    <string name="notification_permission_denied_permanently">As notificações estão desativadas. Para receber lembretes diários, você precisa ativá-las nas configurações do sistema.</string>
+
+    <string name="distribution_view_spider">Aranha</string>
+
+    <plurals name="mood_count">
+        <item quantity="one">%d registro neste dia</item>
+        <item quantity="other">%d registros neste dia</item>
+    </plurals>
+
 
 </resources> 

@@ -202,4 +202,24 @@
     <string name="distribution_view_donut">Donut</string>
     <string name="distribution_view_bar_group">Barra agrupada</string>
 
+    <string name="btn_ok">OK</string>
+
+    <string name="no_mood_distribution_7_days">No se registró ningún estado de ánimo en los últimos 7 días</string>
+    <string name="no_mood_distribution_30_days">No se registró ningún estado de ánimo en el último mes</string>
+    <string name="no_mood_distribution_90_days">No se registró ningún estado de ánimo en los últimos 3 meses</string>
+    <string name="no_mood_distribution_180_days">No se registró ningún estado de ánimo en los últimos 6 meses</string>
+    <string name="no_mood_distribution_270_days">No se registró ningún estado de ánimo en los últimos 9 meses</string>
+    <string name="no_mood_distribution_365_days">No se registró ningún estado de ánimo en el último año</string>
+
+    <string name="notification_permission_required">Para recibir recordatorios diarios, necesitamos tu permiso para enviar notificaciones.</string>
+    <string name="notification_permission_denied_permanently">Las notificaciones están desactivadas. Para recibir recordatorios diarios, debes habilitar las notificaciones en la configuración del sistema.</string>
+
+    <string name="distribution_view_spider">Araña</string>
+
+    <plurals name="mood_count">
+        <item quantity="one">%d registro en este día</item>
+        <item quantity="other">%d registros en este día</item>
+    </plurals>
+
+
 </resources>

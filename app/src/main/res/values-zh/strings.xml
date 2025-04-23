@@ -200,4 +200,24 @@
     <string name="distribution_view_donut">环形图</string>
     <string name="distribution_view_bar_group">分组柱状图</string>
 
+    <string name="btn_ok">确定</string>
+
+    <string name="no_mood_distribution_7_days">过去7天没有记录情绪</string>
+    <string name="no_mood_distribution_30_days">过去一个月没有记录情绪</string>
+    <string name="no_mood_distribution_90_days">过去三个月没有记录情绪</string>
+    <string name="no_mood_distribution_180_days">过去六个月没有记录情绪</string>
+    <string name="no_mood_distribution_270_days">过去九个月没有记录情绪</string>
+    <string name="no_mood_distribution_365_days">过去一年没有记录情绪</string>
+
+    <string name="notification_permission_required">为了接收每日提醒，我们需要您的许可来发送通知。</string>
+    <string name="notification_permission_denied_permanently">通知已被禁用。为了接收每日提醒，您需要在系统设置中启用通知。</string>
+
+    <string name="distribution_view_spider">蜘蛛网</string>
+
+    <plurals name="mood_count">
+        <item quantity="one">%d 条记录在这一天</item>
+        <item quantity="other">%d 条记录在这一天</item>
+    </plurals>
+
+
 </resources>

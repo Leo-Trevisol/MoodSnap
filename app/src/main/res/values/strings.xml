@@ -6,7 +6,7 @@
     <!-- Buttons -->
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
-    <string name="btn_ok">OK</string>
+    <string name="btn_ok" translatable="false">OK</string>
     <string name="btn_delete">Delete</string>
     <string name="btn_edit">Edit</string>
     <string name="btn_confirm">Confirm</string>
@@ -208,14 +208,15 @@
     <string name="gallery_permission_denied_permanently">You have permanently denied gallery access. To use this feature, you need to enable the permission in the app settings.</string>
 
 
-    <string name="distribution_view_bars">Barras</string>
+
+    <string name="distribution_view_bars">Bars</string>
     <string name="distribution_view_donut">Donut</string>
-    <string name="distribution_view_bar_group">Barra Grupo</string>
+    <string name="distribution_view_bar_group">Grouped Bar</string>
     <string name="distribution_view_spider">Spider</string>
 
     <plurals name="mood_count">
-        <item quantity="one">%d registro neste dia</item>
-        <item quantity="other">%d registros neste dia</item>
+        <item quantity="one">%d entry on this day</item>
+        <item quantity="other">%d entries on this day</item>
     </plurals>
 
 </resources>

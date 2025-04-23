@@ -202,4 +202,24 @@
     <string name="distribution_view_donut">Donut</string>
     <string name="distribution_view_bar_group">Grouped Bar</string>
 
+    <string name="btn_ok">OK</string>
+
+    <string name="no_mood_distribution_7_days">No mood registered in the last 7 days</string>
+    <string name="no_mood_distribution_30_days">No mood registered in the last month</string>
+    <string name="no_mood_distribution_90_days">No mood registered in the last 3 months</string>
+    <string name="no_mood_distribution_180_days">No mood registered in the last 6 months</string>
+    <string name="no_mood_distribution_270_days">No mood registered in the last 9 months</string>
+    <string name="no_mood_distribution_365_days">No mood registered in the last year</string>
+
+    <string name="notification_permission_required">To receive daily reminders, we need your permission to send notifications.</string>
+    <string name="notification_permission_denied_permanently">Notifications are disabled. To receive daily reminders, you need to enable notifications in system settings.</string>
+
+    <string name="distribution_view_spider">Spider</string>
+
+    <plurals name="mood_count">
+        <item quantity="one">%d entry on this day</item>
+        <item quantity="other">%d entries on this day</item>
+    </plurals>
+
+
 </resources>
