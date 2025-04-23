@@ -40,5 +40,7 @@
 
     <dimen name="legend_pie_chart">13px</dimen>
 
+    <dimen name="no_data_text">15px</dimen>
+
     <dimen name="hole_pie_chart">35px</dimen>
 </resources> 

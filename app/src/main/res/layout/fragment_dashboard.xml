@@ -159,7 +159,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingBottom="16dp"
                     android:paddingTop="5dp"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
@@ -272,6 +271,28 @@
                     android:orientation="vertical"
                     android:padding="16dp"
                     android:visibility="gone"/>
+
+                <!-- Legenda Comum -->
+                <LinearLayout
+                    android:id="@+id/common_legend_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp">
+
+                    <LinearLayout
+                        android:id="@+id/legend_items_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:gravity="center"/>
+
+                </LinearLayout>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

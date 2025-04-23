@@ -213,4 +213,9 @@
     <string name="distribution_view_bar_group">Barra Grupo</string>
     <string name="distribution_view_spider">Spider</string>
 
+    <plurals name="mood_count">
+        <item quantity="one">%d registro neste dia</item>
+        <item quantity="other">%d registros neste dia</item>
+    </plurals>
+
 </resources>
