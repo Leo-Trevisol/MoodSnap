@@ -22,7 +22,6 @@ import com.br.leo.moodsnap.databinding.FragmentDashboardBinding
 import com.br.leo.moodsnap.ui.dialog.DialogEmotions
 import com.br.leo.moodsnap.ui.utils.Utils
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
-import kotlin.math.abs
 import kotlin.math.roundToInt
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
@@ -60,7 +59,6 @@ class DashboardFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var mainViewModel: MainViewModel
-    private lateinit var gestureDetector: GestureDetector
     private var firstTime = true
     private var currentDayFilter = 0 // Novo: para controlar o filtro de dias atual
 
@@ -96,18 +94,11 @@ class DashboardFragment : Fragment() {
             FontUtils.applyFontToActivity(activity)
         }
 
-        setupGestureDetector()
         setupDayFilterSpinner()
         setupBarChartDayFilterSpinner()
         setupCommonLegend()
         setupObservers()
         dashboardViewModel.loadMoods()
-
-        // Configurar o detector de gestos na view principal
-        view.setOnTouchListener { _, event ->
-            gestureDetector.onTouchEvent(event)
-            true
-        }
 
         // Set initial visibility to ensure no chart is shown by default
         binding.moodDistributionContainer.visibility = View.GONE
@@ -118,45 +109,6 @@ class DashboardFragment : Fragment() {
 
         // Set spinner to default to 'Barras' but keep views hidden
         binding.distributionViewSpinner.setSelection(0)
-    }
-
-    private fun setupGestureDetector() {
-        gestureDetector =
-            GestureDetector(requireContext(), object : GestureDetector.SimpleOnGestureListener() {
-                override fun onFling(
-                    e1: MotionEvent?,
-                    e2: MotionEvent,
-                    velocityX: Float,
-                    velocityY: Float
-                ): Boolean {
-                    if (e1 == null) return false
-
-                    val SWIPE_THRESHOLD = 100
-                    val SWIPE_VELOCITY_THRESHOLD = 100
-
-                    val diffX = e2.x - e1.x
-                    val diffY = e2.y - e1.y
-
-                    if (abs(diffX) > abs(diffY) &&
-                        abs(diffX) > SWIPE_THRESHOLD &&
-                        abs(velocityX) > SWIPE_VELOCITY_THRESHOLD
-                    ) {
-
-                        if (diffX > 0) { // Deslize para a direita
-                            findNavController().navigate(R.id.action_dashboard_to_home)
-                            return true
-                        }
-                    }
-                    return false
-                }
-            })
-
-        // Aplique o onTouchListener ao ScrollView ou ao contêiner
-        val scrollView = view?.findViewById<ScrollView>(R.id.scroll_cards) // ou o seu contêiner
-        scrollView?.setOnTouchListener { v, event ->
-            gestureDetector.onTouchEvent(event) // Passe o evento para o GestureDetector
-            false // Retorna false para permitir que o ScrollView também processe o evento
-        }
     }
 
     private fun setupDayFilterSpinner() {
