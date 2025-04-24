@@ -97,4 +97,33 @@ object DateUtils {
                 cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
                 cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)
     }
+
+    fun isSameDay(date1: Date, date2: Date): Boolean {
+        val cal1 = Calendar.getInstance().apply { time = date1 }
+        val cal2 = Calendar.getInstance().apply { time = date2 }
+        return isSameDay(cal1, cal2)
+    }
+
+    fun getDayOfWeekShortName(context: Context, dayOfWeek: Int): String {
+        return when (dayOfWeek) {
+            Calendar.SUNDAY -> context.getString(R.string.sun)
+            Calendar.MONDAY -> context.getString(R.string.mon)
+            Calendar.TUESDAY -> context.getString(R.string.tue)
+            Calendar.WEDNESDAY -> context.getString(R.string.wed)
+            Calendar.THURSDAY -> context.getString(R.string.thu)
+            Calendar.FRIDAY -> context.getString(R.string.fri)
+            Calendar.SATURDAY -> context.getString(R.string.sat)
+            else -> ""
+        }
+    }
+
+    fun getStartOfDay(date: Date): Date {
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        return calendar.time
+    }
 }

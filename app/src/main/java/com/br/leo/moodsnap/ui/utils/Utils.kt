@@ -105,4 +105,20 @@ object Utils {
         }
         return result
     }
+
+    fun dpToPx(context: Context, dp: Int): Int {
+        val density = context.resources.displayMetrics.density
+        return (dp * density).toInt()
+    }
+
+    fun getMoodIcon(moodType: Int): Int {
+        return when (moodType) {
+            0 -> R.drawable.muito_feliz
+            1 -> R.drawable.feliz
+            2 -> R.drawable.neutro
+            3 -> R.drawable.triste
+            4 -> R.drawable.muito_triste
+            else -> R.drawable.neutro
+        }
+    }
 }

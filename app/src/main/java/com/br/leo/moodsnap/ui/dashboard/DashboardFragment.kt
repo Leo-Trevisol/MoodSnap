@@ -34,7 +34,9 @@ import android.content.Context
 import com.br.leo.moodsnap.ui.utils.FontUtils
 import android.graphics.Typeface
 import android.view.Gravity
+import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
+import com.br.leo.moodsnap.ui.utils.DateUtils
 import com.br.leo.moodsnap.ui.utils.RoundedBarChartRenderer
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarData
@@ -423,46 +425,93 @@ class DashboardFragment : Fragment() {
 
         // Observar sequência atual
         dashboardViewModel.currentStreak.observe(viewLifecycleOwner) { streak ->
-            // Atualizar ícones da sequência
-            val streakMoods = dashboardViewModel.getCurrentStreakMoods()
+            // Obter os últimos 5 dias
+            val last5Days = dashboardViewModel.getLast5DaysMoods()
+            
+            // Limpar o container de dias
+            binding.lastDaysContainer.removeAllViews()
+            
+            // Adicionar cada dia ao container (em ordem reversa para mostrar do mais antigo para o mais recente)
+            last5Days.reversed().forEach { dayMood ->
+                val dayContainer = LinearLayout(requireContext()).apply {
+                    layoutParams = LinearLayout.LayoutParams(
+                        0,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        1f
+                    )
+                    orientation = LinearLayout.VERTICAL
+                    gravity = Gravity.CENTER
+                }
 
-            // Limpar container de ícones
-            binding.streakIconsContainer.removeAllViews()
-
-            // Adicionar ícones em ordem reversa (do mais recente para o mais antigo)
-            streakMoods.reversed().forEach { moodType ->
-                // Container circular para o ícone
+                // Container circular para o ícone do humor
                 val iconContainer = CardView(requireContext()).apply {
                     layoutParams = LinearLayout.LayoutParams(
-                        56, // Tamanho do container
-                        56
-                    ).apply {
-                        marginStart = resources.getDimensionPixelSize(R.dimen.spacing_small)
-                    }
-                    radius = 24f // Metade do tamanho para fazer um círculo perfeito
-                    cardElevation = 0f // Sem sombra
-                    setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
+                       96,
+                        96
+                    )
+                    radius = 48f
+                    cardElevation = 0f
+                    
+                    // Definir a cor de fundo baseada no humor (ou transparente se não houver)
+                    setCardBackgroundColor(
+                        dayMood.moodType?.let { moodType ->
+                            dashboardViewModel.getMoodColor(moodType)
+                        } ?: ContextCompat.getColor(requireContext(), R.color.primary_background)
+                    )
+                }
+
+                // Frame para centralizar o ícone
+                val frameLayout = FrameLayout(requireContext()).apply {
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT
+                    )
                 }
 
                 // Ícone do humor
-                val icon = ImageView(context).apply {
-                    setImageResource(Utils.getMoodDrawable(moodType))
-                    layoutParams = LinearLayout.LayoutParams(
-                        54, // Tamanho do ícone um pouco menor que o container
-                        54
+                val iconView = ImageView(requireContext()).apply {
+                    layoutParams = FrameLayout.LayoutParams(
+                       92,
+                        92
                     ).apply {
-                        gravity = android.view.Gravity.CENTER
-                        // Centralizar o ícone no container
-                        marginStart = 1
-                        topMargin = 1
+                        gravity = Gravity.CENTER
                     }
                 }
 
-                iconContainer.addView(icon)
-                binding.streakIconsContainer.addView(iconContainer)
+                // Definir o ícone baseado no humor (ou deixar em branco se não houver)
+                dayMood.moodType?.let { moodType ->
+                    iconView.setImageResource(Utils.getMoodIcon(moodType))
+                }
+
+                // Adicionar o ícone ao frame layout para centralização
+                frameLayout.addView(iconView)
+                
+                // Adicionar o frame layout ao container circular
+                iconContainer.addView(frameLayout)
+
+                // Criar TextView para o dia
+                val dayText = TextView(requireContext()).apply {
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    ).apply {
+                        topMargin = Utils.dpToPx(requireContext(), 4)
+                    }
+                    text = "${dayMood.dayOfMonth}\n${DateUtils.getDayOfWeekShortName(requireContext(), dayMood.dayOfWeek)}"
+                    textSize = 12f
+                    gravity = Gravity.CENTER
+                    setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                }
+
+                // Adicionar views ao container do dia
+                dayContainer.addView(iconContainer)
+                dayContainer.addView(dayText)
+
+                // Adicionar o container do dia ao container principal
+                binding.lastDaysContainer.addView(dayContainer)
             }
 
-            // Texto da sequência
+            // Atualizar o texto do streak
             binding.currentStreakText.text = when {
                 streak == 0 -> getString(R.string.no_mood_today)
                 streak == 1 -> getString(R.string.recorded_today)
@@ -648,10 +697,10 @@ class DashboardFragment : Fragment() {
             // Container circular para o ícone
             val iconContainer = CardView(requireContext()).apply {
                 layoutParams = LinearLayout.LayoutParams(
-                    48, // Tamanho do container
-                    48
+                    96, // Tamanho do container
+                    96
                 )
-                radius = 24f // Metade do tamanho para fazer um círculo perfeito
+                radius = 48f // Metade do tamanho para fazer um círculo perfeito
                 cardElevation = 0f // Sem sombra
                 setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
             }
@@ -660,8 +709,8 @@ class DashboardFragment : Fragment() {
             val icon = ImageView(context).apply {
                 setImageResource(Utils.getMoodDrawable(moodType))
                 layoutParams = LinearLayout.LayoutParams(
-                    46, // Tamanho do ícone um pouco menor que o container
-                    46
+                    92, // Tamanho do ícone um pouco menor que o container
+                    92
                 ).apply {
                     gravity = Gravity.CENTER
                     // Centralizar o ícone no container
@@ -675,7 +724,7 @@ class DashboardFragment : Fragment() {
                 val count = distribution[moodType] ?: 0
                 val percentage = (count / total * 100).roundToInt()
                 text = "$percentage%"
-                setTextColor(ContextCompat.getColor(context, R.color.secundary))
+                setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
                 textSize = 12f
                 gravity = Gravity.CENTER
                 layoutParams = LinearLayout.LayoutParams(

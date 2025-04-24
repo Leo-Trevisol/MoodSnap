@@ -319,4 +319,41 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         
         return weekdayData
     }
+
+    fun getLast5DaysMoods(): List<DayMood> {
+        val moodsList = moods.value ?: return emptyList()
+        
+        val calendar = Calendar.getInstance()
+        val today = calendar.time
+        
+        val result = mutableListOf<DayMood>()
+        
+        // Criar uma lista dos últimos 5 dias
+        for (i in 0..4) {
+            calendar.time = today
+            calendar.add(Calendar.DAY_OF_MONTH, -i)
+            val dayStart = DateUtils.getStartOfDay(calendar.time)
+            
+            // Encontrar o humor para este dia
+            val mood = moodsList.find { DateUtils.isSameDay(it.date, dayStart) }
+            
+            result.add(
+                DayMood(
+                    date = dayStart,
+                    moodType = mood?.moodType,
+                    dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK),
+                    dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+                )
+            )
+        }
+        
+        return result
+    }
+    
+    data class DayMood(
+        val date: Date,
+        val moodType: Int?,
+        val dayOfWeek: Int,
+        val dayOfMonth: Int
+    )
 }
