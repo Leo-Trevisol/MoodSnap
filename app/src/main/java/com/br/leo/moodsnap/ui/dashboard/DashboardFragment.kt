@@ -415,6 +415,7 @@ class DashboardFragment : Fragment() {
             val filteredDistribution = filterDistributionByDays(distribution, dayFilters[currentDayFilter].days)
             
             updateMoodDistribution(distribution)
+            updateQuickDistribution(distribution)
             setupPieChart(filteredDistribution)
             setupBarChart(filteredDistribution)
             setupRadarChart(filteredDistribution)
@@ -621,6 +622,75 @@ class DashboardFragment : Fragment() {
         val filteredDistribution = filterDistributionByDays(distribution, dayFilters[currentDayFilter].days)
         setupPieChart(filteredDistribution)
         setupBarChart(filteredDistribution)
+    }
+
+    private fun updateQuickDistribution(distribution: Map<Int, Int>) {
+        val container = binding.quickDistributionContainer
+        container.removeAllViews()
+
+        val total = distribution.values.sum().toFloat()
+        if (total == 0f) return
+
+        // Ordem dos humores: do mais feliz para o mais triste
+        val moodOrder = listOf(4, 3, 2, 1, 0)
+
+        moodOrder.forEach { moodType ->
+            val itemLayout = LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.VERTICAL
+                gravity = Gravity.CENTER
+                layoutParams = LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    1f
+                )
+            }
+
+            // Container circular para o ícone
+            val iconContainer = CardView(requireContext()).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    48, // Tamanho do container
+                    48
+                )
+                radius = 24f // Metade do tamanho para fazer um círculo perfeito
+                cardElevation = 0f // Sem sombra
+                setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
+            }
+
+            // Ícone do humor
+            val icon = ImageView(context).apply {
+                setImageResource(Utils.getMoodDrawable(moodType))
+                layoutParams = LinearLayout.LayoutParams(
+                    46, // Tamanho do ícone um pouco menor que o container
+                    46
+                ).apply {
+                    gravity = Gravity.CENTER
+                    // Centralizar o ícone no container
+                    marginStart = 1
+                    topMargin = 1
+                }
+            }
+
+            // Texto da porcentagem
+            val percentageText = TextView(requireContext()).apply {
+                val count = distribution[moodType] ?: 0
+                val percentage = (count / total * 100).roundToInt()
+                text = "$percentage%"
+                setTextColor(ContextCompat.getColor(context, R.color.secundary))
+                textSize = 12f
+                gravity = Gravity.CENTER
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    topMargin = resources.getDimensionPixelSize(R.dimen.spacing_small)
+                }
+            }
+
+            iconContainer.addView(icon)
+            itemLayout.addView(iconContainer)
+            itemLayout.addView(percentageText)
+            container.addView(itemLayout)
+        }
     }
 
     private fun setupCommonLegend() {

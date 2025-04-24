@@ -52,7 +52,7 @@
                     android:layout_marginBottom="@dimen/spacing_normal"
                     android:background="@drawable/background_rounded"
                     android:backgroundTint="@color/white"
-                    android:drawableEnd="@drawable/ic_light"
+                    android:drawableEnd="@drawable/ic_half_square"
                     android:padding="16dp"
                     android:text="@string/system_theme"
                     android:textSize="@dimen/button_size"
@@ -65,7 +65,7 @@
                     android:layout_marginBottom="@dimen/spacing_normal"
                     android:background="@drawable/background_rounded"
                     android:backgroundTint="@color/white"
-                    android:drawableEnd="@drawable/ic_light"
+                    android:drawableEnd="@drawable/ic_white_square"
                     android:padding="16dp"
                     android:text="@string/light_theme"
                     android:textSize="@dimen/button_size"
@@ -81,7 +81,7 @@
                     android:background="@drawable/background_rounded"
                     android:backgroundTint="@color/white"
                     android:textColor="@color/black"
-                    android:drawableEnd="@drawable/ic_dark"
+                    android:drawableEnd="@drawable/ic_black_square"
                     android:padding="16dp"/>
 
             </LinearLayout>

@@ -21,7 +21,7 @@ object ButtonUtils {
         button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.primary_green)))
         button.setTextColor(Color.WHITE)
         if (updateDrawableTint) {
-            TextViewCompat.setCompoundDrawableTintList(button, ColorStateList.valueOf(Color.WHITE))
+         //   TextViewCompat.setCompoundDrawableTintList(button, ColorStateList.valueOf(Color.WHITE))
         }
     }
 
@@ -37,17 +37,16 @@ object ButtonUtils {
         context: Context, 
         button: Button, 
         backgroundColor: Int = R.color.gray_dark,
-        drawableTintColor: Int = R.color.secundary
     ) {
-        Utils.updateBackGroundColor(context, button, backgroundColor, drawableTintColor)
+        Utils.updateBackGroundColor(context, button, backgroundColor)
         button.setTextColor(ContextCompat.getColor(context, R.color.dark_secondary))
-        TextViewCompat.setCompoundDrawableTintList(button, ContextCompat.getColorStateList(context, drawableTintColor))
     }
 
     /**
      * Resets all buttons in a list to their default state.
      *
      * @param context The context to get resources
+     * @param buttons List of buttons to reset
      * @param buttons List of buttons to reset
      * @param backgroundColor The background color resource ID (default R.color.gray_dark)
      * @param drawableTintColor The drawable tint color resource ID (default R.color.secundary)
@@ -56,10 +55,9 @@ object ButtonUtils {
         context: Context,
         buttons: List<Button>,
         backgroundColor: Int = R.color.gray_dark,
-        drawableTintColor: Int = R.color.secundary
     ) {
         buttons.forEach { button ->
-            resetButton(context, button, backgroundColor, drawableTintColor)
+            resetButton(context, button, backgroundColor)
         }
     }
 

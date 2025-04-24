@@ -55,8 +55,7 @@
                 android:paddingBottom="16dp"
                 android:paddingTop="5dp"
                 android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                >
+                android:paddingEnd="16dp">
 
                 <TextView
                     android:id="@+id/average_mood_title"
@@ -85,6 +84,46 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_large"/>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Card de Distribuição Rápida -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_quick_distribution"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="16dp"
+                android:paddingTop="5dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/quick_distribution"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_size_xlarge"/>
+
+                <LinearLayout
+                    android:id="@+id/quick_distribution_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="8dp">
+
+                    <!-- Os ícones e porcentagens serão adicionados aqui programaticamente -->
+
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

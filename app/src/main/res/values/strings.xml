@@ -88,8 +88,8 @@
     <string name="date_format">%1$d of %2$s of %3$d</string>
 
     <!-- Dashboard -->
-    <string name="mood_statistics">Mood Statistics</string>
-    <string name="average_mood">Average Mood</string>
+    <string name="mood_statistics">Estatísticas de Humor</string>
+    <string name="average_mood">Humor Médio</string>
     <string name="no_mood_registered">No mood registered yet</string>
     <string name="your_average_mood">Your average mood is %1$s</string>
     <string name="mood_distribution">Mood Distribution</string>
@@ -227,5 +227,7 @@
     <string name="filter_last_9_months">Últimos 9 meses</string>
     <string name="filter_last_year">Último ano</string>
     <string name="filter_all">Tudo</string>
+
+    <string name="quick_distribution">Distribuição Rápida</string>
 
 </resources>

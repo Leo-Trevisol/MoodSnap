@@ -12,6 +12,9 @@ import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.ui.models.OnboardingSlide
 import com.br.leo.moodsnap.ui.models.OnboardingMedia
 import com.br.leo.moodsnap.ui.utils.FontUtils
+import android.media.AudioManager
+import android.os.Build
+import androidx.annotation.RequiresApi
 
 class OnboardingAdapter(private val slides: List<OnboardingSlide>) :
     RecyclerView.Adapter<OnboardingAdapter.OnboardingViewHolder>() {
@@ -22,6 +25,7 @@ class OnboardingAdapter(private val slides: List<OnboardingSlide>) :
         private val titleSlide = view.findViewById<TextView>(R.id.titleSlide)
         private val descriptionSlide = view.findViewById<TextView>(R.id.descriptionSlide)
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(slide: OnboardingSlide) {
             // Configurar o título e descrição
             titleSlide.text = slide.title
@@ -44,13 +48,12 @@ class OnboardingAdapter(private val slides: List<OnboardingSlide>) :
                     
                     // Configurar o vídeo
                     val uri = Uri.parse(slide.media.url)
+                    videoSlide.setAudioFocusRequest(AudioManager.AUDIOFOCUS_NONE)
                     videoSlide.setVideoURI(uri)
+                    
                     videoSlide.setOnPreparedListener { mediaPlayer ->
-                        // Configurar o vídeo para loop
                         mediaPlayer.isLooping = true
-                        // Ajustar o volume (opcional)
-                        mediaPlayer.setVolume(0f, 0f) // Mudo
-                        // Iniciar a reprodução
+                        mediaPlayer.setVolume(0f, 0f)
                         videoSlide.start()
                     }
                 }
