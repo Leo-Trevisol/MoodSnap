@@ -179,7 +179,7 @@
     <string name="btn_previous">Zurück</string>
     <string name="btn_finish">Starten</string>
 
-    <string name="onboarding_title_1">Willkommen bei MoodSnap!</string>
+    <string name="onboarding_title_1">Willkommen bei Moody!</string>
     <string name="onboarding_description_1">Verfolge täglich deine Stimmung und verstehe deine emotionalen Muster besser</string>
 
     <string name="onboarding_title_2">Stimmung aufzeichnen</string>
@@ -220,6 +220,13 @@
         <item quantity="other">%d Einträge an diesem Tag</item>
     </plurals>
 
-
+    <!-- Day Filter Types -->
+    <string name="filter_last_7_days">Letzte 7 Tage</string>
+    <string name="filter_last_month">Letzter Monat</string>
+    <string name="filter_last_3_months">Letzte 3 Monate</string>
+    <string name="filter_last_6_months">Letzte 6 Monate</string>
+    <string name="filter_last_9_months">Letzte 9 Monate</string>
+    <string name="filter_last_year">Letztes Jahr</string>
+    <string name="filter_all">Alle</string>
 
 </resources>

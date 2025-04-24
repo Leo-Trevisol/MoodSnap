@@ -191,7 +191,7 @@ class DialogEmotions(
             .setMessage(getString(R.string.confirm_delete_mood, selectedDateText.text))
             .setPositiveListener {
                 viewModel.deleteMood(existingMoodId)
-                showCustomToast(requireContext(), getString(R.string.mood_deleted_success))
+               // showCustomToast(requireContext(), getString(R.string.mood_deleted_success))
                 dismissAllowingStateLoss()
             }
             .setNegativeListener(null)

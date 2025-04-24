@@ -178,7 +178,7 @@
     <string name="btn_previous">上一步</string>
     <string name="btn_finish">开始</string>
 
-    <string name="onboarding_title_1">欢迎使用 MoodSnap！</string>
+    <string name="onboarding_title_1">欢迎使用 Moody！</string>
     <string name="onboarding_description_1">记录每日情绪，更好地了解你的情绪模式</string>
 
     <string name="onboarding_title_2">记录你的情绪</string>

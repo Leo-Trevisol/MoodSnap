@@ -12,6 +12,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.ui.adapters.OnboardingAdapter
 import com.br.leo.moodsnap.ui.models.OnboardingSlide
+import com.br.leo.moodsnap.ui.models.OnboardingMedia
 import com.br.leo.moodsnap.ui.utils.FontUtils
 
 class OnboardingDialog(context: Context) : Dialog(context) {
@@ -27,22 +28,22 @@ class OnboardingDialog(context: Context) : Dialog(context) {
 
     private val slides = listOf(
         OnboardingSlide(
-            R.drawable.onboarding_1,
-            context.getString(R.string.onboarding_title_1),
-            context.getString(R.string.onboarding_description_1),
-            currentFont ?: "default"
+            media = OnboardingMedia.Image(R.drawable.ic_mascote),
+            title = context.getString(R.string.onboarding_title_1),
+            description = context.getString(R.string.onboarding_description_1),
+            font = currentFont ?: "default"
         ),
         OnboardingSlide(
-            R.drawable.onboarding_1,
-            context.getString(R.string.onboarding_title_2),
-            context.getString(R.string.onboarding_description_2),
-            currentFont ?: "default"
+            media = OnboardingMedia.Video("android.resource://${context.packageName}/${R.raw.onboarding_video_1}"),
+            title = context.getString(R.string.onboarding_title_2),
+            description = context.getString(R.string.onboarding_description_2),
+            font = currentFont ?: "default"
         ),
         OnboardingSlide(
-            R.drawable.onboarding_1,
-            context.getString(R.string.onboarding_title_3),
-            context.getString(R.string.onboarding_description_3),
-            currentFont ?: "default"
+            media = OnboardingMedia.Video("android.resource://${context.packageName}/${R.raw.onboarding_video_2}"),
+            title = context.getString(R.string.onboarding_title_3),
+            description = context.getString(R.string.onboarding_description_3),
+            font = currentFont ?: "default"
         )
     )
 
@@ -72,7 +73,8 @@ class OnboardingDialog(context: Context) : Dialog(context) {
     }
 
     private fun setupViewPager() {
-        viewPager.adapter = OnboardingAdapter(slides)
+        val adapter = OnboardingAdapter(slides)
+        viewPager.adapter = adapter
         
         TabLayoutMediator(tabLayout, viewPager) { _, _ -> }.attach()
 

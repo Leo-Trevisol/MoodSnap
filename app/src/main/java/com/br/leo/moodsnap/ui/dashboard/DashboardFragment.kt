@@ -63,14 +63,14 @@ class DashboardFragment : Fragment() {
     private var currentDayFilter = 0 // Novo: para controlar o filtro de dias atual
 
     // Novo: Enum para os filtros de dias
-    private enum class DayFilterType(val days: Int, val description: String) {
-        LAST_7_DAYS(7, "Últimos 7 dias"),
-        LAST_MONTH(30, "Último mês"),
-        LAST_3_MONTHS(90, "Últimos 3 meses"),
-        LAST_6_MONTHS(180, "Últimos 6 meses"),
-        LAST_9_MONTHS(270, "Últimos 9 meses"),
-        LAST_YEAR(365, "Último ano"),
-        ALL(-1, "Tudo")
+    private enum class DayFilterType(val days: Int, val stringResourceId: Int) {
+        LAST_7_DAYS(7, R.string.filter_last_7_days),
+        LAST_MONTH(30, R.string.filter_last_month),
+        LAST_3_MONTHS(90, R.string.filter_last_3_months),
+        LAST_6_MONTHS(180, R.string.filter_last_6_months),
+        LAST_9_MONTHS(270, R.string.filter_last_9_months),
+        LAST_YEAR(365, R.string.filter_last_year),
+        ALL(-1, R.string.filter_all)
     }
 
     override fun onCreateView(
@@ -208,7 +208,7 @@ class DashboardFragment : Fragment() {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
                 (view as TextView).apply {
-                    text = availableFilters[position].description
+                    text = context.getString(availableFilters[position].stringResourceId)
                     gravity = Gravity.START
                     setPadding(0, paddingTop, paddingRight, paddingBottom)
                     this.typeface = typeface
@@ -220,7 +220,7 @@ class DashboardFragment : Fragment() {
                 val view = super.getDropDownView(position, convertView, parent)
                 view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
                 (view as TextView).apply {
-                    text = availableFilters[position].description
+                    text = context.getString(availableFilters[position].stringResourceId)
                     setTextColor(ContextCompat.getColor(context, R.color.secundary))
                     this.typeface = typeface
                     gravity = Gravity.START

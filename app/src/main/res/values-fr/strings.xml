@@ -192,7 +192,7 @@
     <string name="btn_previous">Précédent</string>
     <string name="btn_finish">Commencer</string>
 
-    <string name="onboarding_title_1">Bienvenue sur MoodSnap !</string>
+    <string name="onboarding_title_1">Bienvenue sur Moody !</string>
     <string name="onboarding_description_1">Suivez votre humeur quotidienne et comprenez mieux vos schémas émotionnels</string>
 
     <string name="onboarding_title_2">Enregistrez votre humeur</string>

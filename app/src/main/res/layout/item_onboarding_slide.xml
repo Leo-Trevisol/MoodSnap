@@ -3,34 +3,55 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/spacing_large">
+    android:padding="@dimen/spacing_normal">
 
-    <ImageView
-        android:id="@+id/imageSlide"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="@dimen/spacing_large"
+    <FrameLayout
+        android:id="@+id/mediaContainer"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="@dimen/spacing_normal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/tutorial_image"/>
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/imageSlide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:maxHeight="300dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            android:contentDescription="@string/tutorial_image"/>
+
+        <VideoView
+            android:id="@+id/videoSlide"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/titleSlide"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_large"
-        android:textSize="24sp"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginHorizontal="@dimen/spacing_normal"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/secundary"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/imageSlide"/>
+        app:layout_constraintTop_toBottomOf="@id/mediaContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_tiny"
+        android:layout_marginBottom="@dimen/spacing_tiny"
         android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@id/titleSlide"
         app:layout_constraintBottom_toBottomOf="parent">
@@ -39,10 +60,10 @@
             android:id="@+id/descriptionSlide"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:gravity="center"
             android:textColor="@color/secundary"
-            android:lineSpacingExtra="4dp"/>
+            android:lineSpacingExtra="2dp"/>
 
     </ScrollView>
 

@@ -178,7 +178,7 @@
     <string name="btn_previous">Назад</string>
     <string name="btn_finish">Начать</string>
 
-    <string name="onboarding_title_1">Добро пожаловать в MoodSnap!</string>
+    <string name="onboarding_title_1">Добро пожаловать в Moody!</string>
     <string name="onboarding_description_1">Отслеживайте своё настроение каждый день и лучше понимайте свои эмоциональные шаблоны</string>
 
     <string name="onboarding_title_2">Записывайте настроение</string>
@@ -221,5 +221,13 @@
         <item quantity="other">%d записи в этот день</item>
     </plurals>
 
+    <!-- Day Filter Types -->
+    <string name="filter_last_7_days">Последние 7 дней</string>
+    <string name="filter_last_month">Последний месяц</string>
+    <string name="filter_last_3_months">Последние 3 месяца</string>
+    <string name="filter_last_6_months">Последние 6 месяцев</string>
+    <string name="filter_last_9_months">Последние 9 месяцев</string>
+    <string name="filter_last_year">Последний год</string>
+    <string name="filter_all">Все</string>
 
 </resources>
