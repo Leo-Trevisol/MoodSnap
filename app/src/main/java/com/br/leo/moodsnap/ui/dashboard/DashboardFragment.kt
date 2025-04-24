@@ -62,6 +62,7 @@ class DashboardFragment : Fragment() {
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var mainViewModel: MainViewModel
     private var firstTime = true
+    private var isDonutFirstLoad = true // Nova flag para controlar a animação do donut
     private var currentDayFilter = 0 // Novo: para controlar o filtro de dias atual
 
     // Novo: Enum para os filtros de dias
@@ -99,11 +100,13 @@ class DashboardFragment : Fragment() {
         setupDayFilterSpinner()
         setupBarChartDayFilterSpinner()
         setupCommonLegend()
+        // Primeiro configurar o spinner de período, depois o gráfico
+        setupDonutPeriodSpinner()
+        setupDonutChart()
         setupObservers()
         dashboardViewModel.loadMoods()
 
         // Set initial visibility to ensure no chart is shown by default
-       // binding.moodDistributionContainer.visibility = View.GONE
         binding.pieChart.visibility = View.GONE
         binding.barChart.visibility = View.GONE
         binding.periodFilterContainer.visibility = View.GONE
@@ -275,6 +278,7 @@ class DashboardFragment : Fragment() {
         if (days == -1) return distribution // Retorna todos os dados
 
         val calendar = Calendar.getInstance()
+        val today = calendar.time
         calendar.add(Calendar.DAY_OF_YEAR, -days)
         val filterDate = calendar.time
 
@@ -1210,5 +1214,242 @@ class DashboardFragment : Fragment() {
         }
 
         binding.expandArrow.rotation = if (isExpanded) 0f else 180f
+    }
+
+    private fun setupDonutPeriodSpinner() {
+        // Obter a data do registro mais antigo do ViewModel
+        val oldestRecordDate = dashboardViewModel.getOldestMoodDate() ?: run {
+            binding.donutPeriodContainer.visibility = View.GONE
+            return
+        }
+
+        // Obter apenas os filtros disponíveis baseado na data mais antiga
+        val availableFilters = getAvailableFilters(oldestRecordDate)
+        
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+        
+        val adapter = object : ArrayAdapter<DayFilterType>(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            availableFilters
+        ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                (view as TextView).apply {
+                    text = context.getString(availableFilters[position].stringResourceId)
+                    gravity = Gravity.START
+                    setPadding(0, paddingTop, paddingRight, paddingBottom)
+                    this.typeface = typeface
+                }
+                return view
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
+                (view as TextView).apply {
+                    text = context.getString(availableFilters[position].stringResourceId)
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
+                    this.typeface = typeface
+                    gravity = Gravity.START
+                }
+                return view
+            }
+        }
+
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        binding.donutPeriodSpinner.apply {
+            this.adapter = adapter
+            setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
+            // Definir seleção inicial para 7 dias
+            setSelection(0)
+        }
+
+        binding.donutPeriodSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    // Obter a distribuição atual e aplicar o novo filtro
+                    dashboardViewModel.moodDistribution.value?.let { distribution ->
+                        val filteredDistribution = filterDistributionByDays(distribution, availableFilters[position].days)
+                        updateDonutChart(filteredDistribution)
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+    }
+
+    private fun setupDonutChart() {
+        val donutChart = binding.donutChart
+
+        // Get current font
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+        
+        // Configurações básicas
+        donutChart.apply {
+            description.isEnabled = false
+            setUsePercentValues(true)
+            setDrawEntryLabels(false)
+            setMinOffset(25f)
+            setExtraOffsets(15f, 0f, 15f, 0f)
+
+            legend.isEnabled = false
+
+            // Configurar o buraco do donut
+            holeRadius = resources.getDimension(R.dimen.hole_pie_chart)
+            transparentCircleRadius = 50f
+            setHoleColor(Color.TRANSPARENT)
+            setTransparentCircleColor(Color.TRANSPARENT)
+
+            // Configurações de interação
+            isRotationEnabled = true
+            isHighlightPerTapEnabled = true
+
+            // Configurar texto quando não houver dados
+            setNoDataText(getString(R.string.no_mood_distribution))
+            setNoDataTextColor(Color.WHITE)
+            setNoDataTextTypeface(typeface)
+            getPaint(PieChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
+        }
+
+        // Observar mudanças na distribuição de humor
+        dashboardViewModel.moodDistribution.observe(viewLifecycleOwner) { distribution ->
+            // Garantir que o filtro seja aplicado corretamente
+            val availableFilters = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date())
+            val selectedPosition = binding.donutPeriodSpinner.selectedItemPosition
+            val selectedFilter = availableFilters.getOrNull(selectedPosition) ?: DayFilterType.LAST_7_DAYS
+            val filteredDistribution = filterDistributionByDays(distribution, selectedFilter.days)
+            updateDonutChart(filteredDistribution)
+        }
+    }
+
+    private fun updateDonutChart(distribution: Map<Int, Int>) {
+        // Check if there are any records
+        if (distribution.isEmpty() || distribution.values.sum() == 0) {
+            binding.donutChart.clear()
+            binding.donutChart.notifyDataSetChanged()
+            binding.donutChart.invalidate()
+            
+            // Obter o período selecionado para a mensagem apropriada
+            val selectedPosition = binding.donutPeriodSpinner.selectedItemPosition
+            val days = DayFilterType.values().getOrNull(selectedPosition)?.days ?: -1
+            binding.donutChart.setNoDataText(getNoDataMessageForPeriod(days))
+            
+            return
+        }
+
+        val entries = ArrayList<PieEntry>()
+        val colors = ArrayList<Int>()
+        
+        // Ordem dos humores: do mais feliz para o mais triste
+        val moodOrder = listOf(4, 3, 2, 1, 0)
+        
+        moodOrder.forEach { moodType ->
+            val count = distribution[moodType] ?: 0
+            if (count > 0) {
+                val percentage = (count.toFloat() / distribution.values.sum()) * 100
+                entries.add(PieEntry(percentage, dashboardViewModel.getMoodName(requireContext(), moodType)))
+                colors.add(dashboardViewModel.getMoodColor(moodType))
+            }
+        }
+
+        // Configurar o dataset
+        val dataSet = PieDataSet(entries, "").apply {
+            this.colors = colors
+            setDrawValues(true)
+            valueTextSize = resources.getDimension(R.dimen.legend_pie_chart)
+            valueTextColor = Color.WHITE
+            valueTypeface = binding.donutChart.legend.typeface
+            yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
+            valueLinePart1Length = 0.6f
+            valueLinePart2Length = 0.3f
+            valueLineColor = Color.WHITE
+            valueLineWidth = 2f
+            sliceSpace = 3f
+        }
+
+        // Configurar os dados
+        val pieData = PieData(dataSet).apply {
+            setValueFormatter(object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    val total = distribution.values.sum().toFloat()
+                    val count = (value * total / 100).roundToInt()
+                    return "${value.roundToInt()}% ($count)"
+                }
+            })
+        }
+
+        // Aplicar dados ao gráfico
+        binding.donutChart.apply {
+            data = pieData
+            if (isDonutFirstLoad) {
+                animateY(1400)
+                isDonutFirstLoad = false
+            }
+            invalidate()
+        }
+
+        // Atualizar a legenda personalizada
+        updateDonutLegend(moodOrder)
+    }
+
+    private fun updateDonutLegend(moodOrder: List<Int>) {
+        val legendContainer = binding.donutLegendItems
+        legendContainer.removeAllViews()
+
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+
+        moodOrder.forEachIndexed { index, moodType ->
+            val itemLayout = LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.HORIZONTAL
+                gravity = Gravity.CENTER_VERTICAL
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    if (index > 0) {
+                        marginStart = resources.getDimensionPixelSize(R.dimen.spacing_normal)
+                    }
+                }
+            }
+
+            // Quadrado colorido
+            val colorBox = View(requireContext()).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    resources.getDimensionPixelSize(R.dimen.legend_square_size),
+                    resources.getDimensionPixelSize(R.dimen.legend_square_size)
+                )
+                setBackgroundColor(dashboardViewModel.getMoodColor(moodType))
+            }
+
+            // Texto da legenda
+            val legendText = TextView(requireContext()).apply {
+                text = dashboardViewModel.getMoodName(requireContext(), moodType)
+                setTextColor(Color.WHITE)
+                textSize = resources.getDimension(R.dimen.legend_bar_chart)
+                this.typeface = typeface
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    marginStart = resources.getDimensionPixelSize(R.dimen.spacing_small)
+                }
+            }
+
+            itemLayout.addView(colorBox)
+            itemLayout.addView(legendText)
+            legendContainer.addView(itemLayout)
+        }
     }
 }
