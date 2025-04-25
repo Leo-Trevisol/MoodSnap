@@ -172,163 +172,6 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Card de Distribuição de Humores -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
-                <!-- Cabeçalho Expansível -->
-                <LinearLayout
-                    android:id="@+id/distribution_header"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="5dp"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:gravity="center_vertical"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@string/mood_distribution"
-                                android:textStyle="bold"
-                                android:layout_weight="1"
-                                android:textSize="16sp"/>
-
-                            <Spinner
-                                android:id="@+id/distribution_view_spinner"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1.5"
-                                android:layout_marginStart="4dp"/>
-
-                            <ImageView
-                                android:id="@+id/expand_arrow"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_expand_more_24"
-                                android:rotation="0"/>
-
-                        </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/distribution_summary"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:textSize="@dimen/text_size_large"/>
-
-                        <LinearLayout
-                            android:id="@+id/period_filter_container"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="4dp"
-                            android:gravity="center_vertical">
-
-                            <Spinner
-                                android:id="@+id/period_spinner"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:spinnerMode="dropdown"
-                                android:gravity="start"/>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <!-- Gráfico de Pizza -->
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/pie_chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:visibility="gone"/>
-
-                <!-- Gráfico de Barras -->
-                <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/bar_chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:visibility="gone"/>
-
-                <!-- Gráfico Spider -->
-                <com.github.mikephil.charting.charts.RadarChart
-                    android:id="@+id/radar_chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:visibility="gone"/>
-
-                <!-- Conteúdo Expansível -->
-                <LinearLayout
-                    android:id="@+id/mood_distribution_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:visibility="gone"/>
-
-                <!-- Legenda Comum -->
-                <LinearLayout
-                    android:id="@+id/common_legend_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp">
-
-                    <LinearLayout
-                        android:id="@+id/legend_items_container"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:visibility="gone"
-                        android:gravity="center"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
         <!-- Card de Melhor Dia da Semana -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -375,7 +218,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:textSize="@dimen/text_size_large"/>
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_normal"/>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -405,6 +249,22 @@
                     android:gravity="center"
                     android:textStyle="bold"
                     android:textSize="@dimen/text_size_xlarge"/>
+
+                <TextView
+                    android:id="@+id/donut_chart_no_mood_registered_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_normal"
+                    android:text="@string/register_more_moods"
+                    android:visibility="gone">
+                </TextView>
+
+                <LinearLayout
+                    android:id="@+id/linear_donut_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/donut_period_container"
@@ -449,6 +309,8 @@
 
                 </LinearLayout>
 
+                </LinearLayout>
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -478,6 +340,22 @@
                     android:textStyle="bold"
                     android:textSize="@dimen/text_size_xlarge"/>
 
+                <TextView
+                    android:id="@+id/bar_chart_no_mood_registered_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_normal"
+                    android:text="@string/register_more_moods"
+                    android:visibility="gone">
+                </TextView>
+
+            <LinearLayout
+                android:id="@+id/linear_bar_chart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
                 <LinearLayout
                     android:id="@+id/bar_period_container"
                     android:layout_width="match_parent"
@@ -496,7 +374,7 @@
                 </LinearLayout>
 
                 <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/custom_bar_chart"
+                    android:id="@+id/bar_chart"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:layout_marginTop="8dp"/>
@@ -520,6 +398,8 @@
                         android:gravity="center"/>
 
                 </LinearLayout>
+
+            </LinearLayout>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -549,7 +429,23 @@
                     android:textStyle="bold"
                     android:textSize="@dimen/text_size_xlarge"/>
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/radar_chart_no_mood_registered_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_normal"
+                    android:text="@string/register_more_moods"
+                    android:visibility="gone">
+                </TextView>
+
+            <LinearLayout
+                android:id="@+id/linear_radar_chart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <LinearLayout
                     android:id="@+id/radar_period_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -567,7 +463,7 @@
                 </LinearLayout>
 
                 <com.github.mikephil.charting.charts.RadarChart
-                    android:id="@+id/custom_radar_chart"
+                    android:id="@+id/radar_chart"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:layout_marginTop="8dp"/>
@@ -591,6 +487,8 @@
                         android:gravity="center"/>
 
                 </LinearLayout>
+
+            </LinearLayout>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

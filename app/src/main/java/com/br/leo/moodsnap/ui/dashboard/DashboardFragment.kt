@@ -9,17 +9,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.databinding.FragmentDashboardBinding
-import com.br.leo.moodsnap.ui.dialog.DialogEmotions
 import com.br.leo.moodsnap.ui.utils.Utils
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
 import kotlin.math.roundToInt
@@ -28,11 +24,8 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
-import androidx.core.view.isVisible
-import com.github.mikephil.charting.components.Legend
 import android.content.Context
 import com.br.leo.moodsnap.ui.utils.FontUtils
-import android.graphics.Typeface
 import android.view.Gravity
 import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
@@ -44,8 +37,6 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.components.LegendEntry
 import java.util.*
 import com.github.mikephil.charting.charts.RadarChart
 import com.github.mikephil.charting.data.RadarData
@@ -61,11 +52,7 @@ class DashboardFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var mainViewModel: MainViewModel
-    private var firstTime = true
-    private var isDonutFirstLoad = true // Nova flag para controlar a animação do donut
     private var currentDayFilter = 0 // Novo: para controlar o filtro de dias atual
-    private var isBarFirstLoad = true // Nova flag para controlar a animação do bar chart
-    private var isRadarFirstLoad = true // Nova flag para controlar a animação do radar chart
 
     // Novo: Enum para os filtros de dias
     private enum class DayFilterType(val days: Int, val stringResourceId: Int) {
@@ -100,25 +87,34 @@ class DashboardFragment : Fragment() {
         }
 
         setupDayFilterSpinner()
-        setupBarChartDayFilterSpinner()
-        setupCommonLegend()
-        setupDonutPeriodSpinner()
-        setupDonutChart()
-        setupBarPeriodSpinner()
-        setupCustomBarChart()
-        setupRadarPeriodSpinner()
-        setupCustomRadarChart()
         setupObservers()
+        
+        // Carregar os dados primeiro
         dashboardViewModel.loadMoods()
 
-        // Set initial visibility to ensure no chart is shown by default
-        binding.pieChart.visibility = View.GONE
-        binding.barChart.visibility = View.GONE
-        binding.periodFilterContainer.visibility = View.GONE
-        binding.expandArrow.rotation = 0f
+        // Observar quando os dados forem carregados para configurar os spinners
+        dashboardViewModel.moods.observe(viewLifecycleOwner) { moods ->
+            if (moods.isNotEmpty()) {
+                setupDonutPeriodSpinner()
+                setupDonutChart()
+                setupBarPeriodSpinner()
+                setupCustomBarChart()
+                setupRadarPeriodSpinner()
+                setupCustomRadarChart()
+            }else{
+                setupNoMoodRegistered()
+            }
+        }
+    }
 
-        // Set spinner to default to 'Barras' but keep views hidden
-        binding.distributionViewSpinner.setSelection(0)
+    private fun setupNoMoodRegistered() {
+        binding.linearDonutChart.visibility = View.GONE
+        binding.linearBarChart.visibility = View.GONE
+        binding.linearRadarChart.visibility = View.GONE
+
+        binding.donutChartNoMoodRegisteredText.visibility = View.VISIBLE
+        binding.barChartNoMoodRegisteredText.visibility = View.VISIBLE
+        binding.radarChartNoMoodRegisteredText.visibility = View.VISIBLE
     }
 
     private fun setupDayFilterSpinner() {
@@ -174,8 +170,6 @@ class DashboardFragment : Fragment() {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
-        // Setup distribution view spinner
-        setupDistributionViewSpinner()
     }
 
     private fun getAvailableFilters(oldestRecordDate: Date): List<DayFilterType> {
@@ -193,89 +187,6 @@ class DashboardFragment : Fragment() {
                 diffInDays < 365 -> filter in listOf(DayFilterType.LAST_7_DAYS, DayFilterType.LAST_MONTH, DayFilterType.LAST_3_MONTHS, DayFilterType.LAST_6_MONTHS, DayFilterType.LAST_9_MONTHS, DayFilterType.LAST_YEAR)
                 else -> true // Se for mais que 365 dias, mostra todas as opções
             }
-        }
-    }
-
-    private fun setupBarChartDayFilterSpinner() {
-        // Obter a data do registro mais antigo do ViewModel
-        val oldestRecordDate = dashboardViewModel.getOldestMoodDate() ?: run {
-            binding.periodSpinner.visibility = View.GONE
-            return
-        }
-
-        // Obter apenas os filtros disponíveis baseado na data mais antiga
-        val availableFilters = getAvailableFilters(oldestRecordDate)
-        
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
-        
-        val adapter = object : ArrayAdapter<DayFilterType>(
-            requireContext(),
-            android.R.layout.simple_spinner_item,
-            availableFilters
-        ) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getView(position, convertView, parent)
-                (view as TextView).apply {
-                    text = context.getString(availableFilters[position].stringResourceId)
-                    gravity = Gravity.START
-                    setPadding(0, paddingTop, paddingRight, paddingBottom)
-                    this.typeface = typeface
-                }
-                return view
-            }
-
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getDropDownView(position, convertView, parent)
-                view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
-                (view as TextView).apply {
-                    text = context.getString(availableFilters[position].stringResourceId)
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    this.typeface = typeface
-                    gravity = Gravity.START
-                }
-                return view
-            }
-        }
-
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        binding.periodSpinner.apply {
-            this.adapter = adapter
-            setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
-        }
-
-        binding.periodSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    currentDayFilter = position
-                    // Obter a distribuição atual e aplicar o novo filtro
-                    dashboardViewModel.moodDistribution.value?.let { distribution ->
-                        val filteredDistribution = filterDistributionByDays(distribution, availableFilters[position].days)
-                        
-                        // Reset charts before updating
-                        binding.pieChart.clear()
-                        binding.pieChart.data = null
-                        binding.pieChart.legend.resetCustom()
-                        binding.pieChart.notifyDataSetChanged()
-                        binding.pieChart.invalidate()
-                        
-                        binding.barChart.clear()
-                        binding.radarChart.clear()
-                        
-                        // Update charts with new data
-                        setupPieChart(filteredDistribution)
-                        setupBarChart(filteredDistribution)
-                        setupRadarChart(filteredDistribution)
-                    }
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
     }
 
@@ -299,98 +210,6 @@ class DashboardFragment : Fragment() {
             DayFilterType.LAST_9_MONTHS.days -> getString(R.string.no_mood_distribution_270_days)
             DayFilterType.LAST_YEAR.days -> getString(R.string.no_mood_distribution_365_days)
             else -> getString(R.string.no_mood_distribution)
-        }
-    }
-
-    private fun setupDistributionViewSpinner() {
-        val viewTypes = listOf(
-           // getString(R.string.distribution_view_bars),
-            getString(R.string.distribution_view_donut),
-            getString(R.string.distribution_view_bar_group),
-            getString(R.string.distribution_view_spider)
-        )
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
-        
-        val adapter = object : ArrayAdapter<String>(
-            requireContext(),
-            android.R.layout.simple_spinner_item,
-            viewTypes
-        ) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getView(position, convertView, parent)
-                (view as TextView).apply {
-                    this.typeface = typeface
-                }
-                return view
-            }
-
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getDropDownView(position, convertView, parent)
-                view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
-                (view as TextView).apply {
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    this.typeface = typeface
-                }
-                return view
-            }
-        }
-
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        binding.distributionViewSpinner.apply {
-            this.adapter = adapter
-            setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
-        }
-
-        binding.distributionViewSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    if(!firstTime){
-                        when (position) {
-//                            0 -> { // Barras
-//                                binding.pieChart.visibility = View.GONE
-//                                binding.barChart.visibility = View.GONE
-//                                binding.radarChart.visibility = View.GONE
-//                                binding.periodFilterContainer.visibility = View.GONE
-//                                binding.moodDistributionContainer.visibility = View.VISIBLE
-//                            }
-                            0 -> { // Donut
-                                binding.pieChart.visibility = View.VISIBLE
-                                binding.barChart.visibility = View.GONE
-                                binding.radarChart.visibility = View.GONE
-                                binding.periodFilterContainer.visibility = View.VISIBLE
-                                binding.moodDistributionContainer.visibility = View.GONE
-                                binding.legendItemsContainer.visibility = View.VISIBLE
-                            }
-                            1 -> { // Barra grupo
-                                binding.pieChart.visibility = View.GONE
-                                binding.barChart.visibility = View.VISIBLE
-                                binding.radarChart.visibility = View.GONE
-                                binding.periodFilterContainer.visibility = View.VISIBLE
-                                binding.moodDistributionContainer.visibility = View.GONE
-                                binding.legendItemsContainer.visibility = View.VISIBLE
-                            }
-                            2 -> { // Spider
-                                binding.pieChart.visibility = View.GONE
-                                binding.barChart.visibility = View.GONE
-                                binding.radarChart.visibility = View.VISIBLE
-                                binding.periodFilterContainer.visibility = View.VISIBLE
-                                binding.moodDistributionContainer.visibility = View.GONE
-                                binding.legendItemsContainer.visibility = View.VISIBLE
-                            }
-                        }
-                    }else{
-                        firstTime = false
-                    }
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
     }
 
@@ -425,11 +244,7 @@ class DashboardFragment : Fragment() {
             val dayFilters = DayFilterType.values()
             val filteredDistribution = filterDistributionByDays(distribution, dayFilters[currentDayFilter].days)
             
-            updateMoodDistribution(distribution)
             updateQuickDistribution(distribution)
-            setupPieChart(filteredDistribution)
-            setupBarChart(filteredDistribution)
-            setupRadarChart(filteredDistribution)
         }
 
         // Observar sequência atual
@@ -542,152 +357,12 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    private fun updateMoodDistribution(distribution: Map<Int, Int>) {
-        val container = binding.moodDistributionContainer
-        container.removeAllViews()
-
-        val total = distribution.values.sum().toFloat()
-        if (total == 0f) {
-            binding.distributionSummary.text = getString(R.string.no_mood_distribution)
-            return
-        }
-
-        // Encontrar o humor mais frequente
-        val mostFrequentMood = distribution.entries.maxByOrNull { it.value }
-        val mostFrequentPercentage = ((mostFrequentMood?.value ?: 0) / total * 100).roundToInt()
-        // Atualizar o resumo no cabeçalho
-        binding.distributionSummary.text = getString(
-            R.string.you_were_mood,
-            dashboardViewModel.getMoodName(requireContext(), mostFrequentMood?.key ?: 2),
-            mostFrequentPercentage
-        )
-
-        // Configurar o clique no cabeçalho
-        binding.distributionHeader.setOnClickListener {
-            firstTime = false
-            adjustGraphsVisibility()
-        }
-
-        // Criar cards para cada tipo de humor
-        for (moodType in 0..4) {
-            val count = distribution[moodType] ?: 0
-            val percentage = (count / total * 100).roundToInt()
-
-            val itemCard = CardView(requireContext()).apply {
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    topMargin = resources.getDimensionPixelSize(R.dimen.spacing_small)
-                }
-                radius = resources.getDimensionPixelSize(R.dimen.spacing_small).toFloat()
-                setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
-                cardElevation = resources.getDimensionPixelSize(R.dimen.spacing_small).toFloat()
-            }
-
-            val cardContent = LinearLayout(context).apply {
-                orientation = LinearLayout.HORIZONTAL
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                )
-                val paddingValue = resources.getDimensionPixelSize(R.dimen.spacing_normal)
-                setPadding(paddingValue, paddingValue, paddingValue, paddingValue)
-                gravity = android.view.Gravity.CENTER_VERTICAL
-            }
-
-            // Ícone do humor
-            val icon = ImageView(context).apply {
-                setImageResource(Utils.getMoodDrawable(moodType))
-                layoutParams = LinearLayout.LayoutParams(
-                    60,
-                    60
-                ).apply {
-                    marginEnd = resources.getDimensionPixelSize(R.dimen.spacing_normal)
-                }
-            }
-
-            // Texto da porcentagem e estatísticas
-            val statsLayout = LinearLayout(context).apply {
-                orientation = LinearLayout.VERTICAL
-                layoutParams = LinearLayout.LayoutParams(
-                    0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    1f
-                ).apply {
-                    marginStart = resources.getDimensionPixelSize(R.dimen.spacing_normal)
-                }
-            }
-
-            // Texto da porcentagem
-            val percentageText = TextView(context).apply {
-                text = "$percentage%"
-                setTextColor(Color.BLACK)
-                textSize = 18f
-                textAlignment = View.TEXT_ALIGNMENT_VIEW_START
-            }
-            statsLayout.addView(percentageText)
-
-            // Última ocorrência
-            val lastDate = dashboardViewModel.getLastMoodDate(moodType)
-            if (lastDate != null) {
-                val lastOccurrenceText = TextView(context).apply {
-                    text = getString(R.string.last_record, lastDate)
-                    setTextColor(Color.BLACK)
-                    textSize = 18f
-                    alpha = 0.8f
-                    textAlignment = View.TEXT_ALIGNMENT_VIEW_START
-                }
-                statsLayout.addView(lastOccurrenceText)
-            }
-
-            // Maior sequência
-            val longestStreak = dashboardViewModel.getLongestStreak(moodType)
-            if (longestStreak > 1) {
-                val streakText = TextView(context).apply {
-                    text = getString(R.string.longest_streak, longestStreak)
-                    setTextColor(Color.BLACK)
-                    textSize = 14f
-                    alpha = 0.8f
-                    textAlignment = View.TEXT_ALIGNMENT_VIEW_START
-                }
-                statsLayout.addView(streakText)
-            }
-
-            // Total de registros
-            val totalRegisters = TextView(context).apply {
-                text = getString(R.string.times_recorded, distribution[moodType] ?: 0)
-                setTextColor(Color.BLACK)
-                textSize = 18f
-                textAlignment = View.TEXT_ALIGNMENT_VIEW_END
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    marginStart = resources.getDimensionPixelSize(R.dimen.spacing_normal)
-                }
-            }
-
-            cardContent.addView(icon)
-            cardContent.addView(statsLayout)
-            cardContent.addView(totalRegisters)
-            itemCard.addView(cardContent)
-            container.addView(itemCard)
-        }
-
-        // Atualizar os gráficos com os dados filtrados pelo período atual
-        val dayFilters = DayFilterType.values()
-        val filteredDistribution = filterDistributionByDays(distribution, dayFilters[currentDayFilter].days)
-        setupPieChart(filteredDistribution)
-        setupBarChart(filteredDistribution)
-    }
-
     private fun updateQuickDistribution(distribution: Map<Int, Int>) {
         val container = binding.quickDistributionContainer
         container.removeAllViews()
 
         val total = distribution.values.sum().toFloat()
-        if (total == 0f) return
+      //  if (total == 0f) return
 
         // Ordem dos humores: do mais feliz para o mais triste
         val moodOrder = listOf(4, 3, 2, 1, 0)
@@ -730,9 +405,13 @@ class DashboardFragment : Fragment() {
 
             // Texto da porcentagem
             val percentageText = TextView(requireContext()).apply {
-                val count = distribution[moodType] ?: 0
-                val percentage = (count / total * 100).roundToInt()
-                text = "$percentage%"
+                if(total == 0f){
+                    text = "0%"
+                }else{
+                    val count = distribution[moodType] ?: 0
+                    val percentage = (count / total * 100).roundToInt()
+                    text = "$percentage%"
+                }
                 setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
                 textSize = 12f
                 gravity = Gravity.CENTER
@@ -749,417 +428,6 @@ class DashboardFragment : Fragment() {
             itemLayout.addView(percentageText)
             container.addView(itemLayout)
         }
-    }
-
-    private fun setupCommonLegend() {
-        val legendContainer = binding.legendItemsContainer
-        legendContainer.removeAllViews()
-
-        val moodOrder = listOf(4, 3, 2, 1, 0)
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
-
-        moodOrder.forEachIndexed { index, moodType ->
-            val itemLayout = LinearLayout(requireContext()).apply {
-                orientation = LinearLayout.HORIZONTAL
-                gravity = Gravity.CENTER_VERTICAL
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    if (index > 0) {
-                        marginStart = resources.getDimensionPixelSize(R.dimen.spacing_normal)
-                    }
-                }
-            }
-
-            // Quadrado colorido
-            val colorBox = View(requireContext()).apply {
-                layoutParams = LinearLayout.LayoutParams(
-                    resources.getDimensionPixelSize(R.dimen.legend_square_size),
-                    resources.getDimensionPixelSize(R.dimen.legend_square_size)
-                )
-                setBackgroundColor(dashboardViewModel.getMoodColor(moodType))
-            }
-
-            // Texto da legenda
-            val legendText = TextView(requireContext()).apply {
-                text = dashboardViewModel.getMoodName(requireContext(), moodType)
-                setTextColor(Color.WHITE)
-                textSize = resources.getDimension(R.dimen.legend_bar_chart)
-                this.typeface = typeface
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    marginStart = resources.getDimensionPixelSize(R.dimen.spacing_small)
-                }
-            }
-
-            itemLayout.addView(colorBox)
-            itemLayout.addView(legendText)
-            legendContainer.addView(itemLayout)
-        }
-    }
-
-    private fun setupPieChart(distribution: Map<Int, Int>) {
-        val pieChart: PieChart = binding.pieChart
-
-        // Get current font
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
-
-        // Clear any existing data
-        pieChart.clear()
-        pieChart.data = null
-        pieChart.notifyDataSetChanged()
-
-        // Configurações básicas
-        pieChart.description.isEnabled = false
-        pieChart.setUsePercentValues(true)
-        pieChart.setDrawEntryLabels(false)
-        pieChart.setMinOffset(25f)
-        pieChart.setExtraOffsets(15f, 0f, 15f, 0f)
-        pieChart.legend.isEnabled = false // Desabilitar legenda individual
-
-        // Configurar o buraco do donut
-        pieChart.holeRadius = resources.getDimension(R.dimen.hole_pie_chart)
-        pieChart.transparentCircleRadius = 50f
-        pieChart.setHoleColor(Color.TRANSPARENT)
-        pieChart.setTransparentCircleColor(Color.TRANSPARENT)
-
-        // Check if there are any records
-        if (distribution.isEmpty() || distribution.values.sum() == 0) {
-            val days = DayFilterType.values().getOrNull(currentDayFilter)?.days ?: -1
-            pieChart.setNoDataText(getNoDataMessageForPeriod(days))
-            pieChart.setNoDataTextColor(Color.WHITE)
-            pieChart.setNoDataTextTypeface(typeface)
-            pieChart.getPaint(PieChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
-            pieChart.invalidate()
-            return
-        }
-
-        val entries = ArrayList<PieEntry>()
-        val colors = ArrayList<Int>()
-
-        // Criar entradas na ordem correta apenas para humores que têm registros
-        val moodOrder = listOf(4, 3, 2, 1, 0)
-        moodOrder.forEach { moodType ->
-            val count = distribution[moodType] ?: 0
-            if (count > 0) {
-                entries.add(PieEntry(count.toFloat(), dashboardViewModel.getMoodName(requireContext(), moodType)))
-                colors.add(dashboardViewModel.getMoodColor(moodType))
-            }
-        }
-
-        // Configurar o dataset
-        val dataSet = PieDataSet(entries, "")
-        dataSet.colors = colors
-        dataSet.valueTextSize = resources.getDimension(R.dimen.legend_pie_chart)
-        dataSet.valueTextColor = Color.WHITE
-        dataSet.valueTypeface = pieChart.legend.typeface
-        dataSet.yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
-        dataSet.valueLinePart1Length = 0.6f
-        dataSet.valueLinePart2Length = 0.3f
-        dataSet.valueLineColor = Color.WHITE
-        dataSet.valueLineWidth = 2f
-        dataSet.sliceSpace = 3f
-
-        // Configurar os dados
-        val pieData = PieData(dataSet)
-        pieData.setValueFormatter(object : ValueFormatter() {
-            override fun getFormattedValue(value: Float): String {
-                val total = distribution.values.sum().toFloat()
-                val count = (value * total / 100).roundToInt()
-                return "${value.roundToInt()}% ($count)"
-            }
-        })
-
-        // Aplicar dados ao gráfico
-        pieChart.data = pieData
-        pieChart.invalidate()
-    }
-
-    private fun setupBarChart(distribution: Map<Int, Int>) {
-        val barChart: BarChart = binding.barChart
-
-        // Get current font
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
-
-        // Check if there are any records
-        if (distribution.isEmpty() || distribution.values.sum() == 0) {
-            val days = DayFilterType.values().getOrNull(currentDayFilter)?.days ?: -1
-            barChart.setNoDataText(getNoDataMessageForPeriod(days))
-            barChart.setNoDataTextColor(Color.WHITE)
-            barChart.setNoDataTextTypeface(typeface)
-            barChart.getPaint(BarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
-            barChart.legend.isEnabled = false // Desabilitar legenda individual
-            barChart.invalidate()
-            return
-        }
-
-        // Calcular o total de registros para usar como base da porcentagem
-        val totalRecords = distribution.values.sum()
-
-        // Criar entradas para o gráfico
-        val entries = ArrayList<BarEntry>()
-        val labels = ArrayList<String>()
-
-        // Ordem dos humores: muito feliz -> muito triste
-        val moodOrder = listOf(4, 3, 2, 1, 0)
-        moodOrder.forEachIndexed { index, moodType ->
-            val count = distribution[moodType] ?: 0
-            entries.add(BarEntry(index.toFloat(), count.toFloat()))
-            labels.add(dashboardViewModel.getMoodName(requireContext(), moodType))
-        }
-
-        // Configurar o dataset
-        val dataSet = BarDataSet(entries, "")
-        dataSet.colors = moodOrder.map { moodType ->
-            dashboardViewModel.getMoodColor(moodType)
-        }
-        dataSet.valueTextSize = 11f
-        dataSet.valueTextColor = Color.WHITE
-        dataSet.valueTypeface = typeface
-        dataSet.setDrawValues(true)
-        dataSet.barShadowColor = R.color.black
-
-        // Configurar dados do gráfico
-        val barData = BarData(dataSet)
-        barData.barWidth = 0.7f
-
-        // Configurar formatador de valores personalizado
-        barData.setValueFormatter(object : ValueFormatter() {
-            override fun getFormattedValue(value: Float): String {
-                if (value > 0f) {
-                    val percentage = (value / totalRecords * 100).roundToInt()
-                    return "${value.toInt()}\n ($percentage%)"
-                }
-                return value.toInt().toString()
-            }
-        })
-
-        // Definir renderer com cantos arredondados
-        barChart.data = barData
-
-        val renderer = RoundedBarChartRenderer(barChart, barChart.animator, barChart.viewPortHandler)
-        barChart.renderer = renderer
-
-        renderer.initBuffers()
-
-        // Personalizar aparência
-        barChart.description.isEnabled = false
-        barChart.setDrawValueAboveBar(true)
-        barChart.isHighlightPerTapEnabled = true
-        barChart.setTouchEnabled(true)
-        barChart.isClickable = true
-        barChart.isDragEnabled = false // Desabilitar drag
-        barChart.setScaleEnabled(false) // Desabilitar zoom
-        barChart.setPinchZoom(false) // Desabilitar pinch zoom
-        barChart.setDoubleTapToZoomEnabled(false) // Desabilitar zoom com double tap
-
-        // Configurar eixo X
-        val xAxis = barChart.xAxis
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.setDrawGridLines(false)
-        xAxis.granularity = 1f
-        xAxis.typeface = typeface
-        xAxis.textColor = Color.WHITE
-        xAxis.valueFormatter = IndexAxisValueFormatter(labels)
-        xAxis.labelRotationAngle = -45f
-        xAxis.setDrawLabels(false)
-
-        // Configurar eixo Y esquerdo
-        val leftAxis = barChart.axisLeft
-        leftAxis.setDrawGridLines(true)
-        leftAxis.typeface = typeface
-        leftAxis.textColor = Color.WHITE
-        leftAxis.axisMinimum = 0f
-        leftAxis.granularity = 1f
-        leftAxis.spaceTop = 35f
-        leftAxis.valueFormatter = object : ValueFormatter() {
-            override fun getFormattedValue(value: Float): String {
-                return value.toInt().toString()
-            }
-        }
-
-        // Desabilitar eixo Y direito
-        barChart.axisRight.isEnabled = false
-
-        // Desabilitar legenda individual
-        barChart.legend.isEnabled = false
-
-        // Animação
-        barChart.animateY(1000)
-        barChart.highlightValues(null)
-        barChart.invalidate()
-    }
-
-    private fun setupRadarChart(distribution: Map<Int, Int>) {
-        val radarChart = binding.radarChart
-
-        // Get current font
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
-
-        // Disable legend and clear data first to prevent rendering issues during transitions
-        radarChart.legend.isEnabled = false
-        radarChart.clear()
-        radarChart.data = null
-        radarChart.invalidate()
-
-        // Configurar o gráfico
-        radarChart.description.isEnabled = false
-        radarChart.webLineWidth = 3f
-        radarChart.webColor = Color.LTGRAY
-        radarChart.webLineWidthInner = 3f
-        radarChart.webColorInner = Color.LTGRAY
-        radarChart.webAlpha = 100
-        radarChart.minOffset = 5f
-        radarChart.setTouchEnabled(true)
-        radarChart.isHighlightPerTapEnabled = true
-
-        // Configurar typeface para os eixos e legenda
-        radarChart.xAxis.typeface = typeface
-        radarChart.yAxis.typeface = typeface
-        radarChart.legend.typeface = typeface
-
-        // Obter dados por dia da semana com filtro de período
-        val days = DayFilterType.values().getOrNull(currentDayFilter)?.days ?: -1
-        val weekdayData = if (days > 0) {
-            val calendar = Calendar.getInstance()
-            calendar.add(Calendar.DAY_OF_YEAR, -days)
-            val startDate = calendar.time
-            dashboardViewModel.getMoodsByWeekdayForPeriod(startDate)
-        } else {
-            dashboardViewModel.getMoodsByWeekday()
-        }
-
-        // Verificar se há dados
-        val hasData = weekdayData.values.any { dayData -> dayData.values.sum() > 0 }
-        if (!hasData) {
-            radarChart.setNoDataText(getNoDataMessageForPeriod(days))
-            radarChart.setNoDataTextColor(Color.WHITE)
-            radarChart.setNoDataTextTypeface(typeface)
-            radarChart.getPaint(RadarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
-            radarChart.invalidate()
-            return
-        }
-
-        val weekdays = listOf(
-            getString(R.string.weekday_sunday),
-            getString(R.string.weekday_monday),
-            getString(R.string.weekday_tuesday),
-            getString(R.string.weekday_wednesday),
-            getString(R.string.weekday_thursday),
-            getString(R.string.weekday_friday),
-            getString(R.string.weekday_saturday)
-        )
-
-        val weekdaysFull = listOf(
-            getString(R.string.weekday_full_sunday),
-            getString(R.string.weekday_full_monday),
-            getString(R.string.weekday_full_tuesday),
-            getString(R.string.weekday_full_wednesday),
-            getString(R.string.weekday_full_thursday),
-            getString(R.string.weekday_full_friday),
-            getString(R.string.weekday_full_saturday)
-        )
-
-        // Criar entradas para cada tipo de humor na ordem padrão (4 a 0)
-        val moodOrder = listOf(4, 3, 2, 1, 0)
-        val entries = mutableListOf<List<RadarEntry>>()
-        val colors = mutableListOf<Int>()
-        val labels = mutableListOf<String>()
-
-        // Para cada tipo de humor na ordem padrão
-        for (moodType in moodOrder) {
-            val moodEntries = weekdays.indices.map { dayIndex ->
-                val count = weekdayData[dayIndex]?.get(moodType) ?: 0
-                RadarEntry(count.toFloat())
-            }
-            entries.add(moodEntries)
-            colors.add(dashboardViewModel.getMoodColor(moodType))
-            labels.add(dashboardViewModel.getMoodName(requireContext(), moodType))
-        }
-
-        // Create datasets
-        val dataSets = entries.mapIndexed { index, entries ->
-            RadarDataSet(entries, labels[index]).apply {
-                color = colors[index]
-                fillColor = colors[index]
-                setDrawFilled(true)
-                fillAlpha = 180
-                lineWidth = 2f
-                isDrawHighlightCircleEnabled = true
-                setDrawHighlightIndicators(false)
-            }
-        }
-
-        // Configure data
-        val radarData = RadarData(dataSets)
-        radarData.setValueTypeface(typeface)
-        radarData.setValueTextSize(14f)
-        radarData.setDrawValues(true)
-        radarData.setValueTextColor(Color.WHITE)
-        radarData.setValueFormatter(object : ValueFormatter() {
-            override fun getFormattedValue(value: Float): String {
-                return if (value > 0) value.toInt().toString() else ""
-            }
-        })
-
-        // Configure X axis (weekdays)
-        val xAxis = radarChart.xAxis
-        xAxis.textSize = 12f
-        xAxis.yOffset = 0f
-        xAxis.xOffset = 0f
-        xAxis.valueFormatter = IndexAxisValueFormatter(weekdays)
-        xAxis.textColor = Color.WHITE
-
-        // Configure Y axis
-        val yAxis = radarChart.yAxis
-        yAxis.setLabelCount(5, false)
-        yAxis.textSize = 12f
-        yAxis.axisMinimum = 0f
-        yAxis.setDrawLabels(false)
-
-        // Apply data to chart
-        radarChart.data = radarData
-
-        // Configurar listener de clique
-        radarChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
-            override fun onValueSelected(e: Entry?, h: Highlight?) {
-                if (e != null && h != null) {
-                    val count = e.y.toInt()
-                    // Só mostra o dialog se houver registros
-                    if (count > 0) {
-                        val dataSetIndex = h.dataSetIndex
-                        val weekdayIndex = h.x.toInt()
-                        val moodType = moodOrder[dataSetIndex]
-                        val weekday = weekdaysFull[weekdayIndex]
-                        
-                        showMoodDetailsDialog(
-                            weekday,
-                            moodType,
-                            count,
-                            dashboardViewModel.getMoodName(requireContext(), moodType),
-                            dashboardViewModel.getMoodColor(moodType)
-                        )
-                    }
-                }
-            }
-
-            override fun onNothingSelected() {
-                // Não é necessário fazer nada aqui
-            }
-        })
-
-        radarChart.invalidate()
     }
 
     private fun showMoodDetailsDialog(weekday: String, moodType: Int, count: Int, moodName: String, moodColor: Int) {
@@ -1190,35 +458,18 @@ class DashboardFragment : Fragment() {
         _binding = null
     }
 
-    private fun adjustGraphsVisibility() {
-        val selectedPosition = binding.distributionViewSpinner.selectedItemPosition
-        val isExpanded = when (selectedPosition) {
-            //0 -> binding.moodDistributionContainer.isVisible
-            0 -> binding.pieChart.isVisible
-            1 -> binding.barChart.isVisible
-            2 -> binding.radarChart.isVisible
-            else -> false
-        }
+    private fun getFirstPeriodWithMoods(availableFilters: List<DayFilterType>): Int {
+        // Garantir que os dados estejam carregados
+        val moods = dashboardViewModel.moods.value ?: return 0
+        if (moods.isEmpty()) return 0
 
-        when (selectedPosition) {
-//            0 -> { // Barras
-//            binding.moodDistributionContainer.visibility = if (isExpanded) View.GONE else View.VISIBLE
-//                binding.pieChart.visibility = View.GONE
-//                binding.barChart.visibility = View.GONE
-//                binding.radarChart.visibility = View.GONE
-//                binding.periodFilterContainer.visibility = View.GONE
-//            }
-            0, 1, 2 -> { // Donut ou Barra grupo
-                binding.moodDistributionContainer.visibility = View.GONE
-                binding.pieChart.visibility = if (selectedPosition == 0 && !isExpanded) View.VISIBLE else View.GONE
-                binding.barChart.visibility = if (selectedPosition == 1 && !isExpanded) View.VISIBLE else View.GONE
-                binding.radarChart.visibility = if (selectedPosition == 2 && !isExpanded) View.VISIBLE else View.GONE
-                binding.periodFilterContainer.visibility = if (!isExpanded) View.VISIBLE else View.GONE
-                binding.legendItemsContainer.visibility =  if (!isExpanded) View.VISIBLE else View.GONE
+        for (i in availableFilters.indices) {
+            val days = availableFilters[i].days
+            if (dashboardViewModel.hasMoodsInPeriod(days)) {
+                return i
             }
         }
-
-        binding.expandArrow.rotation = if (isExpanded) 0f else 180f
+        return 0 // Default to first period if no moods found
     }
 
     private fun setupDonutPeriodSpinner() {
@@ -1268,10 +519,9 @@ class DashboardFragment : Fragment() {
         binding.donutPeriodSpinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
-            // Definir seleção inicial para 7 dias
-            setSelection(0)
         }
 
+        // Primeiro configurar o listener
         binding.donutPeriodSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -1289,6 +539,10 @@ class DashboardFragment : Fragment() {
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
+
+        // Depois selecionar o primeiro período com registros
+        val firstPeriodWithMoods = getFirstPeriodWithMoods(availableFilters)
+        binding.donutPeriodSpinner.setSelection(firstPeriodWithMoods)
     }
 
     private fun setupDonutChart() {
@@ -1468,7 +722,7 @@ class DashboardFragment : Fragment() {
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
         val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
-        
+
         val adapter = object : ArrayAdapter<DayFilterType>(
             requireContext(),
             android.R.layout.simple_spinner_item,
@@ -1502,9 +756,9 @@ class DashboardFragment : Fragment() {
         binding.barPeriodSpinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
-            setSelection(0)
         }
 
+        // Primeiro configurar o listener
         binding.barPeriodSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -1521,10 +775,14 @@ class DashboardFragment : Fragment() {
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
+
+        // Depois selecionar o primeiro período com registros
+        val firstPeriodWithMoods = getFirstPeriodWithMoods(availableFilters)
+        binding.barPeriodSpinner.setSelection(firstPeriodWithMoods)
     }
 
     private fun setupCustomBarChart() {
-        val barChart = binding.customBarChart
+        val barChart = binding.barChart
 
         // Get current font
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
@@ -1588,7 +846,7 @@ class DashboardFragment : Fragment() {
     }
 
     private fun updateCustomBarChart(distribution: Map<Int, Int>) {
-        val barChart = binding.customBarChart
+        val barChart = binding.barChart
 
         // Check if there are any records
         if (distribution.isEmpty() || distribution.values.sum() == 0) {
@@ -1631,9 +889,9 @@ class DashboardFragment : Fragment() {
         val barData = BarData(dataSet).apply {
             barWidth = 0.7f
             setValueFormatter(object : ValueFormatter() {
-                override fun getFormattedValue(value: Float): String {
-                    if (value > 0f) {
-                        val percentage = (value / totalRecords * 100).roundToInt()
+            override fun getFormattedValue(value: Float): String {
+                if (value > 0f) {
+                    val percentage = (value / totalRecords * 100).roundToInt()
                         return "${value.toInt()}\n($percentage%)"
                     }
                     return ""
@@ -1750,9 +1008,9 @@ class DashboardFragment : Fragment() {
         binding.radarPeriodSpinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
-            setSelection(0)
         }
 
+        // Primeiro configurar o listener
         binding.radarPeriodSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -1769,10 +1027,14 @@ class DashboardFragment : Fragment() {
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
+
+        // Depois selecionar o primeiro período com registros
+        val firstPeriodWithMoods = getFirstPeriodWithMoods(availableFilters)
+        binding.radarPeriodSpinner.setSelection(firstPeriodWithMoods)
     }
 
     private fun setupCustomRadarChart() {
-        val radarChart = binding.customRadarChart
+        val radarChart = binding.radarChart
 
         // Get current font
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
@@ -1814,14 +1076,14 @@ class DashboardFragment : Fragment() {
     }
 
     private fun updateCustomRadarChart(distribution: Map<Int, Int>) {
-        val radarChart = binding.customRadarChart
+        val radarChart = binding.radarChart
 
         // Check if there are any records
         if (distribution.isEmpty() || distribution.values.sum() == 0) {
-            radarChart.clear()
+        radarChart.clear()
             radarChart.notifyDataSetChanged()
-            radarChart.invalidate()
-            
+        radarChart.invalidate()
+
             val selectedPosition = binding.radarPeriodSpinner.selectedItemPosition
             val days = DayFilterType.values().getOrNull(selectedPosition)?.days ?: -1
             radarChart.setNoDataText(getNoDataMessageForPeriod(days))
@@ -1887,10 +1149,10 @@ class DashboardFragment : Fragment() {
             setDrawValues(true)
             setValueTextColor(Color.WHITE)
             setValueFormatter(object : ValueFormatter() {
-                override fun getFormattedValue(value: Float): String {
-                    return if (value > 0) value.toInt().toString() else ""
-                }
-            })
+            override fun getFormattedValue(value: Float): String {
+                return if (value > 0) value.toInt().toString() else ""
+            }
+        })
         }
 
         // Configure X axis (weekdays)

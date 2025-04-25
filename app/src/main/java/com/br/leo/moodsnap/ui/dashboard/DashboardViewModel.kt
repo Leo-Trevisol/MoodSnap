@@ -356,4 +356,16 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         val dayOfWeek: Int,
         val dayOfMonth: Int
     )
+
+    fun hasMoodsInPeriod(days: Int): Boolean {
+        if (days == -1) return (_moods.value?.isNotEmpty() ?: false)
+        
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, -days)
+        val startDate = calendar.time
+        
+        return _moods.value?.any { mood -> 
+            mood.date.after(startDate) || mood.date == startDate
+        } ?: false
+    }
 }
