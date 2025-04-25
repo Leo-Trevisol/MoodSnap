@@ -64,6 +64,8 @@ class DashboardFragment : Fragment() {
     private var firstTime = true
     private var isDonutFirstLoad = true // Nova flag para controlar a animação do donut
     private var currentDayFilter = 0 // Novo: para controlar o filtro de dias atual
+    private var isBarFirstLoad = true // Nova flag para controlar a animação do bar chart
+    private var isRadarFirstLoad = true // Nova flag para controlar a animação do radar chart
 
     // Novo: Enum para os filtros de dias
     private enum class DayFilterType(val days: Int, val stringResourceId: Int) {
@@ -100,9 +102,12 @@ class DashboardFragment : Fragment() {
         setupDayFilterSpinner()
         setupBarChartDayFilterSpinner()
         setupCommonLegend()
-        // Primeiro configurar o spinner de período, depois o gráfico
         setupDonutPeriodSpinner()
         setupDonutChart()
+        setupBarPeriodSpinner()
+        setupCustomBarChart()
+        setupRadarPeriodSpinner()
+        setupCustomRadarChart()
         setupObservers()
         dashboardViewModel.loadMoods()
 
@@ -1391,10 +1396,7 @@ class DashboardFragment : Fragment() {
         // Aplicar dados ao gráfico
         binding.donutChart.apply {
             data = pieData
-            if (isDonutFirstLoad) {
-                animateY(1400)
-                isDonutFirstLoad = false
-            }
+            animateY(700)
             invalidate()
         }
 
@@ -1404,6 +1406,551 @@ class DashboardFragment : Fragment() {
 
     private fun updateDonutLegend(moodOrder: List<Int>) {
         val legendContainer = binding.donutLegendItems
+        legendContainer.removeAllViews()
+
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+
+        moodOrder.forEachIndexed { index, moodType ->
+            val itemLayout = LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.HORIZONTAL
+                gravity = Gravity.CENTER_VERTICAL
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    if (index > 0) {
+                        marginStart = resources.getDimensionPixelSize(R.dimen.spacing_normal)
+                    }
+                }
+            }
+
+            // Quadrado colorido
+            val colorBox = View(requireContext()).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    resources.getDimensionPixelSize(R.dimen.legend_square_size),
+                    resources.getDimensionPixelSize(R.dimen.legend_square_size)
+                )
+                setBackgroundColor(dashboardViewModel.getMoodColor(moodType))
+            }
+
+            // Texto da legenda
+            val legendText = TextView(requireContext()).apply {
+                text = dashboardViewModel.getMoodName(requireContext(), moodType)
+                setTextColor(Color.WHITE)
+                textSize = resources.getDimension(R.dimen.legend_bar_chart)
+                this.typeface = typeface
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    marginStart = resources.getDimensionPixelSize(R.dimen.spacing_small)
+                }
+            }
+
+            itemLayout.addView(colorBox)
+            itemLayout.addView(legendText)
+            legendContainer.addView(itemLayout)
+        }
+    }
+
+    private fun setupBarPeriodSpinner() {
+        // Obter a data do registro mais antigo do ViewModel
+        val oldestRecordDate = dashboardViewModel.getOldestMoodDate() ?: run {
+            binding.barPeriodContainer.visibility = View.GONE
+            return
+        }
+
+        // Obter apenas os filtros disponíveis baseado na data mais antiga
+        val availableFilters = getAvailableFilters(oldestRecordDate)
+        
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+        
+        val adapter = object : ArrayAdapter<DayFilterType>(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            availableFilters
+        ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                (view as TextView).apply {
+                    text = context.getString(availableFilters[position].stringResourceId)
+                    gravity = Gravity.START
+                    setPadding(0, paddingTop, paddingRight, paddingBottom)
+                    this.typeface = typeface
+                }
+                return view
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
+                (view as TextView).apply {
+                    text = context.getString(availableFilters[position].stringResourceId)
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
+                    this.typeface = typeface
+                    gravity = Gravity.START
+                }
+                return view
+            }
+        }
+
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        binding.barPeriodSpinner.apply {
+            this.adapter = adapter
+            setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
+            setSelection(0)
+        }
+
+        binding.barPeriodSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    dashboardViewModel.moodDistribution.value?.let { distribution ->
+                        val filteredDistribution = filterDistributionByDays(distribution, availableFilters[position].days)
+                        updateCustomBarChart(filteredDistribution)
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+    }
+
+    private fun setupCustomBarChart() {
+        val barChart = binding.customBarChart
+
+        // Get current font
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        val customTypeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+
+        // Configurações básicas
+        barChart.apply {
+            description.isEnabled = false
+            setDrawValueAboveBar(true)
+            setTouchEnabled(true)
+            isDragEnabled = false
+            setScaleEnabled(false)
+            setPinchZoom(false)
+            setDrawBarShadow(false)
+            setDrawGridBackground(false)
+            legend.isEnabled = false
+
+            // Configurar eixo X
+            xAxis.apply {
+                position = XAxis.XAxisPosition.BOTTOM
+                setDrawGridLines(false)
+                granularity = 1f
+                typeface = customTypeface
+                textColor = Color.WHITE
+                setDrawLabels(false)
+            }
+
+            // Configurar eixo Y esquerdo
+            axisLeft.apply {
+                setDrawGridLines(true)
+                typeface = customTypeface
+                textColor = Color.WHITE
+                axisMinimum = 0f
+                granularity = 1f
+                spaceTop = 35f
+            }
+
+            // Desabilitar eixo Y direito
+            axisRight.isEnabled = false
+
+            // Configurar texto quando não houver dados
+            setNoDataText(getString(R.string.no_mood_distribution))
+            setNoDataTextColor(Color.WHITE)
+            setNoDataTextTypeface(customTypeface)
+            getPaint(BarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
+        }
+
+        // Definir renderer com cantos arredondados
+        val renderer = RoundedBarChartRenderer(barChart, barChart.animator, barChart.viewPortHandler)
+        barChart.renderer = renderer
+
+        // Observar mudanças na distribuição de humor
+        dashboardViewModel.moodDistribution.observe(viewLifecycleOwner) { distribution ->
+            val availableFilters = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date())
+            val selectedPosition = binding.barPeriodSpinner.selectedItemPosition
+            val selectedFilter = availableFilters.getOrNull(selectedPosition) ?: DayFilterType.LAST_7_DAYS
+            val filteredDistribution = filterDistributionByDays(distribution, selectedFilter.days)
+            updateCustomBarChart(filteredDistribution)
+        }
+    }
+
+    private fun updateCustomBarChart(distribution: Map<Int, Int>) {
+        val barChart = binding.customBarChart
+
+        // Check if there are any records
+        if (distribution.isEmpty() || distribution.values.sum() == 0) {
+            barChart.clear()
+            barChart.notifyDataSetChanged()
+            barChart.invalidate()
+            
+            val selectedPosition = binding.barPeriodSpinner.selectedItemPosition
+            val days = DayFilterType.values().getOrNull(selectedPosition)?.days ?: -1
+            barChart.setNoDataText(getNoDataMessageForPeriod(days))
+            
+            return
+        }
+
+        // Calcular o total de registros para usar como base da porcentagem
+        val totalRecords = distribution.values.sum()
+
+        // Criar entradas para o gráfico
+        val entries = ArrayList<BarEntry>()
+        val labels = ArrayList<String>()
+
+        // Ordem dos humores: muito feliz -> muito triste
+        val moodOrder = listOf(4, 3, 2, 1, 0)
+        moodOrder.forEachIndexed { index, moodType ->
+            val count = distribution[moodType] ?: 0
+            entries.add(BarEntry(index.toFloat(), count.toFloat()))
+            labels.add(dashboardViewModel.getMoodName(requireContext(), moodType))
+        }
+
+        // Configurar o dataset
+        val dataSet = BarDataSet(entries, "").apply {
+            colors = moodOrder.map { moodType -> dashboardViewModel.getMoodColor(moodType) }
+            valueTextSize = 11f
+            valueTextColor = Color.WHITE
+            valueTypeface = barChart.legend.typeface
+            setDrawValues(true)
+        }
+
+        // Configurar dados do gráfico
+        val barData = BarData(dataSet).apply {
+            barWidth = 0.7f
+            setValueFormatter(object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    if (value > 0f) {
+                        val percentage = (value / totalRecords * 100).roundToInt()
+                        return "${value.toInt()}\n($percentage%)"
+                    }
+                    return ""
+                }
+            })
+        }
+
+        // Aplicar dados ao gráfico
+        barChart.apply {
+            data = barData
+                animateY(700)
+            invalidate()
+        }
+
+        // Atualizar a legenda personalizada
+        updateBarLegend(moodOrder)
+    }
+
+    private fun updateBarLegend(moodOrder: List<Int>) {
+        val legendContainer = binding.barLegendItems
+        legendContainer.removeAllViews()
+
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+
+        moodOrder.forEachIndexed { index, moodType ->
+            val itemLayout = LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.HORIZONTAL
+                gravity = Gravity.CENTER_VERTICAL
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    if (index > 0) {
+                        marginStart = resources.getDimensionPixelSize(R.dimen.spacing_normal)
+                    }
+                }
+            }
+
+            // Quadrado colorido
+            val colorBox = View(requireContext()).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    resources.getDimensionPixelSize(R.dimen.legend_square_size),
+                    resources.getDimensionPixelSize(R.dimen.legend_square_size)
+                )
+                setBackgroundColor(dashboardViewModel.getMoodColor(moodType))
+            }
+
+            // Texto da legenda
+            val legendText = TextView(requireContext()).apply {
+                text = dashboardViewModel.getMoodName(requireContext(), moodType)
+                setTextColor(Color.WHITE)
+                textSize = resources.getDimension(R.dimen.legend_bar_chart)
+                this.typeface = typeface
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    marginStart = resources.getDimensionPixelSize(R.dimen.spacing_small)
+                }
+            }
+
+            itemLayout.addView(colorBox)
+            itemLayout.addView(legendText)
+            legendContainer.addView(itemLayout)
+        }
+    }
+
+    private fun setupRadarPeriodSpinner() {
+        // Obter a data do registro mais antigo do ViewModel
+        val oldestRecordDate = dashboardViewModel.getOldestMoodDate() ?: run {
+            binding.radarPeriodContainer.visibility = View.GONE
+            return
+        }
+
+        // Obter apenas os filtros disponíveis baseado na data mais antiga
+        val availableFilters = getAvailableFilters(oldestRecordDate)
+        
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+        
+        val adapter = object : ArrayAdapter<DayFilterType>(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            availableFilters
+        ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                (view as TextView).apply {
+                    text = context.getString(availableFilters[position].stringResourceId)
+                    gravity = Gravity.START
+                    setPadding(0, paddingTop, paddingRight, paddingBottom)
+                    this.typeface = typeface
+                }
+                return view
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
+                (view as TextView).apply {
+                    text = context.getString(availableFilters[position].stringResourceId)
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
+                    this.typeface = typeface
+                    gravity = Gravity.START
+                }
+                return view
+            }
+        }
+
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        binding.radarPeriodSpinner.apply {
+            this.adapter = adapter
+            setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
+            setSelection(0)
+        }
+
+        binding.radarPeriodSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    dashboardViewModel.moodDistribution.value?.let { distribution ->
+                        val filteredDistribution = filterDistributionByDays(distribution, availableFilters[position].days)
+                        updateCustomRadarChart(filteredDistribution)
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+    }
+
+    private fun setupCustomRadarChart() {
+        val radarChart = binding.customRadarChart
+
+        // Get current font
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        val customTypeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+
+        // Configurações básicas
+        radarChart.apply {
+            description.isEnabled = false
+            webLineWidth = 3f
+            webColor = Color.LTGRAY
+            webLineWidthInner = 3f
+            webColorInner = Color.LTGRAY
+            webAlpha = 100
+            minOffset = 5f
+            setTouchEnabled(true)
+            isHighlightPerTapEnabled = true
+            legend.isEnabled = false
+
+            // Configurar typeface para os eixos
+            xAxis.typeface = customTypeface
+            yAxis.typeface = customTypeface
+
+            // Configurar texto quando não houver dados
+            setNoDataText(getString(R.string.no_mood_distribution))
+            setNoDataTextColor(Color.WHITE)
+            setNoDataTextTypeface(customTypeface)
+            getPaint(RadarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
+        }
+
+        // Observar mudanças na distribuição de humor
+        dashboardViewModel.moodDistribution.observe(viewLifecycleOwner) { distribution ->
+            val availableFilters = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date())
+            val selectedPosition = binding.radarPeriodSpinner.selectedItemPosition
+            val selectedFilter = availableFilters.getOrNull(selectedPosition) ?: DayFilterType.LAST_7_DAYS
+            val filteredDistribution = filterDistributionByDays(distribution, selectedFilter.days)
+            updateCustomRadarChart(filteredDistribution)
+        }
+    }
+
+    private fun updateCustomRadarChart(distribution: Map<Int, Int>) {
+        val radarChart = binding.customRadarChart
+
+        // Check if there are any records
+        if (distribution.isEmpty() || distribution.values.sum() == 0) {
+            radarChart.clear()
+            radarChart.notifyDataSetChanged()
+            radarChart.invalidate()
+            
+            val selectedPosition = binding.radarPeriodSpinner.selectedItemPosition
+            val days = DayFilterType.values().getOrNull(selectedPosition)?.days ?: -1
+            radarChart.setNoDataText(getNoDataMessageForPeriod(days))
+            
+            return
+        }
+
+        // Obter dados por dia da semana com filtro de período
+        val days = DayFilterType.values().getOrNull(binding.radarPeriodSpinner.selectedItemPosition)?.days ?: -1
+        val weekdayData = if (days > 0) {
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.DAY_OF_YEAR, -days)
+            val startDate = calendar.time
+            dashboardViewModel.getMoodsByWeekdayForPeriod(startDate)
+        } else {
+            dashboardViewModel.getMoodsByWeekday()
+        }
+
+        val weekdays = listOf(
+            getString(R.string.weekday_sunday),
+            getString(R.string.weekday_monday),
+            getString(R.string.weekday_tuesday),
+            getString(R.string.weekday_wednesday),
+            getString(R.string.weekday_thursday),
+            getString(R.string.weekday_friday),
+            getString(R.string.weekday_saturday)
+        )
+
+        // Criar entradas para cada tipo de humor na ordem padrão (4 a 0)
+        val moodOrder = listOf(4, 3, 2, 1, 0)
+        val entries = mutableListOf<List<RadarEntry>>()
+        val colors = mutableListOf<Int>()
+        val labels = mutableListOf<String>()
+
+        // Para cada tipo de humor na ordem padrão
+        for (moodType in moodOrder) {
+            val moodEntries = weekdays.indices.map { dayIndex ->
+                val count = weekdayData[dayIndex]?.get(moodType) ?: 0
+                RadarEntry(count.toFloat())
+            }
+            entries.add(moodEntries)
+            colors.add(dashboardViewModel.getMoodColor(moodType))
+            labels.add(dashboardViewModel.getMoodName(requireContext(), moodType))
+        }
+
+        // Create datasets
+        val dataSets = entries.mapIndexed { index, entries ->
+            RadarDataSet(entries, labels[index]).apply {
+                color = colors[index]
+                fillColor = colors[index]
+                setDrawFilled(true)
+                fillAlpha = 180
+                lineWidth = 2f
+                isDrawHighlightCircleEnabled = true
+                setDrawHighlightIndicators(false)
+            }
+        }
+
+        // Configure data
+        val radarData = RadarData(dataSets).apply {
+            setValueTypeface(radarChart.legend.typeface)
+            setValueTextSize(14f)
+            setDrawValues(true)
+            setValueTextColor(Color.WHITE)
+            setValueFormatter(object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return if (value > 0) value.toInt().toString() else ""
+                }
+            })
+        }
+
+        // Configure X axis (weekdays)
+        radarChart.xAxis.apply {
+            textSize = 12f
+            yOffset = 0f
+            xOffset = 0f
+            valueFormatter = IndexAxisValueFormatter(weekdays)
+            textColor = Color.WHITE
+        }
+
+        // Configure Y axis
+        radarChart.yAxis.apply {
+            setLabelCount(5, false)
+            textSize = 12f
+            axisMinimum = 0f
+            setDrawLabels(false)
+        }
+
+        // Apply data to chart
+        radarChart.apply {
+            data = radarData
+                animateXY(700, 700)
+            invalidate()
+        }
+
+        // Atualizar a legenda personalizada
+        updateRadarLegend(moodOrder)
+
+        // Configurar listener de clique
+        radarChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+            override fun onValueSelected(e: Entry?, h: Highlight?) {
+                if (e != null && h != null) {
+                    val count = e.y.toInt()
+                    // Só mostra o dialog se houver registros
+                    if (count > 0) {
+                        val dataSetIndex = h.dataSetIndex
+                        val weekdayIndex = h.x.toInt()
+                        val moodType = moodOrder[dataSetIndex]
+                        val weekday = weekdays[weekdayIndex]
+                        
+                        showMoodDetailsDialog(
+                            weekday,
+                            moodType,
+                            count,
+                            dashboardViewModel.getMoodName(requireContext(), moodType),
+                            dashboardViewModel.getMoodColor(moodType)
+                        )
+                    }
+                }
+            }
+
+            override fun onNothingSelected() {
+                // Não é necessário fazer nada aqui
+            }
+        })
+    }
+
+    private fun updateRadarLegend(moodOrder: List<Int>) {
+        val legendContainer = binding.radarLegendItems
         legendContainer.removeAllViews()
 
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
