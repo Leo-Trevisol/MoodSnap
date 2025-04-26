@@ -126,4 +126,19 @@ object DateUtils {
         calendar.set(Calendar.MILLISECOND, 0)
         return calendar.time
     }
+
+    fun formatDateTime(context: Context, date: Date): String {
+        val calendar = Calendar.getInstance().apply { time = date }
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = getMonthName(context, calendar.get(Calendar.MONTH))
+        val year = calendar.get(Calendar.YEAR)
+        val dayOfWeek = getDayOfWeekName(context, calendar.get(Calendar.DAY_OF_WEEK))
+        
+        return context.getString(
+            R.string.date_format,
+            dayOfMonth,
+            month,
+            year
+        ) + " - " + dayOfWeek
+    }
 }

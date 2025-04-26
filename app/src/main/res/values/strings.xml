@@ -239,4 +239,13 @@
     <string name="fri">Sex</string>
     <string name="sat">Sáb</string>
 
+    <string name="weekday_count_format">%1$d (%2$d%%)</string>
+    <string name="mood_icon_description">Ícone do humor</string>
+
+    <!-- Dialog Titles -->
+    <string name="dialog_title_weekday_distribution">Distribuição por Dia da Semana</string>
+    <string name="dialog_title_last_mood">Último Registro do Humor</string>
+    <string name="dialog_title_mood_weekday">Detalhes do Humor por Dia</string>
+    <string name="dialog_title_mood_time">Detalhes do Humor por Horário</string>
+
 </resources>

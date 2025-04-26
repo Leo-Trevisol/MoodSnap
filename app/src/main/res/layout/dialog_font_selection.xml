@@ -14,13 +14,13 @@
         android:text="@string/font_settings"
         android:textColor="@color/secundary"
         android:textSize="@dimen/text_size_xlarge"
+        android:layout_marginBottom="@dimen/spacing_large"
         android:textStyle="bold" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/preview_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_normal"
         app:cardCornerRadius="@dimen/card_corner_radius"
         app:cardElevation="@dimen/card_elevation"
         app:layout_constraintTop_toBottomOf="@id/fonts_recycler_view"

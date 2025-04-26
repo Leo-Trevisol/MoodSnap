@@ -54,6 +54,9 @@ class DashboardFragment : Fragment() {
     private lateinit var mainViewModel: MainViewModel
     private var currentDayFilter = 0 // Novo: para controlar o filtro de dias atual
 
+    // Ordem dos humores: do mais feliz para o mais triste
+    private val moodOrder = listOf(4, 3, 2, 1, 0)
+
     // Novo: Enum para os filtros de dias
     private enum class DayFilterType(val days: Int, val stringResourceId: Int) {
         LAST_7_DAYS(7, R.string.filter_last_7_days),
@@ -364,9 +367,6 @@ class DashboardFragment : Fragment() {
         val total = distribution.values.sum().toFloat()
       //  if (total == 0f) return
 
-        // Ordem dos humores: do mais feliz para o mais triste
-        val moodOrder = listOf(4, 3, 2, 1, 0)
-
         moodOrder.forEach { moodType ->
             val itemLayout = LinearLayout(requireContext()).apply {
                 orientation = LinearLayout.VERTICAL
@@ -428,29 +428,6 @@ class DashboardFragment : Fragment() {
             itemLayout.addView(percentageText)
             container.addView(itemLayout)
         }
-    }
-
-    private fun showMoodDetailsDialog(weekday: String, moodType: Int, count: Int, moodName: String, moodColor: Int) {
-        val dialog = Dialog(requireContext())
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.dialog_mood_details)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        // Configurar views do dialog
-        val cardView = dialog.findViewById<CardView>(R.id.card_view)
-        val weekdayText = dialog.findViewById<TextView>(R.id.weekday_text)
-        val moodIcon = dialog.findViewById<ImageView>(R.id.mood_icon)
-        val moodText = dialog.findViewById<TextView>(R.id.mood_text)
-        val countText = dialog.findViewById<TextView>(R.id.count_text)
-
-        // Configurar conteúdo
-        cardView.setCardBackgroundColor(moodColor)
-        weekdayText.text = weekday
-        moodIcon.setImageResource(Utils.getMoodDrawable(moodType))
-        moodText.text = moodName
-        countText.text = resources.getQuantityString(R.plurals.mood_count, count, count)
-
-        dialog.show()
     }
 
     override fun onDestroyView() {
@@ -578,6 +555,60 @@ class DashboardFragment : Fragment() {
             setNoDataTextColor(Color.WHITE)
             setNoDataTextTypeface(typeface)
             getPaint(PieChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
+
+            // Adicionar listener de clique
+            setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                override fun onValueSelected(e: Entry?, h: Highlight?) {
+                    if (e is PieEntry) {
+                        val moodName = e.label
+                        val moodType = dashboardViewModel.getMoodTypeByName(requireContext(), moodName)
+                        
+                        // Obter a data inicial baseada no filtro selecionado
+                        val selectedPosition = binding.donutPeriodSpinner.selectedItemPosition
+                        val selectedFilter = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date())
+                            .getOrNull(selectedPosition) ?: DayFilterType.LAST_7_DAYS
+                        
+                        // Calcular a data inicial do período
+                        val startDate = if (selectedFilter.days > 0) {
+                            Calendar.getInstance().apply {
+                                add(Calendar.DAY_OF_YEAR, -selectedFilter.days)
+                            }.time
+                        } else {
+                            null // Para "Tudo", não aplicamos filtro de data
+                        }
+                        
+                        // Obter dados por dia da semana para este humor específico
+                        val weekdayData = dashboardViewModel.getMoodsByWeekdayForMoodType(moodType, startDate)
+                        
+                        // Criar uma string com a distribuição por dia da semana
+                        val weekdays = listOf(
+                            getString(R.string.weekday_full_sunday),
+                            getString(R.string.weekday_full_monday),
+                            getString(R.string.weekday_full_tuesday),
+                            getString(R.string.weekday_full_wednesday),
+                            getString(R.string.weekday_full_thursday),
+                            getString(R.string.weekday_full_friday),
+                            getString(R.string.weekday_full_saturday)
+                        )
+                        
+                        val totalCount = weekdayData.values.sum()
+                        
+                        // Mostrar dialog com detalhes
+                        showMoodWeekdayDetailsDialog(
+                            moodName,
+                            moodType,
+                            weekdayData,
+                            weekdays,
+                            totalCount,
+                            dashboardViewModel.getMoodColor(moodType)
+                        )
+                    }
+                }
+
+                override fun onNothingSelected() {
+                    // Não é necessário fazer nada aqui
+                }
+            })
         }
 
         // Observar mudanças na distribuição de humor
@@ -589,6 +620,48 @@ class DashboardFragment : Fragment() {
             val filteredDistribution = filterDistributionByDays(distribution, selectedFilter.days)
             updateDonutChart(filteredDistribution)
         }
+    }
+
+    private fun showMoodWeekdayDetailsDialog(
+        moodName: String,
+        moodType: Int,
+        weekdayData: Map<Int, Int>,
+        weekdays: List<String>,
+        totalCount: Int,
+        moodColor: Int
+    ) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_mood_weekday_details)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // Configurar views do dialog
+        val cardView = dialog.findViewById<CardView>(R.id.card_view)
+        val titleText = dialog.findViewById<TextView>(R.id.title_text)
+        val moodIcon = dialog.findViewById<ImageView>(R.id.mood_icon)
+        val weekdayContainer = dialog.findViewById<LinearLayout>(R.id.weekday_container)
+
+        // Configurar conteúdo
+        cardView.setCardBackgroundColor(moodColor)
+        titleText.text = moodName
+        moodIcon.setImageResource(Utils.getMoodDrawable(moodType))
+
+        // Adicionar informações de cada dia da semana
+        weekdays.forEachIndexed { index, weekday ->
+            val count = weekdayData[index] ?: 0
+            if (count > 0) {
+                val percentage = (count.toFloat() / totalCount * 100).roundToInt()
+                val weekdayLayout = layoutInflater.inflate(R.layout.item_weekday_count, null)
+                
+                weekdayLayout.findViewById<TextView>(R.id.weekday_text).text = weekday
+                weekdayLayout.findViewById<TextView>(R.id.count_text).text = 
+                    getString(R.string.weekday_count_format, count, percentage)
+                
+                weekdayContainer.addView(weekdayLayout)
+            }
+        }
+
+        dialog.show()
     }
 
     private fun updateDonutChart(distribution: Map<Int, Int>) {
@@ -608,9 +681,6 @@ class DashboardFragment : Fragment() {
 
         val entries = ArrayList<PieEntry>()
         val colors = ArrayList<Int>()
-        
-        // Ordem dos humores: do mais feliz para o mais triste
-        val moodOrder = listOf(4, 3, 2, 1, 0)
         
         moodOrder.forEach { moodType ->
             val count = distribution[moodType] ?: 0
@@ -829,6 +899,30 @@ class DashboardFragment : Fragment() {
             setNoDataTextColor(Color.WHITE)
             setNoDataTextTypeface(customTypeface)
             getPaint(BarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
+
+            // Adicionar listener de clique
+            setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                override fun onValueSelected(e: Entry?, h: Highlight?) {
+                    if (e != null) {
+                        val moodType = moodOrder[e.x.toInt()]
+                        val lastMood = dashboardViewModel.getLastMoodByType(moodType)
+                        
+                        lastMood?.let {
+                            showLastMoodDetailsDialog(
+                                dashboardViewModel.getMoodName(requireContext(), moodType),
+                                moodType,
+                                it.date,
+                                it.description,
+                                dashboardViewModel.getMoodColor(moodType)
+                            )
+                        }
+                    }
+                }
+
+                override fun onNothingSelected() {
+                    // Não é necessário fazer nada aqui
+                }
+            })
         }
 
         // Definir renderer com cantos arredondados
@@ -843,6 +937,41 @@ class DashboardFragment : Fragment() {
             val filteredDistribution = filterDistributionByDays(distribution, selectedFilter.days)
             updateCustomBarChart(filteredDistribution)
         }
+    }
+
+    private fun showLastMoodDetailsDialog(
+        moodName: String,
+        moodType: Int,
+        date: Date,
+        note: String?,
+        moodColor: Int
+    ) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_last_mood_details)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // Configurar views do dialog
+        val cardView = dialog.findViewById<CardView>(R.id.card_view)
+        val titleText = dialog.findViewById<TextView>(R.id.title_text)
+        val moodIcon = dialog.findViewById<ImageView>(R.id.mood_icon)
+        val dateText = dialog.findViewById<TextView>(R.id.date_text)
+        val noteText = dialog.findViewById<TextView>(R.id.note_text)
+
+        // Configurar conteúdo
+        cardView.setCardBackgroundColor(moodColor)
+        titleText.text = moodName
+        moodIcon.setImageResource(Utils.getMoodDrawable(moodType))
+        dateText.text = DateUtils.formatDateTime(requireContext(), date)
+        
+        if (!note.isNullOrBlank()) {
+            noteText.text = note
+            noteText.visibility = View.VISIBLE
+        } else {
+            noteText.visibility = View.GONE
+        }
+
+        dialog.show()
     }
 
     private fun updateCustomBarChart(distribution: Map<Int, Int>) {
@@ -868,8 +997,6 @@ class DashboardFragment : Fragment() {
         val entries = ArrayList<BarEntry>()
         val labels = ArrayList<String>()
 
-        // Ordem dos humores: muito feliz -> muito triste
-        val moodOrder = listOf(4, 3, 2, 1, 0)
         moodOrder.forEachIndexed { index, moodType ->
             val count = distribution[moodType] ?: 0
             entries.add(BarEntry(index.toFloat(), count.toFloat()))
@@ -1103,13 +1230,13 @@ class DashboardFragment : Fragment() {
         }
 
         val weekdays = listOf(
-            getString(R.string.weekday_sunday),
-            getString(R.string.weekday_monday),
-            getString(R.string.weekday_tuesday),
-            getString(R.string.weekday_wednesday),
-            getString(R.string.weekday_thursday),
-            getString(R.string.weekday_friday),
-            getString(R.string.weekday_saturday)
+            getString(R.string.weekday_full_sunday),
+            getString(R.string.weekday_full_monday),
+            getString(R.string.weekday_full_tuesday),
+            getString(R.string.weekday_full_wednesday),
+            getString(R.string.weekday_full_thursday),
+            getString(R.string.weekday_full_friday),
+            getString(R.string.weekday_full_saturday)
         )
 
         // Criar entradas para cada tipo de humor na ordem padrão (4 a 0)
@@ -1182,33 +1309,6 @@ class DashboardFragment : Fragment() {
         // Atualizar a legenda personalizada
         updateRadarLegend(moodOrder)
 
-        // Configurar listener de clique
-        radarChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
-            override fun onValueSelected(e: Entry?, h: Highlight?) {
-                if (e != null && h != null) {
-                    val count = e.y.toInt()
-                    // Só mostra o dialog se houver registros
-                    if (count > 0) {
-                        val dataSetIndex = h.dataSetIndex
-                        val weekdayIndex = h.x.toInt()
-                        val moodType = moodOrder[dataSetIndex]
-                        val weekday = weekdays[weekdayIndex]
-                        
-                        showMoodDetailsDialog(
-                            weekday,
-                            moodType,
-                            count,
-                            dashboardViewModel.getMoodName(requireContext(), moodType),
-                            dashboardViewModel.getMoodColor(moodType)
-                        )
-                    }
-                }
-            }
-
-            override fun onNothingSelected() {
-                // Não é necessário fazer nada aqui
-            }
-        })
     }
 
     private fun updateRadarLegend(moodOrder: List<Int>) {

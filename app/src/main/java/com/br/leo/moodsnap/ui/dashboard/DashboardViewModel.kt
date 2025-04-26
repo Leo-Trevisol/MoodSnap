@@ -368,4 +368,51 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             mood.date.after(startDate) || mood.date == startDate
         } ?: false
     }
+
+    fun getMoodTypeByName(context: Context, moodName: String): Int {
+        return when (moodName) {
+            context.getString(R.string.mood_very_happy) -> 0
+            context.getString(R.string.mood_happy) -> 1
+            context.getString(R.string.mood_neutral) -> 2
+            context.getString(R.string.mood_sad) -> 3
+            context.getString(R.string.mood_very_sad) -> 4
+            else -> 2 // Neutro como padrão
+        }
+    }
+
+    fun getMoodsByWeekdayForMoodType(moodType: Int, startDate: Date? = null): Map<Int, Int> {
+        val weekdayData = mutableMapOf<Int, Int>()
+        
+        // Inicializar o mapa com zeros para todos os dias da semana
+        for (i in 0..6) {
+            weekdayData[i] = 0
+        }
+
+        // Filtrar os registros pelo tipo de humor e período (se especificado)
+        val filteredMoods = moods.value
+            ?.filter { it.moodType == moodType }
+            ?.filter { mood ->
+                if (startDate != null) {
+                    mood.date.after(startDate) || mood.date == startDate
+                } else {
+                    true
+                }
+            }
+
+        // Contar por dia da semana
+        filteredMoods?.forEach { mood ->
+            val calendar = Calendar.getInstance()
+            calendar.time = mood.date
+            val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1 // Converter para 0-6
+            weekdayData[dayOfWeek] = (weekdayData[dayOfWeek] ?: 0) + 1
+        }
+
+        return weekdayData
+    }
+
+    fun getLastMoodByType(moodType: Int): MoodModel? {
+        return moods.value
+            ?.filter { it.moodType == moodType }
+            ?.maxByOrNull { it.date }
+    }
 }
