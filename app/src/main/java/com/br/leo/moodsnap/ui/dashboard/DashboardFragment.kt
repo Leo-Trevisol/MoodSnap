@@ -172,7 +172,6 @@ class DashboardFragment : Fragment() {
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
-
     }
 
     private fun getAvailableFilters(oldestRecordDate: Date): List<DayFilterType> {
@@ -243,10 +242,6 @@ class DashboardFragment : Fragment() {
 
         // Observar distribuição de humores
         dashboardViewModel.moodDistribution.observe(viewLifecycleOwner) { distribution ->
-            // Aplicar o filtro atual antes de atualizar os gráficos
-            val dayFilters = DayFilterType.values()
-            val filteredDistribution = filterDistributionByDays(distribution, dayFilters[currentDayFilter].days)
-
             updateQuickDistribution(distribution)
         }
 
@@ -633,7 +628,12 @@ class DashboardFragment : Fragment() {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_mood_weekday_details)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.apply {
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            // Definir largura fixa do dialog
+            val width = (resources.displayMetrics.widthPixels * 0.85).toInt() // 85% da largura da tela
+            setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT)
+        }
 
         // Configurar views do dialog
         val cardView = dialog.findViewById<CardView>(R.id.card_view)
@@ -949,7 +949,12 @@ class DashboardFragment : Fragment() {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_last_mood_details)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.apply {
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            // Definir largura fixa do dialog
+            val width = (resources.displayMetrics.widthPixels * 0.85).toInt() // 85% da largura da tela
+            setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT)
+        }
 
         // Configurar views do dialog
         val cardView = dialog.findViewById<CardView>(R.id.card_view)
