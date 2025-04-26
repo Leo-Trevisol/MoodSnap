@@ -253,6 +253,11 @@ class DashboardFragment : Fragment() {
             // Limpar o container de dias
             binding.lastDaysContainer.removeAllViews()
 
+            // Calcular tamanho baseado na largura da tela
+            val screenWidth = resources.displayMetrics.widthPixels
+            val containerSize = (screenWidth * 0.13).toInt() // 15% da largura da tela
+            val iconSize = (containerSize * 0.99).toInt() // 99% do tamanho do container
+
             // Adicionar cada dia ao container (em ordem reversa para mostrar do mais antigo para o mais recente)
             last5Days.reversed().forEach { dayMood ->
                 val dayContainer = LinearLayout(requireContext()).apply {
@@ -268,10 +273,10 @@ class DashboardFragment : Fragment() {
                 // Container circular para o ícone do humor
                 val iconContainer = CardView(requireContext()).apply {
                     layoutParams = LinearLayout.LayoutParams(
-                        96,
-                        96
+                        containerSize,
+                        containerSize
                     )
-                    radius = 48f
+                    radius = containerSize / 2f
                     cardElevation = 0f
 
                     // Definir a cor de fundo baseada no humor (ou transparente se não houver)
@@ -293,8 +298,8 @@ class DashboardFragment : Fragment() {
                 // Ícone do humor
                 val iconView = ImageView(requireContext()).apply {
                     layoutParams = FrameLayout.LayoutParams(
-                        92,
-                        92
+                        iconSize,
+                        iconSize
                     ).apply {
                         gravity = Gravity.CENTER
                     }
@@ -360,7 +365,11 @@ class DashboardFragment : Fragment() {
         container.removeAllViews()
 
         val total = distribution.values.sum().toFloat()
-        //  if (total == 0f) return
+
+        // Calcular tamanho baseado na largura da tela
+        val screenWidth = resources.displayMetrics.widthPixels
+        val containerSize = (screenWidth * 0.13).toInt() // 18% da largura da tela
+        val iconSize = (containerSize * 0.99).toInt() // 95% do tamanho do container
 
         moodOrder.forEach { moodType ->
             val itemLayout = LinearLayout(requireContext()).apply {
@@ -376,11 +385,11 @@ class DashboardFragment : Fragment() {
             // Container circular para o ícone
             val iconContainer = CardView(requireContext()).apply {
                 layoutParams = LinearLayout.LayoutParams(
-                    96, // Tamanho do container
-                    96
+                    containerSize,
+                    containerSize
                 )
-                radius = 48f // Metade do tamanho para fazer um círculo perfeito
-                cardElevation = 0f // Sem sombra
+                radius = containerSize / 2f
+                cardElevation = 0f
                 setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
             }
 
@@ -388,21 +397,18 @@ class DashboardFragment : Fragment() {
             val icon = ImageView(context).apply {
                 setImageResource(Utils.getMoodDrawable(moodType))
                 layoutParams = LinearLayout.LayoutParams(
-                    92, // Tamanho do ícone um pouco menor que o container
-                    92
+                    iconSize,
+                    iconSize
                 ).apply {
                     gravity = Gravity.CENTER
-                    // Centralizar o ícone no container
-                    marginStart = 1
-                    topMargin = 1
                 }
             }
 
             // Texto da porcentagem
             val percentageText = TextView(requireContext()).apply {
-                if(total == 0f){
+                if(total == 0f) {
                     text = "0%"
-                }else{
+                } else {
                     val count = distribution[moodType] ?: 0
                     val percentage = (count / total * 100).roundToInt()
                     text = "$percentage%"
