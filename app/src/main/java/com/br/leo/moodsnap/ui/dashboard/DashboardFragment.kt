@@ -630,20 +630,22 @@ class DashboardFragment : Fragment() {
         dialog.setContentView(R.layout.dialog_mood_weekday_details)
         dialog.window?.apply {
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            // Definir largura fixa do dialog
             val width = (resources.displayMetrics.widthPixels * 0.85).toInt() // 85% da largura da tela
             setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT)
         }
 
         // Configurar views do dialog
         val cardView = dialog.findViewById<CardView>(R.id.card_view)
+        val moodCardView = dialog.findViewById<CardView>(R.id.mood_card_view)
         val titleText = dialog.findViewById<TextView>(R.id.title_text)
         val moodIcon = dialog.findViewById<ImageView>(R.id.mood_icon)
         val weekdayContainer = dialog.findViewById<LinearLayout>(R.id.weekday_container)
 
         // Configurar conteúdo
-        cardView.setCardBackgroundColor(moodColor)
+       // cardView.setCardBackgroundColor(moodColor)
+        moodCardView.setCardBackgroundColor(moodColor)
         titleText.text = moodName
+        titleText.setTextColor(Color.BLACK)
         moodIcon.setImageResource(Utils.getMoodDrawable(moodType))
 
         // Adicionar informações de cada dia da semana
@@ -653,9 +655,14 @@ class DashboardFragment : Fragment() {
                 val percentage = (count.toFloat() / totalCount * 100).roundToInt()
                 val weekdayLayout = layoutInflater.inflate(R.layout.item_weekday_count, null)
 
-                weekdayLayout.findViewById<TextView>(R.id.weekday_text).text = weekday
-                weekdayLayout.findViewById<TextView>(R.id.count_text).text =
-                    getString(R.string.weekday_count_format, count, percentage)
+                weekdayLayout.findViewById<TextView>(R.id.weekday_text).apply {
+                    text = weekday
+                    setTextColor(Color.WHITE)
+                }
+                weekdayLayout.findViewById<TextView>(R.id.count_text).apply {
+                    text = getString(R.string.weekday_count_format, count, percentage)
+                    setTextColor(Color.WHITE)
+                }
 
                 weekdayContainer.addView(weekdayLayout)
             }
@@ -951,21 +958,22 @@ class DashboardFragment : Fragment() {
         dialog.setContentView(R.layout.dialog_last_mood_details)
         dialog.window?.apply {
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            // Definir largura fixa do dialog
             val width = (resources.displayMetrics.widthPixels * 0.85).toInt() // 85% da largura da tela
             setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT)
         }
 
         // Configurar views do dialog
         val cardView = dialog.findViewById<CardView>(R.id.card_view)
+        val moodCardView = dialog.findViewById<CardView>(R.id.mood_card_view)
         val titleText = dialog.findViewById<TextView>(R.id.title_text)
         val moodIcon = dialog.findViewById<ImageView>(R.id.mood_icon)
         val dateText = dialog.findViewById<TextView>(R.id.date_text)
         val noteText = dialog.findViewById<TextView>(R.id.note_text)
 
         // Configurar conteúdo
-        cardView.setCardBackgroundColor(moodColor)
+        moodCardView.setCardBackgroundColor(moodColor)
         titleText.text = moodName
+        titleText.setTextColor(Color.BLACK)
         moodIcon.setImageResource(Utils.getMoodDrawable(moodType))
         dateText.text = DateUtils.formatDateTime(requireContext(), date)
 
