@@ -22,8 +22,7 @@
             android:adjustViewBounds="true"
             android:maxHeight="300dp"
             android:scaleType="fitCenter"
-            android:visibility="gone"
-            android:contentDescription="@string/tutorial_image"/>
+            android:visibility="gone"/>
 
         <VideoView
             android:id="@+id/videoSlide"
