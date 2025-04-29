@@ -22,6 +22,7 @@ import com.br.leo.moodsnap.service.model.MoodModel
 import com.br.leo.moodsnap.ui.dialog.DialogEmotions
 import com.br.leo.moodsnap.ui.utils.Utils
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
+import com.br.leo.moodsnap.ui.viewmodel.HomeViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.Calendar
 import java.util.Locale
@@ -49,12 +50,12 @@ import com.br.leo.moodsnap.ui.dialog.OnboardingDialog
 import com.br.leo.moodsnap.ui.utils.ButtonUtils
 import com.br.leo.moodsnap.ui.utils.DateUtils
 import com.br.leo.moodsnap.ui.utils.FontUtils.updateFontDialogPicker
-import com.br.leo.moodsnap.ui.viewmodel.HomeViewModel
-import com.br.leo.moodsnap.ui.adapters.FontAdapter
 import androidx.recyclerview.widget.RecyclerView
 import android.content.pm.PackageManager
 import android.os.Build
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.br.leo.moodsnap.ui.dialog.CustomAlertDialog
+import com.br.leo.moodsnap.ui.adapters.FontAdapter
 import com.br.leo.moodsnap.ui.adapters.LanguageAdapter
 import com.br.leo.moodsnap.ui.model.LanguageModel
 
@@ -894,6 +895,12 @@ class HomeFragment : Fragment() {
             selectedLanguage = language.code
         }
         recyclerView.adapter = adapter
+        
+        // Forçar o layout do RecyclerView para garantir que os botões sejam exibidos corretamente
+        recyclerView.post {
+            recyclerView.layoutManager?.requestLayout()
+            adapter.notifyDataSetChanged()
+        }
 
         // Set initial selection
         adapter.setSelectedLanguage(selectedLanguage)
@@ -1090,6 +1097,12 @@ class HomeFragment : Fragment() {
         
         recyclerView.adapter = fontAdapter
         fontAdapter.setSelectedFont(currentFont)
+
+        // Forçar o layout do RecyclerView para garantir que os botões sejam exibidos corretamente
+        recyclerView.post {
+            recyclerView.layoutManager?.requestLayout()
+            recyclerView.adapter?.notifyDataSetChanged()
+        }
 
         // Update preview text with current font
         val currentTypeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont))

@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="4dp">
+    android:layout_marginBottom="@dimen/spacing_normal"
+    android:orientation="horizontal">
 
     <Button
         android:id="@+id/btn_font"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:padding="16dp"
         android:textSize="@dimen/button_size"
         android:textAllCaps="false"
         android:background="@drawable/background_rounded" />
 
-</FrameLayout> 
+</LinearLayout>

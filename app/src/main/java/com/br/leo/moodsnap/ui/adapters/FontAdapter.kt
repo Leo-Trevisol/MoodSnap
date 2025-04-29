@@ -20,9 +20,11 @@ class FontAdapter(
 ) : RecyclerView.Adapter<FontAdapter.FontViewHolder>() {
 
     private var selectedPosition = -1
+    private var lastSelectedButton: Button? = null
+    private var currentSelectedButton: Button? = null
 
     inner class FontViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val fontButton: Button = itemView.findViewById(R.id.btn_font)
+        val fontButton: Button = itemView.findViewById(R.id.btn_font)
 
         fun bind(font: FontModel, position: Int) {
             // Configurar o texto do botão
@@ -34,17 +36,35 @@ class FontAdapter(
             // Atualizar o estado visual do botão
             if (position == selectedPosition) {
                 ButtonUtils.highlightButton(context, fontButton)
+                currentSelectedButton = fontButton
             } else {
                 Utils.updateBackGroundColor(context, fontButton, R.color.gray_dark)
             }
 
             // Configurar o clique
             fontButton.setOnClickListener {
-                val previousPosition = selectedPosition
-                selectedPosition = position
-                notifyItemChanged(previousPosition)
-                notifyItemChanged(selectedPosition)
-                onFontSelected(font)
+                // Atualizar o estado visual dos botões manualmente
+                if (lastSelectedButton != fontButton) {
+                    // Desmarcar o botão anteriormente selecionado
+                    lastSelectedButton?.let { button ->
+                        Utils.updateBackGroundColor(context, button, R.color.gray_dark)
+                    }
+                    
+                    // Marcar o novo botão selecionado
+                    ButtonUtils.highlightButton(context, fontButton)
+                    
+                    // Atualizar as referências
+                    lastSelectedButton = fontButton
+                    selectedPosition = position
+                    
+                    // Notificar o callback
+                    onFontSelected(font)
+                }
+            }
+            
+            // Manter referência ao botão selecionado
+            if (position == selectedPosition) {
+                lastSelectedButton = fontButton
             }
         }
     }

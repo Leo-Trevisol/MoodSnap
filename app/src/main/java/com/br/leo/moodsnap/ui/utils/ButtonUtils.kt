@@ -39,7 +39,6 @@ object ButtonUtils {
         backgroundColor: Int = R.color.gray_dark,
     ) {
         Utils.updateBackGroundColor(context, button, backgroundColor)
-        button.setTextColor(ContextCompat.getColor(context, R.color.dark_secondary))
     }
 
     /**
