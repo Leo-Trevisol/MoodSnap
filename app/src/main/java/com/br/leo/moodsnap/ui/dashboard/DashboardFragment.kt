@@ -45,6 +45,7 @@ import com.github.mikephil.charting.data.RadarEntry
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import java.text.SimpleDateFormat
 
 class DashboardFragment : Fragment() {
 
@@ -57,15 +58,70 @@ class DashboardFragment : Fragment() {
     // Ordem dos humores: do mais feliz para o mais triste
     private val moodOrder = listOf(4, 3, 2, 1, 0)
 
-    // Novo: Enum para os filtros de dias
-    private enum class DayFilterType(val days: Int, val stringResourceId: Int) {
+    // Novo: Interface para todos os tipos de filtro
+    private interface FilterType {
+        fun getStringResourceId(): Int
+        fun getFilterName(context: Context): String
+    }
+
+    // Modificado: Enum para os filtros de dias agora implementa FilterType
+    private enum class DayFilterType(val days: Int, private val resourceId: Int) : FilterType {
         LAST_7_DAYS(7, R.string.filter_last_7_days),
         LAST_MONTH(30, R.string.filter_last_month),
         LAST_3_MONTHS(90, R.string.filter_last_3_months),
         LAST_6_MONTHS(180, R.string.filter_last_6_months),
         LAST_9_MONTHS(270, R.string.filter_last_9_months),
         LAST_YEAR(365, R.string.filter_last_year),
-        ALL(-1, R.string.filter_all)
+        ALL(-1, R.string.filter_all);
+
+        override fun getStringResourceId(): Int = resourceId
+        override fun getFilterName(context: Context): String = context.getString(resourceId)
+    }
+
+    // Novo: Classe para filtros de meses específicos
+    private data class MonthFilterType(
+        val year: Int,
+        val month: Int
+    ) : FilterType {
+        override fun getStringResourceId(): Int = -1 // Não usa recurso de string
+
+        override fun getFilterName(context: Context): String {
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, month)
+            
+            // Formatar nome do mês e ano (ex: "Abril 2025")
+            val monthFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+            return monthFormat.format(calendar.time).replaceFirstChar { 
+                if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() 
+            }
+        }
+        
+        // Retorna a data de início do mês (primeiro dia)
+        fun getStartDate(): Date {
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, month)
+            calendar.set(Calendar.DAY_OF_MONTH, 1)
+            calendar.set(Calendar.HOUR_OF_DAY, 0)
+            calendar.set(Calendar.MINUTE, 0)
+            calendar.set(Calendar.SECOND, 0)
+            calendar.set(Calendar.MILLISECOND, 0)
+            return calendar.time
+        }
+        
+        // Retorna a data de fim do mês (último dia)
+        fun getEndDate(): Date {
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, month)
+            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+            calendar.set(Calendar.HOUR_OF_DAY, 23)
+            calendar.set(Calendar.MINUTE, 59)
+            calendar.set(Calendar.SECOND, 59)
+            calendar.set(Calendar.MILLISECOND, 999)
+            return calendar.time
+        }
     }
 
     override fun onCreateView(
@@ -178,12 +234,13 @@ class DashboardFragment : Fragment() {
             }
     }
 
-    private fun getAvailableFilters(oldestRecordDate: Date): List<DayFilterType> {
+    private fun getAvailableFilters(oldestRecordDate: Date): List<FilterType> {
         val today = Calendar.getInstance().time
         val diffInMillis = today.time - oldestRecordDate.time
         val diffInDays = (diffInMillis / (1000 * 60 * 60 * 24)).toInt()
 
-        return DayFilterType.values().filter { filter ->
+        // Obter filtros de dias disponíveis baseado na data mais antiga
+        val dayFilters = DayFilterType.values().filter { filter ->
             when {
                 diffInDays < 7 -> filter == DayFilterType.LAST_7_DAYS
                 diffInDays < 30 -> filter in listOf(DayFilterType.LAST_7_DAYS, DayFilterType.LAST_MONTH)
@@ -194,28 +251,95 @@ class DashboardFragment : Fragment() {
                 else -> true // Se for mais que 365 dias, mostra todas as opções
             }
         }
+
+        // Obter filtros de meses com registros
+        val monthFilters = getMonthsWithRecords(oldestRecordDate)
+
+        // Combinar os dois tipos de filtros, colocando os filtros de dias primeiro
+        return dayFilters + monthFilters
     }
 
-    private fun filterDistributionByDays(distribution: Map<Int, Int>, days: Int): Map<Int, Int> {
-        if (days == -1) return distribution // Retorna todos os dados
+    // Novo método para obter os meses que têm registros de humor
+    private fun getMonthsWithRecords(oldestRecordDate: Date): List<MonthFilterType> {
+        val moods = dashboardViewModel.moods.value ?: return emptyList()
+        if (moods.isEmpty()) return emptyList()
 
+        // Agrupar os registros por mês/ano
+        val monthsWithRecords = mutableSetOf<Pair<Int, Int>>() // (ano, mês)
         val calendar = Calendar.getInstance()
-        val today = calendar.time
-        calendar.add(Calendar.DAY_OF_YEAR, -days)
-        val filterDate = calendar.time
 
-        return dashboardViewModel.getMoodDistributionForPeriod(filterDate)
+        // Para cada humor, adicionar seu mês/ano ao conjunto
+        for (mood in moods) {
+            calendar.time = mood.date
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            monthsWithRecords.add(Pair(year, month))
+        }
+
+        // Converter os pares ano/mês para objetos MonthFilterType
+        return monthsWithRecords.map { (year, month) ->
+            MonthFilterType(year, month)
+        }.sortedWith(compareByDescending<MonthFilterType> { it.year }.thenByDescending { it.month })
     }
 
-    private fun getNoDataMessageForPeriod(days: Int): String {
-        return when (days) {
-            DayFilterType.LAST_7_DAYS.days -> getString(R.string.no_mood_distribution_7_days)
-            DayFilterType.LAST_MONTH.days -> getString(R.string.no_mood_distribution_30_days)
-            DayFilterType.LAST_3_MONTHS.days -> getString(R.string.no_mood_distribution_90_days)
-            DayFilterType.LAST_6_MONTHS.days -> getString(R.string.no_mood_distribution_180_days)
-            DayFilterType.LAST_9_MONTHS.days -> getString(R.string.no_mood_distribution_270_days)
-            DayFilterType.LAST_YEAR.days -> getString(R.string.no_mood_distribution_365_days)
-            else -> getString(R.string.no_mood_distribution)
+    private fun filterDistributionByDays(distribution: Map<Int, Int>, filter: FilterType): Map<Int, Int> {
+        // Se não houver distribuição, retornar vazio
+        if (distribution.isEmpty()) return emptyMap()
+
+        // Quando o filtro é "Tudo", não aplicamos filtro
+        if (filter is DayFilterType && filter.days == -1) return distribution
+
+        // Obter a data de início baseada no tipo de filtro
+        val startDate = when (filter) {
+            is DayFilterType -> {
+                // Para filtros de dias, calcular a data de início baseada no número de dias
+                Calendar.getInstance().apply {
+                    add(Calendar.DAY_OF_YEAR, -filter.days)
+                }.time
+            }
+            is MonthFilterType -> {
+                // Para filtros de mês específico, usar a data de início do mês
+                filter.getStartDate()
+            }
+            else -> return distribution // Caso não seja um tipo de filtro conhecido
+        }
+
+        // Obter a data de fim baseada no tipo de filtro
+        val endDate = when (filter) {
+            is DayFilterType -> {
+                // Para filtros de dias, a data de fim é a data atual
+                Calendar.getInstance().time
+            }
+            is MonthFilterType -> {
+                // Para filtros de mês específico, usar a data de fim do mês
+                filter.getEndDate()
+            }
+            else -> return distribution // Caso não seja um tipo de filtro conhecido
+        }
+
+        // Filtrar a distribuição pelo período
+        return dashboardViewModel.getMoodDistributionForPeriod(startDate, endDate)
+    }
+
+    // Método auxiliar para obter mensagem de "Sem dados" baseada no filtro
+    private fun getNoDataMessageForPeriod(filter: FilterType?): String {
+        return when (filter) {
+            is DayFilterType -> {
+                when (filter.days) {
+                    7 -> getString(R.string.no_data_last_7_days)
+                    30 -> getString(R.string.no_data_last_month)
+                    90 -> getString(R.string.no_data_last_3_months)
+                    180 -> getString(R.string.no_data_last_6_months)
+                    270 -> getString(R.string.no_data_last_9_months)
+                    365 -> getString(R.string.no_data_last_year)
+                    else -> getString(R.string.no_data_all_time)
+                }
+            }
+            is MonthFilterType -> {
+                // Para meses específicos, mostrar mensagem personalizada
+                getString(R.string.no_data_specific_month, filter.getFilterName(requireContext()))
+            }
+            else -> getString(R.string.no_data_all_time)
         }
     }
 
@@ -301,17 +425,15 @@ class DashboardFragment : Fragment() {
 
                 // Ícone do humor
                 val iconView = ImageView(requireContext()).apply {
+                    dayMood.moodType?.let { moodType ->
+                        setImageResource(Utils.getMoodIcon(moodType))
+                    }
                     layoutParams = FrameLayout.LayoutParams(
                         iconSize,
                         iconSize
                     ).apply {
                         gravity = Gravity.CENTER
                     }
-                }
-
-                // Definir o ícone baseado no humor (ou deixar em branco se não houver)
-                dayMood.moodType?.let { moodType ->
-                    iconView.setImageResource(Utils.getMoodIcon(moodType))
                 }
 
                 // Adicionar o ícone ao frame layout para centralização
@@ -322,12 +444,6 @@ class DashboardFragment : Fragment() {
 
                 // Criar TextView para o dia
                 val dayText = TextView(requireContext()).apply {
-                    layoutParams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                    ).apply {
-                        topMargin = Utils.dpToPx(requireContext(), 4)
-                    }
                     text = "${dayMood.dayOfMonth}\n${DateUtils.getDayOfWeekShortName(requireContext(), dayMood.dayOfWeek)}"
                     textSize = 12f
                     gravity = Gravity.CENTER
@@ -440,15 +556,21 @@ class DashboardFragment : Fragment() {
         _binding = null
     }
 
-    private fun getFirstPeriodWithMoods(availableFilters: List<DayFilterType>): Int {
+    private fun getFirstPeriodWithMoods(availableFilters: List<FilterType>): Int {
         // Garantir que os dados estejam carregados
         val moods = dashboardViewModel.moods.value ?: return 0
         if (moods.isEmpty()) return 0
 
         for (i in availableFilters.indices) {
-            val days = availableFilters[i].days
-            if (dashboardViewModel.hasMoodsInPeriod(days)) {
-                return i
+            val filter = availableFilters[i]
+            if (filter is DayFilterType) {
+                if (dashboardViewModel.hasMoodsInPeriod(filter.days)) {
+                    return i
+                }
+            } else if (filter is MonthFilterType) {
+                if (dashboardViewModel.hasMoodsInPeriod(filter.getStartDate(), filter.getEndDate())) {
+                    return i
+                }
             }
         }
         return 0 // Default to first period if no moods found
@@ -468,7 +590,7 @@ class DashboardFragment : Fragment() {
         val currentFont = sharedPreferences.getString("current_font", "default")
         val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
-        val adapter = object : ArrayAdapter<DayFilterType>(
+        val adapter = object : ArrayAdapter<FilterType>(
             requireContext(),
             android.R.layout.simple_spinner_item,
             availableFilters
@@ -476,7 +598,7 @@ class DashboardFragment : Fragment() {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
                 (view as TextView).apply {
-                    text = context.getString(availableFilters[position].stringResourceId)
+                    text = availableFilters[position].getFilterName(context)
                     gravity = Gravity.START
                     setPadding(0, paddingTop, paddingRight, paddingBottom)
                     this.typeface = typeface
@@ -488,7 +610,7 @@ class DashboardFragment : Fragment() {
                 val view = super.getDropDownView(position, convertView, parent)
                 view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
                 (view as TextView).apply {
-                    text = context.getString(availableFilters[position].stringResourceId)
+                    text = availableFilters[position].getFilterName(context)
                     setTextColor(ContextCompat.getColor(context, R.color.secundary))
                     this.typeface = typeface
                     gravity = Gravity.START
@@ -514,7 +636,7 @@ class DashboardFragment : Fragment() {
                 ) {
                     // Obter a distribuição atual e aplicar o novo filtro
                     dashboardViewModel.moodDistribution.value?.let { distribution ->
-                        val filteredDistribution = filterDistributionByDays(distribution, availableFilters[position].days)
+                        val filteredDistribution = filterDistributionByDays(distribution, availableFilters[position])
                         updateDonutChart(filteredDistribution)
                     }
                 }
@@ -574,12 +696,18 @@ class DashboardFragment : Fragment() {
                             .getOrNull(selectedPosition) ?: DayFilterType.LAST_7_DAYS
 
                         // Calcular a data inicial do período
-                        val startDate = if (selectedFilter.days > 0) {
-                            Calendar.getInstance().apply {
-                                add(Calendar.DAY_OF_YEAR, -selectedFilter.days)
-                            }.time
+                        val startDate = if (selectedFilter is DayFilterType) {
+                            if (selectedFilter.days > 0) {
+                                Calendar.getInstance().apply {
+                                    add(Calendar.DAY_OF_YEAR, -selectedFilter.days)
+                                }.time
+                            } else {
+                                null // Para "Tudo", não aplicamos filtro de data
+                            }
+                        } else if (selectedFilter is MonthFilterType) {
+                            selectedFilter.getStartDate()
                         } else {
-                            null // Para "Tudo", não aplicamos filtro de data
+                            null // Caso padrão para outros tipos de filtro
                         }
 
                         // Obter dados por dia da semana para este humor específico
@@ -622,7 +750,7 @@ class DashboardFragment : Fragment() {
             val availableFilters = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date())
             val selectedPosition = binding.donutPeriodSpinner.selectedItemPosition
             val selectedFilter = availableFilters.getOrNull(selectedPosition) ?: DayFilterType.LAST_7_DAYS
-            val filteredDistribution = filterDistributionByDays(distribution, selectedFilter.days)
+            val filteredDistribution = filterDistributionByDays(distribution, selectedFilter)
             updateDonutChart(filteredDistribution)
         }
     }
@@ -662,7 +790,6 @@ class DashboardFragment : Fragment() {
         weekdays.forEachIndexed { index, weekday ->
             val count = weekdayData[index] ?: 0
             if (count > 0) {
-                val percentage = (count.toFloat() / totalCount * 100).roundToInt()
                 val weekdayLayout = layoutInflater.inflate(R.layout.item_weekday_count, null)
 
                 weekdayLayout.findViewById<TextView>(R.id.weekday_text).apply {
@@ -670,7 +797,7 @@ class DashboardFragment : Fragment() {
                     setTextColor(Color.WHITE)
                 }
                 weekdayLayout.findViewById<TextView>(R.id.count_text).apply {
-                    text = getString(R.string.weekday_count_format, count, percentage)
+                    text = getString(R.string.weekday_count_format, count, (count.toFloat() / totalCount * 100).roundToInt())
                     setTextColor(Color.WHITE)
                 }
 
@@ -690,8 +817,8 @@ class DashboardFragment : Fragment() {
 
             // Obter o período selecionado para a mensagem apropriada
             val selectedPosition = binding.donutPeriodSpinner.selectedItemPosition
-            val days = DayFilterType.values().getOrNull(selectedPosition)?.days ?: -1
-            binding.donutChart.setNoDataText(getNoDataMessageForPeriod(days))
+            val filter = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date()).getOrNull(selectedPosition)
+            binding.donutChart.setNoDataText(getNoDataMessageForPeriod(filter))
 
             return
         }
@@ -810,7 +937,7 @@ class DashboardFragment : Fragment() {
         val currentFont = sharedPreferences.getString("current_font", "default")
         val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
-        val adapter = object : ArrayAdapter<DayFilterType>(
+        val adapter = object : ArrayAdapter<FilterType>(
             requireContext(),
             android.R.layout.simple_spinner_item,
             availableFilters
@@ -818,7 +945,7 @@ class DashboardFragment : Fragment() {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
                 (view as TextView).apply {
-                    text = context.getString(availableFilters[position].stringResourceId)
+                    text = availableFilters[position].getFilterName(context)
                     gravity = Gravity.START
                     setPadding(0, paddingTop, paddingRight, paddingBottom)
                     this.typeface = typeface
@@ -830,7 +957,7 @@ class DashboardFragment : Fragment() {
                 val view = super.getDropDownView(position, convertView, parent)
                 view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
                 (view as TextView).apply {
-                    text = context.getString(availableFilters[position].stringResourceId)
+                    text = availableFilters[position].getFilterName(context)
                     setTextColor(ContextCompat.getColor(context, R.color.secundary))
                     this.typeface = typeface
                     gravity = Gravity.START
@@ -855,7 +982,7 @@ class DashboardFragment : Fragment() {
                     id: Long
                 ) {
                     dashboardViewModel.moodDistribution.value?.let { distribution ->
-                        val filteredDistribution = filterDistributionByDays(distribution, availableFilters[position].days)
+                        val filteredDistribution = filterDistributionByDays(distribution, availableFilters[position])
                         updateCustomBarChart(filteredDistribution)
                     }
                 }
@@ -951,7 +1078,7 @@ class DashboardFragment : Fragment() {
             val availableFilters = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date())
             val selectedPosition = binding.barPeriodSpinner.selectedItemPosition
             val selectedFilter = availableFilters.getOrNull(selectedPosition) ?: DayFilterType.LAST_7_DAYS
-            val filteredDistribution = filterDistributionByDays(distribution, selectedFilter.days)
+            val filteredDistribution = filterDistributionByDays(distribution, selectedFilter)
             updateCustomBarChart(filteredDistribution)
         }
     }
@@ -1007,8 +1134,8 @@ class DashboardFragment : Fragment() {
             barChart.invalidate()
 
             val selectedPosition = binding.barPeriodSpinner.selectedItemPosition
-            val days = DayFilterType.values().getOrNull(selectedPosition)?.days ?: -1
-            barChart.setNoDataText(getNoDataMessageForPeriod(days))
+            val filter = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date()).getOrNull(selectedPosition)
+            barChart.setNoDataText(getNoDataMessageForPeriod(filter))
 
             return
         }
@@ -1125,7 +1252,7 @@ class DashboardFragment : Fragment() {
         val currentFont = sharedPreferences.getString("current_font", "default")
         val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
-        val adapter = object : ArrayAdapter<DayFilterType>(
+        val adapter = object : ArrayAdapter<FilterType>(
             requireContext(),
             android.R.layout.simple_spinner_item,
             availableFilters
@@ -1133,7 +1260,7 @@ class DashboardFragment : Fragment() {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
                 (view as TextView).apply {
-                    text = context.getString(availableFilters[position].stringResourceId)
+                    text = availableFilters[position].getFilterName(context)
                     gravity = Gravity.START
                     setPadding(0, paddingTop, paddingRight, paddingBottom)
                     this.typeface = typeface
@@ -1145,7 +1272,7 @@ class DashboardFragment : Fragment() {
                 val view = super.getDropDownView(position, convertView, parent)
                 view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
                 (view as TextView).apply {
-                    text = context.getString(availableFilters[position].stringResourceId)
+                    text = availableFilters[position].getFilterName(context)
                     setTextColor(ContextCompat.getColor(context, R.color.secundary))
                     this.typeface = typeface
                     gravity = Gravity.START
@@ -1170,7 +1297,7 @@ class DashboardFragment : Fragment() {
                     id: Long
                 ) {
                     dashboardViewModel.moodDistribution.value?.let { distribution ->
-                        val filteredDistribution = filterDistributionByDays(distribution, availableFilters[position].days)
+                        val filteredDistribution = filterDistributionByDays(distribution, availableFilters[position])
                         updateCustomRadarChart(filteredDistribution)
                     }
                 }
@@ -1244,7 +1371,7 @@ class DashboardFragment : Fragment() {
             val availableFilters = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date())
             val selectedPosition = binding.radarPeriodSpinner.selectedItemPosition
             val selectedFilter = availableFilters.getOrNull(selectedPosition) ?: DayFilterType.LAST_7_DAYS
-            val filteredDistribution = filterDistributionByDays(distribution, selectedFilter.days)
+            val filteredDistribution = filterDistributionByDays(distribution, selectedFilter)
             updateCustomRadarChart(filteredDistribution)
         }
     }
@@ -1259,21 +1386,32 @@ class DashboardFragment : Fragment() {
             radarChart.invalidate()
 
             val selectedPosition = binding.radarPeriodSpinner.selectedItemPosition
-            val days = DayFilterType.values().getOrNull(selectedPosition)?.days ?: -1
-            radarChart.setNoDataText(getNoDataMessageForPeriod(days))
+            val filter = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date()).getOrNull(selectedPosition)
+            radarChart.setNoDataText(getNoDataMessageForPeriod(filter))
 
             return
         }
 
         // Obter dados por dia da semana com filtro de período
-        val days = DayFilterType.values().getOrNull(binding.radarPeriodSpinner.selectedItemPosition)?.days ?: -1
-        val weekdayData = if (days > 0) {
-            val calendar = Calendar.getInstance()
-            calendar.add(Calendar.DAY_OF_YEAR, -days)
-            val startDate = calendar.time
-            dashboardViewModel.getMoodsByWeekdayForPeriod(startDate)
-        } else {
-            dashboardViewModel.getMoodsByWeekday()
+        val selectedFilter = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date()).getOrNull(binding.radarPeriodSpinner.selectedItemPosition)
+        
+        val weekdayData = when (selectedFilter) {
+            is DayFilterType -> {
+                if (selectedFilter.days > 0) {
+                    val calendar = Calendar.getInstance()
+                    calendar.add(Calendar.DAY_OF_YEAR, -selectedFilter.days)
+                    val startDate = calendar.time
+                    dashboardViewModel.getMoodsByWeekdayForPeriod(startDate)
+                } else {
+                    dashboardViewModel.getMoodsByWeekday()
+                }
+            }
+            is MonthFilterType -> {
+                val startDate = selectedFilter.getStartDate()
+                val endDate = selectedFilter.getEndDate()
+                dashboardViewModel.getMoodsByWeekdayForPeriod(startDate, endDate)
+            }
+            else -> dashboardViewModel.getMoodsByWeekday()
         }
 
         val weekdays = listOf(
@@ -1447,14 +1585,25 @@ class DashboardFragment : Fragment() {
         )
 
         // Obter todos os humores registrados para este dia da semana
-        val days = DayFilterType.values().getOrNull(binding.radarPeriodSpinner.selectedItemPosition)?.days ?: -1
-        val weekdayData = if (days > 0) {
-            val calendar = Calendar.getInstance()
-            calendar.add(Calendar.DAY_OF_YEAR, -days)
-            val startDate = calendar.time
-            dashboardViewModel.getMoodsByWeekdayForPeriod(startDate)
-        } else {
-            dashboardViewModel.getMoodsByWeekday()
+        val days = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date()).getOrNull(binding.radarPeriodSpinner.selectedItemPosition)
+        
+        val weekdayData = when (days) {
+            is DayFilterType -> {
+                if (days.days > 0) {
+                    val calendar = Calendar.getInstance()
+                    calendar.add(Calendar.DAY_OF_YEAR, -days.days)
+                    val startDate = calendar.time
+                    dashboardViewModel.getMoodsByWeekdayForPeriod(startDate)
+                } else {
+                    dashboardViewModel.getMoodsByWeekday()
+                }
+            }
+            is MonthFilterType -> {
+                val startDate = days.getStartDate()
+                val endDate = days.getEndDate()
+                dashboardViewModel.getMoodsByWeekdayForPeriod(startDate, endDate)
+            }
+            else -> dashboardViewModel.getMoodsByWeekday()
         }
 
         val moodsForWeekday = weekdayData[weekdayIndex] ?: return

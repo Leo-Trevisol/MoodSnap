@@ -72,6 +72,16 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             .mapValues { it.value.size }
     }
 
+    fun getMoodDistributionForPeriod(startDate: Date, endDate: Date): Map<Int, Int> {
+        val filteredMoods = _moods.value?.filter { mood ->
+            (mood.date.after(startDate) || mood.date == startDate) && 
+            (mood.date.before(endDate) || mood.date == endDate)
+        } ?: emptyList()
+
+        return filteredMoods.groupBy { it.moodType }
+            .mapValues { it.value.size }
+    }
+
     fun loadMoods() {
         viewModelScope.launch(Dispatchers.IO) {
             val allMoods = repository.getAll()
@@ -320,6 +330,32 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         return weekdayData
     }
 
+    fun getMoodsByWeekdayForPeriod(startDate: Date, endDate: Date): Map<Int, Map<Int, Int>> {
+        val weekdayData = mutableMapOf<Int, MutableMap<Int, Int>>()
+        
+        // Initialize the map for each day of the week (0 = Sunday, 6 = Saturday)
+        for (day in 0..6) {
+            weekdayData[day] = mutableMapOf()
+            // Initialize counts for each mood type (0-4)
+            for (moodType in 0..4) {
+                weekdayData[day]!![moodType] = 0
+            }
+        }
+        
+        // Process existing moods within the period (entre startDate e endDate)
+        _moods.value?.filter { mood -> 
+            (mood.date.after(startDate) || mood.date == startDate) &&
+            (mood.date.before(endDate) || mood.date == endDate)
+        }?.forEach { mood ->
+            val calendar = Calendar.getInstance()
+            calendar.time = mood.date
+            val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1 // Convert to 0-based index
+            weekdayData[dayOfWeek]!![mood.moodType] = (weekdayData[dayOfWeek]!![mood.moodType] ?: 0) + 1
+        }
+        
+        return weekdayData
+    }
+
     fun getLast5DaysMoods(): List<DayMood> {
         val moodsList = moods.value ?: return emptyList()
         
@@ -366,6 +402,13 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         
         return _moods.value?.any { mood -> 
             mood.date.after(startDate) || mood.date == startDate
+        } ?: false
+    }
+
+    fun hasMoodsInPeriod(startDate: Date, endDate: Date): Boolean {
+        return _moods.value?.any { mood ->
+            (mood.date.after(startDate) || mood.date == startDate) && 
+            (mood.date.before(endDate) || mood.date == endDate)
         } ?: false
     }
 
