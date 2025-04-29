@@ -251,6 +251,16 @@
                     android:textSize="@dimen/text_size_xlarge"/>
 
                 <TextView
+                    android:id="@+id/donut_chart_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Veja detalhes dos humores em relação ao dia da semana"
+                    android:textSize="@dimen/text_size_normal"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
                     android:id="@+id/donut_chart_no_mood_registered_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -341,6 +351,16 @@
                     android:textSize="@dimen/text_size_xlarge"/>
 
                 <TextView
+                    android:id="@+id/bar_chart_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Veja detalhes dos humores por período do dia"
+                    android:textSize="@dimen/text_size_normal"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
                     android:id="@+id/bar_chart_no_mood_registered_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -428,6 +448,16 @@
                     android:gravity="center"
                     android:textStyle="bold"
                     android:textSize="@dimen/text_size_xlarge"/>
+
+                <TextView
+                    android:id="@+id/radar_chart_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Veja detalhes dos humores em relação ao dia selecionado"
+                    android:textSize="@dimen/text_size_normal"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:layout_marginBottom="16dp"/>
 
                 <TextView
                     android:id="@+id/radar_chart_no_mood_registered_text"

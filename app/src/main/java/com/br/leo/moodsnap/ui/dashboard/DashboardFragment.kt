@@ -115,6 +115,10 @@ class DashboardFragment : Fragment() {
         binding.linearBarChart.visibility = View.GONE
         binding.linearRadarChart.visibility = View.GONE
 
+        binding.donutChartDescription.visibility = View.GONE
+        binding.barChartDescription.visibility = View.GONE
+        binding.radarChartDescription.visibility = View.GONE
+
         binding.donutChartNoMoodRegisteredText.visibility = View.VISIBLE
         binding.barChartNoMoodRegisteredText.visibility = View.VISIBLE
         binding.radarChartNoMoodRegisteredText.visibility = View.VISIBLE
