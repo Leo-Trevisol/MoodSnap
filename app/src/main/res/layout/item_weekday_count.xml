@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingVertical="8dp">
+    android:paddingTop="8dp">
 
     <TextView
         android:id="@+id/weekday_text"

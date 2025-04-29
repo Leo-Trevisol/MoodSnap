@@ -1209,6 +1209,30 @@ class DashboardFragment : Fragment() {
             setNoDataTextColor(Color.WHITE)
             setNoDataTextTypeface(customTypeface)
             getPaint(RadarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
+
+            // Adicionar listener de clique
+            setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                override fun onValueSelected(e: Entry?, h: Highlight?) {
+                    if (e is RadarEntry) {
+                        val weekdayIndex = h?.x?.toInt() ?: return
+                        val moodType = moodOrder[h.dataSetIndex]
+                        val count = e.y.toInt()
+
+                        if (count > 0) {
+                            showRadarDetailsDialog(
+                                weekdayIndex,
+                                moodType,
+                                count,
+                                dashboardViewModel.getMoodColor(moodType)
+                            )
+                        }
+                    }
+                }
+
+                override fun onNothingSelected() {
+                    // Não é necessário fazer nada aqui
+                }
+            })
         }
 
         // Observar mudanças na distribuição de humor
@@ -1379,5 +1403,79 @@ class DashboardFragment : Fragment() {
             itemLayout.addView(legendText)
             legendContainer.addView(itemLayout)
         }
+    }
+
+    private fun showRadarDetailsDialog(
+        weekdayIndex: Int,
+        moodType: Int,
+        count: Int,
+        moodColor: Int
+    ) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_radar_details)
+        dialog.window?.apply {
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val width = (resources.displayMetrics.widthPixels * 0.85).toInt() // 85% da largura da tela
+            setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT)
+        }
+
+        // Configurar views do dialog
+        val cardView = dialog.findViewById<CardView>(R.id.card_view)
+        val moodContainer = dialog.findViewById<LinearLayout>(R.id.mood_container)
+
+        // Obter o nome do dia da semana
+        val weekdays = listOf(
+            getString(R.string.weekday_full_sunday),
+            getString(R.string.weekday_full_monday),
+            getString(R.string.weekday_full_tuesday),
+            getString(R.string.weekday_full_wednesday),
+            getString(R.string.weekday_full_thursday),
+            getString(R.string.weekday_full_friday),
+            getString(R.string.weekday_full_saturday)
+        )
+        val weekdayName = weekdays[weekdayIndex]
+
+        // Configurar título do dialog
+        dialog.findViewById<TextView>(R.id.dialog_title).text = getString(
+            R.string.dialog_title_radar_distribution,
+            weekdayName
+        )
+
+        // Obter todos os humores registrados para este dia da semana
+        val days = DayFilterType.values().getOrNull(binding.radarPeriodSpinner.selectedItemPosition)?.days ?: -1
+        val weekdayData = if (days > 0) {
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.DAY_OF_YEAR, -days)
+            val startDate = calendar.time
+            dashboardViewModel.getMoodsByWeekdayForPeriod(startDate)
+        } else {
+            dashboardViewModel.getMoodsByWeekday()
+        }
+
+        val moodsForWeekday = weekdayData[weekdayIndex] ?: return
+        val totalMoods = moodsForWeekday.values.sum()
+
+        // Adicionar um item para cada humor registrado neste dia
+        moodOrder.forEach { moodType ->
+            val count = moodsForWeekday[moodType] ?: 0
+            if (count > 0) {
+                val moodItem = layoutInflater.inflate(R.layout.item_radar_mood, null)
+                val moodCardView = moodItem.findViewById<CardView>(R.id.mood_card_view)
+                val moodIcon = moodItem.findViewById<ImageView>(R.id.mood_icon)
+                val moodName = moodItem.findViewById<TextView>(R.id.mood_name)
+                val moodCount = moodItem.findViewById<TextView>(R.id.mood_count)
+
+                val percentage = (count.toFloat() / totalMoods * 100).roundToInt()
+                moodCardView.setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
+                moodIcon.setImageResource(Utils.getMoodDrawable(moodType))
+                moodName.text = dashboardViewModel.getMoodName(requireContext(), moodType)
+                moodCount.text = getString(R.string.weekday_count_format, count, percentage)
+
+                moodContainer.addView(moodItem)
+            }
+        }
+
+        dialog.show()
     }
 }

@@ -247,5 +247,6 @@
     <string name="dialog_title_last_mood">Último Registro do Humor</string>
     <string name="dialog_title_mood_weekday">Detalhes do Humor por Dia</string>
     <string name="dialog_title_mood_time">Detalhes do Humor por Horário</string>
+    <string name="dialog_title_radar_distribution">Distribuição por Humor - %1$s</string>
 
 </resources>
