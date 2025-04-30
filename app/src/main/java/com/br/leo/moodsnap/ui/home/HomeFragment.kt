@@ -205,6 +205,10 @@ class HomeFragment : Fragment() {
     private fun observeMainViewModel() {
         mainViewModel.selectedEmotion.observe(viewLifecycleOwner) { emotionResId ->
             if (selectedDay != -1) {
+                // Salvar o mês e ano atuais antes de modificar o calendário
+                val currentMonth = calendar.get(Calendar.MONTH)
+                val currentYear = calendar.get(Calendar.YEAR)
+                
                 // Criar data para o dia selecionado
                 calendar.set(Calendar.DAY_OF_MONTH, selectedDay)
                 val selectedDate = calendar.time
@@ -237,6 +241,10 @@ class HomeFragment : Fragment() {
                 // Salvar o humor
                 homeViewModel.saveMood(mood)
 
+                // Restaurar o mês e ano originais no calendário
+                calendar.set(Calendar.YEAR, currentYear)
+                calendar.set(Calendar.MONTH, currentMonth)
+                
                 // Resetar a seleção do dia após salvar o humor
                 selectedDay = -1
                 calendarAdapter.setSelectedDay(-1)
@@ -555,6 +563,13 @@ class HomeFragment : Fragment() {
             calendar.get(Calendar.MONTH)
         )
 
+        // Verificar se o dia selecionado é válido para o novo mês
+        val daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+        if (keepSelectedDay && selectedDay > daysInMonth) {
+            // Ajustar o dia selecionado para o último dia do mês atual
+            selectedDay = daysInMonth
+        }
+
         // Manter o dia selecionado se necessário
         if (!keepSelectedDay) {
             selectedDay = -1
@@ -687,11 +702,33 @@ class HomeFragment : Fragment() {
                         updateCalendarForDate(calendar)
                         return true
                     } else { // Deslize para a esquerda
-                        if (isCurrentMonth) {
-                            // Se estiver no mês atual, navega para o dashboard
+                        // Verificar se o próximo mês seria o mês atual
+                        val nextMonth = if (calendar.get(Calendar.MONTH) == Calendar.DECEMBER) {
+                            Calendar.JANUARY
+                        } else {
+                            calendar.get(Calendar.MONTH) + 1
+                        }
+                        
+                        val nextYear = if (calendar.get(Calendar.MONTH) == Calendar.DECEMBER) {
+                            calendar.get(Calendar.YEAR) + 1
+                        } else {
+                            calendar.get(Calendar.YEAR)
+                        }
+                        
+                        // Verificar se o próximo mês/ano seria o mês/ano atual
+                        val wouldBeCurrentMonth = nextYear == currentYear && nextMonth == currentMonth
+                        
+                        if (wouldBeCurrentMonth) {
+                            // Se o próximo mês seria o mês atual, navega para o mês atual
+                            calendar.set(Calendar.DAY_OF_MONTH, 1) // Evita problemas com dias que não existem no novo mês
+                            calendar.set(Calendar.YEAR, currentYear)
+                            calendar.set(Calendar.MONTH, currentMonth)
+                            updateCalendarForDate(calendar)
+                        } else if (isCurrentMonth) {
+                            // Se já estiver no mês atual, navega para o dashboard
                             findNavController().navigate(R.id.action_home_to_dashboard)
                         } else {
-                            // Se estiver em um mês anterior, navega para o próximo mês
+                            // Se estiver em um mês anterior e o próximo não é o atual, navega para o próximo mês
                             if (calendar.get(Calendar.MONTH) == Calendar.DECEMBER) {
                                 calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1)
                                 calendar.set(Calendar.MONTH, Calendar.JANUARY)
