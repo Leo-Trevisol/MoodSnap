@@ -46,4 +46,7 @@
     <dimen name="hole_pie_chart">35px</dimen>
 
     <dimen name="legend_square_size">12dp</dimen>
+    
+    <!-- FAB dimensions -->
+    <dimen name="fab_icon_size">56dp</dimen>
 </resources>

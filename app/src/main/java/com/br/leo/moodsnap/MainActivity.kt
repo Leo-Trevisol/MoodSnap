@@ -18,6 +18,8 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import android.content.res.Configuration
 import com.br.leo.moodsnap.ui.utils.FontUtils
+import android.graphics.Color
+import android.content.res.ColorStateList
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -145,6 +147,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setListeners() {
         binding.fab.setOnClickListener(this)
+
+        // Configurar o FAB com fundo completamente transparente
+        binding.fab.apply {
+            background = null
+            useCompatPadding = false
+            compatElevation = 0f
+            elevation = 0f
+            stateListAnimator = null
+        }
+
+
+
     }
 
     private fun observeViewModel() {

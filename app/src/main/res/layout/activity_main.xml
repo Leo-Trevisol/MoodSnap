@@ -19,41 +19,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:backgroundTint="@color/dark_secondary"
         app:fabAlignmentMode="center"
         app:fabAnchorMode="cradle"
         app:fabCradleMargin="10dp"
+        app:fabCradleRoundedCornerRadius="50dp"
         app:fabCradleVerticalOffset="1dp"
-        app:fabCradleRoundedCornerRadius="40dp"
-        android:backgroundTint="@color/dark_secondary">
+        app:hideOnScroll="false">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/nav_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            app:labelVisibilityMode="labeled"
             android:elevation="0dp"
+            android:paddingTop="0dp"
+            app:itemHorizontalTranslationEnabled="false"
             app:itemIconSize="20dp"
             app:itemIconTint="@color/navigation_colors"
             app:itemTextColor="@color/navigation_colors"
-            app:menu="@menu/bottom_nav_menu"
-            app:itemHorizontalTranslationEnabled="false"
-            android:paddingTop="0dp" />
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_nav_menu" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:background="@drawable/circular_fab_background"
-        android:elevation="0dp"
+        android:layout_margin="24dp"
         android:src="@drawable/icon_animation"
         app:layout_anchor="@id/bottomAppBar"
-        app:maxImageSize="50dp"
-        app:srcCompat="@drawable/sorriso_brilho"
-        android:backgroundTint="@android:color/transparent"
-        app:tint="@null"
-        app:rippleColor="@android:color/transparent" />
+        app:maxImageSize="@dimen/fab_icon_size"
+        app:borderWidth="0dp"
+        app:backgroundTint="@android:color/transparent"
+        app:elevation="0dp"
+        app:fabCustomSize="@dimen/fab_icon_size"
+        app:rippleColor="@android:color/transparent"
+        app:tint="@null"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
