@@ -106,13 +106,13 @@ object DateUtils {
 
     fun getDayOfWeekShortName(context: Context, dayOfWeek: Int): String {
         return when (dayOfWeek) {
-            Calendar.SUNDAY -> context.getString(R.string.sun)
-            Calendar.MONDAY -> context.getString(R.string.mon)
-            Calendar.TUESDAY -> context.getString(R.string.tue)
-            Calendar.WEDNESDAY -> context.getString(R.string.wed)
-            Calendar.THURSDAY -> context.getString(R.string.thu)
-            Calendar.FRIDAY -> context.getString(R.string.fri)
-            Calendar.SATURDAY -> context.getString(R.string.sat)
+            Calendar.SUNDAY -> context.getString(R.string.weekday_sunday)
+            Calendar.MONDAY -> context.getString(R.string.weekday_monday)
+            Calendar.TUESDAY -> context.getString(R.string.weekday_tuesday)
+            Calendar.WEDNESDAY -> context.getString(R.string.weekday_wednesday)
+            Calendar.THURSDAY -> context.getString(R.string.weekday_thursday)
+            Calendar.FRIDAY -> context.getString(R.string.weekday_friday)
+            Calendar.SATURDAY -> context.getString(R.string.weekday_saturday)
             else -> ""
         }
     }

@@ -254,11 +254,11 @@
                     android:id="@+id/donut_chart_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Veja detalhes dos humores em relação ao dia da semana"
-                    android:textSize="@dimen/text_size_normal"
+                    android:layout_marginBottom="16dp"
                     android:gravity="center"
+                    android:text="@string/donut_chart_description"
                     android:textColor="@color/white"
-                    android:layout_marginBottom="16dp"/>
+                    android:textSize="@dimen/text_size_normal" />
 
                 <TextView
                     android:id="@+id/donut_chart_no_mood_registered_text"
@@ -354,7 +354,7 @@
                     android:id="@+id/bar_chart_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Veja detalhes dos humores por período do dia"
+                    android:text="@string/bar_chart_description"
                     android:textSize="@dimen/text_size_normal"
                     android:textColor="@color/white"
                     android:gravity="center"
@@ -453,7 +453,7 @@
                     android:id="@+id/radar_chart_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Veja detalhes dos humores em relação ao dia selecionado"
+                    android:text="@string/radar_chart_description"
                     android:textSize="@dimen/text_size_normal"
                     android:textColor="@color/white"
                     android:gravity="center"

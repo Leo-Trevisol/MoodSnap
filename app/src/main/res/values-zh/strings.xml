@@ -219,5 +219,38 @@
         <item quantity="other">%d 条记录在这一天</item>
     </plurals>
 
+    <string name="no_data_last_7_days">过去7天没有数据</string>
+    <string name="no_data_last_month">上个月没有数据</string>
+    <string name="no_data_last_3_months">过去3个月没有数据</string>
+    <string name="no_data_last_6_months">过去6个月没有数据</string>
+    <string name="no_data_last_9_months">过去9个月没有数据</string>
+    <string name="no_data_last_year">去年没有数据</string>
+    <string name="no_data_all_time">未记录任何数据</string>
+    <string name="no_data_specific_month">%1$s 没有数据</string>
+
+    <!-- Day Filter Types -->
+    <string name="filter_last_7_days">最近7天</string>
+    <string name="filter_last_month">上个月</string>
+    <string name="filter_last_3_months">最近3个月</string>
+    <string name="filter_last_6_months">最近6个月</string>
+    <string name="filter_last_9_months">最近9个月</string>
+    <string name="filter_last_year">去年</string>
+    <string name="filter_all">所有</string>
+
+    <string name="quick_distribution">快速分布</string>
+
+    <string name="weekday_count_format">%1$d（%2$d%%）</string>
+    <string name="mood_icon_description">心情图标</string>
+
+    <!-- Dialog Titles -->
+    <string name="dialog_title_weekday_distribution">每周分布</string>
+    <string name="dialog_title_last_mood">最后的心情记录</string>
+    <string name="dialog_title_mood_weekday">按星期查看心情详情</string>
+    <string name="dialog_title_mood_time">按时间查看心情详情</string>
+    <string name="dialog_title_radar_distribution">心情分布 - %1$s</string>
+
+    <string name="donut_chart_description">查看与星期几相关的情绪详细信息</string>
+    <string name="bar_chart_description">查看与星期几相关的情绪详细信息</string>
+    <string name="radar_chart_description">查看与星期几相关的情绪详细信息</string>
 
 </resources>

@@ -156,9 +156,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             elevation = 0f
             stateListAnimator = null
         }
-
-
-
     }
 
     private fun observeViewModel() {

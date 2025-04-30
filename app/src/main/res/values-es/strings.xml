@@ -230,4 +230,29 @@
     <string name="filter_last_year">Último año</string>
     <string name="filter_all">Todo</string>
 
+    <string name="no_data_last_7_days">No hay datos en los últimos 7 días</string>
+    <string name="no_data_last_month">No hay datos en el último mes</string>
+    <string name="no_data_last_3_months">No hay datos en los últimos 3 meses</string>
+    <string name="no_data_last_6_months">No hay datos en los últimos 6 meses</string>
+    <string name="no_data_last_9_months">No hay datos en los últimos 9 meses</string>
+    <string name="no_data_last_year">No hay datos en el último año</string>
+    <string name="no_data_all_time">No se han registrado datos</string>
+    <string name="no_data_specific_month">No hay datos para %1$s</string>
+
+    <string name="quick_distribution">Distribución rápida</string>
+
+    <string name="weekday_count_format">%1$d (%2$d%%)</string>
+    <string name="mood_icon_description">Icono de estado de ánimo</string>
+
+    <!-- Dialog Titles -->
+    <string name="dialog_title_weekday_distribution">Distribución por días de la semana</string>
+    <string name="dialog_title_last_mood">Último registro de estado de ánimo</string>
+    <string name="dialog_title_mood_weekday">Detalles del estado de ánimo por día</string>
+    <string name="dialog_title_mood_time">Detalles del estado de ánimo por hora</string>
+    <string name="dialog_title_radar_distribution">Distribución del estado de ánimo - %1$s</string>
+
+    <string name="donut_chart_description">Ver detalles de los estados de ánimo según el día de la semana</string>
+    <string name="bar_chart_description">Ver detalles de los estados de ánimo según el día de la semana</string>
+    <string name="radar_chart_description">Ver detalles de los estados de ánimo según el día de la semana</string>
+
 </resources>

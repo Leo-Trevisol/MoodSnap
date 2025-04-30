@@ -229,4 +229,29 @@
     <string name="filter_last_year">Letztes Jahr</string>
     <string name="filter_all">Alle</string>
 
+    <string name="no_data_last_7_days">Keine Daten in den letzten 7 Tagen</string>
+    <string name="no_data_last_month">Keine Daten im letzten Monat</string>
+    <string name="no_data_last_3_months">Keine Daten in den letzten 3 Monaten</string>
+    <string name="no_data_last_6_months">Keine Daten in den letzten 6 Monaten</string>
+    <string name="no_data_last_9_months">Keine Daten in den letzten 9 Monaten</string>
+    <string name="no_data_last_year">Keine Daten im letzten Jahr</string>
+    <string name="no_data_all_time">Keine Daten aufgezeichnet</string>
+    <string name="no_data_specific_month">Keine Daten für %1$s</string>
+
+    <string name="quick_distribution">Schnelle Verteilung</string>
+
+    <string name="weekday_count_format">%1$d (%2$d%%)</string>
+    <string name="mood_icon_description">Stimmungssymbol</string>
+
+    <!-- Dialog Titles -->
+    <string name="dialog_title_weekday_distribution">Wochentagsverteilung</string>
+    <string name="dialog_title_last_mood">Letzte Stimmungsaufzeichnung</string>
+    <string name="dialog_title_mood_weekday">Stimmungsdetails nach Tag</string>
+    <string name="dialog_title_mood_time">Stimmungsdetails nach Uhrzeit</string>
+    <string name="dialog_title_radar_distribution">Stimmungsverteilung – %1$s</string>
+
+    <string name="donut_chart_description">Sieh dir Stimmungsdetails nach Wochentagen an</string>
+    <string name="bar_chart_description">Sieh dir Stimmungsdetails nach Wochentagen an</string>
+    <string name="radar_chart_description">Sieh dir Stimmungsdetails nach Wochentagen an</string>
+
 </resources>

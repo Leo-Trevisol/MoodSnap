@@ -221,4 +221,38 @@
         <item quantity="other">%d enregistrements ce jour-là</item>
     </plurals>
 
+    <string name="no_data_last_7_days">Aucune donnée au cours des 7 derniers jours</string>
+    <string name="no_data_last_month">Aucune donnée le mois dernier</string>
+    <string name="no_data_last_3_months">Aucune donnée au cours des 3 derniers mois</string>
+    <string name="no_data_last_6_months">Aucune donnée au cours des 6 derniers mois</string>
+    <string name="no_data_last_9_months">Aucune donnée au cours des 9 derniers mois</string>
+    <string name="no_data_last_year">Aucune donnée au cours de l\'année dernière</string>
+    <string name="no_data_all_time">Aucune donnée enregistrée</string>
+    <string name="no_data_specific_month">Aucune donnée pour %1$s</string>
+
+    <!-- Day Filter Types -->
+    <string name="filter_last_7_days">7 derniers jours</string>
+    <string name="filter_last_month">Dernier mois</string>
+    <string name="filter_last_3_months">3 derniers mois</string>
+    <string name="filter_last_6_months">6 derniers mois</string>
+    <string name="filter_last_9_months">9 derniers mois</string>
+    <string name="filter_last_year">Dernière année</string>
+    <string name="filter_all">Tous</string>
+
+    <string name="quick_distribution">Distribution rapide</string>
+
+    <string name="weekday_count_format">%1$d (%2$d%%)</string>
+    <string name="mood_icon_description">Icône d\'humeur</string>
+
+    <!-- Dialog Titles -->
+    <string name="dialog_title_weekday_distribution">Répartition par jour de la semaine</string>
+    <string name="dialog_title_last_mood">Dernier enregistrement d\'humeur</string>
+    <string name="dialog_title_mood_weekday">Détails de l\'humeur par jour</string>
+    <string name="dialog_title_mood_time">Détails de l\'humeur par heure</string>
+    <string name="dialog_title_radar_distribution">Répartition de l\'humeur - %1$s</string>
+
+    <string name="donut_chart_description">Voir les détails des humeurs en fonction du jour de la semaine</string>
+    <string name="bar_chart_description">Voir les détails des humeurs en fonction du jour de la semaine</string>
+    <string name="radar_chart_description">Voir les détails des humeurs en fonction du jour de la semaine</string>
+
 </resources>

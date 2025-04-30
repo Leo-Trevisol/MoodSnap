@@ -6,6 +6,7 @@
     <!-- Buttons -->
     <string name="btn_save">Save</string>
     <string name="btn_cancel">Cancel</string>
+    <string name="btn_ok" translatable="false">OK</string>
     <string name="btn_delete">Delete</string>
     <string name="btn_edit">Edit</string>
     <string name="btn_confirm">Confirm</string>
@@ -48,7 +49,7 @@
     <string name="month_november">November</string>
     <string name="month_december">December</string>
 
-    <!-- Dias da Semana -->
+    <!-- Weekdays -->
     <string name="weekday_sunday">Sun</string>
     <string name="weekday_monday">Mon</string>
     <string name="weekday_tuesday">Tue</string>
@@ -57,7 +58,7 @@
     <string name="weekday_friday">Fri</string>
     <string name="weekday_saturday">Sat</string>
 
-    <!-- Dias da Semana Completos -->
+    <!-- Full Weekdays -->
     <string name="weekday_full_sunday">Sunday</string>
     <string name="weekday_full_monday">Monday</string>
     <string name="weekday_full_tuesday">Tuesday</string>
@@ -66,11 +67,11 @@
     <string name="weekday_full_friday">Friday</string>
     <string name="weekday_full_saturday">Saturday</string>
 
-    <!-- Filtros de Dia -->
+    <!-- Day Filters -->
     <string name="best_day">Best</string>
     <string name="worst_day">Worst</string>
 
-    <!-- Mensagens de Estatísticas -->
+    <!-- Statistics Messages -->
     <string name="register_more_moods">Register more moods to see statistics</string>
     <string name="best_day_usually">Your best day is usually %1$s</string>
     <string name="worst_day_usually">Your worst day is usually %1$s</string>
@@ -93,6 +94,12 @@
     <string name="your_average_mood">Your average mood is %1$s</string>
     <string name="mood_distribution">Mood Distribution</string>
     <string name="no_mood_distribution">No mood registered yet</string>
+    <string name="no_mood_distribution_7_days">No mood registered in the last 7 days</string>
+    <string name="no_mood_distribution_30_days">No mood registered in the last month</string>
+    <string name="no_mood_distribution_90_days">No mood registered in the last 3 months</string>
+    <string name="no_mood_distribution_180_days">No mood registered in the last 6 months</string>
+    <string name="no_mood_distribution_270_days">No mood registered in the last 9 months</string>
+    <string name="no_mood_distribution_365_days">No mood registered in the last year</string>
     <string name="you_were_mood">You were %1$s on %2$d%% of days</string>
     <string name="current_streak">Current Streak</string>
     <string name="no_mood_today">You haven\'t recorded your mood today</string>
@@ -120,6 +127,8 @@
     <string name="confirm_delete_image">Do you really want to delete the image?</string>
     <string name="image_deleted">Image deleted successfully!</string>
     <string name="description_saved">Description saved successfully!</string>
+    <string name="notification_permission_required">To receive daily reminders, we need your permission to send notifications.</string>
+    <string name="notification_permission_denied_permanently">Notifications are disabled. To receive daily reminders, you need to enable notifications in system settings.</string>
 
     <!-- Discard Changes Dialog -->
     <string name="unsaved_changes_title">Attention</string>
@@ -141,6 +150,8 @@
     <string name="themes">Themes</string>
 
     <!-- Language Names -->
+    <string name="language_settings">Language Settings</string>
+    <string name="language_system">System language</string>
     <string name="language_english">English - En</string>
     <string name="language_portuguese">Portuguese - Pt-Br</string>
     <string name="language_spanish">Spanish - Es</string>
@@ -150,15 +161,12 @@
     <string name="language_russian">Russian - Ru</string>
     <string name="language_german">German - De</string>
 
+    <string name="theme_settings">Theme Settings</string>
+    <string name="system_theme">System Theme</string>
     <string name="light_theme">Light Theme</string>
     <string name="dark_theme">Dark Theme</string>
 
-    <string name="language_settings">Language Settings</string>
-    <string name="language_system">System language</string>
-
-    <string name="theme_settings">Theme Settings</string>
-    <string name="system_theme">System Theme</string>
-
+    <!-- Notification Settings -->
     <string name="notifications">Notifications</string>
     <string name="notification_settings">Notification Settings</string>
     <string name="enable_notifications">Enable Daily Reminder</string>
@@ -176,6 +184,7 @@
 
     <string name="font_preview_text">Choose your favorite font!</string>
 
+    <!-- Onboarding -->
     <string name="tutorial_image">Tutorial Image</string>
     <string name="btn_previous">Previous</string>
     <string name="btn_finish">Start</string>
@@ -183,11 +192,11 @@
     <string name="onboarding_title_1">Welcome to Moody!</string>
     <string name="onboarding_description_1">Track your daily mood and better understand your emotional patterns</string>
 
-    <string name="onboarding_title_2">Log Your Mood</string>
-    <string name="onboarding_description_2">Make daily mood entries, add notes, and monitor your progress over time</string>
+    <string name="onboarding_title_2">Register Your Mood</string>
+    <string name="onboarding_description_2">Make daily mood entries, add notes, and track your progress over time</string>
 
     <string name="onboarding_title_3">Visualize Your Data</string>
-    <string name="onboarding_description_3">View charts and statistics that help you understand your mood patterns better</string>
+    <string name="onboarding_description_3">View charts and statistics that help you better understand your mood patterns</string>
 
     <string name="tutorial">Tutorial</string>
 
@@ -201,25 +210,21 @@
     <string name="distribution_view_bars">Bars</string>
     <string name="distribution_view_donut">Donut</string>
     <string name="distribution_view_bar_group">Grouped Bar</string>
-
-    <string name="btn_ok">OK</string>
-
-    <string name="no_mood_distribution_7_days">No mood registered in the last 7 days</string>
-    <string name="no_mood_distribution_30_days">No mood registered in the last month</string>
-    <string name="no_mood_distribution_90_days">No mood registered in the last 3 months</string>
-    <string name="no_mood_distribution_180_days">No mood registered in the last 6 months</string>
-    <string name="no_mood_distribution_270_days">No mood registered in the last 9 months</string>
-    <string name="no_mood_distribution_365_days">No mood registered in the last year</string>
-
-    <string name="notification_permission_required">To receive daily reminders, we need your permission to send notifications.</string>
-    <string name="notification_permission_denied_permanently">Notifications are disabled. To receive daily reminders, you need to enable notifications in system settings.</string>
-
     <string name="distribution_view_spider">Spider</string>
 
     <plurals name="mood_count">
         <item quantity="one">%d entry on this day</item>
         <item quantity="other">%d entries on this day</item>
     </plurals>
+
+    <string name="no_data_last_7_days">No data in the last 7 days</string>
+    <string name="no_data_last_month">No data in the last month</string>
+    <string name="no_data_last_3_months">No data in the last 3 months</string>
+    <string name="no_data_last_6_months">No data in the last 6 months</string>
+    <string name="no_data_last_9_months">No data in the last 9 months</string>
+    <string name="no_data_last_year">No data in the last year</string>
+    <string name="no_data_all_time">No data recorded</string>
+    <string name="no_data_specific_month">No data for %1$s</string>
 
     <!-- Day Filter Types -->
     <string name="filter_last_7_days">Last 7 days</string>
@@ -229,5 +234,21 @@
     <string name="filter_last_9_months">Last 9 months</string>
     <string name="filter_last_year">Last year</string>
     <string name="filter_all">All</string>
+
+    <string name="quick_distribution">Quick Distribution</string>
+
+    <string name="weekday_count_format">%1$d (%2$d%%)</string>
+    <string name="mood_icon_description">Mood icon</string>
+
+    <!-- Dialog Titles -->
+    <string name="dialog_title_weekday_distribution">Weekday Distribution</string>
+    <string name="dialog_title_last_mood">Last Mood Record</string>
+    <string name="dialog_title_mood_weekday">Mood Details by Day</string>
+    <string name="dialog_title_mood_time">Mood Details by Time</string>
+    <string name="dialog_title_radar_distribution">Mood Distribution - %1$s</string>
+
+    <string name="donut_chart_description">View mood details by weekday</string>
+    <string name="bar_chart_description">View mood details by weekday</string>
+    <string name="radar_chart_description">View mood details by weekday</string>
 
 </resources>

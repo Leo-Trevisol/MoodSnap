@@ -225,5 +225,38 @@
         <item quantity="other">%d registros neste dia</item>
     </plurals>
 
+    <string name="no_data_last_7_days">Sem dados nos últimos 7 dias</string>
+    <string name="no_data_last_month">Sem dados no último mês</string>
+    <string name="no_data_last_3_months">Sem dados nos últimos 3 meses</string>
+    <string name="no_data_last_6_months">Sem dados nos últimos 6 meses</string>
+    <string name="no_data_last_9_months">Sem dados nos últimos 9 meses</string>
+    <string name="no_data_last_year">Sem dados no último ano</string>
+    <string name="no_data_all_time">Nenhum dado registrado</string>
+    <string name="no_data_specific_month">Sem dados para %1$s</string>
 
-</resources> 
+    <!-- Day Filter Types -->
+    <string name="filter_last_7_days">Últimos 7 dias</string>
+    <string name="filter_last_month">Último mês</string>
+    <string name="filter_last_3_months">Últimos 3 meses</string>
+    <string name="filter_last_6_months">Últimos 6 meses</string>
+    <string name="filter_last_9_months">Últimos 9 meses</string>
+    <string name="filter_last_year">Último ano</string>
+    <string name="filter_all">Todos</string>
+
+    <string name="quick_distribution">Distribuição rápida</string>
+
+    <string name="weekday_count_format">%1$d (%2$d%%)</string>
+    <string name="mood_icon_description">Ícone de humor</string>
+
+    <!-- Dialog Titles -->
+    <string name="dialog_title_weekday_distribution">Distribuição por dia da semana</string>
+    <string name="dialog_title_last_mood">Último registro de humor</string>
+    <string name="dialog_title_mood_weekday">Detalhes do humor por dia</string>
+    <string name="dialog_title_mood_time">Detalhes do humor por horário</string>
+    <string name="dialog_title_radar_distribution">Distribuição de humor - %1$s</string>
+
+    <string name="donut_chart_description">Veja detalhes dos humores em relação ao dia da semana</string>
+    <string name="bar_chart_description">Veja detalhes dos humores em relação ao dia da semana</string>
+    <string name="radar_chart_description">Veja detalhes dos humores em relação ao dia da semana</string>
+
+</resources>

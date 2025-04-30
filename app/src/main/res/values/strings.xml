@@ -49,7 +49,7 @@
     <string name="month_november">November</string>
     <string name="month_december">December</string>
 
-    <!-- Dias da Semana -->
+    <!-- Weekdays -->
     <string name="weekday_sunday">Sun</string>
     <string name="weekday_monday">Mon</string>
     <string name="weekday_tuesday">Tue</string>
@@ -58,7 +58,7 @@
     <string name="weekday_friday">Fri</string>
     <string name="weekday_saturday">Sat</string>
 
-    <!-- Dias da Semana Completos -->
+    <!-- Full Weekdays -->
     <string name="weekday_full_sunday">Sunday</string>
     <string name="weekday_full_monday">Monday</string>
     <string name="weekday_full_tuesday">Tuesday</string>
@@ -67,11 +67,11 @@
     <string name="weekday_full_friday">Friday</string>
     <string name="weekday_full_saturday">Saturday</string>
 
-    <!-- Filtros de Dia -->
+    <!-- Day Filters -->
     <string name="best_day">Best</string>
     <string name="worst_day">Worst</string>
 
-    <!-- Mensagens de Estatísticas -->
+    <!-- Statistics Messages -->
     <string name="register_more_moods">Register more moods to see statistics</string>
     <string name="best_day_usually">Your best day is usually %1$s</string>
     <string name="worst_day_usually">Your worst day is usually %1$s</string>
@@ -88,8 +88,8 @@
     <string name="date_format">%1$d of %2$s of %3$d</string>
 
     <!-- Dashboard -->
-    <string name="mood_statistics">Estatísticas de Humor</string>
-    <string name="average_mood">Humor Médio</string>
+    <string name="mood_statistics">Mood Statistics</string>
+    <string name="average_mood">Average Mood</string>
     <string name="no_mood_registered">No mood registered yet</string>
     <string name="your_average_mood">Your average mood is %1$s</string>
     <string name="mood_distribution">Mood Distribution</string>
@@ -186,17 +186,17 @@
 
     <!-- Onboarding -->
     <string name="tutorial_image">Tutorial Image</string>
-    <string name="btn_previous">Anterior</string>
-    <string name="btn_finish">Começar</string>
-    
-    <string name="onboarding_title_1">Bem-vindo ao Moody!</string>
-    <string name="onboarding_description_1">Acompanhe seu humor diário e entenda melhor seus padrões emocionais</string>
-    
-    <string name="onboarding_title_2">Registre seu Humor</string>
-    <string name="onboarding_description_2">Faça registros diários do seu humor, adicione notas e acompanhe sua evolução ao longo do tempo</string>
-    
-    <string name="onboarding_title_3">Visualize seus Dados</string>
-    <string name="onboarding_description_3">Veja gráficos e estatísticas que ajudam a entender melhor seus padrões de humor</string>
+    <string name="btn_previous">Previous</string>
+    <string name="btn_finish">Start</string>
+
+    <string name="onboarding_title_1">Welcome to Moody!</string>
+    <string name="onboarding_description_1">Track your daily mood and better understand your emotional patterns</string>
+
+    <string name="onboarding_title_2">Register Your Mood</string>
+    <string name="onboarding_description_2">Make daily mood entries, add notes, and track your progress over time</string>
+
+    <string name="onboarding_title_3">Visualize Your Data</string>
+    <string name="onboarding_description_3">View charts and statistics that help you better understand your mood patterns</string>
 
     <string name="tutorial">Tutorial</string>
 
@@ -206,15 +206,6 @@
 
     <string name="camera_permission_denied_permanently">You have permanently denied camera access. To use this feature, you need to enable the permission in the app settings.</string>
     <string name="gallery_permission_denied_permanently">You have permanently denied gallery access. To use this feature, you need to enable the permission in the app settings.</string>
-
-    <string name="no_data_last_7_days">Sem dados nos últimos 7 dias</string>
-    <string name="no_data_last_month">Sem dados no último mês</string>
-    <string name="no_data_last_3_months">Sem dados nos últimos 3 meses</string>
-    <string name="no_data_last_6_months">Sem dados nos últimos 6 meses</string>
-    <string name="no_data_last_9_months">Sem dados nos últimos 9 meses</string>
-    <string name="no_data_last_year">Sem dados no último ano</string>
-    <string name="no_data_all_time">Sem dados registrados</string>
-    <string name="no_data_specific_month">Sem dados para %1$s</string>
 
     <string name="distribution_view_bars">Bars</string>
     <string name="distribution_view_donut">Donut</string>
@@ -226,34 +217,38 @@
         <item quantity="other">%d entries on this day</item>
     </plurals>
 
+    <string name="no_data_last_7_days">No data in the last 7 days</string>
+    <string name="no_data_last_month">No data in the last month</string>
+    <string name="no_data_last_3_months">No data in the last 3 months</string>
+    <string name="no_data_last_6_months">No data in the last 6 months</string>
+    <string name="no_data_last_9_months">No data in the last 9 months</string>
+    <string name="no_data_last_year">No data in the last year</string>
+    <string name="no_data_all_time">No data recorded</string>
+    <string name="no_data_specific_month">No data for %1$s</string>
+
     <!-- Day Filter Types -->
-    <string name="filter_last_7_days">Últimos 7 dias</string>
-    <string name="filter_last_month">Último mês</string>
-    <string name="filter_last_3_months">Últimos 3 meses</string>
-    <string name="filter_last_6_months">Últimos 6 meses</string>
-    <string name="filter_last_9_months">Últimos 9 meses</string>
-    <string name="filter_last_year">Último ano</string>
-    <string name="filter_all">Tudo</string>
+    <string name="filter_last_7_days">Last 7 days</string>
+    <string name="filter_last_month">Last month</string>
+    <string name="filter_last_3_months">Last 3 months</string>
+    <string name="filter_last_6_months">Last 6 months</string>
+    <string name="filter_last_9_months">Last 9 months</string>
+    <string name="filter_last_year">Last year</string>
+    <string name="filter_all">All</string>
 
-    <string name="quick_distribution">Distribuição Rápida</string>
-
-    <!-- Dias da semana abreviados -->
-    <string name="sun">Dom</string>
-    <string name="mon">Seg</string>
-    <string name="tue">Ter</string>
-    <string name="wed">Qua</string>
-    <string name="thu">Qui</string>
-    <string name="fri">Sex</string>
-    <string name="sat">Sáb</string>
+    <string name="quick_distribution">Quick Distribution</string>
 
     <string name="weekday_count_format">%1$d (%2$d%%)</string>
-    <string name="mood_icon_description">Ícone do humor</string>
+    <string name="mood_icon_description">Mood icon</string>
 
     <!-- Dialog Titles -->
-    <string name="dialog_title_weekday_distribution">Distribuição por Dia da Semana</string>
-    <string name="dialog_title_last_mood">Último Registro do Humor</string>
-    <string name="dialog_title_mood_weekday">Detalhes do Humor por Dia</string>
-    <string name="dialog_title_mood_time">Detalhes do Humor por Horário</string>
-    <string name="dialog_title_radar_distribution">Distribuição por Humor - %1$s</string>
+    <string name="dialog_title_weekday_distribution">Weekday Distribution</string>
+    <string name="dialog_title_last_mood">Last Mood Record</string>
+    <string name="dialog_title_mood_weekday">Mood Details by Day</string>
+    <string name="dialog_title_mood_time">Mood Details by Time</string>
+    <string name="dialog_title_radar_distribution">Mood Distribution - %1$s</string>
+
+    <string name="donut_chart_description">View mood details by weekday</string>
+    <string name="bar_chart_description">View mood details by weekday</string>
+    <string name="radar_chart_description">View mood details by weekday</string>
 
 </resources>
