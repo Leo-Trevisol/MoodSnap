@@ -39,6 +39,9 @@ import com.br.leo.moodsnap.ui.utils.FontUtils
 import com.br.leo.moodsnap.ui.utils.FontUtils.updateFontDialogPicker
 import com.br.leo.moodsnap.ui.utils.Utils.findViewsByType
 import android.provider.Settings
+import android.view.Gravity
+import android.widget.FrameLayout
+import android.widget.LinearLayout
 
 class EditDayActivity : AppCompatActivity() {
 
@@ -304,6 +307,29 @@ class EditDayActivity : AppCompatActivity() {
     }
 
     private fun setupMoodSelection() {
+
+        // Calcular tamanho baseado na largura da tela
+        val screenWidth = resources.displayMetrics.widthPixels
+        val containerSize = (screenWidth * 0.13).toInt() // 13% da largura da tela
+        val iconSize = (containerSize * 0.99).toInt() // 99% do tamanho do container
+
+        val verySadImage = findViewById<ImageView>(R.id.emotion_very_sad)
+        val sadImage = findViewById<ImageView>(R.id.emotion_sad)
+        val neutralImage = findViewById<ImageView>(R.id.emotion_neutral)
+        val happyImage = findViewById<ImageView>(R.id.emotion_happy)
+        val veryHappyImage = findViewById<ImageView>(R.id.emotion_very_happy)
+
+        val layoutParams = LinearLayout.LayoutParams(iconSize, iconSize).apply {
+            setMargins(Utils.dpToPx(applicationContext, 8), Utils.dpToPx(applicationContext, 8),
+                Utils.dpToPx(applicationContext, 8), Utils.dpToPx(applicationContext, 8))
+        }
+
+        verySadImage.layoutParams = layoutParams
+        sadImage.layoutParams = layoutParams
+        neutralImage.layoutParams = layoutParams
+        happyImage.layoutParams = layoutParams
+        veryHappyImage.layoutParams = layoutParams
+
         // Configurar cliques nos humores
         binding.emotionVeryHappy.setOnClickListener {
             selectedMoodType = 0
@@ -328,6 +354,7 @@ class EditDayActivity : AppCompatActivity() {
             updateMoodSelection()
             checkForChanges()
         }
+
 
         binding.emotionVerySad.setOnClickListener {
             selectedMoodType = 4
