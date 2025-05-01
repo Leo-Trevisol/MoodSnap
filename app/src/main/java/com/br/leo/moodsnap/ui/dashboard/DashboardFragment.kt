@@ -347,7 +347,7 @@ class DashboardFragment : Fragment() {
         // Observar humor médio
         dashboardViewModel.averageMood.observe(viewLifecycleOwner) { average ->
             if (average == null) {
-                binding.averageMoodIcon.setImageResource(R.drawable.neutro)
+                binding.averageMoodIcon.setImageResource(R.drawable.neutral_icon)
                 binding.averageMoodText.text = getString(R.string.no_mood_registered)
                 binding.cardAverageMood.setCardBackgroundColor(Color.WHITE)
             } else {

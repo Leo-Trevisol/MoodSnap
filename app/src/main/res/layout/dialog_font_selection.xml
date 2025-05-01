@@ -54,7 +54,7 @@
                     android:id="@+id/mood_indicator"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/feliz"/>
+                    android:src="@drawable/happy_icon"/>
 
                 <TextView
                     android:id="@+id/day_text"

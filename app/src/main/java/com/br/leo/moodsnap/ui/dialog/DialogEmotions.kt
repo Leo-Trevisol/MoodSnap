@@ -2,7 +2,6 @@ package com.br.leo.moodsnap.ui.dialog
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -112,23 +111,23 @@ class DialogEmotions(
         }
 
         view.findViewById<ImageView>(R.id.emotion_very_happy)?.setOnClickListener {
-            saveMood(R.drawable.muito_feliz)
+            saveMood(R.drawable.very_happy_icon)
         }
 
         view.findViewById<ImageView>(R.id.emotion_happy)?.setOnClickListener {
-            saveMood(R.drawable.feliz)
+            saveMood(R.drawable.happy_icon)
         }
 
         view.findViewById<ImageView>(R.id.emotion_neutral)?.setOnClickListener {
-            saveMood(R.drawable.neutro)
+            saveMood(R.drawable.neutral_icon)
         }
 
         view.findViewById<ImageView>(R.id.emotion_sad)?.setOnClickListener {
-            saveMood(R.drawable.triste)
+            saveMood(R.drawable.sad_icon)
         }
 
         view.findViewById<ImageView>(R.id.emotion_very_sad)?.setOnClickListener {
-            saveMood(R.drawable.muito_triste)
+            saveMood(R.drawable.very_sad_icon)
         }
     }
 

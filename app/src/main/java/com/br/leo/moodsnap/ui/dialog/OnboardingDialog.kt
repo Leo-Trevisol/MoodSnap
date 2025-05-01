@@ -28,7 +28,7 @@ class OnboardingDialog(context: Context) : Dialog(context) {
 
     private val slides = listOf(
         OnboardingSlide(
-            media = OnboardingMedia.Image(R.drawable.ic_mascote2),
+            media = OnboardingMedia.Image(R.drawable.ic_mascote),
             title = context.getString(R.string.onboarding_title_1),
             description = context.getString(R.string.onboarding_description_1),
             font = currentFont ?: "default"

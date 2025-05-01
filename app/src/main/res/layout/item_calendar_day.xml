@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:visibility="gone"
             tools:visibility="visible"
-            tools:src="@drawable/feliz"/>
+            tools:src="@drawable/happy_icon"/>
 
     </androidx.cardview.widget.CardView>
 

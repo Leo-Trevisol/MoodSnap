@@ -129,7 +129,7 @@
                         android:alpha="0.5"
                         android:background="@drawable/circle_very_sad"
                         android:padding="2dp"
-                        android:src="@drawable/muito_triste" />
+                        android:src="@drawable/very_sad_icon" />
 
                     <ImageView
                         android:id="@+id/emotion_sad"
@@ -139,7 +139,7 @@
                         android:alpha="0.5"
                         android:background="@drawable/circle_sad"
                         android:padding="2dp"
-                        android:src="@drawable/triste" />
+                        android:src="@drawable/sad_icon" />
 
                     <ImageView
                         android:id="@+id/emotion_neutral"
@@ -149,7 +149,7 @@
                         android:alpha="0.5"
                         android:background="@drawable/circle_neutral"
                         android:padding="2dp"
-                        android:src="@drawable/neutro" />
+                        android:src="@drawable/neutral_icon" />
 
                     <ImageView
                         android:id="@+id/emotion_happy"
@@ -159,7 +159,7 @@
                         android:alpha="0.5"
                         android:background="@drawable/circle_happy"
                         android:padding="2dp"
-                        android:src="@drawable/feliz" />
+                        android:src="@drawable/happy_icon" />
 
                     <ImageView
                         android:id="@+id/emotion_very_happy"
@@ -169,7 +169,7 @@
                         android:alpha="0.5"
                         android:background="@drawable/circle_very_happy"
                         android:padding="2dp"
-                        android:src="@drawable/muito_feliz" />
+                        android:src="@drawable/very_happy_icon" />
 
 
                 </LinearLayout>

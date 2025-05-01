@@ -37,7 +37,6 @@ import com.br.leo.moodsnap.ui.notifications.NotificationHelper
 import android.util.Log
 import com.br.leo.moodsnap.ui.utils.FontUtils
 import androidx.activity.result.contract.ActivityResultContracts
-import android.app.AlertDialog
 import android.provider.Settings
 import android.content.Intent
 import android.content.res.Resources
@@ -53,7 +52,6 @@ import com.br.leo.moodsnap.ui.utils.FontUtils.updateFontDialogPicker
 import androidx.recyclerview.widget.RecyclerView
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.br.leo.moodsnap.ui.dialog.CustomAlertDialog
 import com.br.leo.moodsnap.ui.adapters.FontAdapter
 import com.br.leo.moodsnap.ui.adapters.LanguageAdapter
@@ -222,11 +220,11 @@ class HomeFragment : Fragment() {
 
                 // Criar novo MoodModel
                 val moodType = when (emotionResId) {
-                    R.drawable.muito_feliz -> 0
-                    R.drawable.feliz -> 1
-                    R.drawable.neutro -> 2
-                    R.drawable.triste -> 3
-                    R.drawable.muito_triste -> 4
+                    R.drawable.very_happy_icon -> 0
+                    R.drawable.happy_icon -> 1
+                    R.drawable.neutral_icon -> 2
+                    R.drawable.sad_icon -> 3
+                    R.drawable.very_sad_icon -> 4
                     else -> 2 // neutro como padrão
                 }
 
@@ -776,12 +774,12 @@ class HomeFragment : Fragment() {
 
         // Definir o ícone com base no humor do dia atual
         val iconResource = when (todayMood?.moodType) {
-            0 -> R.drawable.muito_feliz
-            1 -> R.drawable.feliz
-            2 -> R.drawable.neutro
-            3 -> R.drawable.triste
-            4 -> R.drawable.muito_triste
-            else -> R.drawable.fechado_brilho
+            0 -> R.drawable.very_happy_icon
+            1 -> R.drawable.happy_icon
+            2 -> R.drawable.neutral_icon
+            3 -> R.drawable.sad_icon
+            4 -> R.drawable.very_sad_icon
+            else -> R.drawable.default_icon
         }
 
         activity?.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab)?.let { fab ->

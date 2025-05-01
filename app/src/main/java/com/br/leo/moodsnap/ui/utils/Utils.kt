@@ -1,6 +1,5 @@
 package com.br.leo.moodsnap.ui.utils
 
-import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -12,13 +11,11 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import com.br.leo.moodsnap.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.Calendar
 
 object Utils {
     fun getMainColor() : Int {
@@ -87,12 +84,12 @@ object Utils {
 
     fun getMoodDrawable(moodType: Int): Int {
         return when (moodType) {
-            0 -> R.drawable.muito_feliz
-            1 -> R.drawable.feliz
-            2 -> R.drawable.neutro
-            3 -> R.drawable.triste
-            4 -> R.drawable.muito_triste
-            else -> R.drawable.neutro
+            0 -> R.drawable.very_happy_icon
+            1 -> R.drawable.happy_icon
+            2 -> R.drawable.neutral_icon
+            3 -> R.drawable.sad_icon
+            4 -> R.drawable.very_sad_icon
+            else -> R.drawable.neutral_icon
         }
     }
 
@@ -116,12 +113,12 @@ object Utils {
 
     fun getMoodIcon(moodType: Int): Int {
         return when (moodType) {
-            0 -> R.drawable.muito_feliz
-            1 -> R.drawable.feliz
-            2 -> R.drawable.neutro
-            3 -> R.drawable.triste
-            4 -> R.drawable.muito_triste
-            else -> R.drawable.neutro
+            0 -> R.drawable.very_happy_icon
+            1 -> R.drawable.happy_icon
+            2 -> R.drawable.neutral_icon
+            3 -> R.drawable.sad_icon
+            4 -> R.drawable.very_sad_icon
+            else -> R.drawable.neutral_icon
         }
     }
 }
