@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@android:drawable/toast_frame"
+    android:background="@drawable/toast_background"
     android:gravity="center"
     android:orientation="horizontal"
     android:padding="@dimen/spacing_large">
@@ -19,5 +18,4 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_small" />
-
-</LinearLayout> 
+</LinearLayout>

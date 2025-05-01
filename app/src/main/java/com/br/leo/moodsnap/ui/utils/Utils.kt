@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import com.br.leo.moodsnap.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +31,7 @@ object Utils {
 
         val toastText = layout.findViewById<TextView>(R.id.toast_text)
         toastText.text = message
+        toastText.setTextColor(context.resources.getColor(R.color.secundary))
 
         FontUtils.applyFontToView(context, layout)
 
@@ -44,6 +46,7 @@ object Utils {
             show()
         }
     }
+
 
     fun CardView.flashError(onComplete: () -> Unit) {
         val originalColor = cardBackgroundColor

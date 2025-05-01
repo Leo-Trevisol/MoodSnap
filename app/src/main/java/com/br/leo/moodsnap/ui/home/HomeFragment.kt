@@ -155,7 +155,14 @@ class HomeFragment : Fragment() {
         val selectedDate = Calendar.getInstance().apply {
             set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), dayOfMonth)
         }
-        return selectedDate.after(today)
+        
+        // Comparar apenas ano, mês e dia
+        return (selectedDate.get(Calendar.YEAR) > today.get(Calendar.YEAR)) ||
+               (selectedDate.get(Calendar.YEAR) == today.get(Calendar.YEAR) && 
+                selectedDate.get(Calendar.MONTH) > today.get(Calendar.MONTH)) ||
+               (selectedDate.get(Calendar.YEAR) == today.get(Calendar.YEAR) && 
+                selectedDate.get(Calendar.MONTH) == today.get(Calendar.MONTH) && 
+                selectedDate.get(Calendar.DAY_OF_MONTH) > today.get(Calendar.DAY_OF_MONTH))
     }
 
     private fun setupFabListener() {
