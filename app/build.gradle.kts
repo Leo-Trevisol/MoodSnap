@@ -62,4 +62,5 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     kapt("androidx.room:room-compiler:2.5.0")
+    implementation ("com.getkeepsafe.taptargetview:taptargetview:1.13.3")
 }

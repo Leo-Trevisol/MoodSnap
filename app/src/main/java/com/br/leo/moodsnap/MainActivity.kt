@@ -20,6 +20,9 @@ import android.content.res.Configuration
 import com.br.leo.moodsnap.ui.utils.FontUtils
 import android.graphics.Color
 import android.content.res.ColorStateList
+import android.widget.Toast
+import com.getkeepsafe.taptargetview.TapTarget
+import com.getkeepsafe.taptargetview.TapTargetView
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -163,6 +166,22 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun showOnboardingTutorial() {
+//        TapTargetView.showFor(this,
+//            TapTarget.forView(findViewById(R.id.fab), "Esse é o botão!", "Clique aqui para começar")
+//                .transparentTarget(true)
+//                .tintTarget(false)
+//                .targetRadius(56)
+//                .outerCircleColor(R.color.white)
+//                .textColor(R.color.secundary)
+//                .cancelable(false),
+//            object : TapTargetView.Listener() {
+//                override fun onTargetClick(view: TapTargetView) {
+//                    super.onTargetClick(view)
+//                    binding.fab.performClick()
+//                }
+//            }
+//        )
+
         val onboardingDialog = OnboardingDialog(this)
         onboardingDialog.setCancelable(false)
         onboardingDialog.show()

@@ -162,9 +162,31 @@ class CalendarAdapter(
         }
     }
 
+    /**
+     * Normaliza um Calendar para comparação de datas, removendo horas, minutos, segundos e milissegundos
+     */
+    private fun normalizeCalendarDate(calendar: Calendar): Calendar {
+        val normalized = calendar.clone() as Calendar
+        normalized.set(Calendar.HOUR_OF_DAY, 0)
+        normalized.set(Calendar.MINUTE, 0)
+        normalized.set(Calendar.SECOND, 0)
+        normalized.set(Calendar.MILLISECOND, 0)
+        return normalized
+    }
+
     private fun isDateInFuture(dayOfMonth: Int): Boolean {
-        displayMonth.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-        return displayMonth.after(today)
+        // Criar e normalizar a data atual
+        val normalizedToday = normalizeCalendarDate(Calendar.getInstance())
+        
+        // Criar e normalizar a data a ser verificada
+        val dateToCheck = Calendar.getInstance()
+        dateToCheck.set(Calendar.YEAR, displayMonth.get(Calendar.YEAR))
+        dateToCheck.set(Calendar.MONTH, displayMonth.get(Calendar.MONTH))
+        dateToCheck.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        val normalizedDateToCheck = normalizeCalendarDate(dateToCheck)
+        
+        // Comparar as datas normalizadas
+        return normalizedDateToCheck.after(normalizedToday)
     }
 
     private fun isToday(dayOfMonth: Int): Boolean {
