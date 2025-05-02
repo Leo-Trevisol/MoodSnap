@@ -63,4 +63,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     kapt("androidx.room:room-compiler:2.5.0")
     implementation ("com.getkeepsafe.taptargetview:taptargetview:1.13.3")
+    implementation ("uk.co.samuelwall:material-tap-target-prompt:3.3.2")
+
 }

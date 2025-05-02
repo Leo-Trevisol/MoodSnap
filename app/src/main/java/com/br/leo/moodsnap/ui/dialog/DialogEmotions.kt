@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.ui.edit.EditDayActivity
@@ -24,6 +25,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import java.util.Calendar
 import com.br.leo.moodsnap.ui.utils.FontUtils
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 
 class DialogEmotions(
     private val viewModel: MainViewModel,
@@ -129,6 +131,25 @@ class DialogEmotions(
         view.findViewById<ImageView>(R.id.emotion_very_sad)?.setOnClickListener {
             saveMood(R.drawable.very_sad_icon)
         }
+
+        MaterialTapTargetPrompt.Builder(this)
+            .setTarget(view.findViewById<ImageView>(R.id.emotion_happy))
+            .setPrimaryText("Este é o botão de ajuda")
+            .setSecondaryText("Toque aqui se precisar de suporte")
+            .setBackgroundColour(ContextCompat.getColor(requireActivity(), R.color.primary_background))
+            .setFocalColour(ContextCompat.getColor(requireActivity(), R.color.primary_green))
+            .setPrimaryTextColour(ContextCompat.getColor(requireActivity(), R.color.secundary))
+            .setSecondaryTextColour(ContextCompat.getColor(requireActivity(), R.color.secundary))
+            .setPromptStateChangeListener { _, state ->
+                if (state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
+                    dialog?.dismiss()
+                } else if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
+                    // Avança ou fecha o helper
+                }
+            }
+            .show()
+
+
     }
 
     private fun setupEditButton() {

@@ -39,6 +39,7 @@
         </TextView>
 
         <LinearLayout
+            android:id="@+id/linear_emotions"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:orientation="horizontal">

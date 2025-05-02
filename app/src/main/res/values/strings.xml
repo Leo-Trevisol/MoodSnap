@@ -251,4 +251,10 @@
     <string name="bar_chart_description">View mood details by weekday</string>
     <string name="radar_chart_description">View mood details by weekday</string>
 
+    <!-- Tutorial Strings -->
+    <string name="tutorial_fab_title">Registre seu humor</string>
+    <string name="tutorial_fab_description">Toque neste botão para registrar como você está se sentindo hoje</string>
+    <string name="tutorial_emotions_title">Escolha seu humor</string>
+    <string name="tutorial_emotions_description">Selecione o humor que melhor representa como você está se sentindo</string>
+
 </resources>
