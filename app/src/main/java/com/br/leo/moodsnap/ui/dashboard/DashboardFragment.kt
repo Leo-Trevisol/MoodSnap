@@ -384,7 +384,7 @@ class DashboardFragment : Fragment() {
             // Calcular tamanho baseado na largura da tela
             val screenWidth = resources.displayMetrics.widthPixels
             val containerSize = (screenWidth * 0.13).toInt() // 15% da largura da tela
-            val iconSize = (containerSize * 0.99).toInt() // 99% do tamanho do container
+            val iconSize = (containerSize * 1).toInt() // 99% do tamanho do container
 
             // Adicionar cada dia ao container (em ordem reversa para mostrar do mais antigo para o mais recente)
             last5Days.reversed().forEach { dayMood ->
@@ -489,7 +489,7 @@ class DashboardFragment : Fragment() {
         // Calcular tamanho baseado na largura da tela
         val screenWidth = resources.displayMetrics.widthPixels
         val containerSize = (screenWidth * 0.13).toInt() // 18% da largura da tela
-        val iconSize = (containerSize * 0.99).toInt() // 95% do tamanho do container
+        val iconSize = (containerSize * 1).toInt() // 95% do tamanho do container
 
         moodOrder.forEach { moodType ->
             val itemLayout = LinearLayout(requireContext()).apply {

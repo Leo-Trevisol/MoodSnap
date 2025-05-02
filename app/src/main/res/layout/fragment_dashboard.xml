@@ -77,13 +77,22 @@
                         android:id="@+id/average_mood_icon"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
-                        android:layout_marginEnd="16dp"/>
+                        android:layout_marginEnd="16dp"
+                        android:layout_weight="1"/>
 
                     <TextView
                         android:id="@+id/average_mood_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_weight="4"
+                        android:gravity="center"
                         android:textSize="@dimen/text_size_large"/>
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"/>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

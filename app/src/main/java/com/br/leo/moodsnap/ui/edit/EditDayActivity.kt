@@ -311,7 +311,7 @@ class EditDayActivity : AppCompatActivity() {
         // Calcular tamanho baseado na largura da tela
         val screenWidth = resources.displayMetrics.widthPixels
         val containerSize = (screenWidth * 0.13).toInt() // 13% da largura da tela
-        val iconSize = (containerSize * 0.99).toInt() // 99% do tamanho do container
+        val iconSize = (containerSize * 1).toInt() // 99% do tamanho do container
 
         val verySadImage = findViewById<ImageView>(R.id.emotion_very_sad)
         val sadImage = findViewById<ImageView>(R.id.emotion_sad)
