@@ -52,6 +52,7 @@ import com.br.leo.moodsnap.ui.utils.FontUtils.updateFontDialogPicker
 import androidx.recyclerview.widget.RecyclerView
 import android.content.pm.PackageManager
 import android.os.Build
+import com.br.leo.moodsnap.MainActivity
 import com.br.leo.moodsnap.ui.dialog.CustomAlertDialog
 import com.br.leo.moodsnap.ui.adapters.FontAdapter
 import com.br.leo.moodsnap.ui.adapters.LanguageAdapter
@@ -175,6 +176,7 @@ class HomeFragment : Fragment() {
 
     private fun setupFabListener() {
         activity?.findViewById<View>(R.id.fab)?.setOnClickListener {
+
             if (selectedDay == -1) {
                 // Se não houver dia selecionado, selecionar o dia atual
                 val today = Calendar.getInstance()
@@ -212,8 +214,9 @@ class HomeFragment : Fragment() {
 
             // Abre o diálogo de emoções
             val moodId = existingMood?.id?.toLong() ?: 0L
-            val dialogEmotions = DialogEmotions(mainViewModel, moodId, selectedCalendar)
+            val dialogEmotions = DialogEmotions(mainViewModel, moodId, selectedCalendar, MainActivity.isTutorial)
             dialogEmotions.show(childFragmentManager, dialogEmotions.tag)
+            MainActivity.isTutorial = false
         }
     }
 

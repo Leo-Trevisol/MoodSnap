@@ -20,15 +20,23 @@ import android.content.res.Configuration
 import com.br.leo.moodsnap.ui.utils.FontUtils
 import android.graphics.Color
 import android.content.res.ColorStateList
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
     private lateinit var navController: NavController
+
+    companion object{
+         var isTutorial : Boolean = false
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +50,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setupNavigation()
         setListeners()
         observeViewModel()
+      //  showOnboardingTutorial()
         
-        // Mostrar tutorial na primeira vez
+       //  Mostrar tutorial na primeira vez
         val preferencesManager = PreferencesManager(this)
         if (preferencesManager.isFirstTime()) {
             showOnboardingTutorial()
@@ -143,7 +152,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         if (v.id == R.id.fab) {
-            val dialogEmotions = DialogEmotions(viewModel, 0L, Calendar.getInstance())
+            val dialogEmotions = DialogEmotions(viewModel, 0L, Calendar.getInstance(), isTutorial)
             dialogEmotions.show(supportFragmentManager, dialogEmotions.tag)
         }
     }
@@ -166,24 +175,31 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun showOnboardingTutorial() {
-//        TapTargetView.showFor(this,
-//            TapTarget.forView(findViewById(R.id.fab), "Esse é o botão!", "Clique aqui para começar")
-//                .transparentTarget(true)
-//                .tintTarget(false)
-//                .targetRadius(56)
-//                .outerCircleColor(R.color.white)
-//                .textColor(R.color.secundary)
-//                .cancelable(false),
-//            object : TapTargetView.Listener() {
-//                override fun onTargetClick(view: TapTargetView) {
-//                    super.onTargetClick(view)
-//                    binding.fab.performClick()
-//                }
-//            }
-//        )
 
-        val onboardingDialog = OnboardingDialog(this)
-        onboardingDialog.setCancelable(false)
-        onboardingDialog.show()
+        MaterialTapTargetPrompt.Builder(this)
+            .setTarget(findViewById<FloatingActionButton>(R.id.fab))
+            .setPrimaryText("Este é o botão de ajuda")
+            .setSecondaryText("Toque aqui se precisar de suporte")
+            .setBackgroundColour(ContextCompat.getColor(this, R.color.primary_background))
+            .setFocalColour(ContextCompat.getColor(this, R.color.primary_green))
+            .setPrimaryTextColour(ContextCompat.getColor(this, R.color.secundary))
+            .setSecondaryTextColour(ContextCompat.getColor(this, R.color.secundary))
+            .setPromptStateChangeListener { _, state ->
+                if (state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
+                    isTutorial = false
+                } else if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
+                    isTutorial = true
+                }
+            }
+            .show()
+
+//        val onboardingDialog = OnboardingDialog(this)
+//        onboardingDialog.setCancelable(false)
+//        onboardingDialog.show()
     }
+
+    public override fun onResume() {
+        super.onResume()
+    }
+
 }

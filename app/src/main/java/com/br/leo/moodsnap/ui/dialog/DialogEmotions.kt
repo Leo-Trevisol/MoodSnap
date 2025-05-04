@@ -30,7 +30,8 @@ import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 class DialogEmotions(
     private val viewModel: MainViewModel,
     private val existingMoodId: Long = 0,
-    private val selectedDate: Calendar
+    private val selectedDate: Calendar,
+    private val isTutorial : Boolean = false
 ) : BottomSheetDialogFragment() {
 
     private val EDIT_DAY_REQUEST = 100
@@ -132,24 +133,24 @@ class DialogEmotions(
             saveMood(R.drawable.very_sad_icon)
         }
 
-        MaterialTapTargetPrompt.Builder(this)
-            .setTarget(view.findViewById<ImageView>(R.id.emotion_happy))
-            .setPrimaryText("Este é o botão de ajuda")
-            .setSecondaryText("Toque aqui se precisar de suporte")
-            .setBackgroundColour(ContextCompat.getColor(requireActivity(), R.color.primary_background))
-            .setFocalColour(ContextCompat.getColor(requireActivity(), R.color.primary_green))
-            .setPrimaryTextColour(ContextCompat.getColor(requireActivity(), R.color.secundary))
-            .setSecondaryTextColour(ContextCompat.getColor(requireActivity(), R.color.secundary))
-            .setPromptStateChangeListener { _, state ->
-                if (state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
-                    dialog?.dismiss()
-                } else if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
-                    // Avança ou fecha o helper
+        if(isTutorial){
+            MaterialTapTargetPrompt.Builder(this)
+                .setTarget(view.findViewById<ImageView>(R.id.emotion_neutral))
+                .setPrimaryText("Este é o botão de ajuda")
+                .setSecondaryText("Toque aqui se precisar de suporte")
+                .setBackgroundColour(ContextCompat.getColor(requireActivity(), R.color.primary_background))
+                .setFocalColour(ContextCompat.getColor(requireActivity(), R.color.primary_green))
+                .setPrimaryTextColour(ContextCompat.getColor(requireActivity(), R.color.secundary))
+                .setSecondaryTextColour(ContextCompat.getColor(requireActivity(), R.color.secundary))
+                .setPromptStateChangeListener { _, state ->
+                    if (state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
+                        dialog?.dismiss()
+                    } else if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
+                        // Avança ou fecha o helper
+                    }
                 }
-            }
-            .show()
-
-
+                .show()
+        }
     }
 
     private fun setupEditButton() {
