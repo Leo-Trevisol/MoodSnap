@@ -458,4 +458,57 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             ?.filter { it.moodType == moodType }
             ?.maxByOrNull { it.date }
     }
+
+    /**
+     * Obtém a contagem de um tipo específico de humor em dias da semana específicos
+     * @param moodType O tipo de humor a ser contabilizado
+     * @param weekdays Lista de dias da semana (0 = Domingo, 1 = Segunda, ..., 6 = Sábado)
+     * @param startDate Data de início do período (opcional)
+     * @param endDate Data de fim do período (opcional)
+     * @return Mapa com dia da semana como chave e contagem como valor
+     */
+    fun getMoodCountByWeekdaysAndType(
+        moodType: Int,
+        weekdays: List<Int>,
+        startDate: Date? = null,
+        endDate: Date? = null
+    ): Map<Int, Int> {
+        val result = mutableMapOf<Int, Int>()
+        
+        // Inicializar o mapa com zeros para os dias solicitados
+        weekdays.forEach { day ->
+            result[day] = 0
+        }
+        
+        // Filtrar os registros pelo tipo de humor e período (se especificado)
+        var filteredMoods = moods.value?.filter { it.moodType == moodType } ?: emptyList()
+        
+        // Aplicar filtro de data de início (se especificado)
+        if (startDate != null) {
+            filteredMoods = filteredMoods.filter { mood ->
+                mood.date.after(startDate) || mood.date == startDate
+            }
+        }
+        
+        // Aplicar filtro de data de fim (se especificado)
+        if (endDate != null) {
+            filteredMoods = filteredMoods.filter { mood ->
+                mood.date.before(endDate) || mood.date == endDate
+            }
+        }
+        
+        // Contar por dia da semana
+        filteredMoods.forEach { mood ->
+            val calendar = Calendar.getInstance()
+            calendar.time = mood.date
+            val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1 // Converter para 0-6
+            
+            // Só contar se o dia estiver na lista de dias solicitados
+            if (weekdays.contains(dayOfWeek)) {
+                result[dayOfWeek] = (result[dayOfWeek] ?: 0) + 1
+            }
+        }
+        
+        return result
+    }
 }
