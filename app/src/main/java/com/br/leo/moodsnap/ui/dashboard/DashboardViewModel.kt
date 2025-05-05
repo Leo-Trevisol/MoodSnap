@@ -511,4 +511,57 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         
         return result
     }
+
+    /**
+     * Obtém a contagem de diferentes tipos de humor em um dia da semana específico
+     * @param moodTypes Lista de tipos de humor a serem contabilizados
+     * @param weekday Dia da semana (0 = Domingo, 1 = Segunda, ..., 6 = Sábado)
+     * @param startDate Data de início do período (opcional)
+     * @param endDate Data de fim do período (opcional)
+     * @return Mapa com tipo de humor como chave e contagem como valor
+     */
+    fun getMoodCountByTypesForWeekday(
+        moodTypes: List<Int>,
+        weekday: Int,
+        startDate: Date? = null,
+        endDate: Date? = null
+    ): Map<Int, Int> {
+        val result = mutableMapOf<Int, Int>()
+        
+        // Inicializar o mapa com zeros para os tipos de humor solicitados
+        moodTypes.forEach { moodType ->
+            result[moodType] = 0
+        }
+        
+        // Filtrar os registros pelo dia da semana e período (se especificado)
+        var filteredMoods = moods.value ?: emptyList()
+        
+        // Aplicar filtro de data de início (se especificado)
+        if (startDate != null) {
+            filteredMoods = filteredMoods.filter { mood ->
+                mood.date.after(startDate) || mood.date == startDate
+            }
+        }
+        
+        // Aplicar filtro de data de fim (se especificado)
+        if (endDate != null) {
+            filteredMoods = filteredMoods.filter { mood ->
+                mood.date.before(endDate) || mood.date == endDate
+            }
+        }
+        
+        // Filtrar por dia da semana e contar por tipo de humor
+        filteredMoods.forEach { mood ->
+            val calendar = Calendar.getInstance()
+            calendar.time = mood.date
+            val moodDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1 // Converter para 0-6
+            
+            // Só contar se for o dia da semana solicitado e o tipo de humor estiver na lista
+            if (moodDayOfWeek == weekday && moodTypes.contains(mood.moodType)) {
+                result[mood.moodType] = (result[mood.moodType] ?: 0) + 1
+            }
+        }
+        
+        return result
+    }
 }

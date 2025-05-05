@@ -163,6 +163,8 @@ class DashboardFragment : Fragment() {
                 setupCustomRadarChart()
                 setupGroupedBarPeriodSpinner()
                 setupGroupedBarChart()
+                setupMoodComparisonPeriodSpinner()
+                setupMoodComparisonChart()
             }else{
                 setupNoMoodRegistered()
             }
@@ -174,16 +176,19 @@ class DashboardFragment : Fragment() {
         binding.linearBarChart.visibility = View.GONE
         binding.linearRadarChart.visibility = View.GONE
         binding.linearGroupedBarChart.visibility = View.GONE
+        binding.linearMoodComparisonChart.visibility = View.GONE
 
         binding.donutChartDescription.visibility = View.GONE
         binding.barChartDescription.visibility = View.GONE
         binding.radarChartDescription.visibility = View.GONE
         binding.groupedBarChartDescription.visibility = View.GONE
+        binding.moodComparisonChartDescription.visibility = View.GONE
 
         binding.donutChartNoMoodRegisteredText.visibility = View.VISIBLE
         binding.barChartNoMoodRegisteredText.visibility = View.VISIBLE
         binding.radarChartNoMoodRegisteredText.visibility = View.VISIBLE
         binding.groupedBarChartNoMoodRegisteredText.visibility = View.VISIBLE
+        binding.moodComparisonChartNoMoodRegisteredText.visibility = View.VISIBLE
     }
 
     private fun setupDayFilterSpinner() {
@@ -1992,6 +1997,323 @@ class DashboardFragment : Fragment() {
         }
 
         // Configurar eixo X com os nomes dos dias
+        barChart.xAxis.apply {
+            valueFormatter = IndexAxisValueFormatter(labels)
+            position = XAxis.XAxisPosition.BOTTOM
+            setDrawGridLines(false)
+            granularity = 1f
+        }
+
+        // Aplicar dados ao gráfico
+        barChart.apply {
+            data = barData
+            animateY(700)
+            invalidate()
+        }
+    }
+
+    // Métodos para o gráfico de comparação de humores
+    private fun setupMoodComparisonPeriodSpinner() {
+        // Obter a data do registro mais antigo do ViewModel
+        val oldestRecordDate = dashboardViewModel.getOldestMoodDate() ?: run {
+            binding.moodComparisonPeriodContainer.visibility = View.GONE
+            return
+        }
+
+        // Obter apenas os filtros disponíveis baseado na data mais antiga
+        val availableFilters = getAvailableFilters(oldestRecordDate)
+
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+
+        val adapter = object : ArrayAdapter<FilterType>(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            availableFilters
+        ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                (view as TextView).apply {
+                    text = availableFilters[position].getFilterName(context)
+                    gravity = Gravity.START
+                    setPadding(0, paddingTop, paddingRight, paddingBottom)
+                    this.typeface = typeface
+                }
+                return view
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
+                (view as TextView).apply {
+                    text = availableFilters[position].getFilterName(context)
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
+                    this.typeface = typeface
+                    gravity = Gravity.START
+                }
+                return view
+            }
+        }
+
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        binding.moodComparisonPeriodSpinner.apply {
+            this.adapter = adapter
+            setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
+        }
+
+        // Configurar o listener
+        binding.moodComparisonPeriodSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    updateMoodComparisonChart()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+
+        // Selecionar o primeiro período com registros
+        val firstPeriodWithMoods = getFirstPeriodWithMoods(availableFilters)
+        binding.moodComparisonPeriodSpinner.setSelection(firstPeriodWithMoods)
+    }
+
+    private fun setupMoodComparisonChart() {
+        // Configurar spinner de dia da semana
+        setupWeekdaySpinner(binding.moodComparisonDaySpinner, 1) // Segunda-feira como padrão
+
+        // Configurar spinners de tipos de humor
+        setupMoodTypeSpinner(binding.moodComparisonMood1Spinner, 0) // Muito feliz como padrão para humor 1
+        setupMoodTypeSpinner(binding.moodComparisonMood2Spinner, 3) // Triste como padrão para humor 2
+
+        // Configurar o gráfico
+        val barChart = binding.moodComparisonChart
+
+        // Get current font
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        val customTypeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+
+        // Configurações básicas
+        barChart.apply {
+            description.isEnabled = false
+            setDrawValueAboveBar(true)
+            setTouchEnabled(true)
+            isDragEnabled = false
+            setScaleEnabled(false)
+            setPinchZoom(false)
+            setDrawBarShadow(false)
+            setDrawGridBackground(false)
+            legend.isEnabled = false
+
+            // Configurar eixo X
+            xAxis.apply {
+                position = XAxis.XAxisPosition.BOTTOM
+                setDrawGridLines(false)
+                granularity = 1f
+                typeface = customTypeface
+                textColor = Color.WHITE
+                setDrawLabels(true)
+            }
+
+            // Configurar eixo Y esquerdo
+            axisLeft.apply {
+                setDrawGridLines(true)
+                typeface = customTypeface
+                textColor = Color.WHITE
+                axisMinimum = 0f
+                granularity = 1f
+                spaceTop = 35f
+            }
+
+            // Desabilitar eixo Y direito
+            axisRight.isEnabled = false
+
+            // Configurar texto quando não houver dados
+            setNoDataText(getString(R.string.no_mood_distribution))
+            setNoDataTextColor(Color.WHITE)
+            setNoDataTextTypeface(customTypeface)
+            getPaint(BarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
+        }
+
+        // Definir renderer com cantos arredondados
+        val renderer = RoundedBarChartRenderer(barChart, barChart.animator, barChart.viewPortHandler)
+        barChart.renderer = renderer
+
+        // Atualizar o gráfico inicialmente
+        updateMoodComparisonChart()
+
+        // Adicionar listeners para os spinners de dia e humores
+        binding.moodComparisonDaySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                updateMoodComparisonChart()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        binding.moodComparisonMood1Spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                updateMoodComparisonChart()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        binding.moodComparisonMood2Spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                updateMoodComparisonChart()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+    }
+
+    private fun setupMoodTypeSpinner(spinner: Spinner, defaultSelection: Int) {
+        val moodTypes = listOf(
+            getString(R.string.mood_very_happy),
+            getString(R.string.mood_happy),
+            getString(R.string.mood_neutral),
+            getString(R.string.mood_sad),
+            getString(R.string.mood_very_sad)
+        )
+        
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+
+        val adapter = object : ArrayAdapter<String>(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            moodTypes
+        ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                (view as TextView).apply {
+                    this.typeface = typeface
+                }
+                return view
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
+                (view as TextView).apply {
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
+                    this.typeface = typeface
+                }
+                return view
+            }
+        }
+
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        spinner.apply {
+            this.adapter = adapter
+            setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
+            setSelection(defaultSelection)
+        }
+    }
+
+    private fun updateMoodComparisonChart() {
+        val barChart = binding.moodComparisonChart
+
+        // Obter o dia da semana selecionado
+        val dayPosition = binding.moodComparisonDaySpinner.selectedItemPosition
+
+        // Obter os tipos de humor selecionados
+        val mood1Position = binding.moodComparisonMood1Spinner.selectedItemPosition
+        val mood2Position = binding.moodComparisonMood2Spinner.selectedItemPosition
+        val moodTypes = listOf(mood1Position, mood2Position)
+
+        // Obter o período selecionado
+        val periodPosition = binding.moodComparisonPeriodSpinner.selectedItemPosition
+        val availableFilters = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date())
+        val selectedFilter = availableFilters.getOrNull(periodPosition) ?: DayFilterType.LAST_7_DAYS
+
+        // Obter as datas de início e fim baseadas no filtro
+        val startDate: Date?
+        val endDate: Date?
+        when (selectedFilter) {
+            is DayFilterType -> {
+                if (selectedFilter.days == -1) {
+                    // "Tudo" - sem filtro de data
+                    startDate = null
+                    endDate = null
+                } else {
+                    // Filtro de dias
+                    startDate = Calendar.getInstance().apply {
+                        add(Calendar.DAY_OF_YEAR, -selectedFilter.days)
+                    }.time
+                    endDate = Calendar.getInstance().time
+                }
+            }
+            is MonthFilterType -> {
+                // Filtro de mês específico
+                startDate = selectedFilter.getStartDate()
+                endDate = selectedFilter.getEndDate()
+            }
+            else -> {
+                startDate = null
+                endDate = null
+            }
+        }
+
+        // Obter os dados para os humores selecionados no dia da semana específico
+        val moodCounts = dashboardViewModel.getMoodCountByTypesForWeekday(
+            moodTypes = moodTypes,
+            weekday = dayPosition,
+            startDate = startDate,
+            endDate = endDate
+        )
+
+        // Verificar se há dados para exibir
+        if (moodCounts.values.sum() == 0) {
+            barChart.clear()
+            barChart.notifyDataSetChanged()
+            barChart.invalidate()
+            barChart.setNoDataText(getNoDataMessageForPeriod(selectedFilter))
+            return
+        }
+
+        // Criar entradas para o gráfico
+        val entries = ArrayList<BarEntry>()
+        val labels = ArrayList<String>()
+        val colors = ArrayList<Int>()
+
+        // Adicionar dados para cada tipo de humor
+        moodTypes.forEachIndexed { index, moodType ->
+            val count = moodCounts[moodType] ?: 0
+            entries.add(BarEntry(index.toFloat(), count.toFloat()))
+            
+            // Obter o nome do humor
+            val moodName = dashboardViewModel.getMoodName(requireContext(), moodType)
+            labels.add(moodName)
+            
+            // Usar a cor do humor para as barras
+            colors.add(dashboardViewModel.getMoodColor(moodType))
+        }
+
+        // Configurar o dataset
+        val dataSet = BarDataSet(entries, "").apply {
+            this.colors = colors
+            valueTextSize = 14f
+            valueTextColor = Color.WHITE
+            valueTypeface = barChart.legend.typeface
+            setDrawValues(true)
+        }
+
+        // Configurar dados do gráfico
+        val barData = BarData(dataSet).apply {
+            barWidth = 0.5f
+            setValueFormatter(object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    return value.toInt().toString()
+                }
+            })
+        }
+
+        // Configurar eixo X com os nomes dos humores
         barChart.xAxis.apply {
             valueFormatter = IndexAxisValueFormatter(labels)
             position = XAxis.XAxisPosition.BOTTOM
