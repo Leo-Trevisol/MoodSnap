@@ -706,23 +706,37 @@ class DashboardFragment : Fragment() {
                         val selectedFilter = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date())
                             .getOrNull(selectedPosition) ?: DayFilterType.LAST_7_DAYS
 
-                        // Calcular a data inicial do período
-                        val startDate = if (selectedFilter is DayFilterType) {
-                            if (selectedFilter.days > 0) {
-                                Calendar.getInstance().apply {
-                                    add(Calendar.DAY_OF_YEAR, -selectedFilter.days)
-                                }.time
-                            } else {
-                                null // Para "Tudo", não aplicamos filtro de data
+                        // Calcular a data inicial e final do período
+                        val startDate: Date?
+                        val endDate: Date?
+                        
+                        when (selectedFilter) {
+                            is DayFilterType -> {
+                                if (selectedFilter.days > 0) {
+                                    // Para filtros de dias, calcular a data de início baseada no número de dias
+                                    startDate = Calendar.getInstance().apply {
+                                        add(Calendar.DAY_OF_YEAR, -selectedFilter.days)
+                                    }.time
+                                    endDate = Calendar.getInstance().time
+                                } else {
+                                    // Para "Tudo", não aplicamos filtro de data
+                                    startDate = null
+                                    endDate = null
+                                }
                             }
-                        } else if (selectedFilter is MonthFilterType) {
-                            selectedFilter.getStartDate()
-                        } else {
-                            null // Caso padrão para outros tipos de filtro
+                            is MonthFilterType -> {
+                                // Para filtros de mês específico, usar a data de início e fim do mês
+                                startDate = selectedFilter.getStartDate()
+                                endDate = selectedFilter.getEndDate()
+                            }
+                            else -> {
+                                startDate = null
+                                endDate = null
+                            }
                         }
 
-                        // Obter dados por dia da semana para este humor específico
-                        val weekdayData = dashboardViewModel.getMoodsByWeekdayForMoodType(moodType, startDate)
+                        // Obter dados por dia da semana para este humor específico com o filtro correto
+                        val weekdayData = dashboardViewModel.getMoodsByWeekdayForMoodType(moodType, startDate, endDate)
 
                         // Criar uma string com a distribuição por dia da semana
                         val weekdays = listOf(
@@ -1764,6 +1778,30 @@ class DashboardFragment : Fragment() {
             setNoDataTextColor(Color.WHITE)
             setNoDataTextTypeface(customTypeface)
             getPaint(BarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
+
+            // Adicionar listener de clique
+            setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                override fun onValueSelected(e: Entry?, h: Highlight?) {
+                    if (e != null) {
+                        val moodType = moodOrder[e.x.toInt()]
+                        val lastMood = dashboardViewModel.getLastMoodByType(moodType)
+
+                        lastMood?.let {
+                            showLastMoodDetailsDialog(
+                                dashboardViewModel.getMoodName(requireContext(), moodType),
+                                moodType,
+                                it.date,
+                                it.description,
+                                dashboardViewModel.getMoodColor(moodType)
+                            )
+                        }
+                    }
+                }
+
+                override fun onNothingSelected() {
+                    // Não é necessário fazer nada aqui
+                }
+            })
         }
 
         // Definir renderer com cantos arredondados
@@ -2138,6 +2176,30 @@ class DashboardFragment : Fragment() {
             setNoDataTextColor(Color.WHITE)
             setNoDataTextTypeface(customTypeface)
             getPaint(BarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
+
+            // Adicionar listener de clique
+            setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                override fun onValueSelected(e: Entry?, h: Highlight?) {
+                    if (e != null) {
+                        val moodType = moodOrder[e.x.toInt()]
+                        val lastMood = dashboardViewModel.getLastMoodByType(moodType)
+
+                        lastMood?.let {
+                            showLastMoodDetailsDialog(
+                                dashboardViewModel.getMoodName(requireContext(), moodType),
+                                moodType,
+                                it.date,
+                                it.description,
+                                dashboardViewModel.getMoodColor(moodType)
+                            )
+                        }
+                    }
+                }
+
+                override fun onNothingSelected() {
+                    // Não é necessário fazer nada aqui
+                }
+            })
         }
 
         // Definir renderer com cantos arredondados

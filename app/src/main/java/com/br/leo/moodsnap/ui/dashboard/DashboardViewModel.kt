@@ -423,7 +423,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun getMoodsByWeekdayForMoodType(moodType: Int, startDate: Date? = null): Map<Int, Int> {
+    fun getMoodsByWeekdayForMoodType(moodType: Int, startDate: Date? = null, endDate: Date? = null): Map<Int, Int> {
         val weekdayData = mutableMapOf<Int, Int>()
         
         // Inicializar o mapa com zeros para todos os dias da semana
@@ -435,10 +435,20 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         val filteredMoods = moods.value
             ?.filter { it.moodType == moodType }
             ?.filter { mood ->
-                if (startDate != null) {
-                    mood.date.after(startDate) || mood.date == startDate
-                } else {
-                    true
+                when {
+                    startDate != null && endDate != null -> {
+                        // Filtrar por intervalo completo (início e fim)
+                        (mood.date.after(startDate) || mood.date == startDate) &&
+                        (mood.date.before(endDate) || mood.date == endDate)
+                    }
+                    startDate != null -> {
+                        // Filtrar apenas pela data de início
+                        mood.date.after(startDate) || mood.date == startDate
+                    }
+                    else -> {
+                        // Sem filtro de data
+                        true
+                    }
                 }
             }
 
