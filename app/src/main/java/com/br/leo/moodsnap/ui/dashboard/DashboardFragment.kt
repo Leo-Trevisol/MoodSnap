@@ -1725,7 +1725,7 @@ class DashboardFragment : Fragment() {
         setupWeekdaySpinner(binding.groupedBarDay1Spinner, 1) // Segunda-feira como padrão
 
         // Configurar spinner de dias da semana 2
-        setupWeekdaySpinner(binding.groupedBarDay2Spinner, 3) // Quarta-feira como padrão
+        setupWeekdaySpinner(binding.groupedBarDay2Spinner, 2) // Terça-feira como padrão
 
         // Configurar spinner de tipos de humor
         setupMoodTypeSpinner(binding.groupedBarMoodSpinner)
@@ -1780,28 +1780,28 @@ class DashboardFragment : Fragment() {
             getPaint(BarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
 
             // Adicionar listener de clique
-            setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
-                override fun onValueSelected(e: Entry?, h: Highlight?) {
-                    if (e != null) {
-                        val moodType = moodOrder[e.x.toInt()]
-                        val lastMood = dashboardViewModel.getLastMoodByType(moodType)
-
-                        lastMood?.let {
-                            showLastMoodDetailsDialog(
-                                dashboardViewModel.getMoodName(requireContext(), moodType),
-                                moodType,
-                                it.date,
-                                it.description,
-                                dashboardViewModel.getMoodColor(moodType)
-                            )
-                        }
-                    }
-                }
-
-                override fun onNothingSelected() {
-                    // Não é necessário fazer nada aqui
-                }
-            })
+//            setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+//                override fun onValueSelected(e: Entry?, h: Highlight?) {
+//                    if (e != null) {
+//                        val moodType = moodOrder[e.x.toInt()]
+//                        val lastMood = dashboardViewModel.getLastMoodByType(moodType)
+//
+//                        lastMood?.let {
+//                            showLastMoodDetailsDialog(
+//                                dashboardViewModel.getMoodName(requireContext(), moodType),
+//                                moodType,
+//                                it.date,
+//                                it.description,
+//                                dashboardViewModel.getMoodColor(moodType)
+//                            )
+//                        }
+//                    }
+//                }
+//
+//                override fun onNothingSelected() {
+//                    // Não é necessário fazer nada aqui
+//                }
+//            })
         }
 
         // Definir renderer com cantos arredondados
@@ -1828,6 +1828,12 @@ class DashboardFragment : Fragment() {
 
         binding.groupedBarMoodSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // Atualizar o ícone e o nome do humor selecionado
+                val moodType = position
+                binding.cardGroupedBarMoodInfoContainer.setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
+                binding.groupedBarMoodIcon.setImageResource(Utils.getMoodIcon(moodType))
+                binding.groupedBarMoodName.text = dashboardViewModel.getMoodName(requireContext(), moodType)
+                
                 updateGroupedBarChart()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -2126,7 +2132,7 @@ class DashboardFragment : Fragment() {
 
         // Configurar spinners de tipos de humor
         setupMoodTypeSpinner(binding.moodComparisonMood1Spinner, 0) // Muito feliz como padrão para humor 1
-        setupMoodTypeSpinner(binding.moodComparisonMood2Spinner, 3) // Triste como padrão para humor 2
+        setupMoodTypeSpinner(binding.moodComparisonMood2Spinner, 4) // Triste como padrão para humor 2
 
         // Configurar o gráfico
         val barChart = binding.moodComparisonChart
@@ -2178,28 +2184,28 @@ class DashboardFragment : Fragment() {
             getPaint(BarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
 
             // Adicionar listener de clique
-            setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
-                override fun onValueSelected(e: Entry?, h: Highlight?) {
-                    if (e != null) {
-                        val moodType = moodOrder[e.x.toInt()]
-                        val lastMood = dashboardViewModel.getLastMoodByType(moodType)
-
-                        lastMood?.let {
-                            showLastMoodDetailsDialog(
-                                dashboardViewModel.getMoodName(requireContext(), moodType),
-                                moodType,
-                                it.date,
-                                it.description,
-                                dashboardViewModel.getMoodColor(moodType)
-                            )
-                        }
-                    }
-                }
-
-                override fun onNothingSelected() {
-                    // Não é necessário fazer nada aqui
-                }
-            })
+//            setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+//                override fun onValueSelected(e: Entry?, h: Highlight?) {
+//                    if (e != null) {
+//                        val moodType = moodOrder[e.x.toInt()]
+//                        val lastMood = dashboardViewModel.getLastMoodByType(moodType)
+//
+//                        lastMood?.let {
+//                            showLastMoodDetailsDialog(
+//                                dashboardViewModel.getMoodName(requireContext(), moodType),
+//                                moodType,
+//                                it.date,
+//                                it.description,
+//                                dashboardViewModel.getMoodColor(moodType)
+//                            )
+//                        }
+//                    }
+//                }
+//
+//                override fun onNothingSelected() {
+//                    // Não é necessário fazer nada aqui
+//                }
+//            })
         }
 
         // Definir renderer com cantos arredondados

@@ -255,8 +255,8 @@
     <string name="dialog_title_mood_time">Detalhes do humor por horário</string>
     <string name="dialog_title_radar_distribution">Distribuição de humor - %1$s</string>
 
-    <string name="donut_chart_description">Veja detalhes dos humores em relação ao dia da semana</string>
-    <string name="bar_chart_description">Veja detalhes dos humores em relação ao dia da semana</string>
-    <string name="radar_chart_description">Veja detalhes dos humores em relação ao dia da semana</string>
+    <string name="donut_chart_description">Clique e veja detalhes dos humores em relação ao dia da semana</string>
+    <string name="bar_chart_description">Clique e veja detalhes dos humores em relação ao dia da semana</string>
+    <string name="radar_chart_description">Clique e veja detalhes dos humores em relação ao dia da semana</string>
 
 </resources>

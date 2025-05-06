@@ -261,7 +261,7 @@
 
                 <TextView
                     android:id="@+id/donut_chart_description"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:gravity="center"
@@ -361,7 +361,7 @@
 
                 <TextView
                     android:id="@+id/bar_chart_description"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/bar_chart_description"
                     android:textSize="@dimen/text_size_normal"
@@ -460,7 +460,7 @@
 
                 <TextView
                     android:id="@+id/radar_chart_description"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/radar_chart_description"
                     android:textSize="@dimen/text_size_normal"
@@ -560,7 +560,7 @@
 
                 <TextView
                     android:id="@+id/grouped_bar_chart_description"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Compare a frequência de um humor específico entre dois dias da semana"
                     android:textSize="@dimen/text_size_normal"
@@ -673,11 +673,48 @@
 
                     </LinearLayout>
 
+                    <!-- Container para ícone e nome do humor -->
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_grouped_bar_mood_info_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="8dp"
+                        android:layout_gravity="center"
+                        >
+
+                    <LinearLayout
+                        android:id="@+id/grouped_bar_mood_info_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/grouped_bar_mood_icon"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="8dp"/>
+
+                        <TextView
+                            android:id="@+id/grouped_bar_mood_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/text_size_large"
+                            android:textStyle="bold"/>
+
+                    </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
                     <com.github.mikephil.charting.charts.BarChart
                         android:id="@+id/grouped_bar_chart"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:layout_marginTop="8dp"/>
+                        android:layout_height="300dp"/>
 
                 </LinearLayout>
 
@@ -712,7 +749,7 @@
 
                 <TextView
                     android:id="@+id/mood_comparison_chart_description"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Compare diferentes humores em um mesmo dia da semana"
                     android:textSize="@dimen/text_size_normal"
