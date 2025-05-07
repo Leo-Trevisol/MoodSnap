@@ -435,7 +435,7 @@ class DashboardFragment : Fragment() {
                 }
 
                 // Ícone do humor
-                val iconView = ImageView(requireContext()).apply {
+                val iconView = ImageView(context).apply {
                     dayMood.moodType?.let { moodType ->
                         setImageResource(Utils.getMoodIcon(moodType))
                     }
@@ -1611,7 +1611,7 @@ class DashboardFragment : Fragment() {
 
         // Obter todos os humores registrados para este dia da semana
         val days = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date()).getOrNull(binding.radarPeriodSpinner.selectedItemPosition)
-        
+
         val weekdayData = when (days) {
             is DayFilterType -> {
                 if (days.days > 0) {
@@ -1758,6 +1758,7 @@ class DashboardFragment : Fragment() {
                 typeface = customTypeface
                 textColor = Color.WHITE
                 setDrawLabels(true)
+                yOffset = 10f  // Adicionar espaço entre o texto e o eixo
             }
 
             // Configurar eixo Y esquerdo
@@ -2046,6 +2047,7 @@ class DashboardFragment : Fragment() {
             position = XAxis.XAxisPosition.BOTTOM
             setDrawGridLines(false)
             granularity = 1f
+            yOffset = 2f
         }
 
         // Aplicar dados ao gráfico
@@ -2133,6 +2135,14 @@ class DashboardFragment : Fragment() {
         // Configurar spinners de tipos de humor
         setupMoodTypeSpinner(binding.moodComparisonMood1Spinner, 0) // Muito feliz como padrão para humor 1
         setupMoodTypeSpinner(binding.moodComparisonMood2Spinner, 4) // Triste como padrão para humor 2
+
+        // Inicializar os ícones e nomes dos humores padrão
+        val defaultMood1Type = 0 // Muito Feliz
+        val defaultMood2Type = 4 // Muito Triste
+        binding.moodComparisonMood1Icon.setImageResource(Utils.getMoodIcon(defaultMood1Type))
+        binding.moodComparisonMood1Name.text = dashboardViewModel.getMoodName(requireContext(), defaultMood1Type)
+        binding.moodComparisonMood2Icon.setImageResource(Utils.getMoodIcon(defaultMood2Type))
+        binding.moodComparisonMood2Name.text = dashboardViewModel.getMoodName(requireContext(), defaultMood2Type)
 
         // Configurar o gráfico
         val barChart = binding.moodComparisonChart
@@ -2225,6 +2235,12 @@ class DashboardFragment : Fragment() {
 
         binding.moodComparisonMood1Spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // Atualizar o ícone e o nome do humor selecionado
+                val moodType = position
+                binding.cardMoodComparisonMoodsInfoContainer1.setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
+                binding.moodComparisonMood1Icon.setImageResource(Utils.getMoodIcon(moodType))
+                binding.moodComparisonMood1Name.text = dashboardViewModel.getMoodName(requireContext(), moodType)
+                
                 updateMoodComparisonChart()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -2232,6 +2248,12 @@ class DashboardFragment : Fragment() {
 
         binding.moodComparisonMood2Spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // Atualizar o ícone e o nome do humor selecionado
+                val moodType = position
+                binding.cardMoodComparisonMoodsInfoContainer2.setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
+                binding.moodComparisonMood2Icon.setImageResource(Utils.getMoodIcon(moodType))
+                binding.moodComparisonMood2Name.text = dashboardViewModel.getMoodName(requireContext(), moodType)
+                
                 updateMoodComparisonChart()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -2282,6 +2304,7 @@ class DashboardFragment : Fragment() {
             setSelection(defaultSelection)
         }
     }
+
 
     private fun updateMoodComparisonChart() {
         val barChart = binding.moodComparisonChart
@@ -2387,6 +2410,7 @@ class DashboardFragment : Fragment() {
             position = XAxis.XAxisPosition.BOTTOM
             setDrawGridLines(false)
             granularity = 1f
+            yOffset = 2f
         }
 
         // Aplicar dados ao gráfico
