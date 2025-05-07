@@ -32,6 +32,7 @@ import java.util.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.button.MaterialButton
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.view.ViewGroup
 import android.widget.TextView
 import com.br.leo.moodsnap.ui.utils.DateUtils
@@ -492,9 +493,14 @@ class EditDayActivity : AppCompatActivity() {
 
     private fun showImageSourceDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_image_source, null)
-        imageSourceDialog = MaterialAlertDialogBuilder(this)
+        dialogView.setBackgroundColor(ContextCompat.getColor(this, R.color.background_card_view))
+
+        val imageSourceDialog = MaterialAlertDialogBuilder(this)
             .setView(dialogView)
             .create()
+
+        imageSourceDialog.show()
+
 
         // Aplica a animação de entrada e saída
         imageSourceDialog?.window?.attributes?.windowAnimations = R.style.DialogAnimation

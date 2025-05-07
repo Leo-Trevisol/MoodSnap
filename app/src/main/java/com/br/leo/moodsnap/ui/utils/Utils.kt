@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
 import com.br.leo.moodsnap.R
 import kotlinx.coroutines.CoroutineScope
@@ -121,4 +122,10 @@ object Utils {
             else -> R.drawable.neutral_icon
         }
     }
+
+         fun getCurrentTheme(context: Context): Int {
+        val sharedPrefs = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        return sharedPrefs.getInt("current_theme", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+    }
+
 }

@@ -37,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
                 android:gravity="center"
+                android:textStyle="bold"
                 android:textSize="@dimen/text_size_large" />
 
         </LinearLayout>
@@ -47,7 +48,7 @@
             android:id="@+id/mood_count"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textColor="@android:color/white"
+            android:textColor="@color/secundary"
             android:gravity="center"
             android:textSize="@dimen/text_size_large"/>
 

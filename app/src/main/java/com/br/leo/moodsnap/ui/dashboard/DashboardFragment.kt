@@ -206,6 +206,8 @@ class DashboardFragment : Fragment() {
                 val filter = getItem(position)
                 (view as TextView).apply {
                     text = filter?.let { dashboardViewModel.getFilterDescription(requireContext(), it) }
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
+                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
@@ -226,6 +228,7 @@ class DashboardFragment : Fragment() {
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         binding.dayFilterSpinner.apply {
             this.adapter = adapter
+
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
         }
 
@@ -360,7 +363,6 @@ class DashboardFragment : Fragment() {
             if (average == null) {
                 binding.averageMoodIcon.setImageResource(R.drawable.neutral_icon)
                 binding.averageMoodText.text = getString(R.string.no_mood_registered)
-                binding.cardAverageMood.setCardBackgroundColor(Color.WHITE)
             } else {
                 val moodType = average.roundToInt()
                 binding.averageMoodIcon.setImageResource(Utils.getMoodDrawable(moodType))
@@ -458,7 +460,7 @@ class DashboardFragment : Fragment() {
                     text = "${dayMood.dayOfMonth}\n${DateUtils.getDayOfWeekShortName(requireContext(), dayMood.dayOfWeek)}"
                     textSize = 12f
                     gravity = Gravity.CENTER
-                    setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                    setTextColor(ContextCompat.getColor(requireContext(), R.color.secundary))
                 }
 
                 // Adicionar views ao container do dia
@@ -544,7 +546,7 @@ class DashboardFragment : Fragment() {
                     val percentage = (count / total * 100).roundToInt()
                     text = "$percentage%"
                 }
-                setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                setTextColor(ContextCompat.getColor(requireContext(), R.color.secundary))
                 textSize = 12f
                 gravity = Gravity.CENTER
                 layoutParams = LinearLayout.LayoutParams(
@@ -613,6 +615,7 @@ class DashboardFragment : Fragment() {
                     gravity = Gravity.START
                     setPadding(0, paddingTop, paddingRight, paddingBottom)
                     this.typeface = typeface
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
                 }
                 return view
             }
@@ -690,7 +693,7 @@ class DashboardFragment : Fragment() {
 
             // Configurar texto quando não houver dados
             setNoDataText(getString(R.string.no_mood_distribution))
-            setNoDataTextColor(Color.WHITE)
+            setNoDataTextColor(resources.getColor(R.color.secundary))
             setNoDataTextTypeface(typeface)
             getPaint(PieChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
 
@@ -819,11 +822,11 @@ class DashboardFragment : Fragment() {
 
                 weekdayLayout.findViewById<TextView>(R.id.weekday_text).apply {
                     text = weekday
-                    setTextColor(Color.WHITE)
+                    setTextColor(resources.getColor(R.color.secundary))
                 }
                 weekdayLayout.findViewById<TextView>(R.id.count_text).apply {
                     text = getString(R.string.weekday_count_format, count, (count.toFloat() / totalCount * 100).roundToInt())
-                    setTextColor(Color.WHITE)
+                    setTextColor(resources.getColor(R.color.secundary))
                 }
 
                 weekdayContainer.addView(weekdayLayout)
@@ -865,12 +868,12 @@ class DashboardFragment : Fragment() {
             this.colors = colors
             setDrawValues(true)
             valueTextSize = resources.getDimension(R.dimen.legend_pie_chart)
-            valueTextColor = Color.WHITE
+            valueTextColor = resources.getColor(R.color.secundary)
             valueTypeface = binding.donutChart.legend.typeface
             yValuePosition = PieDataSet.ValuePosition.OUTSIDE_SLICE
             valueLinePart1Length = 0.6f
             valueLinePart2Length = 0.3f
-            valueLineColor = Color.WHITE
+            valueLineColor = resources.getColor(R.color.secundary)
             valueLineWidth = 2f
             sliceSpace = 3f
         }
@@ -931,7 +934,7 @@ class DashboardFragment : Fragment() {
             // Texto da legenda
             val legendText = TextView(requireContext()).apply {
                 text = dashboardViewModel.getMoodName(requireContext(), moodType)
-                setTextColor(Color.WHITE)
+                setTextColor(resources.getColor(R.color.secundary))
                 textSize = resources.getDimension(R.dimen.legend_bar_chart)
                 this.typeface = typeface
                 layoutParams = LinearLayout.LayoutParams(
@@ -974,6 +977,7 @@ class DashboardFragment : Fragment() {
                     gravity = Gravity.START
                     setPadding(0, paddingTop, paddingRight, paddingBottom)
                     this.typeface = typeface
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
                 }
                 return view
             }
@@ -1046,7 +1050,7 @@ class DashboardFragment : Fragment() {
                 setDrawGridLines(false)
                 granularity = 1f
                 typeface = customTypeface
-                textColor = Color.WHITE
+                textColor = resources.getColor(R.color.secundary)
                 setDrawLabels(false)
             }
 
@@ -1054,7 +1058,7 @@ class DashboardFragment : Fragment() {
             axisLeft.apply {
                 setDrawGridLines(true)
                 typeface = customTypeface
-                textColor = Color.WHITE
+                textColor = resources.getColor(R.color.secundary)
                 axisMinimum = 0f
                 granularity = 1f
                 spaceTop = 35f
@@ -1065,7 +1069,7 @@ class DashboardFragment : Fragment() {
 
             // Configurar texto quando não houver dados
             setNoDataText(getString(R.string.no_mood_distribution))
-            setNoDataTextColor(Color.WHITE)
+            setNoDataTextColor(resources.getColor(R.color.secundary))
             setNoDataTextTypeface(customTypeface)
             getPaint(BarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
 
@@ -1182,7 +1186,7 @@ class DashboardFragment : Fragment() {
         val dataSet = BarDataSet(entries, "").apply {
             colors = moodOrder.map { moodType -> dashboardViewModel.getMoodColor(moodType) }
             valueTextSize = 11f
-            valueTextColor = Color.WHITE
+            valueTextColor = resources.getColor(R.color.secundary)
             valueTypeface = barChart.legend.typeface
             setDrawValues(true)
         }
@@ -1246,7 +1250,7 @@ class DashboardFragment : Fragment() {
             // Texto da legenda
             val legendText = TextView(requireContext()).apply {
                 text = dashboardViewModel.getMoodName(requireContext(), moodType)
-                setTextColor(Color.WHITE)
+                setTextColor(resources.getColor(R.color.secundary))
                 textSize = resources.getDimension(R.dimen.legend_bar_chart)
                 this.typeface = typeface
                 layoutParams = LinearLayout.LayoutParams(
@@ -1289,6 +1293,7 @@ class DashboardFragment : Fragment() {
                     gravity = Gravity.START
                     setPadding(0, paddingTop, paddingRight, paddingBottom)
                     this.typeface = typeface
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
                 }
                 return view
             }
@@ -1362,7 +1367,7 @@ class DashboardFragment : Fragment() {
 
             // Configurar texto quando não houver dados
             setNoDataText(getString(R.string.no_mood_distribution))
-            setNoDataTextColor(Color.WHITE)
+            setNoDataTextColor(resources.getColor(R.color.secundary))
             setNoDataTextTypeface(customTypeface)
             getPaint(RadarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
 
@@ -1484,7 +1489,7 @@ class DashboardFragment : Fragment() {
             setValueTypeface(radarChart.legend.typeface)
             setValueTextSize(14f)
             setDrawValues(true)
-            setValueTextColor(Color.WHITE)
+            setValueTextColor(resources.getColor(R.color.secundary))
             setValueFormatter(object : ValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
                     return if (value > 0) value.toInt().toString() else ""
@@ -1498,7 +1503,7 @@ class DashboardFragment : Fragment() {
             yOffset = 0f
             xOffset = 0f
             valueFormatter = IndexAxisValueFormatter(weekdays)
-            textColor = Color.WHITE
+            textColor = resources.getColor(R.color.secundary)
         }
 
         // Configure Y axis
@@ -1507,6 +1512,7 @@ class DashboardFragment : Fragment() {
             textSize = 12f
             axisMinimum = 0f
             setDrawLabels(false)
+            textColor = resources.getColor(R.color.secundary)
         }
 
         // Apply data to chart
@@ -1555,7 +1561,7 @@ class DashboardFragment : Fragment() {
             // Texto da legenda
             val legendText = TextView(requireContext()).apply {
                 text = dashboardViewModel.getMoodName(requireContext(), moodType)
-                setTextColor(Color.WHITE)
+                setTextColor(resources.getColor(R.color.secundary))
                 textSize = resources.getDimension(R.dimen.legend_bar_chart)
                 this.typeface = typeface
                 layoutParams = LinearLayout.LayoutParams(
@@ -1684,6 +1690,7 @@ class DashboardFragment : Fragment() {
                     gravity = Gravity.START
                     setPadding(0, paddingTop, paddingRight, paddingBottom)
                     this.typeface = typeface
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
                 }
                 return view
             }
@@ -1756,16 +1763,15 @@ class DashboardFragment : Fragment() {
                 setDrawGridLines(false)
                 granularity = 1f
                 typeface = customTypeface
-                textColor = Color.WHITE
+                textColor =resources.getColor(R.color.secundary)
                 setDrawLabels(true)
-                yOffset = 10f  // Adicionar espaço entre o texto e o eixo
             }
 
             // Configurar eixo Y esquerdo
             axisLeft.apply {
                 setDrawGridLines(true)
                 typeface = customTypeface
-                textColor = Color.WHITE
+                textColor = resources.getColor(R.color.secundary)
                 axisMinimum = 0f
                 granularity = 1f
                 spaceTop = 35f
@@ -1776,7 +1782,7 @@ class DashboardFragment : Fragment() {
 
             // Configurar texto quando não houver dados
             setNoDataText(getString(R.string.no_mood_distribution))
-            setNoDataTextColor(Color.WHITE)
+            setNoDataTextColor(resources.getColor(R.color.secundary))
             setNoDataTextTypeface(customTypeface)
             getPaint(BarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
 
@@ -1865,6 +1871,7 @@ class DashboardFragment : Fragment() {
                 val view = super.getView(position, convertView, parent)
                 (view as TextView).apply {
                     this.typeface = typeface
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
                 }
                 return view
             }
@@ -1910,6 +1917,7 @@ class DashboardFragment : Fragment() {
                 val view = super.getView(position, convertView, parent)
                 (view as TextView).apply {
                     this.typeface = typeface
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
                 }
                 return view
             }
@@ -2025,8 +2033,8 @@ class DashboardFragment : Fragment() {
         // Configurar o dataset
         val dataSet = BarDataSet(entries, "").apply {
             this.colors = colors
-            valueTextSize = 14f
-            valueTextColor = Color.WHITE
+            valueTextSize = 11f
+            valueTextColor = resources.getColor(R.color.secundary)
             valueTypeface = barChart.legend.typeface
             setDrawValues(true)
         }
@@ -2085,6 +2093,7 @@ class DashboardFragment : Fragment() {
                     gravity = Gravity.START
                     setPadding(0, paddingTop, paddingRight, paddingBottom)
                     this.typeface = typeface
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
                 }
                 return view
             }
@@ -2170,7 +2179,7 @@ class DashboardFragment : Fragment() {
                 setDrawGridLines(false)
                 granularity = 1f
                 typeface = customTypeface
-                textColor = Color.WHITE
+                textColor = resources.getColor(R.color.secundary)
                 setDrawLabels(true)
             }
 
@@ -2178,7 +2187,7 @@ class DashboardFragment : Fragment() {
             axisLeft.apply {
                 setDrawGridLines(true)
                 typeface = customTypeface
-                textColor = Color.WHITE
+                textColor = resources.getColor(R.color.secundary)
                 axisMinimum = 0f
                 granularity = 1f
                 spaceTop = 35f
@@ -2189,7 +2198,7 @@ class DashboardFragment : Fragment() {
 
             // Configurar texto quando não houver dados
             setNoDataText(getString(R.string.no_mood_distribution))
-            setNoDataTextColor(Color.WHITE)
+            setNoDataTextColor(resources.getColor(R.color.secundary))
             setNoDataTextTypeface(customTypeface)
             getPaint(BarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
 
@@ -2282,6 +2291,7 @@ class DashboardFragment : Fragment() {
                 val view = super.getView(position, convertView, parent)
                 (view as TextView).apply {
                     this.typeface = typeface
+                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
                 }
                 return view
             }
@@ -2388,8 +2398,8 @@ class DashboardFragment : Fragment() {
         // Configurar o dataset
         val dataSet = BarDataSet(entries, "").apply {
             this.colors = colors
-            valueTextSize = 14f
-            valueTextColor = Color.WHITE
+            valueTextSize = 11f
+            valueTextColor = resources.getColor(R.color.secundary)
             valueTypeface = barChart.legend.typeface
             setDrawValues(true)
         }

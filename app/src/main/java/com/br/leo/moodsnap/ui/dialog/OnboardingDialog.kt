@@ -6,14 +6,18 @@ import android.os.Bundle
 import android.view.View
 import android.view.Window
 import android.widget.Button
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.br.leo.moodsnap.R
+import com.br.leo.moodsnap.R.drawable.tutorial_dark_2
 import com.br.leo.moodsnap.ui.adapters.OnboardingAdapter
 import com.br.leo.moodsnap.ui.models.OnboardingSlide
 import com.br.leo.moodsnap.ui.models.OnboardingMedia
 import com.br.leo.moodsnap.ui.utils.FontUtils
+import com.br.leo.moodsnap.ui.utils.Utils
+import com.br.leo.moodsnap.ui.utils.Utils.getCurrentTheme
 
 class OnboardingDialog(context: Context) : Dialog(context) {
 
@@ -26,6 +30,20 @@ class OnboardingDialog(context: Context) : Dialog(context) {
     private val sharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
     private val currentFont = sharedPreferences.getString("current_font", "default")
 
+    val currentTheme = getCurrentTheme(context)
+    val imageRes1 = when (currentTheme) {
+        AppCompatDelegate.MODE_NIGHT_YES -> R.drawable.tutorial_dark_1
+        AppCompatDelegate.MODE_NIGHT_NO -> R.drawable.tutorial_light_1
+        else -> R.drawable.tutorial_light_1
+    }
+
+    val imageRes2 = when (currentTheme) {
+        AppCompatDelegate.MODE_NIGHT_YES -> tutorial_dark_2
+        AppCompatDelegate.MODE_NIGHT_NO -> R.drawable.tutorial_light_2
+        else -> R.drawable.tutorial_light_1
+    }
+
+
     private val slides = listOf(
         OnboardingSlide(
             media = OnboardingMedia.Image(R.drawable.ic_mascote),
@@ -34,13 +52,13 @@ class OnboardingDialog(context: Context) : Dialog(context) {
             font = currentFont ?: "default"
         ),
         OnboardingSlide(
-            media = OnboardingMedia.Video("android.resource://${context.packageName}/${R.raw.onboarding_video_1}"),
+            media = OnboardingMedia.Image(imageRes1),
             title = context.getString(R.string.onboarding_title_2),
             description = context.getString(R.string.onboarding_description_2),
             font = currentFont ?: "default"
         ),
         OnboardingSlide(
-            media = OnboardingMedia.Video("android.resource://${context.packageName}/${R.raw.onboarding_video_2}"),
+            media = OnboardingMedia.Image(imageRes2),
             title = context.getString(R.string.onboarding_title_3),
             description = context.getString(R.string.onboarding_description_3),
             font = currentFont ?: "default"

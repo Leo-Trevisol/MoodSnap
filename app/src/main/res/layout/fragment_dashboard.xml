@@ -63,6 +63,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/average_mood"
                     android:gravity="center"
+                    android:textColor="@color/primary"
                     android:textStyle="bold"
                     android:textSize="@dimen/text_size_xlarge"/>
 
@@ -103,6 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/background_card_view"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp">
 
@@ -119,6 +121,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/quick_distribution"
+                    android:textColor="@color/secundary"
                     android:gravity="center"
                     android:textStyle="bold"
                     android:textSize="@dimen/text_size_xlarge"/>
@@ -139,6 +142,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/background_card_view"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp">
 
@@ -155,6 +159,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/current_streak"
+                    android:textColor="@color/secundary"
                     android:textStyle="bold"
                     android:gravity="center"
                     android:textSize="@dimen/text_size_xlarge"/>
@@ -163,6 +168,7 @@
                     android:id="@+id/current_streak_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/secundary"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:textSize="@dimen/text_size_large"/>
@@ -185,6 +191,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/background_card_view"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp">
@@ -209,6 +216,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/day_of_week"
+                        android:textColor="@color/secundary"
                         android:textStyle="bold"
                         android:layout_weight="1"
                         android:textSize="@dimen/text_size_xlarge"/>
@@ -226,6 +234,7 @@
                     android:id="@+id/best_day_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/secundary"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:textSize="@dimen/text_size_normal"/>
@@ -238,6 +247,7 @@
             android:id="@+id/card_donut_chart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/background_card_view"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp">
@@ -251,29 +261,14 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Gráfico de Donut"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/text_size_xlarge"/>
 
-                <TextView
-                    android:id="@+id/donut_chart_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:gravity="center"
-                    android:text="@string/donut_chart_description"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_normal" />
 
                 <TextView
                     android:id="@+id/donut_chart_no_mood_registered_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:textColor="@color/secundary"
                     android:textSize="@dimen/text_size_normal"
                     android:text="@string/register_more_moods"
                     android:visibility="gone">
@@ -285,7 +280,26 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                <LinearLayout
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Gráfico de Donut"
+                        android:textColor="@color/secundary"
+                        android:textSize="@dimen/text_size_xlarge"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/donut_chart_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:textColor="@color/secundary"
+                        android:gravity="center"
+                        android:text="@string/donut_chart_description"
+                        android:textSize="@dimen/text_size_normal" />
+
+                    <LinearLayout
                     android:id="@+id/donut_period_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -338,6 +352,7 @@
             android:id="@+id/card_custom_bar_chart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/background_card_view"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp">
@@ -355,6 +370,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Gráfico de Barras"
+                    android:textColor="@color/secundary"
                     android:gravity="center"
                     android:textStyle="bold"
                     android:textSize="@dimen/text_size_xlarge"/>
@@ -365,7 +381,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/bar_chart_description"
                     android:textSize="@dimen/text_size_normal"
-                    android:textColor="@color/white"
+                    android:textColor="@color/secundary"
                     android:gravity="center"
                     android:layout_marginBottom="16dp"/>
 
@@ -374,6 +390,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:textColor="@color/secundary"
                     android:textSize="@dimen/text_size_normal"
                     android:text="@string/register_more_moods"
                     android:visibility="gone">
@@ -438,6 +455,7 @@
             android:id="@+id/card_custom_radar_chart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/background_card_view"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp">
@@ -454,6 +472,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Gráfico Radar"
+                    android:textColor="@color/secundary"
                     android:gravity="center"
                     android:textStyle="bold"
                     android:textSize="@dimen/text_size_xlarge"/>
@@ -464,7 +483,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/radar_chart_description"
                     android:textSize="@dimen/text_size_normal"
-                    android:textColor="@color/white"
+                    android:textColor="@color/secundary"
                     android:gravity="center"
                     android:layout_marginBottom="16dp"/>
 
@@ -474,6 +493,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="@dimen/text_size_normal"
+                    android:textColor="@color/secundary"
                     android:text="@string/register_more_moods"
                     android:visibility="gone">
                 </TextView>
@@ -537,6 +557,7 @@
             android:id="@+id/card_grouped_bar_chart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/background_card_view"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp">
@@ -554,6 +575,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Comparação de Dias"
+                    android:textColor="@color/secundary"
                     android:gravity="center"
                     android:textStyle="bold"
                     android:textSize="@dimen/text_size_xlarge"/>
@@ -564,7 +586,7 @@
                     android:layout_height="wrap_content"
                     android:text="Compare a frequência de um humor específico entre dois dias da semana"
                     android:textSize="@dimen/text_size_normal"
-                    android:textColor="@color/white"
+                    android:textColor="@color/secundary"
                     android:gravity="center"
                     android:layout_marginBottom="16dp"/>
 
@@ -573,6 +595,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:textColor="@color/secundary"
                     android:textSize="@dimen/text_size_normal"
                     android:text="@string/register_more_moods"
                     android:visibility="gone">
@@ -612,8 +635,7 @@
                             android:layout_height="wrap_content"
                             android:text="Dia 1:"
                             android:textSize="@dimen/text_size_normal"
-                            android:textColor="@color/white"
-                            android:layout_marginEnd="8dp"
+                            android:textColor="@color/secundary"                            android:layout_marginEnd="8dp"
                             android:layout_gravity="center_vertical"/>
 
                         <Spinner
@@ -636,8 +658,7 @@
                             android:layout_height="wrap_content"
                             android:text="Dia 2:"
                             android:textSize="@dimen/text_size_normal"
-                            android:textColor="@color/white"
-                            android:layout_marginEnd="8dp"
+                            android:textColor="@color/secundary"                            android:layout_marginEnd="8dp"
                             android:layout_gravity="center_vertical"/>
 
                         <Spinner
@@ -660,7 +681,7 @@
                             android:layout_height="wrap_content"
                             android:text="Humor:"
                             android:textSize="@dimen/text_size_normal"
-                            android:textColor="@color/white"
+                            android:textColor="@color/secundary"
                             android:layout_marginEnd="8dp"
                             android:layout_gravity="center_vertical"/>
 
@@ -704,9 +725,9 @@
                             android:id="@+id/grouped_bar_mood_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@android:color/black"
                             android:layout_weight="3"
                             android:textSize="@dimen/text_size_large"
+                            android:textColor="@color/black"
                             android:textStyle="bold"/>
 
                     </LinearLayout>
@@ -728,6 +749,7 @@
             android:id="@+id/card_mood_comparison_chart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/background_card_view"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp">
@@ -745,6 +767,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Comparação de Humores"
+                    android:textColor="@color/secundary"
                     android:gravity="center"
                     android:textStyle="bold"
                     android:textSize="@dimen/text_size_xlarge"/>
@@ -755,7 +778,7 @@
                     android:layout_height="wrap_content"
                     android:text="Compare diferentes humores em um mesmo dia da semana"
                     android:textSize="@dimen/text_size_normal"
-                    android:textColor="@color/white"
+                    android:textColor="@color/secundary"
                     android:gravity="center"
                     android:layout_marginBottom="16dp"/>
 
@@ -765,6 +788,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="@dimen/text_size_normal"
+                    android:textColor="@color/secundary"
                     android:text="@string/register_more_moods"
                     android:visibility="gone">
                 </TextView>
@@ -803,7 +827,7 @@
                             android:layout_height="wrap_content"
                             android:text="Dia:"
                             android:textSize="@dimen/text_size_normal"
-                            android:textColor="@color/white"
+                            android:textColor="@color/secundary"
                             android:layout_marginEnd="8dp"
                             android:layout_gravity="center_vertical"/>
 
@@ -827,7 +851,7 @@
                             android:layout_height="wrap_content"
                             android:text="Humor 1:"
                             android:textSize="@dimen/text_size_normal"
-                            android:textColor="@color/white"
+                            android:textColor="@color/secundary"
                             android:layout_marginEnd="8dp"
                             android:layout_gravity="center_vertical"/>
 
@@ -851,7 +875,7 @@
                             android:layout_height="wrap_content"
                             android:text="Humor 2:"
                             android:textSize="@dimen/text_size_normal"
-                            android:textColor="@color/white"
+                            android:textColor="@color/secundary"
                             android:layout_marginEnd="8dp"
                             android:layout_gravity="center_vertical"/>
 
@@ -903,8 +927,8 @@
                                     android:id="@+id/mood_comparison_mood1_name"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@android:color/black"
                                     android:textSize="@dimen/text_size_normal"
+                                    android:textColor="@color/black"
                                     android:layout_weight="3"
                                     android:textStyle="bold"/>
 
@@ -941,8 +965,8 @@
                                     android:id="@+id/mood_comparison_mood2_name"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@android:color/black"
                                     android:textSize="@dimen/text_size_normal"
+                                    android:textColor="@color/black"
                                     android:layout_weight="3"
                                     android:textStyle="bold"/>
 

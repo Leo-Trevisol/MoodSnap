@@ -12,6 +12,7 @@
         android:text="@string/select_image_source"
         android:textSize="@dimen/text_size_large"
         android:textStyle="bold"
+        android:textColor="@color/secundary"
         android:gravity="center"
         android:layout_marginBottom="@dimen/spacing_large"/>
 

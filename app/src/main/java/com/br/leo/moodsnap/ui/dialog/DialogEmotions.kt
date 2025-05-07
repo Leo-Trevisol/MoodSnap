@@ -96,7 +96,7 @@ class DialogEmotions(
 
         // Configurar botão de editar
         val btnEdit = view.findViewById<MaterialButton>(R.id.btn_edit)
-        Utils.updateBackGroundColor(requireContext(), btnEdit, R.color.gray_dark)
+        Utils.updateBackGroundColor(requireContext(), btnEdit, R.color.btn_edit)
         btnEdit.visibility = View.VISIBLE
         setupEditButton()
 
