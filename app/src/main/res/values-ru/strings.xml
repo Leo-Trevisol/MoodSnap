@@ -257,4 +257,19 @@
 
     <string name="bar_chart_compare_week_days">Сравните настроение в два разных дня недели</string>
     <string name="bar_chart_compare_moods">Сравните два настроения в один и тот же день недели</string>
+
+    <string name="pie_chart_title">Круговая диаграмма</string>
+    <string name="bar_chart_title">Столбчатая диаграмма</string>
+    <string name="radar_chart_title">Радарная диаграмма</string>
+    <string name="bar_chart_compare_days_title">Сравнить дни</string>
+    <string name="bar_chart_compare_moods_title">Сравнить настроения</string>
+
+    <string name="bar_chart_compare_days_day_spinner_1">День 1:</string>
+    <string name="bar_chart_compare_days_day_spinner_2">День 2:</string>
+    <string name="bar_chart_compare_days_mood_spinner">Настроение:</string>
+
+    <string name="bar_chart_compare_moods_mood_spinner_1">Настроение 1:</string>
+    <string name="bar_chart_compare_moods_mood_spinner_2">Настроение 2:</string>
+    <string name="bar_chart_compare_moods_day_spinner">День:</string>
+
 </resources>

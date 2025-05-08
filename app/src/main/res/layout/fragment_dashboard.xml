@@ -284,7 +284,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Gráfico de Donut"
+                        android:text="@string/pie_chart_title"
                         android:textColor="@color/secundary"
                         android:textSize="@dimen/text_size_xlarge"
                         android:textStyle="bold" />
@@ -369,7 +369,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Gráfico de Barras"
+                    android:text="@string/bar_chart_title"
                     android:textColor="@color/secundary"
                     android:gravity="center"
                     android:textStyle="bold"
@@ -471,7 +471,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Gráfico Radar"
+                    android:text="@string/radar_chart_title"
                     android:textColor="@color/secundary"
                     android:gravity="center"
                     android:textStyle="bold"
@@ -574,7 +574,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Comparação de Dias"
+                    android:text="@string/bar_chart_compare_days_title"
                     android:textColor="@color/secundary"
                     android:gravity="center"
                     android:textStyle="bold"
@@ -633,7 +633,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Dia 1:"
+                            android:text="@string/bar_chart_compare_days_day_spinner_1"
                             android:textSize="@dimen/text_size_normal"
                             android:textColor="@color/secundary"
                             android:layout_marginEnd="8dp"
@@ -657,7 +657,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Dia 2:"
+                            android:text="@string/bar_chart_compare_days_day_spinner_2"
                             android:textSize="@dimen/text_size_normal"
                             android:textColor="@color/secundary"
                             android:layout_marginEnd="8dp"
@@ -681,7 +681,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Humor:"
+                            android:text="@string/bar_chart_compare_days_mood_spinner"
                             android:textSize="@dimen/text_size_normal"
                             android:textColor="@color/secundary"
                             android:layout_marginEnd="8dp"
@@ -768,7 +768,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Comparação de Humores"
+                    android:text="@string/bar_chart_compare_moods_title"
                     android:textColor="@color/secundary"
                     android:gravity="center"
                     android:textStyle="bold"
@@ -827,7 +827,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Dia:"
+                            android:text="@string/bar_chart_compare_moods_day_spinner"
                             android:textSize="@dimen/text_size_normal"
                             android:textColor="@color/secundary"
                             android:layout_marginEnd="8dp"
@@ -851,7 +851,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Humor 1:"
+                            android:text="@string/bar_chart_compare_moods_mood_spinner_1"
                             android:textSize="@dimen/text_size_normal"
                             android:textColor="@color/secundary"
                             android:layout_marginEnd="8dp"
@@ -875,7 +875,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Humor 2:"
+                            android:text="@string/bar_chart_compare_moods_mood_spinner_2"
                             android:textSize="@dimen/text_size_normal"
                             android:textColor="@color/secundary"
                             android:layout_marginEnd="8dp"

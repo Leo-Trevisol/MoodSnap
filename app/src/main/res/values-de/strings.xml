@@ -257,4 +257,18 @@
     <string name="bar_chart_compare_week_days">Vergleiche eine Stimmung an zwei verschiedenen Tagen der Woche</string>
     <string name="bar_chart_compare_moods">Vergleiche zwei Stimmungen am selben Wochentag</string>
 
+    <string name="pie_chart_title">Kreisdiagramm</string>
+    <string name="bar_chart_title">Balkendiagramm</string>
+    <string name="radar_chart_title">Netzdiagramm</string>
+    <string name="bar_chart_compare_days_title">Tage vergleichen</string>
+    <string name="bar_chart_compare_moods_title">Stimmungen vergleichen</string>
+
+    <string name="bar_chart_compare_days_day_spinner_1">Tag 1:</string>
+    <string name="bar_chart_compare_days_day_spinner_2">Tag 2:</string>
+    <string name="bar_chart_compare_days_mood_spinner">Stimmung:</string>
+
+    <string name="bar_chart_compare_moods_mood_spinner_1">Stimmung 1:</string>
+    <string name="bar_chart_compare_moods_mood_spinner_2">Stimmung 2:</string>
+    <string name="bar_chart_compare_moods_day_spinner">Tag:</string>
+
 </resources>

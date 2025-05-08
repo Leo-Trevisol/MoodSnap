@@ -258,5 +258,18 @@
     <string name="bar_chart_compare_week_days">Compara un estado de ánimo en dos días diferentes de la semana</string>
     <string name="bar_chart_compare_moods">Compara dos estados de ánimo en el mismo día de la semana</string>
 
+    <string name="pie_chart_title">Gráfico de pastel</string>
+    <string name="bar_chart_title">Gráfico de barras</string>
+    <string name="radar_chart_title">Gráfico de radar</string>
+    <string name="bar_chart_compare_days_title">Comparar días</string>
+    <string name="bar_chart_compare_moods_title">Comparar estados de ánimo</string>
+
+    <string name="bar_chart_compare_days_day_spinner_1">Día 1:</string>
+    <string name="bar_chart_compare_days_day_spinner_2">Día 2:</string>
+    <string name="bar_chart_compare_days_mood_spinner">Estado de ánimo:</string>
+
+    <string name="bar_chart_compare_moods_mood_spinner_1">Estado 1:</string>
+    <string name="bar_chart_compare_moods_mood_spinner_2">Estado 2:</string>
+    <string name="bar_chart_compare_moods_day_spinner">Día:</string>
 
 </resources>

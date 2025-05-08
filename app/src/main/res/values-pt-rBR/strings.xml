@@ -262,6 +262,18 @@
     <string name="bar_chart_compare_week_days">Compare um humor em dois dias diferentes da semana</string>
     <string name="bar_chart_compare_moods">Compare dois humores em um mesmo dia da semana</string>
 
+    <string name="pie_chart_title">Gráfico de Pizza</string>
+    <string name="bar_chart_title">Gráfico de Barras</string>
+    <string name="radar_chart_title">Gráfico de Teia</string>
+    <string name="bar_chart_compare_days_title">Comparar dias</string>
+    <string name="bar_chart_compare_moods_title">Comparar humores</string>
 
+    <string name="bar_chart_compare_days_day_spinner_1">Dia 1:</string>
+    <string name="bar_chart_compare_days_day_spinner_2">Dia 2:</string>
+    <string name="bar_chart_compare_days_mood_spinner">Humor:</string>
+
+    <string name="bar_chart_compare_moods_mood_spinner_1">Humor 1:</string>
+    <string name="bar_chart_compare_moods_mood_spinner_2">Humor 2:</string>
+    <string name="bar_chart_compare_moods_day_spinner">Dia:</string>
 
 </resources>

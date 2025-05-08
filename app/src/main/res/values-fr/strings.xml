@@ -258,4 +258,18 @@
     <string name="bar_chart_compare_week_days">Comparez une humeur sur deux jours différents de la semaine</string>
     <string name="bar_chart_compare_moods">Comparez deux humeurs le même jour de la semaine</string>
 
+    <string name="pie_chart_title">Graphique à secteurs</string>
+    <string name="bar_chart_title">Graphique à barres</string>
+    <string name="radar_chart_title">Graphique en toile d’araignée</string>
+    <string name="bar_chart_compare_days_title">Comparer les jours</string>
+    <string name="bar_chart_compare_moods_title">Comparer les humeurs</string>
+
+    <string name="bar_chart_compare_days_day_spinner_1">Jour 1 :</string>
+    <string name="bar_chart_compare_days_day_spinner_2">Jour 2 :</string>
+    <string name="bar_chart_compare_days_mood_spinner">Humeur :</string>
+
+    <string name="bar_chart_compare_moods_mood_spinner_1">Humeur 1 :</string>
+    <string name="bar_chart_compare_moods_mood_spinner_2">Humeur 2 :</string>
+    <string name="bar_chart_compare_moods_day_spinner">Jour :</string>
+
 </resources>

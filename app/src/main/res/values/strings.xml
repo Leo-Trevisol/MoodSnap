@@ -254,5 +254,18 @@
     <string name="bar_chart_compare_week_days">Compare a mood on two different days of the week</string>
     <string name="bar_chart_compare_moods">Compare two moods on the same day of the week</string>
 
+    <string name="pie_chart_title">Pie Chart</string>
+    <string name="bar_chart_title">Bar Chart</string>
+    <string name="radar_chart_title">Radar Chart</string>
+    <string name="bar_chart_compare_days_title">Compare Days</string>
+    <string name="bar_chart_compare_moods_title">Compare Moods</string>
+
+    <string name="bar_chart_compare_days_day_spinner_1">Day 1:</string>
+    <string name="bar_chart_compare_days_day_spinner_2">Day 2:</string>
+    <string name="bar_chart_compare_days_mood_spinner">Mood:</string>
+
+    <string name="bar_chart_compare_moods_mood_spinner_1">Mood 1:</string>
+    <string name="bar_chart_compare_moods_mood_spinner_2">Mood 2:</string>
+    <string name="bar_chart_compare_moods_day_spinner">Day:</string>
 
 </resources>

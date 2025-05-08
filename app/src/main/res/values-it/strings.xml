@@ -254,4 +254,18 @@
     <string name="bar_chart_compare_week_days">Confronta un umore in due giorni diversi della settimana</string>
     <string name="bar_chart_compare_moods">Confronta due umori nello stesso giorno della settimana</string>
 
+    <string name="pie_chart_title">Grafico a torta</string>
+    <string name="bar_chart_title">Grafico a barre</string>
+    <string name="radar_chart_title">Grafico a ragnatela</string>
+    <string name="bar_chart_compare_days_title">Confronta giorni</string>
+    <string name="bar_chart_compare_moods_title">Confronta umori</string>
+
+    <string name="bar_chart_compare_days_day_spinner_1">Giorno 1:</string>
+    <string name="bar_chart_compare_days_day_spinner_2">Giorno 2:</string>
+    <string name="bar_chart_compare_days_mood_spinner">Umore:</string>
+
+    <string name="bar_chart_compare_moods_mood_spinner_1">Umore 1:</string>
+    <string name="bar_chart_compare_moods_mood_spinner_2">Umore 2:</string>
+    <string name="bar_chart_compare_moods_day_spinner">Giorno:</string>
+
 </resources>
