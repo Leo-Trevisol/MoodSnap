@@ -140,35 +140,43 @@
 
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_edit"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_large"
-            android:textStyle="bold"
-            android:text="@string/detail_day"
-            android:background="@drawable/rounded_button_shadow"
-            app:icon="@drawable/ic_edit"
-            app:iconGravity="textStart"
-            android:shadowColor="@color/white"
-            app:iconTint="@android:color/white"
-            android:textSize="@dimen/button_size"
-            android:padding="@dimen/button_padding"/>
+            android:orientation="horizontal">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_delete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_large"
-            android:textStyle="bold"
-            android:text="@string/delete_mood"
-            android:background="@drawable/rounded_button_shadow"
-            app:icon="@drawable/ic_delete"
-            app:iconGravity="textStart"
-            app:iconTint="@android:color/white"
-            android:visibility="gone"
-            android:textSize="@dimen/button_size"
-            android:padding="@dimen/button_padding"/>
+            <Button
+                android:id="@+id/btn_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:background="@drawable/background_rounded"
+                android:backgroundTint="@color/white"
+                android:drawableEnd="@drawable/ic_pen_edit"
+                android:drawableTint="@color/primary"
+                android:layout_weight="1"
+                android:padding="16dp"
+                android:text="@string/detail_day"
+                android:textSize="@dimen/button_size" />
+
+            <Button
+                android:id="@+id/btn_delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:background="@drawable/background_rounded"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:backgroundTint="@color/white"
+                android:drawableEnd="@drawable/ic_xmark"
+                android:drawableTint="@color/primary"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:padding="16dp"
+                android:visibility="gone"
+                android:text="@string/delete_mood"
+                android:textSize="@dimen/button_size"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

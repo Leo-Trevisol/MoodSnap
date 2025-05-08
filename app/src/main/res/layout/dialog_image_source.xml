@@ -16,50 +16,50 @@
         android:gravity="center"
         android:layout_marginBottom="@dimen/spacing_large"/>
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/btn_camera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/background_rounded"
+        android:backgroundTint="@color/white"
+        android:drawableEnd="@drawable/ic_camera_edit"
+        android:drawableTint="@color/primary"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="1"
+        android:padding="16dp"
         android:text="@string/camera"
-        app:icon="@drawable/ic_camera"
-        app:iconGravity="textStart"
-        android:textStyle="bold"
-        android:shadowColor="@color/white"
-        app:iconTint="@android:color/white"
-        android:background="@drawable/rounded_button_shadow"
-        android:layout_marginBottom="@dimen/spacing_normal"
-        android:textSize="@dimen/button_size"
-        android:padding="@dimen/button_padding"/>
+        android:textSize="@dimen/button_size" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/btn_gallery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_button_shadow"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/background_rounded"
+        android:backgroundTint="@color/white"
+        android:drawableEnd="@drawable/ic_gallery_edit"
+        android:drawableTint="@color/primary"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="1"
+        android:padding="16dp"
         android:text="@string/gallery"
-        app:icon="@drawable/ic_gallery"
-        app:iconGravity="textStart"
-        android:textStyle="bold"
-        android:shadowColor="@color/white"
-        app:iconTint="@android:color/white"
-        android:layout_marginBottom="@dimen/spacing_normal"
-        android:textSize="@dimen/button_size"
-        android:padding="@dimen/button_padding"/>
+        android:textSize="@dimen/button_size" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/btn_delete_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_button_shadow"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/background_rounded"
+        android:backgroundTint="@color/white"
+        android:drawableEnd="@drawable/ic_xmark"
+        android:drawableTint="@color/primary"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="1"
+        android:padding="16dp"
         android:text="@string/delete_image"
-        app:icon="@drawable/ic_delete"
-        app:iconGravity="textStart"
-        android:textStyle="bold"
-        android:shadowColor="@color/white"
-        app:iconTint="@android:color/white"
-        android:layout_marginBottom="@dimen/spacing_normal"
-        android:textSize="@dimen/button_size"
-        android:padding="@dimen/button_padding"
-        android:visibility="gone"/>
+        android:visibility="gone"
 
-</LinearLayout> 
+        android:textSize="@dimen/button_size" />
+
+</LinearLayout>
