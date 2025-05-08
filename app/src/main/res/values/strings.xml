@@ -247,8 +247,12 @@
     <string name="dialog_title_mood_time">Mood Details by Time</string>
     <string name="dialog_title_radar_distribution">Mood Distribution - %1$s</string>
 
-    <string name="donut_chart_description">View mood details by weekday</string>
-    <string name="bar_chart_description">View mood details by weekday</string>
-    <string name="radar_chart_description">View mood details by weekday</string>
+    <string name="donut_chart_description">Click to see how many times the mood was recorded on each day of the week</string>
+    <string name="bar_chart_description">Click to see the last time the mood was recorded</string>
+    <string name="radar_chart_description">Click to see the moods and how many times they were recorded on each day of the week</string>
+
+    <string name="bar_chart_compare_week_days">Compare a mood on two different days of the week</string>
+    <string name="bar_chart_compare_moods">Compare two moods on the same day of the week</string>
+
 
 </resources>

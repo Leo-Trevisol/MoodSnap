@@ -250,8 +250,11 @@
     <string name="dialog_title_mood_time">Stimmungsdetails nach Uhrzeit</string>
     <string name="dialog_title_radar_distribution">Stimmungsverteilung – %1$s</string>
 
-    <string name="donut_chart_description">Sieh dir Stimmungsdetails nach Wochentagen an</string>
-    <string name="bar_chart_description">Sieh dir Stimmungsdetails nach Wochentagen an</string>
-    <string name="radar_chart_description">Sieh dir Stimmungsdetails nach Wochentagen an</string>
+    <string name="donut_chart_description">Klicken Sie, um zu sehen, wie oft die Stimmung an jedem Wochentag aufgezeichnet wurde</string>
+    <string name="bar_chart_description">Klicken Sie, um zu sehen, wann die Stimmung zuletzt aufgezeichnet wurde</string>
+    <string name="radar_chart_description">Klicken Sie, um die Stimmungen und die Häufigkeit ihrer Aufzeichnungen an jedem Wochentag zu sehen</string>
+
+    <string name="bar_chart_compare_week_days">Vergleiche eine Stimmung an zwei verschiedenen Tagen der Woche</string>
+    <string name="bar_chart_compare_moods">Vergleiche zwei Stimmungen am selben Wochentag</string>
 
 </resources>

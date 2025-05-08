@@ -251,8 +251,12 @@
     <string name="dialog_title_mood_time">Detalles del estado de ánimo por hora</string>
     <string name="dialog_title_radar_distribution">Distribución del estado de ánimo - %1$s</string>
 
-    <string name="donut_chart_description">Ver detalles de los estados de ánimo según el día de la semana</string>
-    <string name="bar_chart_description">Ver detalles de los estados de ánimo según el día de la semana</string>
-    <string name="radar_chart_description">Ver detalles de los estados de ánimo según el día de la semana</string>
+    <string name="donut_chart_description">Haz clic para ver cuántas veces se registró el estado de ánimo en cada día de la semana</string>
+    <string name="bar_chart_description">Haz clic para ver la última vez que se registró el estado de ánimo</string>
+    <string name="radar_chart_description">Haz clic para ver los estados de ánimo y cuántas veces se registraron en cada día de la semana</string>
+
+    <string name="bar_chart_compare_week_days">Compara un estado de ánimo en dos días diferentes de la semana</string>
+    <string name="bar_chart_compare_moods">Compara dos estados de ánimo en el mismo día de la semana</string>
+
 
 </resources>

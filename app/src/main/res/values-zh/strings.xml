@@ -249,8 +249,13 @@
     <string name="dialog_title_mood_time">按时间查看心情详情</string>
     <string name="dialog_title_radar_distribution">心情分布 - %1$s</string>
 
-    <string name="donut_chart_description">查看与星期几相关的情绪详细信息</string>
-    <string name="bar_chart_description">查看与星期几相关的情绪详细信息</string>
-    <string name="radar_chart_description">查看与星期几相关的情绪详细信息</string>
+    <string name="donut_chart_description">点击查看每个星期几记录的情绪次数</string>
+    <string name="bar_chart_description">点击查看情绪最后一次记录的时间</string>
+    <string name="radar_chart_description">点击查看每个星期几记录的情绪及其次数</string>
+
+    <string name="bar_chart_compare_week_days">比较同一情绪在一周的两个不同日期</string>
+    <string name="bar_chart_compare_moods">比较同一周内同一天的两种情绪</string>
+
+
 
 </resources>

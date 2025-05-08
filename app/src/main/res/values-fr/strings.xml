@@ -251,8 +251,11 @@
     <string name="dialog_title_mood_time">Détails de l\'humeur par heure</string>
     <string name="dialog_title_radar_distribution">Répartition de l\'humeur - %1$s</string>
 
-    <string name="donut_chart_description">Voir les détails des humeurs en fonction du jour de la semaine</string>
-    <string name="bar_chart_description">Voir les détails des humeurs en fonction du jour de la semaine</string>
-    <string name="radar_chart_description">Voir les détails des humeurs en fonction du jour de la semaine</string>
+    <string name="donut_chart_description">Cliquez pour voir combien de fois l\'humeur a été enregistrée chaque jour de la semaine</string>
+    <string name="bar_chart_description">Cliquez pour voir la dernière fois que l\'humeur a été enregistrée</string>
+    <string name="radar_chart_description">Cliquez pour voir les humeurs et combien de fois elles ont été enregistrées chaque jour de la semaine</string>
+
+    <string name="bar_chart_compare_week_days">Comparez une humeur sur deux jours différents de la semaine</string>
+    <string name="bar_chart_compare_moods">Comparez deux humeurs le même jour de la semaine</string>
 
 </resources>

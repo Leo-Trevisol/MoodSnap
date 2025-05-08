@@ -247,8 +247,11 @@
     <string name="dialog_title_mood_time">Dettagli dell\'umore per ora</string>
     <string name="dialog_title_radar_distribution">Distribuzione dell\'umore - %1$s</string>
 
-    <string name="donut_chart_description">Visualizza i dettagli degli umori in base al giorno della settimana</string>
-    <string name="bar_chart_description">Visualizza i dettagli degli umori in base al giorno della settimana</string>
-    <string name="radar_chart_description">Visualizza i dettagli degli umori in base al giorno della settimana</string>
+    <string name="donut_chart_description">Clicca per vedere quante volte l\'umore è stato registrato in ogni giorno della settimana</string>
+    <string name="bar_chart_description">Clicca per vedere l\'ultima volta che l\'umore è stato registrato</string>
+    <string name="radar_chart_description">Clicca per vedere gli umori e quante volte sono stati registrati in ogni giorno della settimana</string>
+
+    <string name="bar_chart_compare_week_days">Confronta un umore in due giorni diversi della settimana</string>
+    <string name="bar_chart_compare_moods">Confronta due umori nello stesso giorno della settimana</string>
 
 </resources>

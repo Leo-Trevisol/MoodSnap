@@ -251,8 +251,10 @@
     <string name="dialog_title_mood_time">Детали настроения по времени</string>
     <string name="dialog_title_radar_distribution">Распределение настроения — %1$s</string>
 
-    <string name="donut_chart_description">Посмотреть детали настроений в зависимости от дня недели</string>
-    <string name="bar_chart_description">Посмотреть детали настроений в зависимости от дня недели</string>
-    <string name="radar_chart_description">Посмотреть детали настроений в зависимости от дня недели</string>
+    <string name="donut_chart_description">Нажмите, чтобы увидеть, сколько раз настроение было зарегистрировано в каждый день недели</string>
+    <string name="bar_chart_description">Нажмите, чтобы увидеть последний раз, когда настроение было зарегистрировано</string>
+    <string name="radar_chart_description">Нажмите, чтобы увидеть настроения и количество раз, когда они были зарегистрированы в каждый день недели</string>
 
+    <string name="bar_chart_compare_week_days">Сравните настроение в два разных дня недели</string>
+    <string name="bar_chart_compare_moods">Сравните два настроения в один и тот же день недели</string>
 </resources>
