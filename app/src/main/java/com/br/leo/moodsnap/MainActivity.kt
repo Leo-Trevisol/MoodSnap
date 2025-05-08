@@ -20,6 +20,7 @@ import android.content.res.Configuration
 import com.br.leo.moodsnap.ui.utils.FontUtils
 import android.graphics.Color
 import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.widget.Toast
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
@@ -70,12 +71,25 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             val systemLanguage = Locale.getDefault().language
             with(sharedPreferences.edit()) {
                 putString("current_language", systemLanguage)
+                putBoolean("is_system_language_apply", true)
                 apply()
             }
         }
         
+        val isSystemLanguageApply = sharedPreferences.getBoolean("is_system_language_apply", true)
         val currentLanguage = sharedPreferences.getString("current_language", Locale.getDefault().language)
-        updateLocale(currentLanguage ?: "en")
+        
+        if (isSystemLanguageApply) {
+            // Use system language
+            val systemLocale = Resources.getSystem().configuration.locales.get(0)
+            Locale.setDefault(systemLocale)
+            val config = resources.configuration
+            config.setLocale(systemLocale)
+            resources.updateConfiguration(config, resources.displayMetrics)
+        } else {
+            // Use selected language
+            updateLocale(currentLanguage ?: "en")
+        }
 
         // Configurar tema
         if (!sharedPreferences.contains("current_theme")) {

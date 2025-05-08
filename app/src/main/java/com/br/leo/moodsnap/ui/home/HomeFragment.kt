@@ -924,7 +924,7 @@ class HomeFragment : Fragment() {
 
         // Lista de idiomas disponíveis
         val languages = listOf(
-            LanguageModel("system", R.string.language_system, Resources.getSystem().configuration.locales.get(0).language),
+            LanguageModel("system", R.string.language_system, "system"),
             LanguageModel("en", R.string.language_english, "en"),
             LanguageModel("pt", R.string.language_portuguese, "pt"),
             LanguageModel("es", R.string.language_spanish, "es"),
@@ -937,9 +937,9 @@ class HomeFragment : Fragment() {
 
         // Load the current language preference
         val currentLanguage = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getString("current_language", "system")
-        val isFirstLanguageApply = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getBoolean("is_system_language_apply", true)
+        val isSystemLanguageApply = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getBoolean("is_system_language_apply", true)
 
-        var selectedLanguage = if (isFirstLanguageApply) "system" else (currentLanguage ?: "en")
+        var selectedLanguage = if (isSystemLanguageApply) "system" else (currentLanguage ?: "en")
 
         // Setup RecyclerView
         val recyclerView = languageDialogView.findViewById<RecyclerView>(R.id.languages_recycler_view)
@@ -984,16 +984,33 @@ class HomeFragment : Fragment() {
                 apply()
             }
             
-            // Set the locale to the selected language
-            val locale = Locale(selectedLanguage)
-            Locale.setDefault(locale)
-            val config = resources.configuration
-            config.setLocale(locale)
-            resources.updateConfiguration(config, resources.displayMetrics)
-
-            with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
-                putBoolean("is_system_language_apply", selectedLanguage == "system")
-                apply()
+            // Set the locale based on selection
+            if (selectedLanguage == "system") {
+                // Use system language
+                val systemLocale = Resources.getSystem().configuration.locales.get(0)
+                Locale.setDefault(systemLocale)
+                val config = resources.configuration
+                config.setLocale(systemLocale)
+                resources.updateConfiguration(config, resources.displayMetrics)
+                
+                // Save the system language apply flag
+                with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
+                    putBoolean("is_system_language_apply", true)
+                    apply()
+                }
+            } else {
+                // Use selected language
+                val locale = Locale(selectedLanguage)
+                Locale.setDefault(locale)
+                val config = resources.configuration
+                config.setLocale(locale)
+                resources.updateConfiguration(config, resources.displayMetrics)
+                
+                // Save the system language apply flag as false
+                with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
+                    putBoolean("is_system_language_apply", false)
+                    apply()
+                }
             }
             
             languageDialog.dismiss()
