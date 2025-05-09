@@ -53,6 +53,7 @@
                 android:background="@drawable/background_rounded"
                 android:backgroundTint="@color/white"
                 android:drawableEnd="@drawable/ic_language"
+                android:drawableTint="@color/primary"
                 android:padding="16dp"
                 android:text="@string/languages"
                 android:textSize="@dimen/button_size"/>
@@ -65,6 +66,7 @@
                 android:background="@drawable/background_rounded"
                 android:backgroundTint="@color/white"
                 android:drawableEnd="@drawable/ic_theme"
+                android:drawableTint="@color/primary"
                 android:padding="16dp"
                 android:text="@string/themes"
                 android:textSize="@dimen/button_size"/>
@@ -77,6 +79,7 @@
                 android:background="@drawable/background_rounded"
                 android:backgroundTint="@color/white"
                 android:drawableEnd="@drawable/ic_bell"
+                android:drawableTint="@color/primary"
                 android:padding="16dp"
                 android:text="@string/notifications"
                 android:textSize="@dimen/button_size"/>
@@ -89,6 +92,7 @@
                 android:background="@drawable/background_rounded"
                 android:backgroundTint="@color/white"
                 android:drawableEnd="@drawable/ic_font"
+                android:drawableTint="@color/primary"
                 android:padding="16dp"
                 android:text="@string/font"
                 android:textSize="@dimen/button_size"/>
@@ -101,6 +105,7 @@
                 android:background="@drawable/background_rounded"
                 android:backgroundTint="@color/white"
                 android:drawableEnd="@drawable/ic_tutorial"
+                android:drawableTint="@color/primary"
                 android:padding="16dp"
                 android:text="@string/tutorial"
                 android:textSize="@dimen/button_size"/>

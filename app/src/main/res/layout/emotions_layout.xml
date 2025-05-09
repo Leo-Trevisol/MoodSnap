@@ -157,7 +157,7 @@
                 android:layout_weight="1"
                 android:padding="16dp"
                 android:text="@string/detail_day"
-                android:textSize="@dimen/button_size" />
+                android:textSize="@dimen/text_size_normal" />
 
             <Button
                 android:id="@+id/btn_delete"
@@ -174,7 +174,7 @@
                 android:padding="16dp"
                 android:visibility="gone"
                 android:text="@string/delete_mood"
-                android:textSize="@dimen/button_size"/>
+                android:textSize="@dimen/text_size_normal"/>
 
         </LinearLayout>
 

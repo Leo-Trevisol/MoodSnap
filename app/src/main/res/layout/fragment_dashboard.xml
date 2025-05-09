@@ -294,6 +294,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
+                        android:layout_marginTop="8dp"
                         android:textColor="@color/secundary"
                         android:gravity="center"
                         android:text="@string/donut_chart_description"
@@ -383,6 +384,7 @@
                     android:textSize="@dimen/text_size_normal"
                     android:textColor="@color/secundary"
                     android:gravity="center"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"/>
 
                 <TextView
@@ -485,6 +487,7 @@
                     android:textSize="@dimen/text_size_normal"
                     android:textColor="@color/secundary"
                     android:gravity="center"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"/>
 
                 <TextView
@@ -588,6 +591,7 @@
                     android:textSize="@dimen/text_size_normal"
                     android:textColor="@color/secundary"
                     android:gravity="center"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"/>
 
                 <TextView
@@ -782,6 +786,7 @@
                     android:textSize="@dimen/text_size_normal"
                     android:textColor="@color/secundary"
                     android:gravity="center"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"/>
 
                 <TextView

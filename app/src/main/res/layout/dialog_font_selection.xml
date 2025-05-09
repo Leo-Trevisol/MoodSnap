@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/card_corner_radius"
         app:cardElevation="@dimen/card_elevation"
+        android:backgroundTint="@color/background_card_view"
         app:layout_constraintTop_toBottomOf="@id/fonts_recycler_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -45,6 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:textColor="@color/secundary"
                     android:textSize="@dimen/button_text_size"
                     android:padding="5dp"
                     android:text="Qua"/>
@@ -61,6 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:textColor="@color/secundary"
                     android:textSize="@dimen/button_text_size"
                     android:text="1">
                 </TextView>
@@ -73,6 +76,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:padding="@dimen/spacing_large"
+                android:textColor="@color/secundary"
                 android:text="@string/font_preview_text"
                 android:textSize="@dimen/text_size_xlarge" />
 
