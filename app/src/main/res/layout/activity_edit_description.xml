@@ -213,16 +213,16 @@
                     android:id="@+id/edit_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
+                    android:background="@drawable/edit_text_rounded_background"
                     android:gravity="top|start"
                     android:hint="@string/type_here"
                     android:importantForAutofill="no"
                     android:textColor="@color/secundary"
-                    android:textColorHint="@color/day_text_color"
+                    android:padding="15dp"
+                    android:textSize="@dimen/text_size_large"
+                    android:textColorHint="@android:color/darker_gray"
                     android:inputType="textMultiLine|textCapSentences"
                     android:maxLines="10"
-                    android:minLines="1"
-                    android:padding="16dp"
                     android:scrollbars="vertical" />
             </LinearLayout>
 
@@ -269,7 +269,7 @@
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/edit_text_border"
+                        android:background="@drawable/edit_text_rounded_background"
                         android:padding="2dp">
 
                         <FrameLayout
