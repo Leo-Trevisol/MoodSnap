@@ -676,8 +676,8 @@ class DashboardFragment : Fragment() {
             description.isEnabled = false
             setUsePercentValues(true)
             setDrawEntryLabels(false)
-            setMinOffset(25f)
-            setExtraOffsets(15f, 0f, 15f, 0f)
+            minOffset = 25f
+            setExtraOffsets(15f, 10f, 15f, 10f)
 
             legend.isEnabled = false
 
