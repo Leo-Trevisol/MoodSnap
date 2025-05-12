@@ -43,6 +43,7 @@ import android.provider.Settings
 import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.util.Log
 
 class EditDayActivity : AppCompatActivity() {
 
@@ -58,10 +59,22 @@ class EditDayActivity : AppCompatActivity() {
     private var hasChanges = false
     private var originalMood: MoodModel? = null
     private var imageSourceDialog: AlertDialog? = null
+    
+    // Flags para controlar se as permissões já foram solicitadas
+    private var cameraPermissionRequested = false
+    private var galleryPermissionRequested = false
+
+    // Determinar a permissão de armazenamento correta com base na versão do Android
+    private val storagePermission: String = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        Manifest.permission.READ_MEDIA_IMAGES
+    } else {
+        Manifest.permission.READ_EXTERNAL_STORAGE
+    }
 
     private val requestCameraPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
+        cameraPermissionRequested = true
         if (isGranted) {
             openCamera()
         } else {
@@ -73,18 +86,17 @@ class EditDayActivity : AppCompatActivity() {
             } else {
                 showCustomToast(this, getString(R.string.camera_permission_required))
             }
-            // Reabrir o diálogo de fonte de imagem
-            showImageSourceDialog()
         }
     }
 
     private val requestGalleryPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
+        galleryPermissionRequested = true
         if (isGranted) {
             openGallery()
         } else {
-            if (!shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (!shouldShowRequestPermissionRationale(storagePermission)) {
                 // Usuário negou permanentemente
                 showSettingsPermissionDialog(
                     getString(R.string.gallery_permission_denied_permanently)
@@ -92,8 +104,6 @@ class EditDayActivity : AppCompatActivity() {
             } else {
                 showCustomToast(this, getString(R.string.gallery_permission_required))
             }
-            // Reabrir o diálogo de fonte de imagem
-            showImageSourceDialog()
         }
     }
 
@@ -495,12 +505,9 @@ class EditDayActivity : AppCompatActivity() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_image_source, null)
         dialogView.setBackgroundColor(ContextCompat.getColor(this, R.color.background_card_view))
 
-        val imageSourceDialog = MaterialAlertDialogBuilder(this)
+        imageSourceDialog = MaterialAlertDialogBuilder(this)
             .setView(dialogView)
             .create()
-
-        imageSourceDialog.show()
-
 
         // Aplica a animação de entrada e saída
         imageSourceDialog?.window?.attributes?.windowAnimations = R.style.DialogAnimation
@@ -571,29 +578,39 @@ class EditDayActivity : AppCompatActivity() {
             ) == PackageManager.PERMISSION_GRANTED -> {
                 openCamera()
             }
-            shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
+            cameraPermissionRequested && !shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
+                // Usuário negou permanentemente (após já ter solicitado uma vez)
                 showSettingsPermissionDialog(getString(R.string.camera_permission_denied_permanently))
             }
             else -> {
+                // Primeira solicitação ou negação sem "não perguntar novamente"
                 requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
             }
         }
     }
 
     private fun checkGalleryPermission() {
-        when {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED -> {
-                openGallery()
-            }
-            shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE) -> {
-                showSettingsPermissionDialog(getString(R.string.gallery_permission_denied_permanently))
-            }
-            else -> {
-                requestGalleryPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-            }
+        // Log the current state for debugging
+        Log.d("PermissionDebug", "Gallery permission check: " +
+                "granted=${ContextCompat.checkSelfPermission(this, storagePermission) == PackageManager.PERMISSION_GRANTED}, " +
+                "requested=$galleryPermissionRequested, " +
+                "shouldShow=${shouldShowRequestPermissionRationale(storagePermission)}")
+
+        // Always request permission the first time, regardless of shouldShowRequestPermissionRationale
+        if (ContextCompat.checkSelfPermission(this, storagePermission) == PackageManager.PERMISSION_GRANTED) {
+            openGallery()
+        } else if (!galleryPermissionRequested) {
+            // First time requesting - always show the system dialog
+            Log.d("PermissionDebug", "First time requesting gallery permission")
+            requestGalleryPermissionLauncher.launch(storagePermission)
+        } else if (!shouldShowRequestPermissionRationale(storagePermission)) {
+            // User denied with "Don't ask again"
+            Log.d("PermissionDebug", "User denied gallery permission permanently")
+            showSettingsPermissionDialog(getString(R.string.gallery_permission_denied_permanently))
+        } else {
+            // User denied without "Don't ask again"
+            Log.d("PermissionDebug", "User denied gallery permission, can ask again")
+            requestGalleryPermissionLauncher.launch(storagePermission)
         }
     }
 
@@ -611,7 +628,10 @@ class EditDayActivity : AppCompatActivity() {
             }
             .setDescricaoBtnPositive(getString(R.string.btn_go_config))
             .setDescricaoBtnNegative(getString(R.string.btn_cancel))
-            .setNegativeListener(null)
+            .setNegativeListener {
+                // Quando o usuário clicar em cancelar, reabrir o diálogo de fonte de imagem
+                showImageSourceDialog()
+            }
             .show()
     }
 
@@ -711,11 +731,6 @@ class EditDayActivity : AppCompatActivity() {
                      calendar.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
                      calendar.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH)
         
-        binding.tvMoodQuestion.text = if (isToday) {
-            getString(R.string.how_are_you_feeling_today)
-        } else {
-            getString(R.string.how_were_you_feeling_that_day)
-        }
     }
 
     override fun onBackPressed() {
