@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="80dp">
+    android:paddingBottom="100dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,166 +15,117 @@
         android:orientation="vertical"
         android:padding="@dimen/spacing_large">
 
-        <TextView
-            android:id="@+id/selected_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_normal"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textSize="@dimen/text_size_xlarge"
-            android:textColor="@android:color/darker_gray">
-        </TextView>
-
-        <TextView
-            android:id="@+id/title_dialog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Como você está se sentindo?"
-            android:layout_marginBottom="@dimen/spacing_large"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textSize="@dimen/text_size_large"
-            android:textColor="@android:color/darker_gray">
-        </TextView>
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_very_sad"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_margin="@dimen/spacing_small"
-                app:cardBackgroundColor="@color/very_sad_color"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/spacing_large"
+                android:gravity="center_vertical">
+
+
+                <TextView
+                    android:id="@+id/selected_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:textSize="@dimen/text_size_large"
+                    android:textColor="@android:color/darker_gray">
+                </TextView>
+
+                <ImageButton
+                    android:id="@+id/btn_edit"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_pen_edit"
+                    android:contentDescription="@string/detail_day"
+                    app:tint="@android:color/darker_gray" />
+
+                <ImageButton
+                    android:id="@+id/btn_delete"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:scaleType="fitCenter"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_trash"
+                    app:tint="@android:color/darker_gray"
+                    android:contentDescription="@string/delete_mood" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/title_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/how_was_your_day"
+                android:layout_marginBottom="@dimen/spacing_large"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="@dimen/text_size_xlarge"
+                android:textColor="@android:color/darker_gray">
+            </TextView>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/emotion_very_sad"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/spacing_small"
-                    android:src="@drawable/very_sad_icon">
-                </ImageView>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_sad"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_margin="@dimen/spacing_small"
-                app:cardBackgroundColor="@color/sad_color"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
+                    android:layout_width="@dimen/item_calendar_day"
+                    android:layout_height="@dimen/item_calendar_day"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/circle_very_sad"
+                    android:padding="2dp"
+                    android:src="@drawable/very_sad_icon" />
 
                 <ImageView
                     android:id="@+id/emotion_sad"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/spacing_small"
-                    android:src="@drawable/sad_icon">
-                </ImageView>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_neutral"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_margin="@dimen/spacing_small"
-                app:cardBackgroundColor="@color/neutral_color"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
+                    android:layout_width="@dimen/item_calendar_day"
+                    android:layout_height="@dimen/item_calendar_day"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/circle_sad"
+                    android:padding="2dp"
+                    android:src="@drawable/sad_icon" />
 
                 <ImageView
                     android:id="@+id/emotion_neutral"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/spacing_small"
-                    android:src="@drawable/neutral_icon">
-                </ImageView>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_happy"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_margin="@dimen/spacing_small"
-                app:cardBackgroundColor="@color/happy_color"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
+                    android:layout_width="@dimen/item_calendar_day"
+                    android:layout_height="@dimen/item_calendar_day"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/circle_neutral"
+                    android:padding="2dp"
+                    android:src="@drawable/neutral_icon" />
 
                 <ImageView
                     android:id="@+id/emotion_happy"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/spacing_small"
-                    android:src="@drawable/happy_icon">
-                </ImageView>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_very_happy"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_margin="@dimen/spacing_small"
-                app:cardBackgroundColor="@color/very_happy_color"
-                app:cardCornerRadius="@dimen/card_corner_radius"
-                app:cardElevation="@dimen/card_elevation">
+                    android:layout_width="@dimen/item_calendar_day"
+                    android:layout_height="@dimen/item_calendar_day"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/circle_happy"
+                    android:padding="2dp"
+                    android:src="@drawable/happy_icon" />
 
                 <ImageView
                     android:id="@+id/emotion_very_happy"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/spacing_small"
-                    android:src="@drawable/very_happy_icon">
-                </ImageView>
-            </androidx.cardview.widget.CardView>
+                    android:layout_width="@dimen/item_calendar_day"
+                    android:layout_height="@dimen/item_calendar_day"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/circle_very_happy"
+                    android:padding="2dp"
+                    android:src="@drawable/very_happy_icon" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:background="@drawable/background_rounded"
-                android:backgroundTint="@color/white"
-                android:drawableEnd="@drawable/ic_pen_edit"
-                android:drawableTint="@color/primary"
-                android:layout_weight="1"
-                android:padding="16dp"
-                android:text="@string/detail_day"
-                android:textSize="@dimen/text_size_normal" />
-
-            <Button
-                android:id="@+id/btn_delete"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_normal"
-                android:background="@drawable/background_rounded"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:backgroundTint="@color/white"
-                android:drawableEnd="@drawable/ic_xmark"
-                android:drawableTint="@color/primary"
-                android:layout_marginStart="16dp"
-                android:layout_weight="1"
-                android:padding="16dp"
-                android:visibility="gone"
-                android:text="@string/delete_mood"
-                android:textSize="@dimen/text_size_normal"/>
+            </LinearLayout>
 
         </LinearLayout>
 

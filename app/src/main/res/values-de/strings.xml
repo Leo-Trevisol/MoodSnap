@@ -85,6 +85,7 @@
     <string name="detail_day">Tag im Detail</string>
     <string name="delete_mood">Stimmung löschen</string>
     <string name="date_format">%1$d von %2$s von %3$d</string>
+    <string name="how_was_your_day">Wie war dein Tag?</string>
 
     <!-- Dashboard -->
     <string name="mood_statistics">Stimmungsstatistiken</string>
@@ -105,8 +106,8 @@
 
     <!-- EditDescription Activity -->
     <string name="how_are_you_feeling_now">Wie fühlst du dich jetzt?</string>
-    <string name="day_description">Tagesbeschreibung</string>
-    <string name="type_description_here">Gib deine Beschreibung hier ein...</string>
+    <string name="day_note">Tagesnotiz</string>
+    <string name="type_here">Gib deine Beschreibung hier ein...</string>
     <string name="day_image">Tagesbild</string>
 
     <!-- Toast Messages -->

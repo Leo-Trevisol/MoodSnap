@@ -1,0 +1,8 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@android:color/transparent"/> <!-- fundo transparente -->
+    <stroke
+        android:width="3dp"
+        android:color="@color/primary_green"/> <!-- borda branca -->
+    <corners android:radius="8dp"/> <!-- mesmo radius do CardView -->
+</shape>

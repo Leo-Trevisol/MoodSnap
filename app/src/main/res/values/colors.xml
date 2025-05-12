@@ -15,11 +15,11 @@
 
     <color name="nav_bar_background">#CBC6C6</color>
 
-    <color name="very_sad_color">#b0c2f2</color>
-    <color name="sad_color">#b2e2f2</color>
-    <color name="neutral_color">#c5c6c8</color>
-    <color name="happy_color">#b0f2c2</color>
-    <color name="very_happy_color">#fdfd96</color>
+    <color name="very_sad_color">#B2CAED</color>
+    <color name="sad_color">#DAD9FA</color>
+    <color name="neutral_color">#F0E8FA</color>
+    <color name="happy_color">#E4F7EE</color>
+    <color name="very_happy_color">#C7E9ED</color>
 
     <!-- Texto e detalhes -->
     <color name="white">#FFFFFF</color>
@@ -30,7 +30,10 @@
 
     <color name="btn_edit">#CBC6C6</color>
 
-    <color name="primary_green">#6DBF73</color>
+    <color name="primary_green">#84A6CC</color>
+
+<!--    <color name="primary_green">#B7D78C</color>-->
+
     <color name="primary_red">#ff94a2</color>
 
     <color name="background_card_view">#fff</color>

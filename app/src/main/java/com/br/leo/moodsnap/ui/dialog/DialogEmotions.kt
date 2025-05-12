@@ -8,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import com.br.leo.moodsnap.R
@@ -90,25 +92,47 @@ class DialogEmotions(
                 selectedDate.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
                 selectedDate.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH)
 
-        view.findViewById<MaterialTextView>(R.id.title_dialog).text = 
-            if (isToday) getString(R.string.how_are_you_feeling) 
-            else getString(R.string.how_were_you_feeling)
+//        view.findViewById<MaterialTextView>(R.id.title_dialog).text =
+//            if (isToday) getString(R.string.how_are_you_feeling)
+//            else getString(R.string.how_were_you_feeling)
 
         // Configurar botão de editar
-        val btnEdit = view.findViewById<MaterialButton>(R.id.btn_edit)
-        Utils.updateBackGroundColor(requireContext(), btnEdit, R.color.btn_edit)
+        val btnEdit = view.findViewById<ImageButton>(R.id.btn_edit)
+       // Utils.updateBackGroundColor(requireContext(), btnEdit, R.color.btn_edit)
         btnEdit.visibility = View.VISIBLE
         setupEditButton()
 
         // Configurar botão de deletar
-        val btnDelete = view.findViewById<MaterialButton>(R.id.btn_delete)
-        Utils.updateBackGroundColor(requireContext(), btnDelete, R.color.primary_red)
+        val btnDelete = view.findViewById<ImageButton>(R.id.btn_delete)
+        //Utils.updateBackGroundColor(requireContext(), btnDelete, R.color.primary_red)
         if (existingMoodId > 0) {
             btnDelete.visibility = View.VISIBLE
             btnDelete.setOnClickListener {
                 showDeleteConfirmationDialog()
             }
         }
+
+        // Calcular tamanho baseado na largura da tela
+        val screenWidth = resources.displayMetrics.widthPixels
+        val containerSize = (screenWidth * 0.15).toInt() // 13% da largura da tela
+        val iconSize = (containerSize * 1).toInt() // 99% do tamanho do container
+
+        val verySadImage = view.findViewById<ImageView>(R.id.emotion_very_sad)
+        val sadImage = view.findViewById<ImageView>(R.id.emotion_sad)
+        val neutralImage = view.findViewById<ImageView>(R.id.emotion_neutral)
+        val happyImage = view.findViewById<ImageView>(R.id.emotion_happy)
+        val veryHappyImage = view.findViewById<ImageView>(R.id.emotion_very_happy)
+
+        val layoutParams = LinearLayout.LayoutParams(iconSize, iconSize).apply {
+            setMargins(Utils.dpToPx(requireContext(), 6), Utils.dpToPx(requireContext(), 6),
+                Utils.dpToPx(requireContext(), 6), Utils.dpToPx(requireContext(), 6))
+        }
+
+        verySadImage.layoutParams = layoutParams
+        sadImage.layoutParams = layoutParams
+        neutralImage.layoutParams = layoutParams
+        happyImage.layoutParams = layoutParams
+        veryHappyImage.layoutParams = layoutParams
 
         view.findViewById<ImageView>(R.id.emotion_very_happy)?.setOnClickListener {
             saveMood(R.drawable.very_happy_icon)
@@ -132,7 +156,7 @@ class DialogEmotions(
     }
 
     private fun setupEditButton() {
-        val btnEdit = requireView().findViewById<MaterialButton>(R.id.btn_edit)
+        val btnEdit = requireView().findViewById<ImageButton>(R.id.btn_edit)
         btnEdit.setOnClickListener {
             val intent = Intent(requireContext(), EditDayActivity::class.java)
             intent.putExtra("mood_id", existingMoodId)

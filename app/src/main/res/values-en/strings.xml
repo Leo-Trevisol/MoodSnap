@@ -86,6 +86,7 @@
     <string name="detail_day">Detail Day</string>
     <string name="delete_mood">Delete Mood</string>
     <string name="date_format">%1$d of %2$s of %3$d</string>
+    <string name="how_was_your_day">how was your day?</string>
 
     <!-- Dashboard -->
     <string name="mood_statistics">Mood Statistics</string>
@@ -112,8 +113,8 @@
 
     <!-- EditDescription Activity -->
     <string name="how_are_you_feeling_now">How are you feeling?</string>
-    <string name="day_description">Day Description</string>
-    <string name="type_description_here">Type your description here...</string>
+    <string name="day_note">Daily note</string>
+    <string name="type_here">Type here</string>
     <string name="day_image">Day Image</string>
 
     <!-- Toast Messages -->

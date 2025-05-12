@@ -113,6 +113,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:textColor="@color/secundary"
+                    android:layout_gravity="center"
                     android:text="@string/how_are_you_feeling_now"
                     android:textSize="@dimen/text_size_xlarge"
                     android:textStyle="bold" />
@@ -203,7 +204,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:textColor="@color/secundary"
-                    android:text="@string/day_description"
+                    android:layout_gravity="center"
+                    android:text="@string/day_note"
                     android:textSize="@dimen/text_size_xlarge"
                     android:textStyle="bold" />
 
@@ -213,7 +215,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:gravity="top|start"
-                    android:hint="@string/type_description_here"
+                    android:hint="@string/type_here"
                     android:importantForAutofill="no"
                     android:textColor="@color/secundary"
                     android:textColorHint="@color/day_text_color"
@@ -222,7 +224,6 @@
                     android:minLines="1"
                     android:padding="16dp"
                     android:scrollbars="vertical" />
-
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -255,6 +256,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:textColor="@color/secundary"
+                    android:layout_gravity="center"
                     android:text="@string/day_image"
                     android:textSize="@dimen/text_size_xlarge"
                     android:textStyle="bold" />

@@ -85,6 +85,7 @@
     <string name="detail_day">详细日程</string>
     <string name="delete_mood">删除情绪</string>
     <string name="date_format">%1$d %2$s %3$d</string>
+    <string name="how_was_your_day">你今天过得怎么样？</string>
 
     <!-- Dashboard -->
     <string name="mood_statistics">情绪统计</string>
@@ -105,8 +106,8 @@
 
     <!-- EditDescription Activity -->
     <string name="how_are_you_feeling_now">你现在感觉怎么样？</string>
-    <string name="day_description">日程描述</string>
-    <string name="type_description_here">在这里输入你的描述...</string>
+    <string name="day_note">今日笔记</string>
+    <string name="type_here">在这里输入</string>
     <string name="day_image">日程图片</string>
 
     <!-- Toast Messages -->

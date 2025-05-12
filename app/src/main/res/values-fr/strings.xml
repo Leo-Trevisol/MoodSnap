@@ -91,6 +91,7 @@
     <string name="mood_registered_success">Humeur enregistrée avec succès !</string>
     <string name="detail_day">Détail du jour</string>
     <string name="date_format">%1$d %2$s %3$d</string>
+    <string name="how_was_your_day">Comment s\'est passée ta journée ?</string>
 
     <!-- Tableau de bord -->
     <string name="mood_statistics">Statistiques d\'humeur</string>
@@ -110,8 +111,8 @@
 
     <!-- Édition de la description -->
     <string name="how_are_you_feeling_now">Comment vous sentez-vous maintenant ?</string>
-    <string name="day_description">Description du jour</string>
-    <string name="type_description_here">Tapez votre description ici…</string>
+    <string name="day_note">Note du jour</string>
+    <string name="type_here">Écrivez ici</string>
     <string name="day_image">Image du jour</string>
 
     <!-- Messages Toast -->

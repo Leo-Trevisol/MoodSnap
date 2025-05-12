@@ -85,6 +85,7 @@
     <string name="detail_day">Детали дня</string>
     <string name="delete_mood">Удалить настроение</string>
     <string name="date_format">%1$d %2$s %3$d</string>
+    <string name="how_was_your_day">Как прошёл твой день?</string>
 
     <!-- Dashboard -->
     <string name="mood_statistics">Статистика настроений</string>
@@ -105,8 +106,8 @@
 
     <!-- EditDescription Activity -->
     <string name="how_are_you_feeling_now">Как ты себя чувствуешь?</string>
-    <string name="day_description">Описание дня</string>
-    <string name="type_description_here">Введите описание здесь...</string>
+    <string name="day_note">Заметка дня</string>
+    <string name="type_here">Напишите здесь</string>
     <string name="day_image">Изображение дня</string>
 
     <!-- Toast Messages -->

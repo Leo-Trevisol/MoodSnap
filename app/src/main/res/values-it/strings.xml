@@ -92,6 +92,7 @@
     <string name="detail_day">Dettagli del giorno</string>
     <string name="delete_mood">Elimina umore</string>
     <string name="date_format">%1$d di %2$s di %3$d</string>
+    <string name="how_was_your_day">Com\'è andata la tua giornata?</string>
 
     <!-- Dashboard -->
     <string name="mood_statistics">Statistiche dell\'umore</string>
@@ -111,8 +112,8 @@
 
     <!-- EditDescription Activity -->
     <string name="how_are_you_feeling_now">Come ti senti ora?</string>
-    <string name="day_description">Descrizione del giorno</string>
-    <string name="type_description_here">Scrivi la tua descrizione qui...</string>
+    <string name="day_note">Nota del giorno</string>
+    <string name="type_here">Scrivi qui</string>
     <string name="day_image">Immagine del giorno</string>
 
     <!-- Toast Messages -->

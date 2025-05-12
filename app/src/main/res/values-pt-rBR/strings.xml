@@ -83,6 +83,7 @@
     <string name="mood_registered_success">Humor cadastrado com sucesso!</string>
     <string name="detail_day">Detalhar dia</string>
     <string name="date_format">%1$d de %2$s de %3$d</string>
+    <string name="how_was_your_day">como foi seu dia?</string>
 
     <!-- Dashboard -->
     <string name="mood_statistics">Estatísticas de Humor</string>
@@ -103,8 +104,8 @@
 
     <!-- EditDescription Activity -->
     <string name="how_are_you_feeling_now">Como está se sentindo?</string>
-    <string name="day_description">Descrição do dia</string>
-    <string name="type_description_here">Digite aqui sua descrição...</string>
+    <string name="day_note">Nota do dia</string>
+    <string name="type_here">Escreva aqui</string>
     <string name="day_image">Imagem do dia</string>
 
     <!-- Mensagens Toast -->
