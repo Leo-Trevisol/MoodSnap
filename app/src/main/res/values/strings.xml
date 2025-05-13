@@ -30,6 +30,11 @@
     <string name="error_invalid_date">Invalid date</string>
     <string name="error_generic">An error occurred. Please try again.</string>
 
+    <!-- Share Preview -->
+    <string name="share_preview_title">Compartilhar humor</string>
+    <string name="share_preview_description">Pré-visualização da imagem de humor</string>
+    <string name="share_mood_title">Meu humor hoje</string>
+
     <!-- Mood States -->
     <string name="mood_very_happy">Very happy</string>
     <string name="mood_happy">Happy</string>
@@ -88,7 +93,6 @@
     <string name="detail_day">Detail Day</string>
     <string name="delete_mood">Delete mood</string>
     <string name="share_mood">Share mood</string>
-    <string name="share_mood_title">Share your mood</string>
     <string name="date_format">%1$d of %2$s of %3$d</string>
     <string name="how_was_your_day">how was your day?</string>
 

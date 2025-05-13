@@ -41,6 +41,8 @@ import java.io.FileOutputStream
 import java.util.Calendar
 import androidx.core.graphics.toColorInt
 import androidx.core.graphics.createBitmap
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.imageview.ShapeableImageView
 
 class DialogEmotions(
     private val viewModel: MainViewModel,
@@ -264,14 +266,44 @@ class DialogEmotions(
         // Create a bitmap to share
         val shareBitmap = createShareImage(mood.moodType)
         
-        // Save bitmap to cache directory
-        val cachePath = File(requireContext().cacheDir, "images")
-        cachePath.mkdirs()
-        val shareImageFile = File(cachePath, "shared_mood.png")
+        // Show preview dialog instead of immediately sharing
+        showSharePreviewDialog(shareBitmap)
+    }
+    
+    private fun showSharePreviewDialog(bitmap: Bitmap) {
+        // Create dialog
+        val dialogView = layoutInflater.inflate(R.layout.dialog_share_preview, null)
+        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
+            .setView(dialogView)
+            .create()
+
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+        // Set preview image
+        val previewImage = dialogView.findViewById<ShapeableImageView>(R.id.share_preview_image)
+        previewImage.setImageBitmap(bitmap)
         
+        // Set share button click listener
+        val shareButton = dialogView.findViewById<MaterialButton>(R.id.btn_share_confirm)
+        shareButton.setOnClickListener {
+            dialog.dismiss()
+            // Proceed with actual sharing
+            shareImageToApps(bitmap)
+        }
+        
+        // Show dialog
+        dialog.show()
+    }
+    
+    private fun shareImageToApps(bitmap: Bitmap) {
         try {
+            // Save bitmap to cache directory
+            val cachePath = File(requireContext().cacheDir, "images")
+            cachePath.mkdirs()
+            val shareImageFile = File(cachePath, "shared_mood.png")
+            
             val outputStream = FileOutputStream(shareImageFile)
-            shareBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
             outputStream.close()
             
             // Get URI for the file
@@ -304,7 +336,7 @@ class DialogEmotions(
         val bitmap = createBitmap(width, height)
         val canvas = Canvas(bitmap)
         
-        canvas.drawColor("#E0E0E0".toColorInt())
+        canvas.drawColor("#F9F6F1".toColorInt())
 
         val moodColor = when (moodType) {
             0 -> resources.getColor(R.color.very_happy_color)
