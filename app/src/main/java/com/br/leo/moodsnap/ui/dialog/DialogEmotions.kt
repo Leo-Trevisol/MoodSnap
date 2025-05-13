@@ -317,8 +317,6 @@ class DialogEmotions(
             val shareIntent = Intent(Intent.ACTION_SEND).apply {
                 type = "image/png"
                 putExtra(Intent.EXTRA_STREAM, shareImageUri)
-                putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_mood_title))
-                putExtra(Intent.EXTRA_TEXT, getString(R.string.share_mood_title))
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
             
