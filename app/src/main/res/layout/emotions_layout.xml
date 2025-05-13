@@ -39,8 +39,8 @@
 
                 <ImageButton
                     android:id="@+id/btn_edit"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
                     android:background="?attr/selectableItemBackgroundBorderless"
@@ -50,8 +50,8 @@
 
                 <ImageButton
                     android:id="@+id/btn_delete"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:layout_weight="1"
                     android:visibility="gone"
                     android:scaleType="fitCenter"
@@ -59,6 +59,18 @@
                     android:src="@drawable/ic_trash"
                     app:tint="@android:color/darker_gray"
                     android:contentDescription="@string/delete_mood" />
+
+                <ImageButton
+                    android:id="@+id/btn_share"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:scaleType="fitCenter"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_share"
+                    app:tint="@android:color/darker_gray"
+                    android:contentDescription="@string/share_mood" />
             </LinearLayout>
 
             <TextView

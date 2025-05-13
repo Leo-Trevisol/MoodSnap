@@ -57,4 +57,8 @@ class MainViewModel : ViewModel() {
     fun getMoodByDate(date: Date): MoodModel? {
         return repository.getMoodByDate(date)
     }
+    
+    fun getMoodById(id: Long): MoodModel? {
+        return repository.get(id.toInt())
+    }
 }
