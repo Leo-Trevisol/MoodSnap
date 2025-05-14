@@ -14,6 +14,7 @@
     <string name="btn_yes">Да</string>
     <string name="btn_no">Нет</string>
     <string name="btn_go_config">Перейти в настройки</string>
+    <string name="btn_share">Поделиться</string>
 
     <!-- Titles and Headers -->
     <string name="title_how_are_you">Как ты себя чувствуешь?</string>
@@ -26,6 +27,13 @@
 
     <!-- Error Messages -->
     <string name="error_invalid_date">Неверная дата</string>
+    <string name="error_generic">Произошла ошибка. Пожалуйста, попробуйте еще раз.</string>
+
+    <!-- Share Preview -->
+    <string name="share_preview_title">Поделиться настроением</string>
+    <string name="share_preview_description">Предпросмотр изображения настроения</string>
+    <string name="share_mood_title">Моё настроение сегодня</string>
+
 
     <!-- Mood States -->
     <string name="mood_very_happy">Очень счастлив</string>
@@ -84,6 +92,7 @@
     <string name="mood_registered_success">Настроение успешно зарегистрировано!</string>
     <string name="detail_day">Детали дня</string>
     <string name="delete_mood">Удалить настроение</string>
+    <string name="share_mood">Поделиться настроением</string>
     <string name="date_format">%1$d %2$s %3$d</string>
     <string name="how_was_your_day">Как прошёл твой день?</string>
 

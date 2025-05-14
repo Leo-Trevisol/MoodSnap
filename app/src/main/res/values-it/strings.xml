@@ -14,6 +14,7 @@
     <string name="btn_yes">Sì</string>
     <string name="btn_no">No</string>
     <string name="btn_go_config">Vai alle Impostazioni</string>
+    <string name="btn_share">Condividi</string>
 
     <!-- Titles and Headers -->
     <string name="title_how_are_you">Come ti senti?</string>
@@ -26,6 +27,13 @@
 
     <!-- Error Messages -->
     <string name="error_invalid_date">Data non valida</string>
+    <string name="error_generic">Si è verificato un errore. Per favore, riprova.</string>
+
+    <!-- Share Preview -->
+    <string name="share_preview_title">Condividi umore</string>
+    <string name="share_preview_description">Anteprima dell\'immagine dell\'umore</string>
+    <string name="share_mood_title">Il mio umore di oggi</string>
+
 
     <!-- Mood States -->
     <string name="mood_very_happy">Molto felice</string>
@@ -91,6 +99,7 @@
     <string name="mood_registered_success">Umore registrato con successo!</string>
     <string name="detail_day">Dettagli del giorno</string>
     <string name="delete_mood">Elimina umore</string>
+    <string name="share_mood">Condividi umore</string>
     <string name="date_format">%1$d di %2$s di %3$d</string>
     <string name="how_was_your_day">Com\'è andata la tua giornata?</string>
 

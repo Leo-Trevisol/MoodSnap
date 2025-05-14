@@ -13,6 +13,7 @@
     <string name="btn_back">Retour</string>
     <string name="btn_next">Suivant</string>
     <string name="btn_go_config">Aller aux paramètres</string>
+    <string name="btn_share">Partager</string>
 
     <!-- Titres et en-têtes -->
     <string name="title_how_are_you">Comment vous sentez-vous ?</string>
@@ -25,6 +26,13 @@
 
     <!-- Messages d'erreur -->
     <string name="error_invalid_date">Date invalide</string>
+    <string name="error_generic">Une erreur s\'est produite. Veuillez réessayer.</string>
+
+    <!-- Share Preview -->
+    <string name="share_preview_title">Partager l\'humeur</string>
+    <string name="share_preview_description">Aperçu de l\'image d\'humeur</string>
+    <string name="share_mood_title">Mon humeur aujourd\'hui</string>
+
 
     <!-- États d'humeur -->
     <string name="mood_very_happy">Très heureux</string>
@@ -87,6 +95,7 @@
     <string name="attention">Attention</string>
     <string name="confirm_delete_mood">Êtes-vous sûr de vouloir supprimer l\'humeur du %1$s ?</string>
     <string name="delete_mood">Supprimer l\'humeur</string>
+    <string name="share_mood">Partager l\'humeur</string>
     <string name="mood_deleted_success">Humeur supprimée avec succès !</string>
     <string name="mood_registered_success">Humeur enregistrée avec succès !</string>
     <string name="detail_day">Détail du jour</string>

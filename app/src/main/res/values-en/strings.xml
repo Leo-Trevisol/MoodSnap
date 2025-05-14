@@ -15,6 +15,7 @@
     <string name="btn_yes">Yes</string>
     <string name="btn_no">No</string>
     <string name="btn_go_config">Go to Settings</string>
+    <string name="btn_share">Share</string>
 
     <!-- Titles and Headers -->
     <string name="title_how_are_you">How are you feeling?</string>
@@ -27,6 +28,12 @@
 
     <!-- Error Messages -->
     <string name="error_invalid_date">Invalid date</string>
+    <string name="error_generic">An error occurred. Please try again.</string>
+
+    <!-- Share Preview -->
+    <string name="share_preview_title">Share mood</string>
+    <string name="share_preview_description">Mood image preview</string>
+    <string name="share_mood_title">My mood today</string>
 
     <!-- Mood States -->
     <string name="mood_very_happy">Very happy</string>
@@ -85,6 +92,7 @@
     <string name="mood_registered_success">Mood registered successfully!</string>
     <string name="detail_day">Detail Day</string>
     <string name="delete_mood">Delete Mood</string>
+    <string name="share_mood">Share mood</string>
     <string name="date_format">%1$d of %2$s of %3$d</string>
     <string name="how_was_your_day">how was your day?</string>
 

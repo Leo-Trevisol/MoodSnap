@@ -12,6 +12,7 @@
     <string name="btn_back">Voltar</string>
     <string name="btn_next">Próximo</string>
     <string name="btn_go_config">"Ir para Configurações</string>
+    <string name="btn_share">Compartilhar</string>
 
     <!-- Títulos e cabeçalhos -->
     <string name="title_how_are_you">Como você está se sentindo?</string>
@@ -24,6 +25,13 @@
 
     <!-- Mensagens de erro -->
     <string name="error_invalid_date">Data inválida</string>
+    <string name="error_generic">Ocorreu um erro. Por favor, tente novamente.</string>
+
+    <!-- Share Preview -->
+    <string name="share_preview_title">Compartilhar humor</string>
+    <string name="share_preview_description">Pré-visualização da imagem de humor</string>
+    <string name="share_mood_title">Meu humor hoje</string>
+
 
     <!-- Estados de humor -->
     <string name="mood_very_happy">Muito feliz</string>
@@ -79,6 +87,7 @@
     <string name="attention">Atenção</string>
     <string name="confirm_delete_mood">Tem certeza que deseja excluir o humor do dia %1$s?</string>
     <string name="delete_mood">Excluir Humor</string>
+    <string name="share_mood">Compartilhar humor</string>
     <string name="mood_deleted_success">Humor excluído com sucesso!</string>
     <string name="mood_registered_success">Humor cadastrado com sucesso!</string>
     <string name="detail_day">Detalhar dia</string>

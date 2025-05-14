@@ -14,6 +14,7 @@
     <string name="btn_yes">Ja</string>
     <string name="btn_no">Nein</string>
     <string name="btn_go_config">Gehe zu den Einstellungen</string>
+    <string name="btn_share">Teilen</string>
 
     <!-- Titles and Headers -->
     <string name="title_how_are_you">Wie fühlst du dich?</string>
@@ -26,6 +27,13 @@
 
     <!-- Error Messages -->
     <string name="error_invalid_date">Ungültiges Datum</string>
+    <string name="error_generic">Es ist ein Fehler aufgetreten. Bitte versuche es erneut.</string>
+
+    <!-- Share Preview -->
+    <string name="share_preview_title">Laune teilen</string>
+    <string name="share_preview_description">Vorschau des Launenbildes</string>
+    <string name="share_mood_title">Meine Laune heute</string>
+
 
     <!-- Mood States -->
     <string name="mood_very_happy">Sehr glücklich</string>
@@ -84,6 +92,7 @@
     <string name="mood_registered_success">Stimmung erfolgreich registriert!</string>
     <string name="detail_day">Tag im Detail</string>
     <string name="delete_mood">Stimmung löschen</string>
+    <string name="share_mood">Laune teilen</string>
     <string name="date_format">%1$d von %2$s von %3$d</string>
     <string name="how_was_your_day">Wie war dein Tag?</string>
 

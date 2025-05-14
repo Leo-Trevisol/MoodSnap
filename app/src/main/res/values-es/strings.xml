@@ -14,6 +14,7 @@
     <string name="btn_yes">Sí</string>
     <string name="btn_no">No</string>
     <string name="btn_go_config">Ir a Configuración</string>
+    <string name="btn_share">Compartir</string>
 
 
     <!-- Titles and Headers -->
@@ -27,6 +28,13 @@
 
     <!-- Error Messages -->
     <string name="error_invalid_date">Fecha inválida</string>
+    <string name="error_generic">Ocurrió un error. Por favor, inténtalo de nuevo.</string>
+
+    <!-- Share Preview -->
+    <string name="share_preview_title">Compartir estado de ánimo</string>
+    <string name="share_preview_description">Vista previa de la imagen del estado de ánimo</string>
+    <string name="share_mood_title">Mi estado de ánimo hoy</string>
+
 
     <!-- Mood States -->
     <string name="mood_very_happy">Muy feliz</string>
@@ -85,6 +93,7 @@
     <string name="mood_registered_success">¡Estado de ánimo registrado con éxito!</string>
     <string name="detail_day">Detalle del día</string>
     <string name="delete_mood">Eliminar estado de ánimo</string>
+    <string name="share_mood">Compartir estado de ánimo</string>
     <string name="date_format">%1$d de %2$s de %3$d</string>
     <string name="how_was_your_day">¿Cómo fue tu día?</string>
 
