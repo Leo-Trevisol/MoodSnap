@@ -1,5 +1,6 @@
 package com.br.leo.moodsnap.ui.dashboard
 
+import android.animation.ValueAnimator
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -27,8 +28,10 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import android.content.Context
 import com.br.leo.moodsnap.ui.utils.FontUtils
 import android.view.Gravity
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.Spinner
+import androidx.core.animation.doOnEnd
 import androidx.core.content.res.ResourcesCompat
 import com.br.leo.moodsnap.ui.utils.DateUtils
 import com.br.leo.moodsnap.ui.utils.RoundedBarChartRenderer
@@ -148,6 +151,7 @@ class DashboardFragment : Fragment() {
 
         setupDayFilterSpinner()
         setupObservers()
+        setupExpandCollapseListeners()
 
         // Carregar os dados primeiro
         dashboardViewModel.loadMoods()
@@ -599,9 +603,9 @@ class DashboardFragment : Fragment() {
         // Obter apenas os filtros disponíveis baseado na data mais antiga
         val availableFilters = getAvailableFilters(oldestRecordDate)
 
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+        val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
+        val currentFont = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            .getString("current_font", "default")
 
         val adapter = object : ArrayAdapter<FilterType>(
             requireContext(),
@@ -610,24 +614,23 @@ class DashboardFragment : Fragment() {
         ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
+                val filter = getItem(position)
                 (view as TextView).apply {
-                    text = availableFilters[position].getFilterName(context)
-                    gravity = Gravity.START
-                    setPadding(0, paddingTop, paddingRight, paddingBottom)
-                    this.typeface = typeface
+                    text = filter?.getFilterName(context)
                     setTextColor(ContextCompat.getColor(context, R.color.secundary))
+                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
 
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent)
+                val filter = getItem(position)
                 view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
                 (view as TextView).apply {
-                    text = availableFilters[position].getFilterName(context)
+                    text = filter?.getFilterName(context)
                     setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    this.typeface = typeface
-                    gravity = Gravity.START
+                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
@@ -637,9 +640,17 @@ class DashboardFragment : Fragment() {
         binding.donutPeriodSpinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
+            
+            // Restaurar a seleção salva ou selecionar o primeiro período com dados
+            val savedPosition = sharedPreferences.getInt("donut_chart_filter_position", -1)
+            if (savedPosition >= 0 && savedPosition < availableFilters.size) {
+                setSelection(savedPosition)
+            } else {
+                val defaultPosition = getFirstPeriodWithMoods(availableFilters)
+                setSelection(defaultPosition)
+            }
         }
 
-        // Primeiro configurar o listener
         binding.donutPeriodSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -648,19 +659,17 @@ class DashboardFragment : Fragment() {
                     position: Int,
                     id: Long
                 ) {
-                    // Obter a distribuição atual e aplicar o novo filtro
-                    dashboardViewModel.moodDistribution.value?.let { distribution ->
-                        val filteredDistribution = filterDistributionByDays(distribution, availableFilters[position])
-                        updateDonutChart(filteredDistribution)
-                    }
+                    val selectedFilter = availableFilters[position]
+                    val distribution = dashboardViewModel.moodDistribution.value ?: emptyMap()
+                    val filteredDistribution = filterDistributionByDays(distribution, selectedFilter)
+                    updateDonutChart(filteredDistribution)
+                    
+                    // Salvar a posição selecionada
+                    sharedPreferences.edit().putInt("donut_chart_filter_position", position).apply()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
-
-        // Depois selecionar o primeiro período com registros
-        val firstPeriodWithMoods = getFirstPeriodWithMoods(availableFilters)
-        binding.donutPeriodSpinner.setSelection(firstPeriodWithMoods)
     }
 
     private fun setupDonutChart() {
@@ -961,9 +970,9 @@ class DashboardFragment : Fragment() {
         // Obter apenas os filtros disponíveis baseado na data mais antiga
         val availableFilters = getAvailableFilters(oldestRecordDate)
 
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+        val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
+        val currentFont = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            .getString("current_font", "default")
 
         val adapter = object : ArrayAdapter<FilterType>(
             requireContext(),
@@ -972,24 +981,23 @@ class DashboardFragment : Fragment() {
         ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
+                val filter = getItem(position)
                 (view as TextView).apply {
-                    text = availableFilters[position].getFilterName(context)
-                    gravity = Gravity.START
-                    setPadding(0, paddingTop, paddingRight, paddingBottom)
-                    this.typeface = typeface
+                    text = filter?.getFilterName(context)
                     setTextColor(ContextCompat.getColor(context, R.color.secundary))
+                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
 
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent)
+                val filter = getItem(position)
                 view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
                 (view as TextView).apply {
-                    text = availableFilters[position].getFilterName(context)
+                    text = filter?.getFilterName(context)
                     setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    this.typeface = typeface
-                    gravity = Gravity.START
+                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
@@ -999,9 +1007,17 @@ class DashboardFragment : Fragment() {
         binding.barPeriodSpinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
+            
+            // Restaurar a seleção salva ou selecionar o primeiro período com dados
+            val savedPosition = sharedPreferences.getInt("bar_chart_filter_position", -1)
+            if (savedPosition >= 0 && savedPosition < availableFilters.size) {
+                setSelection(savedPosition)
+            } else {
+                val defaultPosition = getFirstPeriodWithMoods(availableFilters)
+                setSelection(defaultPosition)
+            }
         }
 
-        // Primeiro configurar o listener
         binding.barPeriodSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -1010,18 +1026,17 @@ class DashboardFragment : Fragment() {
                     position: Int,
                     id: Long
                 ) {
-                    dashboardViewModel.moodDistribution.value?.let { distribution ->
-                        val filteredDistribution = filterDistributionByDays(distribution, availableFilters[position])
-                        updateCustomBarChart(filteredDistribution)
-                    }
+                    val selectedFilter = availableFilters[position]
+                    val distribution = dashboardViewModel.moodDistribution.value ?: emptyMap()
+                    val filteredDistribution = filterDistributionByDays(distribution, selectedFilter)
+                    updateCustomBarChart(filteredDistribution)
+                    
+                    // Salvar a posição selecionada
+                    sharedPreferences.edit().putInt("bar_chart_filter_position", position).apply()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
-
-        // Depois selecionar o primeiro período com registros
-        val firstPeriodWithMoods = getFirstPeriodWithMoods(availableFilters)
-        binding.barPeriodSpinner.setSelection(firstPeriodWithMoods)
     }
 
     private fun setupCustomBarChart() {
@@ -1277,9 +1292,9 @@ class DashboardFragment : Fragment() {
         // Obter apenas os filtros disponíveis baseado na data mais antiga
         val availableFilters = getAvailableFilters(oldestRecordDate)
 
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+        val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
+        val currentFont = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            .getString("current_font", "default")
 
         val adapter = object : ArrayAdapter<FilterType>(
             requireContext(),
@@ -1288,24 +1303,23 @@ class DashboardFragment : Fragment() {
         ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
+                val filter = getItem(position)
                 (view as TextView).apply {
-                    text = availableFilters[position].getFilterName(context)
-                    gravity = Gravity.START
-                    setPadding(0, paddingTop, paddingRight, paddingBottom)
-                    this.typeface = typeface
+                    text = filter?.getFilterName(context)
                     setTextColor(ContextCompat.getColor(context, R.color.secundary))
+                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
 
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent)
+                val filter = getItem(position)
                 view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
                 (view as TextView).apply {
-                    text = availableFilters[position].getFilterName(context)
+                    text = filter?.getFilterName(context)
                     setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    this.typeface = typeface
-                    gravity = Gravity.START
+                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
@@ -1315,9 +1329,17 @@ class DashboardFragment : Fragment() {
         binding.radarPeriodSpinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
+            
+            // Restaurar a seleção salva ou selecionar o primeiro período com dados
+            val savedPosition = sharedPreferences.getInt("radar_chart_filter_position", -1)
+            if (savedPosition >= 0 && savedPosition < availableFilters.size) {
+                setSelection(savedPosition)
+            } else {
+                val defaultPosition = getFirstPeriodWithMoods(availableFilters)
+                setSelection(defaultPosition)
+            }
         }
 
-        // Primeiro configurar o listener
         binding.radarPeriodSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -1326,18 +1348,17 @@ class DashboardFragment : Fragment() {
                     position: Int,
                     id: Long
                 ) {
-                    dashboardViewModel.moodDistribution.value?.let { distribution ->
-                        val filteredDistribution = filterDistributionByDays(distribution, availableFilters[position])
-                        updateCustomRadarChart(filteredDistribution)
-                    }
+                    val selectedFilter = availableFilters[position]
+                    val distribution = dashboardViewModel.moodDistribution.value ?: emptyMap()
+                    val filteredDistribution = filterDistributionByDays(distribution, selectedFilter)
+                    updateCustomRadarChart(filteredDistribution)
+                    
+                    // Salvar a posição selecionada
+                    sharedPreferences.edit().putInt("radar_chart_filter_position", position).apply()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
-
-        // Depois selecionar o primeiro período com registros
-        val firstPeriodWithMoods = getFirstPeriodWithMoods(availableFilters)
-        binding.radarPeriodSpinner.setSelection(firstPeriodWithMoods)
     }
 
     private fun setupCustomRadarChart() {
@@ -1424,7 +1445,7 @@ class DashboardFragment : Fragment() {
 
         // Obter dados por dia da semana com filtro de período
         val selectedFilter = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date()).getOrNull(binding.radarPeriodSpinner.selectedItemPosition)
-        
+
         val weekdayData = when (selectedFilter) {
             is DayFilterType -> {
                 if (selectedFilter.days > 0) {
@@ -1674,9 +1695,9 @@ class DashboardFragment : Fragment() {
         // Obter apenas os filtros disponíveis baseado na data mais antiga
         val availableFilters = getAvailableFilters(oldestRecordDate)
 
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+        val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
+        val currentFont = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            .getString("current_font", "default")
 
         val adapter = object : ArrayAdapter<FilterType>(
             requireContext(),
@@ -1685,24 +1706,23 @@ class DashboardFragment : Fragment() {
         ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
+                val filter = getItem(position)
                 (view as TextView).apply {
-                    text = availableFilters[position].getFilterName(context)
-                    gravity = Gravity.START
-                    setPadding(0, paddingTop, paddingRight, paddingBottom)
-                    this.typeface = typeface
+                    text = filter?.getFilterName(context)
                     setTextColor(ContextCompat.getColor(context, R.color.secundary))
+                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
 
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent)
+                val filter = getItem(position)
                 view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
                 (view as TextView).apply {
-                    text = availableFilters[position].getFilterName(context)
+                    text = filter?.getFilterName(context)
                     setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    this.typeface = typeface
-                    gravity = Gravity.START
+                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
@@ -1712,19 +1732,34 @@ class DashboardFragment : Fragment() {
         binding.groupedBarPeriodSpinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
-        }
-
-        // Configurar o listener
-        binding.groupedBarPeriodSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                updateGroupedBarChart()
+            
+            // Restaurar a seleção salva ou selecionar o primeiro período com dados
+            val savedPosition = sharedPreferences.getInt("grouped_bar_chart_filter_position", -1)
+            if (savedPosition >= 0 && savedPosition < availableFilters.size) {
+                setSelection(savedPosition)
+            } else {
+                val defaultPosition = getFirstPeriodWithMoods(availableFilters)
+                setSelection(defaultPosition)
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        // Selecionar o primeiro período com registros
-        val firstPeriodWithMoods = getFirstPeriodWithMoods(availableFilters)
-        binding.groupedBarPeriodSpinner.setSelection(firstPeriodWithMoods)
+        binding.groupedBarPeriodSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val selectedFilter = availableFilters[position]
+                    updateGroupedBarChart()
+                    
+                    // Salvar a posição selecionada
+                    sharedPreferences.edit().putInt("grouped_bar_chart_filter_position", position).apply()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
     }
 
     private fun setupGroupedBarChart() {
@@ -1763,7 +1798,7 @@ class DashboardFragment : Fragment() {
                 setDrawGridLines(false)
                 granularity = 1f
                 typeface = customTypeface
-                textColor =resources.getColor(R.color.secundary)
+                textColor = resources.getColor(R.color.secundary)
                 setDrawLabels(true)
             }
 
@@ -1895,7 +1930,7 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    private fun setupMoodTypeSpinner(spinner: Spinner) {
+    private fun setupMoodTypeSpinner(spinner: Spinner, defaultSelection: Int = 0) {
         val moodTypes = listOf(
             getString(R.string.mood_very_happy),
             getString(R.string.mood_happy),
@@ -1937,6 +1972,7 @@ class DashboardFragment : Fragment() {
         spinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
+            setSelection(defaultSelection)
         }
     }
 
@@ -2077,9 +2113,9 @@ class DashboardFragment : Fragment() {
         // Obter apenas os filtros disponíveis baseado na data mais antiga
         val availableFilters = getAvailableFilters(oldestRecordDate)
 
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+        val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
+        val currentFont = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            .getString("current_font", "default")
 
         val adapter = object : ArrayAdapter<FilterType>(
             requireContext(),
@@ -2088,24 +2124,23 @@ class DashboardFragment : Fragment() {
         ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
+                val filter = getItem(position)
                 (view as TextView).apply {
-                    text = availableFilters[position].getFilterName(context)
-                    gravity = Gravity.START
-                    setPadding(0, paddingTop, paddingRight, paddingBottom)
-                    this.typeface = typeface
+                    text = filter?.getFilterName(context)
                     setTextColor(ContextCompat.getColor(context, R.color.secundary))
+                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
 
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent)
+                val filter = getItem(position)
                 view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
                 (view as TextView).apply {
-                    text = availableFilters[position].getFilterName(context)
+                    text = filter?.getFilterName(context)
                     setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    this.typeface = typeface
-                    gravity = Gravity.START
+                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
                 return view
             }
@@ -2115,9 +2150,17 @@ class DashboardFragment : Fragment() {
         binding.moodComparisonPeriodSpinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
+            
+            // Restaurar a seleção salva ou selecionar o primeiro período com dados
+            val savedPosition = sharedPreferences.getInt("mood_comparison_chart_filter_position", -1)
+            if (savedPosition >= 0 && savedPosition < availableFilters.size) {
+                setSelection(savedPosition)
+            } else {
+                val defaultPosition = getFirstPeriodWithMoods(availableFilters)
+                setSelection(defaultPosition)
+            }
         }
 
-        // Configurar o listener
         binding.moodComparisonPeriodSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -2126,15 +2169,15 @@ class DashboardFragment : Fragment() {
                     position: Int,
                     id: Long
                 ) {
+                    val selectedFilter = availableFilters[position]
                     updateMoodComparisonChart()
+                    
+                    // Salvar a posição selecionada
+                    sharedPreferences.edit().putInt("mood_comparison_chart_filter_position", position).apply()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
-
-        // Selecionar o primeiro período com registros
-        val firstPeriodWithMoods = getFirstPeriodWithMoods(availableFilters)
-        binding.moodComparisonPeriodSpinner.setSelection(firstPeriodWithMoods)
     }
 
     private fun setupMoodComparisonChart() {
@@ -2269,53 +2312,6 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    private fun setupMoodTypeSpinner(spinner: Spinner, defaultSelection: Int) {
-        val moodTypes = listOf(
-            getString(R.string.mood_very_happy),
-            getString(R.string.mood_happy),
-            getString(R.string.mood_neutral),
-            getString(R.string.mood_sad),
-            getString(R.string.mood_very_sad)
-        )
-        
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
-
-        val adapter = object : ArrayAdapter<String>(
-            requireContext(),
-            android.R.layout.simple_spinner_item,
-            moodTypes
-        ) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getView(position, convertView, parent)
-                (view as TextView).apply {
-                    this.typeface = typeface
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                }
-                return view
-            }
-
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getDropDownView(position, convertView, parent)
-                view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
-                (view as TextView).apply {
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    this.typeface = typeface
-                }
-                return view
-            }
-        }
-
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        spinner.apply {
-            this.adapter = adapter
-            setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
-            setSelection(defaultSelection)
-        }
-    }
-
-
     private fun updateMoodComparisonChart() {
         val barChart = binding.moodComparisonChart
 
@@ -2430,4 +2426,81 @@ class DashboardFragment : Fragment() {
             invalidate()
         }
     }
+
+    // Método para configurar os listeners de expandir/recolher
+    private fun setupExpandCollapseListeners() {
+        val rootView = view ?: return
+        
+        // Gráfico de Donut
+        setupExpandCollapseForChart(
+            rootView.findViewById(R.id.donut_chart_expand_collapse),
+            rootView.findViewById(R.id.linear_donut_chart),
+            rootView.findViewById(R.id.donut_chart_description),
+            "donut_chart_expanded"
+        )
+        
+        // Gráfico de Barras
+        setupExpandCollapseForChart(
+            rootView.findViewById(R.id.bar_chart_expand_collapse),
+            rootView.findViewById(R.id.linear_bar_chart),
+            rootView.findViewById(R.id.bar_chart_description),
+            "bar_chart_expanded"
+        )
+        
+        // Gráfico de Radar
+        setupExpandCollapseForChart(
+            rootView.findViewById(R.id.radar_chart_expand_collapse),
+            rootView.findViewById(R.id.linear_radar_chart),
+            rootView.findViewById(R.id.radar_chart_description),
+            "radar_chart_expanded"
+        )
+        
+        // Gráfico de Barras Agrupadas
+        setupExpandCollapseForChart(
+            rootView.findViewById(R.id.grouped_bar_chart_expand_collapse),
+            rootView.findViewById(R.id.linear_grouped_bar_chart),
+            rootView.findViewById(R.id.grouped_bar_chart_description),
+            "grouped_bar_chart_expanded"
+        )
+        
+        // Gráfico de Comparação de Humores
+        setupExpandCollapseForChart(
+            rootView.findViewById(R.id.mood_comparison_chart_expand_collapse),
+            rootView.findViewById(R.id.linear_mood_comparison_chart),
+            rootView.findViewById(R.id.mood_comparison_chart_description),
+            "mood_comparison_chart_expanded"
+        )
+    }
+
+    private fun setupExpandCollapseForChart(iconView: ImageView?, contentView: ViewGroup?, descriptionView: TextView?, preferenceKey: String) {
+        if (iconView == null || contentView == null) return
+
+        val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
+        
+        // Recuperar o estado salvo (padrão é expandido = true)
+        var isExpanded = sharedPreferences.getBoolean(preferenceKey, true)
+        
+        // Aplicar o estado inicial
+        contentView.visibility = if (isExpanded) View.VISIBLE else View.GONE
+        descriptionView?.visibility = if (isExpanded) View.VISIBLE else View.GONE
+        iconView.rotation = if (isExpanded) 0f else 180f
+        
+        iconView.setOnClickListener {
+            isExpanded = !isExpanded
+            
+            // Alternar visibilidade do conteúdo
+            contentView.visibility = if (isExpanded) View.VISIBLE else View.GONE
+            
+            // Alternar visibilidade da descrição, se existir
+            descriptionView?.visibility = if (isExpanded) View.VISIBLE else View.GONE
+            
+            // Rotacionar o ícone
+            val rotation = if (isExpanded) 0f else 180f
+            iconView.animate().rotation(rotation).setDuration(300).start()
+            
+            // Salvar o estado atual
+            sharedPreferences.edit().putBoolean(preferenceKey, isExpanded).apply()
+        }
+    }
+
 }
