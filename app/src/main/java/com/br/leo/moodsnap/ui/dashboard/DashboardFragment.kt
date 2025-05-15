@@ -502,11 +502,30 @@ class DashboardFragment : Fragment() {
         container.removeAllViews()
 
         val total = distribution.values.sum().toFloat()
+        
+        // Encontrar o humor com a maior porcentagem
+        var maxPercentage = 0
+        var maxMoodType = -1
+        
+        if (total > 0) {
+            moodOrder.forEach { moodType ->
+                val count = distribution[moodType] ?: 0
+                val percentage = (count / total * 100).roundToInt()
+                if (percentage > maxPercentage) {
+                    maxPercentage = percentage
+                    maxMoodType = moodType
+                }
+            }
+        }
 
         // Calcular tamanho baseado na largura da tela
         val screenWidth = resources.displayMetrics.widthPixels
-        val containerSize = (screenWidth * 0.13).toInt() // 18% da largura da tela
-        val iconSize = (containerSize * 1).toInt() // 95% do tamanho do container
+        val containerSize = (screenWidth * 0.13).toInt() // 13% da largura da tela
+        val iconSize = (containerSize * 1).toInt() // 100% do tamanho do container
+        
+        // Tamanho fixo para o container de porcentagem
+        val percentageWidth = resources.getDimensionPixelSize(R.dimen.percentage_width)
+        val percentageHeight = resources.getDimensionPixelSize(R.dimen.percentage_height)
 
         moodOrder.forEach { moodType ->
             val itemLayout = LinearLayout(requireContext()).apply {
@@ -541,7 +560,7 @@ class DashboardFragment : Fragment() {
                 }
             }
 
-            // Texto da porcentagem
+            // Texto da porcentagem com background arredondado
             val percentageText = TextView(requireContext()).apply {
                 if(total == 0f) {
                     text = "0%"
@@ -550,12 +569,23 @@ class DashboardFragment : Fragment() {
                     val percentage = (count / total * 100).roundToInt()
                     text = "$percentage%"
                 }
-                setTextColor(ContextCompat.getColor(requireContext(), R.color.secundary))
-                textSize = 12f
+                
+                // Aplicar cor de texto baseada no background
+                if (moodType == maxMoodType) {
+                    background = ContextCompat.getDrawable(requireContext(), R.drawable.highlighted_percentage_background)
+                    setTextColor(Color.WHITE)
+                } else {
+                    background = ContextCompat.getDrawable(requireContext(), R.drawable.rounded_percentage_background)
+                    setTextColor(ContextCompat.getColor(requireContext(), R.color.secundary))
+                }
+                
+                textSize = resources.getDimension(R.dimen.legend_pie_chart)
                 gravity = Gravity.CENTER
+                
+                // Aplicar tamanho fixo
                 layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    percentageWidth,
+                    percentageHeight
                 ).apply {
                     topMargin = resources.getDimensionPixelSize(R.dimen.spacing_small)
                 }
@@ -613,7 +643,7 @@ class DashboardFragment : Fragment() {
             availableFilters
         ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.spinner_item, parent, false)
+                val view = super.getView(position, convertView, parent)
                 val filter = getItem(position)
                 (view as TextView).apply {
                     text = filter?.getFilterName(context)
@@ -624,7 +654,7 @@ class DashboardFragment : Fragment() {
             }
 
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.spinner_item, parent, false)
+                val view = super.getDropDownView(position, convertView, parent)
                 val filter = getItem(position)
                 view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
                 (view as TextView).apply {
@@ -733,7 +763,7 @@ class DashboardFragment : Fragment() {
                                     }.time
                                     endDate = Calendar.getInstance().time
                                 } else {
-                                    // Para "Tudo", não aplicamos filtro de data
+                                    // Para "Tudo", não aplicamos filtro
                                     startDate = null
                                     endDate = null
                                 }
@@ -1675,7 +1705,7 @@ class DashboardFragment : Fragment() {
 
                 val percentage = (count.toFloat() / totalMoods * 100).roundToInt()
                 moodCardView.setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
-                moodIcon.setImageResource(Utils.getMoodDrawable(moodType))
+                moodIcon.setImageResource(Utils.getMoodIcon(moodType))
                 moodName.text = dashboardViewModel.getMoodName(requireContext(), moodType)
                 moodCount.text = getString(R.string.weekday_count_format, count, percentage)
 

@@ -38,4 +38,6 @@
 
     <color name="background_card_view">#fff</color>
 
+    <color name="background_card_view_alpha">#EBEAEA</color>
+
 </resources>
