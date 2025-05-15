@@ -3,6 +3,7 @@ package com.br.leo.moodsnap.ui.dialog
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.content.res.ColorStateList
 import android.os.Build
 import android.text.Html
 import android.view.LayoutInflater
@@ -117,6 +118,8 @@ class CustomAlertDialog private constructor(
 
     fun setIcon(@DrawableRes resid: Int): CustomAlertDialog {
         binding.imageViewIconDialog.setBackgroundResource(resid)
+        binding.imageViewIconDialog.backgroundTintList =
+            ColorStateList.valueOf(binding.imageViewIconDialog.context.getColor(R.color.primary_green))
         return this
     }
 

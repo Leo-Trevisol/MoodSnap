@@ -72,7 +72,7 @@
                         android:gravity="center"
                         android:textColor="@color/primary"
                         android:textStyle="bold"
-                        android:textSize="@dimen/text_size_xlarge"/>
+                        android:textSize="@dimen/text_size_large"/>
 
 
                 </LinearLayout>
@@ -142,7 +142,7 @@
                         android:textColor="@color/secundary"
                         android:gravity="center"
                         android:textStyle="bold"
-                        android:textSize="@dimen/text_size_xlarge"/>
+                        android:textSize="@dimen/text_size_large"/>
 
                 </LinearLayout>
 
@@ -189,7 +189,7 @@
                         android:textColor="@color/secundary"
                         android:textStyle="bold"
                         android:gravity="center"
-                        android:textSize="@dimen/text_size_xlarge"/>
+                        android:textSize="@dimen/text_size_large"/>
                 </LinearLayout>
 
                 <TextView
@@ -254,7 +254,7 @@
                             android:text="@string/day_of_week"
                             android:textColor="@color/secundary"
                             android:textStyle="bold"
-                            android:textSize="@dimen/text_size_xlarge"/>
+                            android:textSize="@dimen/text_size_large"/>
 
                     </LinearLayout>
 
@@ -302,6 +302,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -311,30 +314,22 @@
                         android:layout_weight="1"
                         android:text="@string/pie_chart_title"
                         android:textColor="@color/secundary"
-                        android:gravity="start"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/text_size_xlarge"/>
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/donut_chart_info"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/info_icon"/>
 
                     <ImageView
                         android:id="@+id/donut_chart_expand_collapse"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_expand_collapse"
-                        android:contentDescription="@string/expand_collapse_chart"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"/>
+                        android:src="@drawable/ic_arrow_down" />
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/donut_chart_no_mood_registered_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@color/secundary"
-                    android:textSize="@dimen/text_size_normal"
-                    android:text="@string/register_more_moods"
-                    android:visibility="gone">
-                </TextView>
 
                 <LinearLayout
                     android:id="@+id/linear_donut_chart"
@@ -342,15 +337,18 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                    <!-- Texto "Sem registros de humor" (inicialmente invisível) -->
                     <TextView
-                        android:id="@+id/donut_chart_description"
+                        android:id="@+id/donut_chart_no_mood_registered_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/no_mood_registered"
                         android:textColor="@color/secundary"
                         android:gravity="center"
-                        android:text="@string/donut_chart_description"
+                        android:visibility="gone"
                         android:textSize="@dimen/text_size_normal" />
 
                     <LinearLayout
@@ -424,6 +422,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -433,49 +434,44 @@
                         android:layout_weight="1"
                         android:text="@string/bar_chart_title"
                         android:textColor="@color/secundary"
-                        android:gravity="start"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/text_size_xlarge"/>
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/bar_chart_info"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/info_icon" />
 
                     <ImageView
                         android:id="@+id/bar_chart_expand_collapse"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_expand_collapse"
-                        android:contentDescription="@string/expand_collapse_chart"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"/>
+                        android:src="@drawable/ic_arrow_down"/>
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/bar_chart_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bar_chart_description"
-                    android:textSize="@dimen/text_size_normal"
-                    android:textColor="@color/secundary"
-                    android:gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"/>
-
-                <TextView
-                    android:id="@+id/bar_chart_no_mood_registered_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@color/secundary"
-                    android:textSize="@dimen/text_size_normal"
-                    android:text="@string/register_more_moods"
-                    android:visibility="gone">
-                </TextView>
-
-            <LinearLayout
-                android:id="@+id/linear_bar_chart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
                 <LinearLayout
+                    android:id="@+id/linear_bar_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Texto "Sem registros de humor" (inicialmente invisível) -->
+                    <TextView
+                        android:id="@+id/bar_chart_no_mood_registered_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/no_mood_registered"
+                        android:textColor="@color/secundary"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:textSize="@dimen/text_size_normal" />
+
+                    <LinearLayout
                     android:id="@+id/bar_period_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -523,7 +519,7 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Card do Gráfico Radar -->
+        <!-- Card do Gráfico de Radar -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_custom_radar_chart"
             android:layout_width="match_parent"
@@ -545,6 +541,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -554,49 +553,44 @@
                         android:layout_weight="1"
                         android:text="@string/radar_chart_title"
                         android:textColor="@color/secundary"
-                        android:gravity="start"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/text_size_xlarge"/>
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/radar_chart_info"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/info_icon"/>
 
                     <ImageView
                         android:id="@+id/radar_chart_expand_collapse"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_expand_collapse"
-                        android:contentDescription="@string/expand_collapse_chart"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"/>
+                        android:src="@drawable/ic_arrow_down" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/radar_chart_description"
+                <LinearLayout
+                    android:id="@+id/linear_radar_chart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/radar_chart_description"
-                    android:textSize="@dimen/text_size_normal"
-                    android:textColor="@color/secundary"
-                    android:gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"/>
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/radar_chart_no_mood_registered_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_size_normal"
-                    android:textColor="@color/secundary"
-                    android:text="@string/register_more_moods"
-                    android:visibility="gone">
-                </TextView>
+                    <!-- Texto "Sem registros de humor" (inicialmente invisível) -->
+                    <TextView
+                        android:id="@+id/radar_chart_no_mood_registered_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/no_mood_registered"
+                        android:textColor="@color/secundary"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:textSize="@dimen/text_size_normal" />
 
-            <LinearLayout
-                android:id="@+id/linear_radar_chart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            <LinearLayout
+                    <LinearLayout
                     android:id="@+id/radar_period_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -667,6 +661,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -676,47 +673,42 @@
                         android:layout_weight="1"
                         android:text="@string/bar_chart_compare_days_title"
                         android:textColor="@color/secundary"
-                        android:gravity="start"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/text_size_xlarge"/>
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/grouped_bar_chart_info"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/info_icon" />
 
                     <ImageView
                         android:id="@+id/grouped_bar_chart_expand_collapse"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_expand_collapse"
-                        android:contentDescription="@string/expand_collapse_chart"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"/>
+                        android:src="@drawable/ic_arrow_down" />
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/grouped_bar_chart_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bar_chart_compare_week_days"
-                    android:textSize="@dimen/text_size_normal"
-                    android:textColor="@color/secundary"
-                    android:gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"/>
-
-                <TextView
-                    android:id="@+id/grouped_bar_chart_no_mood_registered_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@color/secundary"
-                    android:textSize="@dimen/text_size_normal"
-                    android:text="@string/register_more_moods"
-                    android:visibility="gone">
-                </TextView>
 
                 <LinearLayout
                     android:id="@+id/linear_grouped_bar_chart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
+                    <!-- Texto "Sem registros de humor" (inicialmente invisível) -->
+                    <TextView
+                        android:id="@+id/grouped_bar_chart_no_mood_registered_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/no_mood_registered"
+                        android:textColor="@color/secundary"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:textSize="@dimen/text_size_normal" />
 
                     <LinearLayout
                         android:id="@+id/grouped_bar_period_container"
@@ -880,6 +872,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -889,47 +884,56 @@
                         android:layout_weight="1"
                         android:text="@string/bar_chart_compare_moods_title"
                         android:textColor="@color/secundary"
-                        android:gravity="start"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/text_size_xlarge"/>
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/mood_comparison_chart_info"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/info_icon"/>
 
                     <ImageView
                         android:id="@+id/mood_comparison_chart_expand_collapse"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_expand_collapse"
-                        android:contentDescription="@string/expand_collapse_chart"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"/>
+                        android:src="@drawable/ic_arrow_down" />
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/mood_comparison_chart_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bar_chart_compare_moods"
-                    android:textSize="@dimen/text_size_normal"
-                    android:textColor="@color/secundary"
-                    android:gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"/>
-
-                <TextView
-                    android:id="@+id/mood_comparison_chart_no_mood_registered_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_size_normal"
-                    android:textColor="@color/secundary"
-                    android:text="@string/register_more_moods"
-                    android:visibility="gone">
-                </TextView>
 
                 <LinearLayout
                     android:id="@+id/linear_mood_comparison_chart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
+                    <!-- Texto "Sem registros de humor" (inicialmente invisível) -->
+                    <TextView
+                        android:id="@+id/mood_comparison_chart_no_mood_registered_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/no_mood_registered"
+                        android:textColor="@color/secundary"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:textSize="@dimen/text_size_normal" />
+
+                    <!-- Descrição do gráfico (removida da visualização fixa) -->
+                    <TextView
+                        android:id="@+id/mood_comparison_chart_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:textColor="@color/secundary"
+                        android:gravity="center"
+                        android:text="@string/bar_chart_compare_moods"
+                        android:textSize="@dimen/text_size_normal"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/mood_comparison_period_container"

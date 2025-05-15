@@ -26,6 +26,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import android.content.Context
+import android.content.DialogInterface
 import com.br.leo.moodsnap.ui.utils.FontUtils
 import android.view.Gravity
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -33,8 +34,10 @@ import android.widget.FrameLayout
 import android.widget.Spinner
 import androidx.core.animation.doOnEnd
 import androidx.core.content.res.ResourcesCompat
+import com.br.leo.moodsnap.ui.dialog.CustomAlertDialog
 import com.br.leo.moodsnap.ui.utils.DateUtils
 import com.br.leo.moodsnap.ui.utils.RoundedBarChartRenderer
+import com.br.leo.moodsnap.ui.utils.Utils.showCustomToast
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -49,6 +52,8 @@ import com.github.mikephil.charting.data.RadarEntry
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.io.File
 import java.text.SimpleDateFormat
 
 class DashboardFragment : Fragment() {
@@ -152,6 +157,7 @@ class DashboardFragment : Fragment() {
         setupDayFilterSpinner()
         setupObservers()
         setupExpandCollapseListeners()
+        setupInfoButtonListeners()
 
         // Carregar os dados primeiro
         dashboardViewModel.loadMoods()
@@ -181,12 +187,6 @@ class DashboardFragment : Fragment() {
         binding.linearRadarChart.visibility = View.GONE
         binding.linearGroupedBarChart.visibility = View.GONE
         binding.linearMoodComparisonChart.visibility = View.GONE
-
-        binding.donutChartDescription.visibility = View.GONE
-        binding.barChartDescription.visibility = View.GONE
-        binding.radarChartDescription.visibility = View.GONE
-        binding.groupedBarChartDescription.visibility = View.GONE
-        binding.moodComparisonChartDescription.visibility = View.GONE
 
         binding.donutChartNoMoodRegisteredText.visibility = View.VISIBLE
         binding.barChartNoMoodRegisteredText.visibility = View.VISIBLE
@@ -639,6 +639,7 @@ class DashboardFragment : Fragment() {
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         binding.donutPeriodSpinner.apply {
             this.adapter = adapter
+
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
             
             // Restaurar a seleção salva ou selecionar o primeiro período com dados
@@ -2427,7 +2428,6 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    // Método para configurar os listeners de expandir/recolher
     private fun setupExpandCollapseListeners() {
         val rootView = view ?: return
         
@@ -2435,7 +2435,6 @@ class DashboardFragment : Fragment() {
         setupExpandCollapseForChart(
             rootView.findViewById(R.id.donut_chart_expand_collapse),
             rootView.findViewById(R.id.linear_donut_chart),
-            rootView.findViewById(R.id.donut_chart_description),
             "donut_chart_expanded"
         )
         
@@ -2443,7 +2442,6 @@ class DashboardFragment : Fragment() {
         setupExpandCollapseForChart(
             rootView.findViewById(R.id.bar_chart_expand_collapse),
             rootView.findViewById(R.id.linear_bar_chart),
-            rootView.findViewById(R.id.bar_chart_description),
             "bar_chart_expanded"
         )
         
@@ -2451,7 +2449,6 @@ class DashboardFragment : Fragment() {
         setupExpandCollapseForChart(
             rootView.findViewById(R.id.radar_chart_expand_collapse),
             rootView.findViewById(R.id.linear_radar_chart),
-            rootView.findViewById(R.id.radar_chart_description),
             "radar_chart_expanded"
         )
         
@@ -2459,7 +2456,6 @@ class DashboardFragment : Fragment() {
         setupExpandCollapseForChart(
             rootView.findViewById(R.id.grouped_bar_chart_expand_collapse),
             rootView.findViewById(R.id.linear_grouped_bar_chart),
-            rootView.findViewById(R.id.grouped_bar_chart_description),
             "grouped_bar_chart_expanded"
         )
         
@@ -2467,12 +2463,11 @@ class DashboardFragment : Fragment() {
         setupExpandCollapseForChart(
             rootView.findViewById(R.id.mood_comparison_chart_expand_collapse),
             rootView.findViewById(R.id.linear_mood_comparison_chart),
-            rootView.findViewById(R.id.mood_comparison_chart_description),
             "mood_comparison_chart_expanded"
         )
     }
 
-    private fun setupExpandCollapseForChart(iconView: ImageView?, contentView: ViewGroup?, descriptionView: TextView?, preferenceKey: String) {
+    private fun setupExpandCollapseForChart(iconView: ImageView?, contentView: ViewGroup?, preferenceKey: String) {
         if (iconView == null || contentView == null) return
 
         val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
@@ -2482,7 +2477,6 @@ class DashboardFragment : Fragment() {
         
         // Aplicar o estado inicial
         contentView.visibility = if (isExpanded) View.VISIBLE else View.GONE
-        descriptionView?.visibility = if (isExpanded) View.VISIBLE else View.GONE
         iconView.rotation = if (isExpanded) 0f else 180f
         
         iconView.setOnClickListener {
@@ -2491,9 +2485,7 @@ class DashboardFragment : Fragment() {
             // Alternar visibilidade do conteúdo
             contentView.visibility = if (isExpanded) View.VISIBLE else View.GONE
             
-            // Alternar visibilidade da descrição, se existir
-            descriptionView?.visibility = if (isExpanded) View.VISIBLE else View.GONE
-            
+
             // Rotacionar o ícone
             val rotation = if (isExpanded) 0f else 180f
             iconView.animate().rotation(rotation).setDuration(300).start()
@@ -2503,4 +2495,55 @@ class DashboardFragment : Fragment() {
         }
     }
 
+    private fun setupInfoButtonListeners() {
+        val rootView = view ?: return
+        
+        // Configurar listener para o gráfico de donut
+        rootView.findViewById<ImageView>(R.id.donut_chart_info)?.setOnClickListener {
+            showChartInfoDialog(
+                getString(R.string.pie_chart_title),
+                getString(R.string.donut_chart_description),
+            )
+        }
+        
+        // Configurar listener para o gráfico de barras
+        rootView.findViewById<ImageView>(R.id.bar_chart_info)?.setOnClickListener {
+            showChartInfoDialog(
+                getString(R.string.bar_chart_title),
+                getString(R.string.bar_chart_description),
+            )
+        }
+        
+        // Configurar listener para o gráfico de radar
+        rootView.findViewById<ImageView>(R.id.radar_chart_info)?.setOnClickListener {
+            showChartInfoDialog(
+                getString(R.string.radar_chart_title),
+                getString(R.string.radar_chart_description),
+            )
+        }
+        
+        // Configurar listener para o gráfico de barras agrupadas
+        rootView.findViewById<ImageView>(R.id.grouped_bar_chart_info)?.setOnClickListener {
+            showChartInfoDialog(
+                getString(R.string.bar_chart_compare_days_title),
+                getString(R.string.bar_chart_compare_week_days),
+            )
+        }
+        
+        rootView.findViewById<ImageView>(R.id.mood_comparison_chart_info)?.setOnClickListener {
+            showChartInfoDialog(
+                getString(R.string.bar_chart_compare_moods_title),
+                getString(R.string.bar_chart_compare_moods),
+            )
+        }
+    }
+    
+    private fun showChartInfoDialog(title: String, description: String) {
+        CustomAlertDialog.create(requireContext())
+            .setTitle(title)
+            .setMessage(description)
+            .isSingleButton("OK", null)
+            .setIcon(R.drawable.ic_stats_24)
+            .show()
+    }
 }

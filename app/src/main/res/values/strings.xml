@@ -35,6 +35,7 @@
     <string name="share_preview_description">Mood image preview</string>
     <string name="share_mood_title">My mood today</string>
     <string name="expand_collapse_chart">Expandir ou recolher gráfico</string>
+    <string name="chart_info">Informações sobre o gráfico</string>
 
     <!-- Mood States -->
     <string name="mood_very_happy">Very happy</string>
