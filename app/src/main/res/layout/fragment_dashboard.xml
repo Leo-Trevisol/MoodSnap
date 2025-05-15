@@ -111,30 +111,19 @@
 
         <!-- Card de Distribuição Rápida -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_quick_distribution"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/background_card_view"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
+            style="@style/CardViewFragmentDashboard">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="16dp"
-                android:paddingTop="5dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
+                style="@style/CardViewFragmentDashboardLinearLayout">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
                     android:gravity="center_vertical">
 
-                    <TextView
+                <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -159,26 +148,16 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/background_card_view"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
+            style="@style/CardViewFragmentDashboard">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="16dp"
-                android:paddingTop="5dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
+                style="@style/CardViewFragmentDashboardLinearLayout">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -217,27 +196,17 @@
 
         <!-- Card de Melhor Dia da Semana -->
         <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/background_card_view"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
+            style="@style/CardViewFragmentDashboard">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingBottom="16dp"
-                android:paddingTop="5dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                >
+                style="@style/CardViewFragmentDashboardLinearLayout">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -282,29 +251,16 @@
         <!-- Card do Gráfico de Donut -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_donut_chart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/background_card_view"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
+            style="@style/CardViewFragmentDashboard">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="16dp"
-                android:paddingTop="5dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp">
+               style="@style/CardViewFragmentDashboardLinearLayout">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="8dp"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -319,15 +275,15 @@
 
                     <ImageView
                         android:id="@+id/donut_chart_info"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="16dp"
                         android:src="@drawable/info_icon"/>
 
                     <ImageView
                         android:id="@+id/donut_chart_expand_collapse"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:src="@drawable/ic_arrow_down" />
                 </LinearLayout>
 
@@ -402,29 +358,16 @@
         <!-- Card do Gráfico de Barras -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_custom_bar_chart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/background_card_view"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
+            style="@style/CardViewFragmentDashboard">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="16dp"
-                android:paddingTop="5dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp">
+                style="@style/CardViewFragmentDashboardLinearLayout">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="8dp"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -439,15 +382,15 @@
 
                     <ImageView
                         android:id="@+id/bar_chart_info"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="16dp"
                         android:src="@drawable/info_icon" />
 
                     <ImageView
                         android:id="@+id/bar_chart_expand_collapse"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:src="@drawable/ic_arrow_down"/>
                 </LinearLayout>
 
@@ -522,28 +465,16 @@
         <!-- Card do Gráfico de Radar -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_custom_radar_chart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/background_card_view"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
+            style="@style/CardViewFragmentDashboard">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="16dp"
-                android:paddingTop="5dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp">
+                style="@style/CardViewFragmentDashboardLinearLayout">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="8dp"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -558,15 +489,15 @@
 
                     <ImageView
                         android:id="@+id/radar_chart_info"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="16dp"
                         android:src="@drawable/info_icon"/>
 
                     <ImageView
                         android:id="@+id/radar_chart_expand_collapse"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:src="@drawable/ic_arrow_down" />
                 </LinearLayout>
 
@@ -641,29 +572,16 @@
         <!-- Card do Gráfico de Barras Agrupadas -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_grouped_bar_chart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/background_card_view"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
+            style="@style/CardViewFragmentDashboard">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="16dp"
-                android:paddingTop="5dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp">
+                style="@style/CardViewFragmentDashboardLinearLayout">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="8dp"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -678,15 +596,15 @@
 
                     <ImageView
                         android:id="@+id/grouped_bar_chart_info"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="16dp"
                         android:src="@drawable/info_icon" />
 
                     <ImageView
                         android:id="@+id/grouped_bar_chart_expand_collapse"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:src="@drawable/ic_arrow_down" />
                 </LinearLayout>
 
@@ -852,29 +770,16 @@
         <!-- Card do Gráfico de Comparação de Humores -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_mood_comparison_chart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/background_card_view"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
+            style="@style/CardViewFragmentDashboard">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="16dp"
-                android:paddingTop="5dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp">
+                style="@style/CardViewFragmentDashboardLinearLayout">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="8dp"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -889,15 +794,15 @@
 
                     <ImageView
                         android:id="@+id/mood_comparison_chart_info"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginEnd="16dp"
                         android:src="@drawable/info_icon"/>
 
                     <ImageView
                         android:id="@+id/mood_comparison_chart_expand_collapse"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:src="@drawable/ic_arrow_down" />
                 </LinearLayout>
 

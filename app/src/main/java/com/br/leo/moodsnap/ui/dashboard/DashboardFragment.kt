@@ -609,11 +609,11 @@ class DashboardFragment : Fragment() {
 
         val adapter = object : ArrayAdapter<FilterType>(
             requireContext(),
-            android.R.layout.simple_spinner_item,
+            R.layout.spinner_item,
             availableFilters
         ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getView(position, convertView, parent)
+                val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.spinner_item, parent, false)
                 val filter = getItem(position)
                 (view as TextView).apply {
                     text = filter?.getFilterName(context)
@@ -624,7 +624,7 @@ class DashboardFragment : Fragment() {
             }
 
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getDropDownView(position, convertView, parent)
+                val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.spinner_item, parent, false)
                 val filter = getItem(position)
                 view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
                 (view as TextView).apply {
@@ -635,6 +635,7 @@ class DashboardFragment : Fragment() {
                 return view
             }
         }
+
 
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         binding.donutPeriodSpinner.apply {
@@ -977,7 +978,7 @@ class DashboardFragment : Fragment() {
 
         val adapter = object : ArrayAdapter<FilterType>(
             requireContext(),
-            android.R.layout.simple_spinner_item,
+            R.layout.spinner_item,
             availableFilters
         ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -1299,7 +1300,7 @@ class DashboardFragment : Fragment() {
 
         val adapter = object : ArrayAdapter<FilterType>(
             requireContext(),
-            android.R.layout.simple_spinner_item,
+            R.layout.spinner_item,
             availableFilters
         ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -1702,7 +1703,7 @@ class DashboardFragment : Fragment() {
 
         val adapter = object : ArrayAdapter<FilterType>(
             requireContext(),
-            android.R.layout.simple_spinner_item,
+            R.layout.spinner_item,
             availableFilters
         ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -1900,7 +1901,7 @@ class DashboardFragment : Fragment() {
 
         val adapter = object : ArrayAdapter<String>(
             requireContext(),
-            android.R.layout.simple_spinner_item,
+            R.layout.spinner_item,
             weekdays
         ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -1946,7 +1947,7 @@ class DashboardFragment : Fragment() {
 
         val adapter = object : ArrayAdapter<String>(
             requireContext(),
-            android.R.layout.simple_spinner_item,
+            R.layout.spinner_item,
             moodTypes
         ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -2120,7 +2121,7 @@ class DashboardFragment : Fragment() {
 
         val adapter = object : ArrayAdapter<FilterType>(
             requireContext(),
-            android.R.layout.simple_spinner_item,
+            R.layout.spinner_item,
             availableFilters
         ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
