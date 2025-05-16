@@ -48,11 +48,15 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
     val bestDayOfWeek: LiveData<Int> = _bestDayOfWeek
 
     enum class DayFilter {
-        BEST_DAY,
-        WORST_DAY
+        HAPPIEST_DAY,
+        SADDEST_DAY,
+        MOST_CONSISTENT_DAY,
+        MOST_VARIABLE_DAY,
+        MOST_ENTRIES_DAY,
+        LEAST_ENTRIES_DAY
     }
 
-    private val _selectedDayFilter = MutableLiveData<DayFilter>(DayFilter.BEST_DAY)
+    private val _selectedDayFilter = MutableLiveData<DayFilter>(DayFilter.HAPPIEST_DAY)
     val selectedDayFilter: LiveData<DayFilter> = _selectedDayFilter
 
     init {
@@ -114,7 +118,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
 
         // Calcular estatísticas do dia da semana com base no filtro selecionado
         val dayResult =
-            calculateDayStatistics(moods, _selectedDayFilter.value ?: DayFilter.BEST_DAY)
+            calculateDayStatistics(moods, _selectedDayFilter.value ?: DayFilter.HAPPIEST_DAY)
         _bestDayOfWeek.postValue(dayResult)
     }
 
@@ -155,12 +159,32 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             average * count
         }
 
-        return when (filter) {
-            DayFilter.BEST_DAY -> dayScores.entries
-                .minByOrNull { it.value }?.key ?: -1
+        // Mapear dias para listas de humores para uso nos cálculos de consistência e variabilidade
+        val dayMoodTypes = dayMoods.mapValues { (_, moodList) ->
+            moodList.map { it.moodType }
+        }
 
-            DayFilter.WORST_DAY -> dayScores.entries
-                .maxByOrNull { it.value }?.key ?: -1
+        return when (filter) {
+
+            DayFilter.HAPPIEST_DAY -> dayMoodTypes.entries
+                .minByOrNull { (_, types) -> types.average() }?.key ?: -1
+
+            DayFilter.SADDEST_DAY -> dayMoodTypes.entries
+                .maxByOrNull { (_, types) -> types.average() }?.key ?: -1
+
+            DayFilter.MOST_CONSISTENT_DAY -> dayMoodTypes.entries
+                .minByOrNull { (_, types) -> types.distinct().size }?.key ?: -1
+
+            DayFilter.MOST_VARIABLE_DAY -> dayMoodTypes.entries
+                .maxByOrNull { (_, types) -> types.distinct().size }?.key ?: -1
+
+            DayFilter.MOST_ENTRIES_DAY -> dayMoods.entries
+                .maxByOrNull { (_, moodList) -> moodList.size }?.key ?: -1
+
+            DayFilter.LEAST_ENTRIES_DAY -> dayMoods.entries
+                .minByOrNull { (_, moodList) -> moodList.size }?.key ?: -1
+
+
         }
     }
 
@@ -179,8 +203,12 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun getFilterDescription(context: Context, filter: DayFilter): String {
         return when (filter) {
-            DayFilter.BEST_DAY -> context.getString(R.string.best_day)
-            DayFilter.WORST_DAY -> context.getString(R.string.worst_day)
+            DayFilter.HAPPIEST_DAY -> context.getString(R.string.happiest_day)
+            DayFilter.SADDEST_DAY -> context.getString(R.string.saddest_day)
+            DayFilter.MOST_CONSISTENT_DAY -> context.getString(R.string.most_consistent_day)
+            DayFilter.MOST_VARIABLE_DAY -> context.getString(R.string.most_variable_day)
+            DayFilter.MOST_ENTRIES_DAY -> context.getString(R.string.most_entries_day)
+            DayFilter.LEAST_ENTRIES_DAY -> context.getString(R.string.least_entries_day)
         }
     }
 
@@ -188,15 +216,37 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         if (dayOfWeek == -1) return context.getString(R.string.register_more_moods)
 
         return when (filter) {
-            DayFilter.BEST_DAY -> context.getString(
-                R.string.best_day_usually,
+
+            DayFilter.HAPPIEST_DAY -> context.getString(
+                R.string.happiest_day_usually,
                 DateUtils.getDayOfWeekName(context, dayOfWeek)
             )
 
-            DayFilter.WORST_DAY -> context.getString(
-                R.string.worst_day_usually,
+            DayFilter.SADDEST_DAY -> context.getString(
+                R.string.saddest_day_usually,
                 DateUtils.getDayOfWeekName(context, dayOfWeek)
             )
+
+            DayFilter.MOST_CONSISTENT_DAY -> context.getString(
+                R.string.most_consistent_day_usually,
+                DateUtils.getDayOfWeekName(context, dayOfWeek)
+            )
+
+            DayFilter.MOST_VARIABLE_DAY -> context.getString(
+                R.string.most_variable_day_usually,
+                DateUtils.getDayOfWeekName(context, dayOfWeek)
+            )
+
+            DayFilter.MOST_ENTRIES_DAY -> context.getString(
+                R.string.most_entries_day_usually,
+                DateUtils.getDayOfWeekName(context, dayOfWeek)
+            )
+
+            DayFilter.LEAST_ENTRIES_DAY -> context.getString(
+                R.string.least_entries_day_usually,
+                DateUtils.getDayOfWeekName(context, dayOfWeek)
+            )
+
         }
     }
 

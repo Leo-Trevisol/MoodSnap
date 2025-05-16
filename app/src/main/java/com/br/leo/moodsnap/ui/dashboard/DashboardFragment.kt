@@ -27,6 +27,8 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import android.content.Context
 import android.content.DialogInterface
+import android.os.Handler
+import android.os.Looper
 import com.br.leo.moodsnap.ui.utils.FontUtils
 import android.view.Gravity
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -188,11 +190,30 @@ class DashboardFragment : Fragment() {
         binding.linearGroupedBarChart.visibility = View.GONE
         binding.linearMoodComparisonChart.visibility = View.GONE
 
-        binding.donutChartNoMoodRegisteredText.visibility = View.VISIBLE
-        binding.barChartNoMoodRegisteredText.visibility = View.VISIBLE
-        binding.radarChartNoMoodRegisteredText.visibility = View.VISIBLE
-        binding.groupedBarChartNoMoodRegisteredText.visibility = View.VISIBLE
-        binding.moodComparisonChartNoMoodRegisteredText.visibility = View.VISIBLE
+        binding.dayFilterSpinner.visibility = View.GONE
+
+        //Spinners de período
+        binding.donutPeriodContainer.visibility = View.GONE
+        binding.barPeriodContainer.visibility = View.GONE
+        binding.radarPeriodContainer.visibility = View.GONE
+        binding.groupedBarPeriodContainer.visibility = View.GONE
+        binding.moodComparisonMood1Spinner.visibility = View.GONE
+        binding.moodComparisonMood2Spinner.visibility = View.GONE
+        binding.moodComparisonDaySpinner.visibility = View.GONE
+        binding.moodComparisonPeriodSpinner.visibility = View.GONE
+
+        //Gráfico de comparação de dias da semana
+        binding.cardGroupedBarMoodInfoContainer.visibility = View.GONE
+        binding.groupedBarDay1Container.visibility = View.GONE
+        binding.groupedBarDay2Container.visibility = View.GONE
+        binding.groupedBarMoodContainer.visibility = View.GONE
+
+        //Gráfico de comparação de humor
+        binding.moodComparisonDayContainer.visibility = View.GONE
+        binding.moodComparisonMood1Container.visibility = View.GONE
+        binding.moodComparisonMood2Container.visibility = View.GONE
+        binding.moodComparisonMoodsInfoContainer.visibility = View.GONE
+
     }
 
     private fun setupDayFilterSpinner() {
@@ -357,7 +378,7 @@ class DashboardFragment : Fragment() {
                 // Para meses específicos, mostrar mensagem personalizada
                 getString(R.string.no_data_specific_month, filter.getFilterName(requireContext()))
             }
-            else -> getString(R.string.no_data_all_time)
+            else -> getString(R.string.no_mood_registered)
         }
     }
 
@@ -486,7 +507,7 @@ class DashboardFragment : Fragment() {
         // Observar melhor dia da semana
         dashboardViewModel.bestDayOfWeek.observe(viewLifecycleOwner) { dayOfWeek ->
             val filter =
-                dashboardViewModel.selectedDayFilter.value ?: DashboardViewModel.DayFilter.BEST_DAY
+                dashboardViewModel.selectedDayFilter.value ?: DashboardViewModel.DayFilter.HAPPIEST_DAY
             binding.bestDayText.text = dashboardViewModel.getDayStatisticsText(requireContext(), dayOfWeek, filter)
         }
 
@@ -733,7 +754,7 @@ class DashboardFragment : Fragment() {
             isHighlightPerTapEnabled = true
 
             // Configurar texto quando não houver dados
-            setNoDataText(getString(R.string.no_mood_distribution))
+            setNoDataText(getString(R.string.no_mood_registered))
             setNoDataTextColor(resources.getColor(R.color.secundary))
             setNoDataTextTypeface(typeface)
             getPaint(PieChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
@@ -1039,7 +1060,7 @@ class DashboardFragment : Fragment() {
         binding.barPeriodSpinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
-            
+
             // Restaurar a seleção salva ou selecionar o primeiro período com dados
             val savedPosition = sharedPreferences.getInt("bar_chart_filter_position", -1)
             if (savedPosition >= 0 && savedPosition < availableFilters.size) {
@@ -1062,7 +1083,7 @@ class DashboardFragment : Fragment() {
                     val distribution = dashboardViewModel.moodDistribution.value ?: emptyMap()
                     val filteredDistribution = filterDistributionByDays(distribution, selectedFilter)
                     updateCustomBarChart(filteredDistribution)
-                    
+
                     // Salvar a posição selecionada
                     sharedPreferences.edit().putInt("bar_chart_filter_position", position).apply()
                 }
@@ -1115,7 +1136,7 @@ class DashboardFragment : Fragment() {
             axisRight.isEnabled = false
 
             // Configurar texto quando não houver dados
-            setNoDataText(getString(R.string.no_mood_distribution))
+            setNoDataText(getString(R.string.no_mood_registered))
             setNoDataTextColor(resources.getColor(R.color.secundary))
             setNoDataTextTypeface(customTypeface)
             getPaint(BarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
@@ -1361,7 +1382,7 @@ class DashboardFragment : Fragment() {
         binding.radarPeriodSpinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
-            
+
             // Restaurar a seleção salva ou selecionar o primeiro período com dados
             val savedPosition = sharedPreferences.getInt("radar_chart_filter_position", -1)
             if (savedPosition >= 0 && savedPosition < availableFilters.size) {
@@ -1384,7 +1405,7 @@ class DashboardFragment : Fragment() {
                     val distribution = dashboardViewModel.moodDistribution.value ?: emptyMap()
                     val filteredDistribution = filterDistributionByDays(distribution, selectedFilter)
                     updateCustomRadarChart(filteredDistribution)
-                    
+
                     // Salvar a posição selecionada
                     sharedPreferences.edit().putInt("radar_chart_filter_position", position).apply()
                 }
@@ -1419,7 +1440,7 @@ class DashboardFragment : Fragment() {
             yAxis.typeface = customTypeface
 
             // Configurar texto quando não houver dados
-            setNoDataText(getString(R.string.no_mood_distribution))
+            setNoDataText(getString(R.string.no_mood_registered))
             setNoDataTextColor(resources.getColor(R.color.secundary))
             setNoDataTextTypeface(customTypeface)
             getPaint(RadarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
@@ -1764,7 +1785,7 @@ class DashboardFragment : Fragment() {
         binding.groupedBarPeriodSpinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
-            
+
             // Restaurar a seleção salva ou selecionar o primeiro período com dados
             val savedPosition = sharedPreferences.getInt("grouped_bar_chart_filter_position", -1)
             if (savedPosition >= 0 && savedPosition < availableFilters.size) {
@@ -1785,7 +1806,7 @@ class DashboardFragment : Fragment() {
                 ) {
                     val selectedFilter = availableFilters[position]
                     updateGroupedBarChart()
-                    
+
                     // Salvar a posição selecionada
                     sharedPreferences.edit().putInt("grouped_bar_chart_filter_position", position).apply()
                 }
@@ -1848,7 +1869,7 @@ class DashboardFragment : Fragment() {
             axisRight.isEnabled = false
 
             // Configurar texto quando não houver dados
-            setNoDataText(getString(R.string.no_mood_distribution))
+            setNoDataText(getString(R.string.no_mood_registered))
             setNoDataTextColor(resources.getColor(R.color.secundary))
             setNoDataTextTypeface(customTypeface)
             getPaint(BarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
@@ -1907,7 +1928,7 @@ class DashboardFragment : Fragment() {
                 binding.cardGroupedBarMoodInfoContainer.setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
                 binding.groupedBarMoodIcon.setImageResource(Utils.getMoodIcon(moodType))
                 binding.groupedBarMoodName.text = dashboardViewModel.getMoodName(requireContext(), moodType)
-                
+
                 updateGroupedBarChart()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -1924,7 +1945,7 @@ class DashboardFragment : Fragment() {
             getString(R.string.weekday_full_friday),
             getString(R.string.weekday_full_saturday)
         )
-        
+
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
         val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
@@ -1970,7 +1991,7 @@ class DashboardFragment : Fragment() {
             getString(R.string.mood_sad),
             getString(R.string.mood_very_sad)
         )
-        
+
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentFont = sharedPreferences.getString("current_font", "default")
         val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
@@ -2089,11 +2110,11 @@ class DashboardFragment : Fragment() {
                 getString(R.string.weekday_full_friday),
                 getString(R.string.weekday_full_saturday)
             )
-            
+
             // Obter o nome do dia da semana
             val weekdayName = weekdays1[day]
             labels.add(weekdayName)
-            
+
             // Usar a cor do humor para as barras
             colors.add(dashboardViewModel.getMoodColor(moodType))
         }
@@ -2182,7 +2203,7 @@ class DashboardFragment : Fragment() {
         binding.moodComparisonPeriodSpinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
-            
+
             // Restaurar a seleção salva ou selecionar o primeiro período com dados
             val savedPosition = sharedPreferences.getInt("mood_comparison_chart_filter_position", -1)
             if (savedPosition >= 0 && savedPosition < availableFilters.size) {
@@ -2203,7 +2224,7 @@ class DashboardFragment : Fragment() {
                 ) {
                     val selectedFilter = availableFilters[position]
                     updateMoodComparisonChart()
-                    
+
                     // Salvar a posição selecionada
                     sharedPreferences.edit().putInt("mood_comparison_chart_filter_position", position).apply()
                 }
@@ -2272,7 +2293,7 @@ class DashboardFragment : Fragment() {
             axisRight.isEnabled = false
 
             // Configurar texto quando não houver dados
-            setNoDataText(getString(R.string.no_mood_distribution))
+            setNoDataText(getString(R.string.no_mood_registered))
             setNoDataTextColor(resources.getColor(R.color.secundary))
             setNoDataTextTypeface(customTypeface)
             getPaint(BarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
@@ -2324,7 +2345,7 @@ class DashboardFragment : Fragment() {
                 binding.cardMoodComparisonMoodsInfoContainer1.setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
                 binding.moodComparisonMood1Icon.setImageResource(Utils.getMoodIcon(moodType))
                 binding.moodComparisonMood1Name.text = dashboardViewModel.getMoodName(requireContext(), moodType)
-                
+
                 updateMoodComparisonChart()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -2337,7 +2358,7 @@ class DashboardFragment : Fragment() {
                 binding.cardMoodComparisonMoodsInfoContainer2.setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
                 binding.moodComparisonMood2Icon.setImageResource(Utils.getMoodIcon(moodType))
                 binding.moodComparisonMood2Name.text = dashboardViewModel.getMoodName(requireContext(), moodType)
-                
+
                 updateMoodComparisonChart()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -2414,11 +2435,11 @@ class DashboardFragment : Fragment() {
         moodTypes.forEachIndexed { index, moodType ->
             val count = moodCounts[moodType] ?: 0
             entries.add(BarEntry(index.toFloat(), count.toFloat()))
-            
+
             // Obter o nome do humor
             val moodName = dashboardViewModel.getMoodName(requireContext(), moodType)
             labels.add(moodName)
-            
+
             // Usar a cor do humor para as barras
             colors.add(dashboardViewModel.getMoodColor(moodType))
         }
@@ -2468,28 +2489,28 @@ class DashboardFragment : Fragment() {
             rootView.findViewById(R.id.linear_donut_chart),
             "donut_chart_expanded"
         )
-        
+
         // Gráfico de Barras
         setupExpandCollapseForChart(
             rootView.findViewById(R.id.bar_chart_expand_collapse),
             rootView.findViewById(R.id.linear_bar_chart),
             "bar_chart_expanded"
         )
-        
+
         // Gráfico de Radar
         setupExpandCollapseForChart(
             rootView.findViewById(R.id.radar_chart_expand_collapse),
             rootView.findViewById(R.id.linear_radar_chart),
             "radar_chart_expanded"
         )
-        
+
         // Gráfico de Barras Agrupadas
         setupExpandCollapseForChart(
             rootView.findViewById(R.id.grouped_bar_chart_expand_collapse),
             rootView.findViewById(R.id.linear_grouped_bar_chart),
             "grouped_bar_chart_expanded"
         )
-        
+
         // Gráfico de Comparação de Humores
         setupExpandCollapseForChart(
             rootView.findViewById(R.id.mood_comparison_chart_expand_collapse),
@@ -2510,19 +2531,103 @@ class DashboardFragment : Fragment() {
         contentView.visibility = if (isExpanded) View.VISIBLE else View.GONE
         iconView.rotation = if (isExpanded) 0f else 180f
         
+        // Configurar a mensagem de "sem dados" para os gráficos
+        val noDataMessage = getString(R.string.no_mood_registered)
+        val textColor = resources.getColor(R.color.secundary)
+        
+        when {
+            preferenceKey.contains("donut") && contentView.findViewById<PieChart>(R.id.donut_chart) != null -> {
+                val chart = contentView.findViewById<PieChart>(R.id.donut_chart)
+                chart.setNoDataText(noDataMessage)
+                chart.setNoDataTextColor(textColor)
+                // Forçar atualização para aplicar a mensagem personalizada
+                if (chart.data == null || chart.data.entryCount == 0) {
+                    chart.invalidate()
+                }
+            }
+            preferenceKey.contains("bar") && contentView.findViewById<BarChart>(R.id.bar_chart) != null -> {
+                val chart = contentView.findViewById<BarChart>(R.id.bar_chart)
+                chart.setNoDataText(noDataMessage)
+                chart.setNoDataTextColor(textColor)
+                if (chart.data == null || chart.data.entryCount == 0) {
+                    chart.invalidate()
+                }
+            }
+            preferenceKey.contains("radar") && contentView.findViewById<RadarChart>(R.id.radar_chart) != null -> {
+                val chart = contentView.findViewById<RadarChart>(R.id.radar_chart)
+                chart.setNoDataText(noDataMessage)
+                chart.setNoDataTextColor(textColor)
+                if (chart.data == null || chart.data.entryCount == 0) {
+                    chart.invalidate()
+                }
+            }
+            preferenceKey.contains("grouped") && contentView.findViewById<BarChart>(R.id.grouped_bar_chart) != null -> {
+                val chart = contentView.findViewById<BarChart>(R.id.grouped_bar_chart)
+                chart.setNoDataText(noDataMessage)
+                chart.setNoDataTextColor(textColor)
+                if (chart.data == null || chart.data.entryCount == 0) {
+                    chart.invalidate()
+                }
+            }
+            preferenceKey.contains("mood_comparison") && contentView.findViewById<BarChart>(R.id.mood_comparison_chart) != null -> {
+                val chart = contentView.findViewById<BarChart>(R.id.mood_comparison_chart)
+                chart.setNoDataText(noDataMessage)
+                chart.setNoDataTextColor(textColor)
+                if (chart.data == null || chart.data.entryCount == 0) {
+                    chart.invalidate()
+                }
+            }
+        }
+        
+        // Usar um handler para garantir que a visibilidade seja aplicada após a renderização
+        val handler = Handler(Looper.getMainLooper())
+        
         iconView.setOnClickListener {
             isExpanded = !isExpanded
             
-            // Alternar visibilidade do conteúdo
-            contentView.visibility = if (isExpanded) View.VISIBLE else View.GONE
-            
-
-            // Rotacionar o ícone
+            // Rotacionar o ícone primeiro
             val rotation = if (isExpanded) 0f else 180f
             iconView.animate().rotation(rotation).setDuration(300).start()
             
-            // Salvar o estado atual
-            sharedPreferences.edit().putBoolean(preferenceKey, isExpanded).apply()
+            // Usar um pequeno atraso para garantir que a animação da rotação seja visível antes de expandir/colapsar
+            handler.postDelayed({
+                // Alternar visibilidade do conteúdo
+                contentView.visibility = if (isExpanded) View.VISIBLE else View.GONE
+                
+                // Forçar atualização do gráfico quando expandido
+                if (isExpanded) {
+                    when {
+                        preferenceKey.contains("donut") && contentView.findViewById<PieChart>(R.id.donut_chart) != null -> {
+                            val chart = contentView.findViewById<PieChart>(R.id.donut_chart)
+                            chart.notifyDataSetChanged()
+                            chart.invalidate()
+                        }
+                        preferenceKey.contains("bar") && contentView.findViewById<BarChart>(R.id.bar_chart) != null -> {
+                            val chart = contentView.findViewById<BarChart>(R.id.bar_chart)
+                            chart.notifyDataSetChanged()
+                            chart.invalidate()
+                        }
+                        preferenceKey.contains("radar") && contentView.findViewById<RadarChart>(R.id.radar_chart) != null -> {
+                            val chart = contentView.findViewById<RadarChart>(R.id.radar_chart)
+                            chart.notifyDataSetChanged()
+                            chart.invalidate()
+                        }
+                        preferenceKey.contains("grouped") && contentView.findViewById<BarChart>(R.id.grouped_bar_chart) != null -> {
+                            val chart = contentView.findViewById<BarChart>(R.id.grouped_bar_chart)
+                            chart.notifyDataSetChanged()
+                            chart.invalidate()
+                        }
+                        preferenceKey.contains("mood_comparison") && contentView.findViewById<BarChart>(R.id.mood_comparison_chart) != null -> {
+                            val chart = contentView.findViewById<BarChart>(R.id.mood_comparison_chart)
+                            chart.notifyDataSetChanged()
+                            chart.invalidate()
+                        }
+                    }
+                }
+                
+                // Salvar o estado atual
+                sharedPreferences.edit().putBoolean(preferenceKey, isExpanded).apply()
+            }, 150) // Pequeno atraso para melhorar a experiência visual
         }
     }
 

@@ -79,11 +79,23 @@
     <!-- Day Filters -->
     <string name="best_day">Best</string>
     <string name="worst_day">Worst</string>
+    <string name="most_consistent_day">Most Consistent</string>
+    <string name="most_variable_day">Most Variable</string>
+    <string name="most_entries_day">Most Entries</string>
+    <string name="least_entries_day">Least Entries</string>
+    <string name="happiest_day">Happiest</string>
+    <string name="saddest_day">Saddest</string>
 
     <!-- Statistics Messages -->
     <string name="register_more_moods">Register more moods to see statistics</string>
     <string name="best_day_usually">Your best day is usually %1$s</string>
     <string name="worst_day_usually">Your worst day is usually %1$s</string>
+    <string name="most_consistent_day_usually">Your most consistent day is usually %1$s</string>
+    <string name="most_variable_day_usually">Your most variable day is usually %1$s</string>
+    <string name="most_entries_day_usually">You register most entries on %1$s</string>
+    <string name="least_entries_day_usually">You register least entries on %1$s</string>
+    <string name="happiest_day_usually">Your happiest day is usually %1$s</string>
+    <string name="saddest_day_usually">Your saddest day is usually %1$s</string>
 
     <!-- DialogEmotions -->
     <string name="how_are_you_feeling">How are you feeling?</string>
@@ -98,10 +110,20 @@
     <string name="date_format">%1$d of %2$s of %3$d</string>
     <string name="how_was_your_day">how was your day?</string>
 
+    <!-- Dashboard Messages -->
+    <string name="no_mood_registered">No mood registered yet</string>
+    <string name="no_data_last_7_days">No mood registered in the last 7 days</string>
+    <string name="no_data_last_month">No mood registered in the last month</string>
+    <string name="no_data_last_3_months">No mood registered in the last 3 months</string>
+    <string name="no_data_last_6_months">No mood registered in the last 6 months</string>
+    <string name="no_data_last_9_months">No mood registered in the last 9 months</string>
+    <string name="no_data_last_year">No mood registered in the last year</string>
+    <string name="no_data_all_time">No mood registered yet</string>
+    <string name="no_data_specific_month">No mood registered in %1$s</string>
+
     <!-- Dashboard -->
     <string name="mood_statistics">Mood Statistics</string>
     <string name="average_mood">Average Mood</string>
-    <string name="no_mood_registered">No mood registered yet</string>
     <string name="your_average_mood">Your average mood is %1$s</string>
     <string name="mood_distribution">Mood Distribution</string>
     <string name="no_mood_distribution">No mood registered yet</string>
@@ -227,15 +249,6 @@
         <item quantity="one">%d entry on this day</item>
         <item quantity="other">%d entries on this day</item>
     </plurals>
-
-    <string name="no_data_last_7_days">No data in the last 7 days</string>
-    <string name="no_data_last_month">No data in the last month</string>
-    <string name="no_data_last_3_months">No data in the last 3 months</string>
-    <string name="no_data_last_6_months">No data in the last 6 months</string>
-    <string name="no_data_last_9_months">No data in the last 9 months</string>
-    <string name="no_data_last_year">No data in the last year</string>
-    <string name="no_data_all_time">No data recorded</string>
-    <string name="no_data_specific_month">No data for %1$s</string>
 
     <!-- Day Filter Types -->
     <string name="filter_last_7_days">Last 7 days</string>
