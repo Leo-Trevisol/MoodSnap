@@ -377,6 +377,7 @@
                         android:id="@+id/bar_chart_expand_collapse"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
+                        android:rotation="180"
                         android:src="@drawable/ic_arrow_down"/>
                 </LinearLayout>
 
@@ -470,6 +471,7 @@
                         android:id="@+id/radar_chart_expand_collapse"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
+                        android:rotation="180"
                         android:src="@drawable/ic_arrow_down" />
                 </LinearLayout>
 
@@ -563,6 +565,7 @@
                         android:id="@+id/grouped_bar_chart_expand_collapse"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
+                        android:rotation="180"
                         android:src="@drawable/ic_arrow_down" />
                 </LinearLayout>
 
@@ -747,6 +750,7 @@
                         android:id="@+id/mood_comparison_chart_expand_collapse"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
+                        android:rotation="180"
                         android:src="@drawable/ic_arrow_down" />
                 </LinearLayout>
 

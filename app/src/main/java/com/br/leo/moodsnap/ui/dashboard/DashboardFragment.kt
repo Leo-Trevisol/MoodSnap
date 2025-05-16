@@ -41,6 +41,7 @@ import com.br.leo.moodsnap.ui.utils.DateUtils
 import com.br.leo.moodsnap.ui.utils.RoundedBarChartRenderer
 import com.br.leo.moodsnap.ui.utils.Utils.showCustomToast
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.charts.Chart
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -2523,54 +2524,28 @@ class DashboardFragment : Fragment() {
         if (iconView == null || contentView == null) return
 
         val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
-        
-        // Recuperar o estado salvo (padrão é expandido = true)
-        var isExpanded = sharedPreferences.getBoolean(preferenceKey, true)
-        
-        // Aplicar o estado inicial
-        contentView.visibility = if (isExpanded) View.VISIBLE else View.GONE
-        iconView.rotation = if (isExpanded) 0f else 180f
-        
-        // Configurar a mensagem de "sem dados" para os gráficos
+
+        // Recuperar estado salvo
+        val savedExpanded = sharedPreferences.getBoolean(preferenceKey, true)
+
+        // Aplicar estado inicial
+        contentView.visibility = if (savedExpanded) View.VISIBLE else View.GONE
+        iconView.rotation = if (savedExpanded) 0f else 180f
+
+        // Configurar mensagem de "sem dados" nos gráficos
         val noDataMessage = getString(R.string.no_mood_registered)
         val textColor = resources.getColor(R.color.secundary)
-        
-        when {
-            preferenceKey.contains("donut") && contentView.findViewById<PieChart>(R.id.donut_chart) != null -> {
-                val chart = contentView.findViewById<PieChart>(R.id.donut_chart)
-                chart.setNoDataText(noDataMessage)
-                chart.setNoDataTextColor(textColor)
-                // Forçar atualização para aplicar a mensagem personalizada
-                if (chart.data == null || chart.data.entryCount == 0) {
-                    chart.invalidate()
-                }
-            }
-            preferenceKey.contains("bar") && contentView.findViewById<BarChart>(R.id.bar_chart) != null -> {
-                val chart = contentView.findViewById<BarChart>(R.id.bar_chart)
-                chart.setNoDataText(noDataMessage)
-                chart.setNoDataTextColor(textColor)
-                if (chart.data == null || chart.data.entryCount == 0) {
-                    chart.invalidate()
-                }
-            }
-            preferenceKey.contains("radar") && contentView.findViewById<RadarChart>(R.id.radar_chart) != null -> {
-                val chart = contentView.findViewById<RadarChart>(R.id.radar_chart)
-                chart.setNoDataText(noDataMessage)
-                chart.setNoDataTextColor(textColor)
-                if (chart.data == null || chart.data.entryCount == 0) {
-                    chart.invalidate()
-                }
-            }
-            preferenceKey.contains("grouped") && contentView.findViewById<BarChart>(R.id.grouped_bar_chart) != null -> {
-                val chart = contentView.findViewById<BarChart>(R.id.grouped_bar_chart)
-                chart.setNoDataText(noDataMessage)
-                chart.setNoDataTextColor(textColor)
-                if (chart.data == null || chart.data.entryCount == 0) {
-                    chart.invalidate()
-                }
-            }
-            preferenceKey.contains("mood_comparison") && contentView.findViewById<BarChart>(R.id.mood_comparison_chart) != null -> {
-                val chart = contentView.findViewById<BarChart>(R.id.mood_comparison_chart)
+
+        val chartIds = listOf(
+            R.id.donut_chart,
+            R.id.bar_chart,
+            R.id.radar_chart,
+            R.id.grouped_bar_chart,
+            R.id.mood_comparison_chart
+        )
+
+        chartIds.forEach { chartId ->
+            contentView.findViewById<Chart<*>>(chartId)?.let { chart ->
                 chart.setNoDataText(noDataMessage)
                 chart.setNoDataTextColor(textColor)
                 if (chart.data == null || chart.data.entryCount == 0) {
@@ -2578,56 +2553,30 @@ class DashboardFragment : Fragment() {
                 }
             }
         }
-        
-        // Usar um handler para garantir que a visibilidade seja aplicada após a renderização
-        val handler = Handler(Looper.getMainLooper())
-        
+
         iconView.setOnClickListener {
-            isExpanded = !isExpanded
-            
-            // Rotacionar o ícone primeiro
-            val rotation = if (isExpanded) 0f else 180f
+            val isCurrentlyExpanded = contentView.visibility == View.VISIBLE
+            val shouldExpand = !isCurrentlyExpanded
+
+            // Rotacionar ícone
+            val rotation = if (shouldExpand) 0f else 180f
             iconView.animate().rotation(rotation).setDuration(300).start()
-            
-            // Usar um pequeno atraso para garantir que a animação da rotação seja visível antes de expandir/colapsar
-            handler.postDelayed({
-                // Alternar visibilidade do conteúdo
-                contentView.visibility = if (isExpanded) View.VISIBLE else View.GONE
-                
-                // Forçar atualização do gráfico quando expandido
-                if (isExpanded) {
-                    when {
-                        preferenceKey.contains("donut") && contentView.findViewById<PieChart>(R.id.donut_chart) != null -> {
-                            val chart = contentView.findViewById<PieChart>(R.id.donut_chart)
-                            chart.notifyDataSetChanged()
-                            chart.invalidate()
-                        }
-                        preferenceKey.contains("bar") && contentView.findViewById<BarChart>(R.id.bar_chart) != null -> {
-                            val chart = contentView.findViewById<BarChart>(R.id.bar_chart)
-                            chart.notifyDataSetChanged()
-                            chart.invalidate()
-                        }
-                        preferenceKey.contains("radar") && contentView.findViewById<RadarChart>(R.id.radar_chart) != null -> {
-                            val chart = contentView.findViewById<RadarChart>(R.id.radar_chart)
-                            chart.notifyDataSetChanged()
-                            chart.invalidate()
-                        }
-                        preferenceKey.contains("grouped") && contentView.findViewById<BarChart>(R.id.grouped_bar_chart) != null -> {
-                            val chart = contentView.findViewById<BarChart>(R.id.grouped_bar_chart)
-                            chart.notifyDataSetChanged()
-                            chart.invalidate()
-                        }
-                        preferenceKey.contains("mood_comparison") && contentView.findViewById<BarChart>(R.id.mood_comparison_chart) != null -> {
-                            val chart = contentView.findViewById<BarChart>(R.id.mood_comparison_chart)
+
+            // Alternar visibilidade com pequeno delay para suavidade
+            Handler(Looper.getMainLooper()).postDelayed({
+                contentView.visibility = if (shouldExpand) View.VISIBLE else View.GONE
+
+                if (shouldExpand) {
+                    chartIds.forEach { chartId ->
+                        contentView.findViewById<Chart<*>>(chartId)?.let { chart ->
                             chart.notifyDataSetChanged()
                             chart.invalidate()
                         }
                     }
                 }
-                
-                // Salvar o estado atual
-                sharedPreferences.edit().putBoolean(preferenceKey, isExpanded).apply()
-            }, 150) // Pequeno atraso para melhorar a experiência visual
+
+                sharedPreferences.edit().putBoolean(preferenceKey, shouldExpand).apply()
+            }, 150)
         }
     }
 
