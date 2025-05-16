@@ -2,9 +2,9 @@
     <!-- Cores escuras principais -->
     <color name="primary">#FFF</color>
     <color name="secundary">#000</color>
-    <color name="primary_background">#E0E0E0 </color>
+    <color name="primary_background">#f4f4ec</color>
     <color name="secundary_background_background">#0A0A0A</color>
-    <color name="past_day_background_color">@color/gray_light</color>
+    <color name="past_day_background_color">#E7E7E7</color>
     <color name="future_day_background_color">@color/gray_dark</color>
     <color name="day_text_color">@color/dark_secondary</color>
 
