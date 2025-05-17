@@ -243,8 +243,8 @@ class EditDayActivity : AppCompatActivity() {
         val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
         val btnOk = dialogView.findViewById<Button>(R.id.btn_ok)
 
-        Utils.updateBackGroundColor(this, btnCancel)
-        Utils.updateBackGroundColor(this, btnOk)
+        Utils.updateBackGroundColor(this, btnCancel, textColor = resources.getColor(R.color.primary))
+        Utils.updateBackGroundColor(this, btnOk, textColor = resources.getColor(R.color.primary))
 
         val primaryGreen = ContextCompat.getColor(this, R.color.primary_green)
 
@@ -290,8 +290,9 @@ class EditDayActivity : AppCompatActivity() {
         }
         
         // Configurar o adaptador do spinner
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, monthYearList)
+        val adapter = ArrayAdapter(this, R.layout.spinner_item, monthYearList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
         monthYearSpinner.adapter = adapter
         
         // Definir a posição inicial do spinner para o mês/ano atual
@@ -325,32 +326,33 @@ class EditDayActivity : AppCompatActivity() {
                 val emptyCell = TextView(this)
                 val params = GridLayout.LayoutParams()
                 params.width = 0
-                params.height = resources.getDimensionPixelSize(R.dimen.calendar_cell_height)
+                //params.height = resources.getDimensionPixelSize(R.dimen.calendar_cell_height)
                 params.columnSpec = GridLayout.spec(i, 1f)
+                params.setMargins(0, 0, 0, 0)
                 emptyCell.layoutParams = params
                 calendarGrid.addView(emptyCell)
             }
-            
+
             // Criar células para cada dia do mês
             for (day in 1..daysInMonth) {
                 val dayCell = TextView(this)
                 dayCell.text = day.toString()
                 dayCell.gravity = Gravity.CENTER
                 dayCell.textSize = 16f
-                
+
                 // Calcular a posição da célula no grid
                 val position = firstDayOfWeek + day - 1
                 val row = position / 7
                 val col = position % 7
-                
+
                 val params = GridLayout.LayoutParams()
                 params.width = 0
                 params.height = resources.getDimensionPixelSize(R.dimen.calendar_cell_height)
                 params.rowSpec = GridLayout.spec(row)
                 params.columnSpec = GridLayout.spec(col, 1f)
-                params.setMargins(4, 4, 4, 4)
+                params.setMargins(2, 0, 2, 0)
                 dayCell.layoutParams = params
-                
+
                 // Verificar se este dia é o dia selecionado
                 if (day == selectedDay) {
                     dayCell.setBackgroundResource(R.drawable.calendar_selected_day_background)
@@ -359,17 +361,17 @@ class EditDayActivity : AppCompatActivity() {
                     // Verificar se este dia está no futuro
                     val dayCalendar = dialogCalendar.clone() as Calendar
                     dayCalendar.set(Calendar.DAY_OF_MONTH, day)
-                    
+
                     if (DateUtils.isDateInFuture(dayCalendar)) {
                         // Dia futuro - desabilitar
                         dayCell.setTextColor(resources.getColor(R.color.gray_dark))
-                        dayCell.alpha = 0.5f
+                      //  dayCell.alpha = 0.5f
                     } else {
                         // Dia normal
                        //
                         // dayCell.setBackgroundResource(R.drawable.calendar_day_background)
                         dayCell.setTextColor(resources.getColor(R.color.secundary))
-                        
+
                         // Configurar clique para selecionar o dia
                         dayCell.setOnClickListener {
                             // Atualizar a seleção
@@ -433,7 +435,7 @@ class EditDayActivity : AppCompatActivity() {
         // Criar o diálogo
         val dialog = AlertDialog.Builder(this, R.style.CustomAlertDialog)
             .setView(dialogView)
-            .setCancelable(true)
+            .setCancelable(false)
             .create()
         
         // Configurar botões de ação

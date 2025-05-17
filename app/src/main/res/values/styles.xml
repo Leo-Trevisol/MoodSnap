@@ -11,12 +11,14 @@
         <item name="buttonBarNegativeButtonStyle">@style/CustomButtonStyle</item>
         <item name="materialAlertDialogTitlePanelStyle">@style/CustomTitlePanelStyle</item>
         <item name="buttonBarStyle">@style/CustomButtonBarStyle</item>
-        <item name="android:background">@color/primary_background</item>
-        <item name="android:windowBackground">@color/primary_background</item>
+        <item name="android:background">@drawable/rounded_background</item>
+        <item name="android:windowBackground">@drawable/rounded_background</item>
         <item name="materialAlertDialogBodyTextStyle">@style/CustomBodyTextStyle</item>
         <item name="android:textViewStyle">@style/CustomTextViewStyle</item>
         <item name="android:buttonStyle">@style/CustomButtonStyle</item>
         <item name="materialButtonStyle">@style/CustomButtonStyle</item>
+        <item name="android:windowMinWidthMajor">90%</item> <!-- paisagem -->
+        <item name="android:windowMinWidthMinor">90%</item> <!-- retrato -->
     </style>
 
     <style name="CustomTextViewStyle" parent="Widget.MaterialComponents.TextView">

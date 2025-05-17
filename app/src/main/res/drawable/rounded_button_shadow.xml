@@ -3,14 +3,14 @@
     <item android:right="2dp" android:bottom="2dp">
         <shape android:shape="rectangle">
             <solid android:color="#55000000"/> <!-- cor da sombra -->
-            <corners android:radius="12dp"/>
+            <corners android:radius="8dp"/>
         </shape>
     </item>
 
     <!-- Botão -->
     <item>
         <shape android:shape="rectangle">
-            <corners android:radius="12dp"/>
+            <corners android:radius="8dp"/>
         </shape>
     </item>
 </layer-list>

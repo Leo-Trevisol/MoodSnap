@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/when_is_this_record"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_size_large"
+        android:textColor="@color/secundary"
         android:textStyle="bold"
         android:layout_marginBottom="16dp" />
 
@@ -57,7 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="4dp">
 
         <TextView
             android:layout_width="0dp"
@@ -65,7 +66,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/day_sunday_short"
-            android:textSize="14sp" />
+            android:textColor="@color/primary_green"
+            android:textSize="@dimen/text_size_small" />
 
         <TextView
             android:layout_width="0dp"
@@ -73,7 +75,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/day_monday_short"
-            android:textSize="14sp" />
+            android:textColor="@color/primary_green"
+            android:textSize="@dimen/text_size_small"/>
 
         <TextView
             android:layout_width="0dp"
@@ -81,7 +84,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/day_tuesday_short"
-            android:textSize="14sp" />
+            android:textColor="@color/primary_green"
+            android:textSize="@dimen/text_size_small" />
 
         <TextView
             android:layout_width="0dp"
@@ -89,7 +93,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/day_wednesday_short"
-            android:textSize="14sp" />
+            android:textColor="@color/primary_green"
+            android:textSize="@dimen/text_size_small" />
 
         <TextView
             android:layout_width="0dp"
@@ -97,7 +102,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/day_thursday_short"
-            android:textSize="14sp" />
+            android:textColor="@color/primary_green"
+            android:textSize="@dimen/text_size_small" />
 
         <TextView
             android:layout_width="0dp"
@@ -105,7 +111,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/day_friday_short"
-            android:textSize="14sp" />
+            android:textColor="@color/primary_green"
+            android:textSize="@dimen/text_size_small" />
 
         <TextView
             android:layout_width="0dp"
@@ -113,7 +120,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/day_saturday_short"
-            android:textSize="14sp" />
+            android:textColor="@color/primary_green"
+            android:textSize="@dimen/text_size_small" />
     </LinearLayout>
 
     <GridLayout
@@ -137,7 +145,7 @@
             android:text="@string/btn_cancel"
             android:background="@drawable/rounded_button_shadow"
             android:layout_weight="1"
-            android:textColor="@color/black" />
+            android:textColor="@color/primary" />
 
         <Button
             android:id="@+id/btn_ok"
@@ -146,6 +154,6 @@
             android:text="@string/btn_confirm"
             android:background="@drawable/rounded_button_shadow"
             android:layout_weight="1"
-            android:textColor="@color/black" />
+            android:textColor="@color/primary" />
     </LinearLayout>
 </LinearLayout>
