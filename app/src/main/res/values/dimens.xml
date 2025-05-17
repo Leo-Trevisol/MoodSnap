@@ -49,6 +49,9 @@
 
     <dimen name="hole_pie_chart">35px</dimen>
 
+    <!-- Calendar picker dimensions -->
+    <dimen name="calendar_cell_height">40dp</dimen>
+    
     <dimen name="legend_square_size">12dp</dimen>
     
     <!-- FAB dimensions -->

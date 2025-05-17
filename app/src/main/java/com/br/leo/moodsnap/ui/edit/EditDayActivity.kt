@@ -32,6 +32,8 @@ import java.util.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.button.MaterialButton
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.ViewGroup
 import android.widget.TextView
@@ -44,6 +46,12 @@ import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.util.Log
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.GridLayout
+import android.widget.ImageButton
+import android.widget.Spinner
+import androidx.core.widget.ImageViewCompat
 
 class EditDayActivity : AppCompatActivity() {
 
@@ -212,7 +220,7 @@ class EditDayActivity : AppCompatActivity() {
 
         // Configurar clique na data
         binding.dateText.setOnClickListener {
-            showDatePicker()
+            showCalendarPicker()
         }
     }
 
@@ -222,15 +230,39 @@ class EditDayActivity : AppCompatActivity() {
         binding.dateText.text = "$day - $month"
     }
 
-    private fun showDatePicker() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_date_picker, null)
-        val monthPicker = dialogView.findViewById<NumberPicker>(R.id.month_picker)
-        val yearPicker = dialogView.findViewById<NumberPicker>(R.id.year_picker)
-        
+    private fun showCalendarPicker() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_calendar_picker, null)
         FontUtils.applyFontToView(this, dialogView)
+
+        // Referências aos elementos do layout
+        val dialogTitle = dialogView.findViewById<TextView>(R.id.dialog_title)
+        val monthYearSpinner = dialogView.findViewById<Spinner>(R.id.month_year_spinner)
+        val prevMonthButton = dialogView.findViewById<ImageButton>(R.id.prev_month_button)
+        val nextMonthButton = dialogView.findViewById<ImageButton>(R.id.next_month_button)
+        val calendarGrid = dialogView.findViewById<GridLayout>(R.id.calendar_grid)
+        val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
+        val btnOk = dialogView.findViewById<Button>(R.id.btn_ok)
+
+        Utils.updateBackGroundColor(this, btnCancel)
+        Utils.updateBackGroundColor(this, btnOk)
+
+        val primaryGreen = ContextCompat.getColor(this, R.color.primary_green)
+
+        ImageViewCompat.setImageTintList(prevMonthButton, ColorStateList.valueOf(primaryGreen))
+        ImageViewCompat.setImageTintList(nextMonthButton, ColorStateList.valueOf(primaryGreen))
+
+        // Calendário para controlar a data exibida no diálogo
+        val dialogCalendar = calendar.clone() as Calendar
         
-        // Configurar o picker de meses
-        val months = arrayOf(
+        // Calendário para controlar a data atual (para limitar a seleção de datas futuras)
+        val currentCalendar = Calendar.getInstance()
+        
+        // Dia selecionado inicialmente (dia atual do calendário)
+        var selectedDay = dialogCalendar.get(Calendar.DAY_OF_MONTH)
+        
+        // Preparar lista de meses/anos para o spinner
+        val monthYearList = ArrayList<String>()
+        val monthNames = arrayOf(
             getString(R.string.month_january),
             getString(R.string.month_february),
             getString(R.string.month_march),
@@ -244,76 +276,186 @@ class EditDayActivity : AppCompatActivity() {
             getString(R.string.month_november),
             getString(R.string.month_december)
         )
-
-        val currentCalendar = Calendar.getInstance()
-        val currentMonth = currentCalendar.get(Calendar.MONTH)
+        
+        // Criar lista de meses/anos para os últimos 10 anos
         val currentYear = currentCalendar.get(Calendar.YEAR)
-
-        monthPicker.apply {
-            minValue = 0
-            maxValue = 11
-            displayedValues = months
-            value = calendar.get(Calendar.MONTH)
-        }
-
-        // Configurar o picker de anos
-        yearPicker.apply {
-            minValue = currentYear - 10
-            maxValue = currentYear
-            value = calendar.get(Calendar.YEAR)
-        }
-
-        // Adicionar listener para controlar a seleção de meses futuros
-        yearPicker.setOnValueChangedListener { _, _, newVal ->
-            if (newVal == currentYear) {
-                monthPicker.maxValue = currentMonth
-                if (monthPicker.value > currentMonth) {
-                    monthPicker.value = currentMonth
+        for (year in currentYear - 10..currentYear) {
+            for (month in 0..11) {
+                // Não incluir meses futuros
+                if (year == currentYear && month > currentCalendar.get(Calendar.MONTH)) {
+                    continue
                 }
-            } else {
-                monthPicker.maxValue = 11
+                monthYearList.add(getString(R.string.month_year_format, monthNames[month], year))
             }
         }
-
-        // Verificar se a data selecionada é futura
-        val selectedYear = yearPicker.value
-        val selectedMonth = monthPicker.value
-        if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
-            yearPicker.value = currentYear
-            monthPicker.value = currentMonth
+        
+        // Configurar o adaptador do spinner
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, monthYearList)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        monthYearSpinner.adapter = adapter
+        
+        // Definir a posição inicial do spinner para o mês/ano atual
+        val currentMonthYear = getString(
+            R.string.month_year_format,
+            monthNames[dialogCalendar.get(Calendar.MONTH)],
+            dialogCalendar.get(Calendar.YEAR)
+        )
+        val spinnerPosition = monthYearList.indexOf(currentMonthYear)
+        if (spinnerPosition != -1) {
+            monthYearSpinner.setSelection(spinnerPosition)
         }
-
-        val dialog = MaterialAlertDialogBuilder(this, R.style.CustomAlertDialog)
-            .setTitle(getString(R.string.hint_date))
+        
+        // Função para atualizar o grid do calendário
+        fun updateCalendarGrid() {
+            // Limpar o grid atual
+            calendarGrid.removeAllViews()
+            
+            // Configurar o calendário para o primeiro dia do mês
+            val tempCalendar = dialogCalendar.clone() as Calendar
+            tempCalendar.set(Calendar.DAY_OF_MONTH, 1)
+            
+            // Obter o dia da semana do primeiro dia do mês (0 = Domingo, 1 = Segunda, etc.)
+            val firstDayOfWeek = tempCalendar.get(Calendar.DAY_OF_WEEK) - 1
+            
+            // Obter o número de dias no mês atual
+            val daysInMonth = tempCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+            
+            // Criar células vazias para os dias antes do primeiro dia do mês
+            for (i in 0 until firstDayOfWeek) {
+                val emptyCell = TextView(this)
+                val params = GridLayout.LayoutParams()
+                params.width = 0
+                params.height = resources.getDimensionPixelSize(R.dimen.calendar_cell_height)
+                params.columnSpec = GridLayout.spec(i, 1f)
+                emptyCell.layoutParams = params
+                calendarGrid.addView(emptyCell)
+            }
+            
+            // Criar células para cada dia do mês
+            for (day in 1..daysInMonth) {
+                val dayCell = TextView(this)
+                dayCell.text = day.toString()
+                dayCell.gravity = Gravity.CENTER
+                dayCell.textSize = 16f
+                
+                // Calcular a posição da célula no grid
+                val position = firstDayOfWeek + day - 1
+                val row = position / 7
+                val col = position % 7
+                
+                val params = GridLayout.LayoutParams()
+                params.width = 0
+                params.height = resources.getDimensionPixelSize(R.dimen.calendar_cell_height)
+                params.rowSpec = GridLayout.spec(row)
+                params.columnSpec = GridLayout.spec(col, 1f)
+                params.setMargins(4, 4, 4, 4)
+                dayCell.layoutParams = params
+                
+                // Verificar se este dia é o dia selecionado
+                if (day == selectedDay) {
+                    dayCell.setBackgroundResource(R.drawable.calendar_selected_day_background)
+                    dayCell.setTextColor(resources.getColor(android.R.color.white))
+                } else {
+                    // Verificar se este dia está no futuro
+                    val dayCalendar = dialogCalendar.clone() as Calendar
+                    dayCalendar.set(Calendar.DAY_OF_MONTH, day)
+                    
+                    if (DateUtils.isDateInFuture(dayCalendar)) {
+                        // Dia futuro - desabilitar
+                        dayCell.setTextColor(resources.getColor(R.color.gray_dark))
+                        dayCell.alpha = 0.5f
+                    } else {
+                        // Dia normal
+                       //
+                        // dayCell.setBackgroundResource(R.drawable.calendar_day_background)
+                        dayCell.setTextColor(resources.getColor(R.color.secundary))
+                        
+                        // Configurar clique para selecionar o dia
+                        dayCell.setOnClickListener {
+                            // Atualizar a seleção
+                            selectedDay = day
+                            updateCalendarGrid()
+                        }
+                    }
+                }
+                
+                calendarGrid.addView(dayCell)
+            }
+        }
+        
+        // Atualizar o grid do calendário inicialmente
+        updateCalendarGrid()
+        
+        // Configurar listener do spinner
+        monthYearSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedItem = monthYearList[position]
+                val parts = selectedItem.split(" ")
+                
+                // Encontrar o índice do mês selecionado
+                val monthIndex = monthNames.indexOf(parts[0])
+                val year = parts[1].toInt()
+                
+                // Atualizar o calendário do diálogo
+                dialogCalendar.set(Calendar.YEAR, year)
+                dialogCalendar.set(Calendar.MONTH, monthIndex)
+                
+                // Ajustar o dia selecionado se necessário (para evitar dias inválidos)
+                val maxDay = dialogCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+                if (selectedDay > maxDay) {
+                    selectedDay = maxDay
+                }
+                
+                // Atualizar o grid do calendário
+                updateCalendarGrid()
+            }
+            
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Não fazer nada
+            }
+        }
+        
+        // Configurar botões de navegação
+        prevMonthButton.setOnClickListener {
+            val currentPosition = monthYearSpinner.selectedItemPosition
+            if (currentPosition > 0) {
+                monthYearSpinner.setSelection(currentPosition - 1)
+            }
+        }
+        
+        nextMonthButton.setOnClickListener {
+            val currentPosition = monthYearSpinner.selectedItemPosition
+            if (currentPosition < monthYearList.size - 1) {
+                monthYearSpinner.setSelection(currentPosition + 1)
+            }
+        }
+        
+        // Criar o diálogo
+        val dialog = AlertDialog.Builder(this, R.style.CustomAlertDialog)
             .setView(dialogView)
-            .setCancelable(false)
-            .setNegativeButton(getString(R.string.btn_cancel), null)
-            .setPositiveButton(getString(R.string.btn_confirm)) { _, _ ->
-                val selectedYear = yearPicker.value
-                val selectedMonth = monthPicker.value
-
-                if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
-                    showCustomToast(this, getString(R.string.error_invalid_date))
-                    return@setPositiveButton
-                }
-
-                calendar.set(Calendar.YEAR, selectedYear)
-                calendar.set(Calendar.MONTH, selectedMonth)
-                updateDateText()
-                loadExistingData()
-            }
+            .setCancelable(true)
             .create()
-
-        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-
-        // Apply current font to dialog title and buttons when dialog is shown
-        dialog.setOnShowListener {
-
-            updateFontDialogPicker(this, dialog, dialogView)
-
-            // Apply font to the dialog view itself to catch any remaining text elements
-            FontUtils.applyFontToView(this, dialog.window?.decorView ?: return@setOnShowListener)
+        
+        // Configurar botões de ação
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
         }
+        
+        btnOk.setOnClickListener {
+            // Atualizar o calendário principal com a data selecionada
+            calendar.set(Calendar.YEAR, dialogCalendar.get(Calendar.YEAR))
+            calendar.set(Calendar.MONTH, dialogCalendar.get(Calendar.MONTH))
+            calendar.set(Calendar.DAY_OF_MONTH, selectedDay)
+            
+            // Atualizar a interface
+            updateDateText()
+            loadExistingData()
+            
+            dialog.dismiss()
+        }
+        
+        // Exibir o diálogo
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         dialog.show()
     }
 

@@ -133,14 +133,14 @@ class CalendarAdapter(
                     )
                     holder.moodIndicator.visibility = View.VISIBLE
                     holder.moodIndicator.setImageResource(Utils.getMoodDrawable(mood.moodType))
-                    holder.dayNumber.setTextColor(if (isSelected) Color.WHITE else context.getColor(R.color.day_text_color))
+                    holder.dayNumber.setTextColor(if (isSelected) context.getColor(R.color.day_text_color) else context.getColor(R.color.day_text_color))
                 } else {
                     holder.dayCard.setCardBackgroundColor(
                         if (isSelected) context.getColor(R.color.primary_green)
                         else context.getColor(R.color.past_day_background_color)
                     )
                     holder.moodIndicator.visibility = View.GONE
-                    holder.dayNumber.setTextColor(if (isSelected) Color.WHITE else context.getColor(R.color.day_text_color))
+                    holder.dayNumber.setTextColor(if (isSelected)  context.getColor(R.color.day_text_color) else context.getColor(R.color.day_text_color))
                 }
             }
         }
