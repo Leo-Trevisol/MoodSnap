@@ -861,7 +861,7 @@ class HomeFragment : Fragment() {
         val btnFonts = bottomSheetView.findViewById<Button>(R.id.btn_fonts)
         btnFonts.setOnClickListener {
             bottomSheetDialog.dismiss()
-            showFontSelectionDialog()
+            showFontBottomSheet()
         }
         
         // Botão de tutorial
@@ -1188,22 +1188,25 @@ class HomeFragment : Fragment() {
         onboardingDialog.show()
     }
 
-    private fun showFontSelectionDialog() {
-        val fontDialogView = layoutInflater.inflate(R.layout.dialog_font_selection, null)
-        val fontDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
-            .setView(fontDialogView)
-            .setCancelable(false)
-            .create()
-
-        fontDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-
-        // Apply current font to font dialog
-        FontUtils.applyFontToView(requireContext(), fontDialogView)
+    private fun showFontBottomSheet() {
+        // Criar o BottomSheetDialog com o estilo personalizado
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.CustomBottomSheetDialog)
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_font_selection, null)
+        bottomSheetDialog.setContentView(bottomSheetView)
+        
+        // Aplicar a fonte atual ao BottomSheet
+        FontUtils.applyFontToView(requireContext(), bottomSheetView)
+        
+        // Garantir que o BottomSheet tenha bordas arredondadas
+        val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+        bottomSheet?.let {
+            it.setBackgroundResource(R.drawable.background_rounded_top)
+        }
 
         // Get preview text views
-        val previewText = fontDialogView.findViewById<TextView>(R.id.preview_text)
-        val weekText = fontDialogView.findViewById<TextView>(R.id.week_text)
-        val dayText = fontDialogView.findViewById<TextView>(R.id.day_text)
+        val previewText = bottomSheetView.findViewById<TextView>(R.id.preview_text)
+        val weekText = bottomSheetView.findViewById<TextView>(R.id.week_text)
+        val dayText = bottomSheetView.findViewById<TextView>(R.id.day_text)
         
         // Get current date info
         val today = Calendar.getInstance()
@@ -1229,7 +1232,7 @@ class HomeFragment : Fragment() {
             .getString("current_font", "default") ?: "default"
 
         // Setup RecyclerView
-        val recyclerView = fontDialogView.findViewById<RecyclerView>(R.id.fonts_recycler_view)
+        val recyclerView = bottomSheetView.findViewById<RecyclerView>(R.id.fonts_recycler_view)
         var selectedFont = currentFont
         
         val fontAdapter = FontAdapter(
@@ -1259,27 +1262,18 @@ class HomeFragment : Fragment() {
         weekText.typeface = currentTypeface
         dayText.typeface = currentTypeface
 
-        fontDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
-            fontDialog.dismiss()
-            // Reopen the settings dialog
-            val settingsDialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
-            val settingsDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
-                .setView(settingsDialogView)
-                .setCancelable(false)
-                .create()
-
-            settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-
-            // Apply current font to settings dialog
-            FontUtils.applyFontToView(requireContext(), settingsDialogView)
-
-            showDialogs(settingsDialogView, settingsDialog)
-
-            settingsDialog.show()
+        // Botão de cancelar
+        val btnCancel : Button =  bottomSheetView.findViewById<Button>(R.id.btn_cancel)
+        Utils.updateBackGroundColor(requireContext(), btnCancel, textColor = resources.getColor(R.color.primary))
+        btnCancel.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            // Reabrir o BottomSheet de configurações
+            showSettingsBottomSheet()
         }
 
-        val btnConfirm = fontDialogView.findViewById<Button>(R.id.btn_confirm)
-        Utils.updateBackGroundColor(requireContext(), btnConfirm)
+        // Botão de confirmar
+        val btnConfirm = bottomSheetView.findViewById<Button>(R.id.btn_confirm)
+        Utils.updateBackGroundColor(requireContext(), btnConfirm, textColor = resources.getColor(R.color.primary))
         btnConfirm.setOnClickListener {
             with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
                 putString("current_font", selectedFont)
@@ -1294,10 +1288,10 @@ class HomeFragment : Fragment() {
             // Notify adapter to update fonts
             calendarAdapter.notifyDataSetChanged()
 
-            fontDialog.dismiss()
+            bottomSheetDialog.dismiss()
         }
 
-        fontDialog.show()
+        bottomSheetDialog.show()
     }
 
     override fun onDestroyView() {
@@ -1355,7 +1349,7 @@ class HomeFragment : Fragment() {
         Utils.setupDialogConfirmButton(requireContext(), btnFonts)
         btnFonts.setOnClickListener {
             settingsDialog.dismiss()
-            showFontSelectionDialog()
+            showFontBottomSheet()
         }
 
         val btnBack : Button = settingsDialogView.findViewById<Button>(R.id.btn_back)
