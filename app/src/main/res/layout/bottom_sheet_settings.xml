@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/settings_bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/background_rounded_top"
+    android:padding="@dimen/spacing_large">
+
+    <TextView
+        android:id="@+id/text_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/select_settings_option"
+        android:textColor="@color/secundary"
+        android:textSize="@dimen/text_size_xlarge"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/spacing_large" />
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:background="@color/secundary" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/settings_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/spacing_normal"
+            android:paddingStart="@dimen/spacing_normal"
+            android:paddingEnd="@dimen/spacing_normal">
+
+            <Button
+                android:id="@+id/btn_languages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:background="@drawable/background_rounded"
+                android:drawableEnd="@drawable/ic_language"
+                android:drawableTint="@color/primary"
+                android:padding="16dp"
+                android:text="@string/languages"
+                android:textColor="@color/secundary"
+                android:textSize="@dimen/button_size"/>
+
+            <Button
+                android:id="@+id/btn_themes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:background="@drawable/background_rounded"
+                android:drawableEnd="@drawable/ic_theme"
+                android:drawableTint="@color/primary"
+                android:padding="16dp"
+                android:text="@string/themes"
+                android:textColor="@color/secundary"
+                android:textSize="@dimen/button_size"/>
+
+            <Button
+                android:id="@+id/btn_notifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:background="@drawable/background_rounded"
+                android:drawableEnd="@drawable/ic_bell"
+                android:drawableTint="@color/primary"
+                android:padding="16dp"
+                android:text="@string/notifications"
+                android:textColor="@color/secundary"
+                android:textSize="@dimen/button_size"/>
+
+            <Button
+                android:id="@+id/btn_fonts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:background="@drawable/background_rounded"
+                android:drawableEnd="@drawable/ic_font"
+                android:drawableTint="@color/primary"
+                android:padding="16dp"
+                android:text="@string/font"
+                android:textColor="@color/secundary"
+                android:textSize="@dimen/button_size"/>
+
+            <Button
+                android:id="@+id/btn_tutorial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                android:background="@drawable/background_rounded"
+                android:drawableEnd="@drawable/ic_tutorial"
+                android:drawableTint="@color/primary"
+                android:padding="16dp"
+                android:text="@string/tutorial"
+                android:textColor="@color/secundary"
+                android:textSize="@dimen/button_size"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

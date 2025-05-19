@@ -3,59 +3,55 @@ package com.br.leo.moodsnap.ui.home
 import android.Manifest
 import android.content.ContentValues.TAG
 import android.graphics.Color
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.res.ColorStateList
+import android.content.res.Resources
+import android.graphics.Paint
+import android.graphics.Typeface
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.view.GestureDetector
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.NumberPicker
-import android.widget.TextView
+import android.provider.Settings
+import android.util.Log
+import android.view.*
+import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.GestureDetectorCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.databinding.FragmentHomeBinding
 import com.br.leo.moodsnap.service.model.MoodModel
-import com.br.leo.moodsnap.ui.dialog.DialogEmotions
-import com.br.leo.moodsnap.ui.utils.Utils
-import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
-import com.br.leo.moodsnap.ui.viewmodel.HomeViewModel
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import java.util.Calendar
-import java.util.Locale
-import kotlin.math.abs
-import android.content.Context
-import android.widget.Button
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
-import android.widget.Switch
-import android.widget.TimePicker
-import com.br.leo.moodsnap.ui.notifications.NotificationHelper
-import android.util.Log
-import com.br.leo.moodsnap.ui.utils.FontUtils
-import androidx.activity.result.contract.ActivityResultContracts
-import android.provider.Settings
-import android.content.Intent
-import android.content.res.Resources
-import android.net.Uri
-import android.graphics.Paint
-import android.widget.EditText
-import androidx.core.content.res.ResourcesCompat
-import com.br.leo.moodsnap.ui.adapters.WeekdaysAdapter
-import com.br.leo.moodsnap.ui.dialog.OnboardingDialog
-import com.br.leo.moodsnap.ui.utils.ButtonUtils
-import com.br.leo.moodsnap.ui.utils.DateUtils
-import com.br.leo.moodsnap.ui.utils.FontUtils.updateFontDialogPicker
-import androidx.recyclerview.widget.RecyclerView
-import android.content.pm.PackageManager
-import android.os.Build
-import com.br.leo.moodsnap.ui.dialog.CustomAlertDialog
 import com.br.leo.moodsnap.ui.adapters.FontAdapter
 import com.br.leo.moodsnap.ui.adapters.LanguageAdapter
+import com.br.leo.moodsnap.ui.adapters.WeekdaysAdapter
+import com.br.leo.moodsnap.ui.dialog.CustomAlertDialog
+import com.br.leo.moodsnap.ui.dialog.DialogEmotions
+import com.br.leo.moodsnap.ui.dialog.OnboardingDialog
+import com.br.leo.moodsnap.ui.model.FontModel
 import com.br.leo.moodsnap.ui.model.LanguageModel
+import com.br.leo.moodsnap.ui.notifications.NotificationHelper
+import com.br.leo.moodsnap.ui.utils.ButtonUtils
+import com.br.leo.moodsnap.ui.utils.DateUtils
+import com.br.leo.moodsnap.ui.utils.FontUtils
+import com.br.leo.moodsnap.ui.utils.FontUtils.updateFontDialogPicker
+import com.br.leo.moodsnap.ui.utils.Utils
+import com.br.leo.moodsnap.ui.viewmodel.HomeViewModel
+import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.abs
 
 class HomeFragment : Fragment() {
 
@@ -800,114 +796,80 @@ class HomeFragment : Fragment() {
     private fun setupSettingsMenu() {
         val settingsButton = view?.findViewById<View>(R.id.btn_settings)
         settingsButton?.setOnClickListener {
-            val dialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
-            val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
-                .setView(dialogView)
-                .setCancelable(false)
-                .create()
-
-            dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-
-            // Apply current font to settings dialog
-            FontUtils.applyFontToView(requireContext(), dialogView)
-
-            showDialogs(dialogView, dialog)
-
-            dialog.show()
+            showSettingsBottomSheet()
         }
     }
 
-    private fun showThemeSelectionDialog() {
-        val themeDialogView = layoutInflater.inflate(R.layout.dialog_theme_selection, null)
-        val themeDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
-            .setView(themeDialogView)
-            .setCancelable(false)
-            .create()
-
-        themeDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-
-        // Apply current font to theme dialog
-        FontUtils.applyFontToView(requireContext(), themeDialogView)
-
-        // Get theme buttons
-        val btnSystemTheme = themeDialogView.findViewById<Button>(R.id.btn_system_theme)
-        val btnLightTheme = themeDialogView.findViewById<Button>(R.id.btn_light_theme)
-        val btnDarkTheme = themeDialogView.findViewById<Button>(R.id.btn_dark_theme)
-
-        val buttons = listOf(btnSystemTheme, btnLightTheme, btnDarkTheme)
-
-        // Verificar se é a primeira execução do app
-        val isFirstThemeApply = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getBoolean("is_first_theme_apply", true)
-
-        // Set initial selection based on current theme or first run
-        ButtonUtils.resetAllButtons(requireContext(), buttons)
-        if (isFirstThemeApply) {
-            ButtonUtils.highlightButton(requireContext(), btnSystemTheme)
-        } else {
-            val currentNightMode = AppCompatDelegate.getDefaultNightMode()
-            when (currentNightMode) {
-                AppCompatDelegate.MODE_NIGHT_YES -> ButtonUtils.highlightButton(requireContext(), btnDarkTheme)
-                AppCompatDelegate.MODE_NIGHT_NO -> ButtonUtils.highlightButton(requireContext(), btnLightTheme)
-                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> ButtonUtils.highlightButton(requireContext(), btnSystemTheme)
+    private fun showSettingsBottomSheet() {
+        // Usar o tema personalizado para o BottomSheet
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.CustomBottomSheetDialog)
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_settings, null)
+        bottomSheetDialog.setContentView(bottomSheetView)
+        
+        // Aplicar a fonte atual ao BottomSheet
+        FontUtils.applyFontToView(requireContext(), bottomSheetView)
+        
+        // Configurar os listeners dos botões
+        setupSettingsButtons(bottomSheetView, bottomSheetDialog)
+        
+        // Garantir que o BottomSheet tenha bordas arredondadas
+        val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+        bottomSheet?.let {
+            it.setBackgroundResource(R.drawable.background_rounded_top)
+        }
+        
+        bottomSheetDialog.show()
+    }
+    
+    private fun setupSettingsButtons(bottomSheetView: View, bottomSheetDialog: BottomSheetDialog) {
+        // Botão de idiomas
+        val btnLanguages = bottomSheetView.findViewById<Button>(R.id.btn_languages)
+        btnLanguages.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            showLanguageSelectionDialog()
+        }
+        
+        // Botão de temas
+        val btnThemes = bottomSheetView.findViewById<Button>(R.id.btn_themes)
+        btnThemes.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            showThemeSelectionDialog()
+        }
+        
+        // Botão de notificações
+        val btnNotifications = bottomSheetView.findViewById<Button>(R.id.btn_notifications)
+        btnNotifications.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                when {
+                    requireContext().checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED -> {
+                        showNotificationSettingsDialog()
+                    }
+                    shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
+                        showNotificationPermissionRationaleDialog()
+                    }
+                    else -> {
+                        notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    }
+                }
+            } else {
+                showNotificationSettingsDialog()
             }
         }
-
-        // Set up click listeners for theme buttons
-        ButtonUtils.setupToggleButtonGroup(requireContext(), buttons)
-
-        themeDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
-            themeDialog.dismiss()
-            // Reopen the settings dialog
-            val settingsDialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
-            val settingsDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
-                .setView(settingsDialogView)
-                .setCancelable(false)
-                .create()
-
-            settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-
-            // Apply current font to settings dialog
-            FontUtils.applyFontToView(requireContext(), settingsDialogView)
-
-            showDialogs(settingsDialogView, settingsDialog)
-
-            settingsDialog.show()
+        
+        // Botão de fontes
+        val btnFonts = bottomSheetView.findViewById<Button>(R.id.btn_fonts)
+        btnFonts.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            showFontSelectionDialog()
         }
-
-        val btnConfirm : Button = themeDialogView.findViewById<Button>(R.id.btn_confirm)
-        Utils.updateBackGroundColor(requireContext(), btnConfirm)
-        btnConfirm.setOnClickListener {
-            val nightMode = when {
-                btnLightTheme.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> {
-                    AppCompatDelegate.MODE_NIGHT_NO
-                }
-                btnDarkTheme.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> {
-                    AppCompatDelegate.MODE_NIGHT_YES
-                }
-                else -> {
-                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-                }
-            }
-
-            // Save the selected theme to shared preferences
-            with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
-                putInt("current_theme", nightMode)
-                apply()
-            }
-
-            if(isFirstThemeApply){
-                with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
-                    putBoolean("is_first_theme_apply", false)
-                    apply()
-                }
-            }
-
-            // Apply the theme
-            AppCompatDelegate.setDefaultNightMode(nightMode)
-            themeDialog.dismiss()
+        
+        // Botão de tutorial
+        val btnTutorial = bottomSheetView.findViewById<Button>(R.id.btn_tutorial)
+        btnTutorial.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            showOnboardingTutorial()
         }
-
-        themeDialog.show()
     }
 
     private fun showLanguageSelectionDialog() {
@@ -1020,6 +982,99 @@ class HomeFragment : Fragment() {
         }
 
         languageDialog.show()
+    }
+
+    private fun showThemeSelectionDialog() {
+        val themeDialogView = layoutInflater.inflate(R.layout.dialog_theme_selection, null)
+        val themeDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
+            .setView(themeDialogView)
+            .setCancelable(false)
+            .create()
+
+        themeDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+        // Apply current font to theme dialog
+        FontUtils.applyFontToView(requireContext(), themeDialogView)
+
+        // Get theme buttons
+        val btnSystemTheme = themeDialogView.findViewById<Button>(R.id.btn_system_theme)
+        val btnLightTheme = themeDialogView.findViewById<Button>(R.id.btn_light_theme)
+        val btnDarkTheme = themeDialogView.findViewById<Button>(R.id.btn_dark_theme)
+
+        val buttons = listOf(btnSystemTheme, btnLightTheme, btnDarkTheme)
+
+        // Verificar se é a primeira execução do app
+        val isFirstThemeApply = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getBoolean("is_first_theme_apply", true)
+
+        // Set initial selection based on current theme or first run
+        ButtonUtils.resetAllButtons(requireContext(), buttons)
+        if (isFirstThemeApply) {
+            ButtonUtils.highlightButton(requireContext(), btnSystemTheme)
+        } else {
+            val currentNightMode = AppCompatDelegate.getDefaultNightMode()
+            when (currentNightMode) {
+                AppCompatDelegate.MODE_NIGHT_YES -> ButtonUtils.highlightButton(requireContext(), btnDarkTheme)
+                AppCompatDelegate.MODE_NIGHT_NO -> ButtonUtils.highlightButton(requireContext(), btnLightTheme)
+                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> ButtonUtils.highlightButton(requireContext(), btnSystemTheme)
+            }
+        }
+
+        // Set up click listeners for theme buttons
+        ButtonUtils.setupToggleButtonGroup(requireContext(), buttons)
+
+        themeDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
+            themeDialog.dismiss()
+            // Reopen the settings dialog
+            val settingsDialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
+            val settingsDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
+                .setView(settingsDialogView)
+                .setCancelable(false)
+                .create()
+
+            settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+
+            // Apply current font to settings dialog
+            FontUtils.applyFontToView(requireContext(), settingsDialogView)
+
+            showDialogs(settingsDialogView, settingsDialog)
+
+            settingsDialog.show()
+        }
+
+        val btnConfirm : Button = themeDialogView.findViewById<Button>(R.id.btn_confirm)
+        Utils.updateBackGroundColor(requireContext(), btnConfirm)
+        btnConfirm.setOnClickListener {
+            val nightMode = when {
+                btnLightTheme.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> {
+                    AppCompatDelegate.MODE_NIGHT_NO
+                }
+                btnDarkTheme.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> {
+                    AppCompatDelegate.MODE_NIGHT_YES
+                }
+                else -> {
+                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                }
+            }
+
+            // Save the selected theme to shared preferences
+            with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
+                putInt("current_theme", nightMode)
+                apply()
+            }
+
+            if(isFirstThemeApply){
+                with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
+                    putBoolean("is_first_theme_apply", false)
+                    apply()
+                }
+            }
+
+            // Apply the theme
+            AppCompatDelegate.setDefaultNightMode(nightMode)
+            themeDialog.dismiss()
+        }
+
+        themeDialog.show()
     }
 
     private fun showNotificationSettingsDialog() {
