@@ -823,21 +823,21 @@ class HomeFragment : Fragment() {
     
     private fun setupSettingsButtons(bottomSheetView: View, bottomSheetDialog: BottomSheetDialog) {
         // Botão de idiomas
-        val btnLanguages = bottomSheetView.findViewById<Button>(R.id.btn_languages)
+        val btnLanguages = bottomSheetView.findViewById<LinearLayout>(R.id.btn_languages)
         btnLanguages.setOnClickListener {
             bottomSheetDialog.dismiss()
             showLanguageBottomSheet()
         }
         
         // Botão de temas
-        val btnThemes = bottomSheetView.findViewById<Button>(R.id.btn_themes)
+        val btnThemes = bottomSheetView.findViewById<LinearLayout>(R.id.btn_themes)
         btnThemes.setOnClickListener {
             bottomSheetDialog.dismiss()
             showThemeBottomSheet()
         }
         
         // Botão de notificações
-        val btnNotifications = bottomSheetView.findViewById<Button>(R.id.btn_notifications)
+        val btnNotifications = bottomSheetView.findViewById<LinearLayout>(R.id.btn_notifications)
         btnNotifications.setOnClickListener {
             bottomSheetDialog.dismiss()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -858,14 +858,14 @@ class HomeFragment : Fragment() {
         }
         
         // Botão de fontes
-        val btnFonts = bottomSheetView.findViewById<Button>(R.id.btn_fonts)
+        val btnFonts = bottomSheetView.findViewById<LinearLayout>(R.id.btn_fonts)
         btnFonts.setOnClickListener {
             bottomSheetDialog.dismiss()
             showFontBottomSheet()
         }
         
         // Botão de tutorial
-        val btnTutorial = bottomSheetView.findViewById<Button>(R.id.btn_tutorial)
+        val btnTutorial = bottomSheetView.findViewById<LinearLayout>(R.id.btn_tutorial)
         btnTutorial.setOnClickListener {
             bottomSheetDialog.dismiss()
             showOnboardingTutorial()
