@@ -809,6 +809,25 @@ class HomeFragment : Fragment() {
         // Aplicar a fonte atual ao BottomSheet
         FontUtils.applyFontToView(requireContext(), bottomSheetView)
         
+        // Obter o idioma atual
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentLanguage = sharedPreferences.getString("current_language", "system")
+        val isSystemLanguageApply = sharedPreferences.getBoolean("is_system_language_apply", true)
+        
+        // Definir o texto do idioma atual
+        val textCurrentLanguage = bottomSheetView.findViewById<TextView>(R.id.text_current_language)
+        val languageName = when (currentLanguage) {
+            "system" -> getString(R.string.language_system)
+            "pt" -> "Português"
+            "en" -> "English"
+            "es" -> "Español"
+            "fr" -> "Français"
+            "de" -> "Deutsch"
+            "it" -> "Italiano"
+            else -> getString(R.string.language_system)
+        }
+        textCurrentLanguage.text = languageName
+        
         // Configurar os listeners dos botões
         setupSettingsButtons(bottomSheetView, bottomSheetDialog)
         
