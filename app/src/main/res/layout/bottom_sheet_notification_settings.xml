@@ -55,6 +55,7 @@
         android:timePickerMode="spinner"
         android:padding="16dp"
         android:theme="@style/TimePickerTheme"
+        android:descendantFocusability="blocksDescendants"
         android:enabled="false" />
 
     <LinearLayout

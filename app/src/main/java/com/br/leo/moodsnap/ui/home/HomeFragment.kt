@@ -828,6 +828,38 @@ class HomeFragment : Fragment() {
         }
         textCurrentLanguage.text = languageName
         
+        // Obter o tema atual
+        val currentTheme = sharedPreferences.getInt("current_theme", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        
+        // Definir o texto do tema atual
+        val textCurrentTheme = bottomSheetView.findViewById<TextView>(R.id.text_current_theme)
+        val themeName = when (currentTheme) {
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> getString(R.string.system_theme)
+            AppCompatDelegate.MODE_NIGHT_NO -> getString(R.string.light_theme)
+            AppCompatDelegate.MODE_NIGHT_YES -> getString(R.string.dark_theme)
+            else -> getString(R.string.system_theme)
+        }
+        textCurrentTheme.text = themeName
+        
+        // Obter a fonte atual
+        val currentFont = sharedPreferences.getString("current_font", "default") ?: "default"
+        
+        // Definir o texto da fonte atual
+        val textCurrentFont = bottomSheetView.findViewById<TextView>(R.id.text_current_font)
+        val fontName = when (currentFont) {
+            "default" -> getString(R.string.default_font)
+            "itim" -> "Itim"
+            "open_sans" -> getString(R.string.open_sans_font)
+            "pangolin" -> "Pangolin"
+            "underdog" -> "Underdog"
+            "lato" -> getString(R.string.lato_font)
+            "orbitron" -> "Orbitron"
+            "mulish" -> getString(R.string.mulish_font)
+            "limelight" -> "LimeLight"
+            else -> getString(R.string.default_font)
+        }
+        textCurrentFont.text = fontName
+        
         // Configurar os listeners dos botões
         setupSettingsButtons(bottomSheetView, bottomSheetDialog)
         
@@ -1099,7 +1131,7 @@ class HomeFragment : Fragment() {
         bottomSheet?.let {
             it.setBackgroundResource(R.drawable.background_rounded_top)
         }
-        
+
         val switchNotifications = bottomSheetView.findViewById<Switch>(R.id.switch_notifications)
         val timePicker = bottomSheetView.findViewById<TimePicker>(R.id.time_picker)
         val notificationHelper = NotificationHelper(requireContext())
@@ -1114,7 +1146,7 @@ class HomeFragment : Fragment() {
         switchNotifications.isChecked = notificationsEnabled
         timePicker.hour = notificationHour
         timePicker.minute = notificationMinute
-        timePicker.setIs24HourView(true)
+        timePicker.setIs24HourView(false) // Configurar para formato de 12 horas com AM/PM
         timePicker.isEnabled = notificationsEnabled
 
         switchNotifications.setOnCheckedChangeListener { _, isChecked ->

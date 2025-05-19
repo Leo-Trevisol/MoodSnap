@@ -110,6 +110,14 @@
                     android:textColor="@color/secundary"
                     android:textSize="16sp"/>
 
+                <TextView
+                    android:id="@+id/text_current_theme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="14sp"
+                    android:layout_marginEnd="8dp"/>
+
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
@@ -173,8 +181,8 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_font"
-                    app:tint="@color/secundary"
-                    android:layout_marginEnd="16dp"/>
+                    android:layout_marginEnd="16dp"
+                    app:tint="@color/secundary" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -183,6 +191,14 @@
                     android:text="@string/font"
                     android:textColor="@color/secundary"
                     android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/text_current_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="14sp"
+                    android:layout_marginEnd="8dp"/>
 
                 <ImageView
                     android:layout_width="24dp"
