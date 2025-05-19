@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
-            showNotificationSettingsDialog()
+            showNotificationBottomSheet()
         } else {
             showNotificationPermissionDeniedDialog()
         }
@@ -843,7 +843,7 @@ class HomeFragment : Fragment() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 when {
                     requireContext().checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED -> {
-                        showNotificationSettingsDialog()
+                        showNotificationBottomSheet()
                     }
                     shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
                         showNotificationPermissionRationaleDialog()
@@ -853,7 +853,7 @@ class HomeFragment : Fragment() {
                     }
                 }
             } else {
-                showNotificationSettingsDialog()
+                showNotificationBottomSheet()
             }
         }
         
@@ -1066,25 +1066,28 @@ class HomeFragment : Fragment() {
         bottomSheetDialog.show()
     }
 
-    private fun showNotificationSettingsDialog() {
-        val notificationDialogView = layoutInflater.inflate(R.layout.dialog_notification_settings, null)
-        val notificationDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
-            .setView(notificationDialogView)
-            .setCancelable(false)
-            .create()
-
-        notificationDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-
-        // Apply current font to notification dialog
-        FontUtils.applyFontToView(requireContext(), notificationDialogView)
-
-        val switchNotifications = notificationDialogView.findViewById<Switch>(R.id.switch_notifications)
-        val timePicker = notificationDialogView.findViewById<TimePicker>(R.id.time_picker)
+    private fun showNotificationBottomSheet() {
+        // Criar o BottomSheetDialog com o estilo personalizado
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.CustomBottomSheetDialog)
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_notification_settings, null)
+        bottomSheetDialog.setContentView(bottomSheetView)
+        
+        // Aplicar a fonte atual ao BottomSheet
+        FontUtils.applyFontToView(requireContext(), bottomSheetView)
+        
+        // Garantir que o BottomSheet tenha bordas arredondadas
+        val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+        bottomSheet?.let {
+            it.setBackgroundResource(R.drawable.background_rounded_top)
+        }
+        
+        val switchNotifications = bottomSheetView.findViewById<Switch>(R.id.switch_notifications)
+        val timePicker = bottomSheetView.findViewById<TimePicker>(R.id.time_picker)
         val notificationHelper = NotificationHelper(requireContext())
 
-        // Load saved notification settings
+        // Carregar configurações de notificação salvas
         val notificationsEnabled = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getBoolean("notifications_enabled", false)
-        val notificationHour = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getInt("notification_hour", 20) // Default to 8 PM
+        val notificationHour = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getInt("notification_hour", 20) // Padrão para 20h
         val notificationMinute = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getInt("notification_minute", 0)
 
         Log.d(TAG, "Loading notification settings - Enabled: $notificationsEnabled, Hour: $notificationHour, Minute: $notificationMinute")
@@ -1103,27 +1106,18 @@ class HomeFragment : Fragment() {
             }
         }
 
-        notificationDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
-            notificationDialog.dismiss()
-            // Reopen the settings dialog
-            val settingsDialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
-            val settingsDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
-                .setView(settingsDialogView)
-                .setCancelable(false)
-                .create()
-
-            settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-
-            // Apply current font to settings dialog
-            FontUtils.applyFontToView(requireContext(), settingsDialogView)
-
-            showDialogs(settingsDialogView, settingsDialog)
-
-            settingsDialog.show()
+        // Botão de cancelar
+        val btnCancel : Button =  bottomSheetView.findViewById<Button>(R.id.btn_cancel)
+        Utils.updateBackGroundColor(requireContext(), btnCancel, textColor = resources.getColor(R.color.primary))
+        btnCancel.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            // Reabrir o BottomSheet de configurações
+            showSettingsBottomSheet()
         }
 
-        val btnConfirm : Button = notificationDialogView.findViewById<Button>(R.id.btn_confirm)
-        Utils.updateBackGroundColor(requireContext(), btnConfirm)
+        // Botão de confirmar
+        val btnConfirm = bottomSheetView.findViewById<Button>(R.id.btn_confirm)
+        Utils.updateBackGroundColor(requireContext(), btnConfirm, textColor = resources.getColor(R.color.primary))
         btnConfirm.setOnClickListener {
             val isEnabled = switchNotifications.isChecked
             val hour = timePicker.hour
@@ -1146,10 +1140,52 @@ class HomeFragment : Fragment() {
                 Log.d(TAG, "Notifications cancelled")
             }
 
-            notificationDialog.dismiss()
+            bottomSheetDialog.dismiss()
         }
 
-        notificationDialog.show()
+        bottomSheetDialog.show()
+    }
+
+    private fun showNotificationPermissionRationaleDialog() {
+
+        CustomAlertDialog .create(requireContext())
+            .setTitle(getString(R.string.notifications))
+            .setMessage(getString(R.string.notification_permission_required))
+            .setPositiveListener {
+                notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+            .setDescricaoBtnPositive(getString(R.string.btn_ok))
+            .setDescricaoBtnNegative(getString(R.string.btn_cancel))
+            .setNegativeListener(null)
+            .show()
+
+    }
+
+    private fun showNotificationPermissionDeniedDialog() {
+        CustomAlertDialog .create(requireContext())
+            .setTitle(getString(R.string.attention_dialog))
+            .setMessage(getString(R.string.notification_permission_denied_permanently))
+            .setPositiveListener {
+                openNotificationSettings()
+            }
+            .setDescricaoBtnPositive(getString(R.string.btn_go_config))
+            .setDescricaoBtnNegative(getString(R.string.btn_cancel))
+            .setNegativeListener(null)
+            .show()
+    }
+
+    private fun openNotificationSettings() {
+        val intent = Intent().apply {
+            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            data = Uri.fromParts("package", requireContext().packageName, null)
+        }
+        startActivity(intent)
+    }
+
+    private fun showOnboardingTutorial() {
+        val onboardingDialog = OnboardingDialog(requireContext())
+        onboardingDialog.setCancelable(false)
+        onboardingDialog.show()
     }
 
     private fun showFontSelectionDialog() {
@@ -1242,7 +1278,7 @@ class HomeFragment : Fragment() {
             settingsDialog.show()
         }
 
-        val btnConfirm : Button = fontDialogView.findViewById<Button>(R.id.btn_confirm)
+        val btnConfirm = fontDialogView.findViewById<Button>(R.id.btn_confirm)
         Utils.updateBackGroundColor(requireContext(), btnConfirm)
         btnConfirm.setOnClickListener {
             with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
@@ -1262,48 +1298,6 @@ class HomeFragment : Fragment() {
         }
 
         fontDialog.show()
-    }
-
-    private fun showNotificationPermissionRationaleDialog() {
-
-        CustomAlertDialog .create(requireContext())
-            .setTitle(getString(R.string.notifications))
-            .setMessage(getString(R.string.notification_permission_required))
-            .setPositiveListener {
-                notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-            }
-            .setDescricaoBtnPositive(getString(R.string.btn_ok))
-            .setDescricaoBtnNegative(getString(R.string.btn_cancel))
-            .setNegativeListener(null)
-            .show()
-
-    }
-
-    private fun showNotificationPermissionDeniedDialog() {
-        CustomAlertDialog .create(requireContext())
-            .setTitle(getString(R.string.attention_dialog))
-            .setMessage(getString(R.string.notification_permission_denied_permanently))
-            .setPositiveListener {
-                openNotificationSettings()
-            }
-            .setDescricaoBtnPositive(getString(R.string.btn_go_config))
-            .setDescricaoBtnNegative(getString(R.string.btn_cancel))
-            .setNegativeListener(null)
-            .show()
-    }
-
-    private fun openNotificationSettings() {
-        val intent = Intent().apply {
-            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-            data = Uri.fromParts("package", requireContext().packageName, null)
-        }
-        startActivity(intent)
-    }
-
-    private fun showOnboardingTutorial() {
-        val onboardingDialog = OnboardingDialog(requireContext())
-        onboardingDialog.setCancelable(false)
-        onboardingDialog.show()
     }
 
     override fun onDestroyView() {
@@ -1343,7 +1337,7 @@ class HomeFragment : Fragment() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 when {
                     requireContext().checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED -> {
-                        showNotificationSettingsDialog()
+                        showNotificationBottomSheet()
                     }
                     shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
                         showNotificationPermissionRationaleDialog()
@@ -1353,7 +1347,7 @@ class HomeFragment : Fragment() {
                     }
                 }
             } else {
-                showNotificationSettingsDialog()
+                showNotificationBottomSheet()
             }
         }
 

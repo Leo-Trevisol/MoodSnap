@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/notification_bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/background_rounded_top"
+    android:padding="@dimen/spacing_large">
+
+    <TextView
+        android:id="@+id/text_notification_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/notification_settings"
+        android:textColor="@color/secundary"
+        android:textSize="@dimen/text_size_xlarge"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/spacing_large" />
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:background="@color/secundary" />
+
+    <Switch
+        android:id="@+id/switch_notifications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/enable_notifications"
+        android:textSize="@dimen/text_size_normal"
+        android:padding="16dp"
+        android:thumbTint="@color/switch_track_color"
+        android:textColor="@color/secundary"
+        android:trackTint="@color/switch_track_color"
+        android:layout_marginBottom="@dimen/spacing_large"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/notification_time"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/secundary"
+        android:layout_marginBottom="@dimen/spacing_normal"/>
+
+    <TimePicker
+        android:id="@+id/time_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:timePickerMode="spinner"
+        android:padding="16dp"
+        android:theme="@style/TimePickerTheme"
+        android:enabled="false" />
+
+    <LinearLayout
+        android:id="@+id/buttons_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/spacing_large">
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_button_shadow"
+            android:text="@string/btn_cancel"
+            android:textColor="@color/primary" />
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_confirm"
+            android:background="@drawable/rounded_button_shadow"
+            android:layout_weight="1"
+            android:textColor="@color/primary" />
+    </LinearLayout>
+</LinearLayout>
