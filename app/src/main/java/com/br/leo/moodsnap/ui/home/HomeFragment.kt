@@ -826,7 +826,7 @@ class HomeFragment : Fragment() {
         val btnLanguages = bottomSheetView.findViewById<Button>(R.id.btn_languages)
         btnLanguages.setOnClickListener {
             bottomSheetDialog.dismiss()
-            showLanguageSelectionDialog()
+            showLanguageBottomSheet()
         }
         
         // Botão de temas
@@ -872,18 +872,21 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun showLanguageSelectionDialog() {
-        val languageDialogView = layoutInflater.inflate(R.layout.dialog_language_selection, null)
-        val languageDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
-            .setView(languageDialogView)
-            .setCancelable(false)
-            .create()
-
-        languageDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-
-        // Apply current font to language dialog
-        FontUtils.applyFontToView(requireContext(), languageDialogView)
-
+    private fun showLanguageBottomSheet() {
+        // Criar o BottomSheetDialog com o estilo personalizado
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.CustomBottomSheetDialog)
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_language_selection, null)
+        bottomSheetDialog.setContentView(bottomSheetView)
+        
+        // Aplicar a fonte atual ao BottomSheet
+        FontUtils.applyFontToView(requireContext(), bottomSheetView)
+        
+        // Garantir que o BottomSheet tenha bordas arredondadas
+        val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+        bottomSheet?.let {
+            it.setBackgroundResource(R.drawable.background_rounded_top)
+        }
+        
         // Lista de idiomas disponíveis
         val languages = listOf(
             LanguageModel("system", R.string.language_system, "system"),
@@ -897,14 +900,14 @@ class HomeFragment : Fragment() {
             LanguageModel("de", R.string.language_german, "de")
         )
 
-        // Load the current language preference
+        // Carregar a preferência de idioma atual
         val currentLanguage = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getString("current_language", "system")
         val isSystemLanguageApply = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getBoolean("is_system_language_apply", true)
 
         var selectedLanguage = if (isSystemLanguageApply) "system" else (currentLanguage ?: "en")
 
-        // Setup RecyclerView
-        val recyclerView = languageDialogView.findViewById<RecyclerView>(R.id.languages_recycler_view)
+        // Configurar o RecyclerView
+        val recyclerView = bottomSheetView.findViewById<RecyclerView>(R.id.languages_recycler_view)
         val adapter = LanguageAdapter(requireContext(), languages) { language ->
             selectedLanguage = language.code
         }
@@ -916,72 +919,64 @@ class HomeFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
 
-        // Set initial selection
+        // Definir a seleção inicial
         adapter.setSelectedLanguage(selectedLanguage)
 
-        languageDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
-            languageDialog.dismiss()
-            // Reopen the settings dialog
-            val settingsDialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
-            val settingsDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
-                .setView(settingsDialogView)
-                .setCancelable(false)
-                .create()
+        val btnCancel : Button =  bottomSheetView.findViewById<Button>(R.id.btn_cancel)
+        val btnConfirm : Button =  bottomSheetView.findViewById<Button>(R.id.btn_confirm)
 
-            settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        Utils.updateBackGroundColor(requireContext(), btnCancel, textColor = resources.getColor(R.color.primary))
+        Utils.updateBackGroundColor(requireContext(), btnConfirm, textColor = resources.getColor(R.color.primary))
 
-            // Apply current font to settings dialog
-            FontUtils.applyFontToView(requireContext(), settingsDialogView)
-
-            showDialogs(settingsDialogView, settingsDialog)
-
-            settingsDialog.show()
+        // Botão de cancelar
+        btnCancel.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            // Reabrir o BottomSheet de configurações
+            showSettingsBottomSheet()
         }
 
-        val btnConfirm : Button = languageDialogView.findViewById<Button>(R.id.btn_confirm)
-        Utils.updateBackGroundColor(requireContext(), btnConfirm)
         btnConfirm.setOnClickListener {
             with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
                 putString("current_language", selectedLanguage)
                 apply()
             }
             
-            // Set the locale based on selection
+            // Definir o locale com base na seleção
             if (selectedLanguage == "system") {
-                // Use system language
+                // Usar o idioma do sistema
                 val systemLocale = Resources.getSystem().configuration.locales.get(0)
                 Locale.setDefault(systemLocale)
                 val config = resources.configuration
                 config.setLocale(systemLocale)
                 resources.updateConfiguration(config, resources.displayMetrics)
                 
-                // Save the system language apply flag
+                // Salvar a flag de aplicação do idioma do sistema
                 with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
                     putBoolean("is_system_language_apply", true)
                     apply()
                 }
             } else {
-                // Use selected language
+                // Usar o idioma selecionado
                 val locale = Locale(selectedLanguage)
                 Locale.setDefault(locale)
                 val config = resources.configuration
                 config.setLocale(locale)
                 resources.updateConfiguration(config, resources.displayMetrics)
                 
-                // Save the system language apply flag as false
+                // Salvar a flag de aplicação do idioma do sistema como falsa
                 with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
                     putBoolean("is_system_language_apply", false)
                     apply()
                 }
             }
             
-            languageDialog.dismiss()
+            bottomSheetDialog.dismiss()
             
-            // Restart the activity to apply the language change
+            // Reiniciar a atividade para aplicar a mudança de idioma
             activity?.recreate()
         }
 
-        languageDialog.show()
+        bottomSheetDialog.show()
     }
 
     private fun showThemeSelectionDialog() {
@@ -1337,7 +1332,7 @@ class HomeFragment : Fragment() {
         Utils.setupDialogConfirmButton(requireContext(), btnLanguages)
         btnLanguages.setOnClickListener {
             settingsDialog.dismiss()
-            showLanguageSelectionDialog()
+            showLanguageBottomSheet()
         }
 
         val btnThemes : Button = settingsDialogView.findViewById<Button>(R.id.btn_themes)

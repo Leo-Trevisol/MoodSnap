@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/theme_bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/background_rounded_top"
+    android:padding="@dimen/spacing_large">
+
+    <TextView
+        android:id="@+id/text_theme_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/theme_settings"
+        android:textColor="@color/secundary"
+        android:textSize="@dimen/text_size_xlarge"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/spacing_large" />
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:background="@color/secundary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/spacing_large">
+
+        <Button
+            android:id="@+id/btn_system_theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:background="@drawable/background_rounded"
+            android:backgroundTint="@color/secundary"
+            android:text="@string/system_theme"
+            android:textColor="@color/secundary"
+            android:textSize="@dimen/button_size" />
+
+        <Button
+            android:id="@+id/btn_light_theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:background="@drawable/background_rounded"
+            android:backgroundTint="@color/secundary"
+            android:text="@string/light_theme"
+            android:textColor="@color/secundary"
+            android:textSize="@dimen/button_size" />
+
+        <Button
+            android:id="@+id/btn_dark_theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_rounded"
+            android:backgroundTint="@color/secundary"
+            android:text="@string/dark_theme"
+            android:textColor="@color/secundary"
+            android:textSize="@dimen/button_size" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/btn_cancel"
+            android:background="@drawable/rounded_button_shadow"
+            android:layout_weight="1"
+            android:textColor="@color/primary" />
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_confirm"
+            android:background="@drawable/rounded_button_shadow"
+            android:layout_weight="1"
+            android:textColor="@color/primary" />
+    </LinearLayout>
+</LinearLayout>
