@@ -27,6 +27,7 @@
         android:background="@color/secundary" />
 
     <LinearLayout
+        android:id="@+id/themes_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -38,7 +39,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_normal"
             android:background="@drawable/background_rounded"
-            android:backgroundTint="@color/secundary"
+            android:backgroundTint="@color/primary_green"
+            android:drawableEnd="@drawable/ic_half_square"
+            android:padding="16dp"
             android:text="@string/system_theme"
             android:textColor="@color/secundary"
             android:textSize="@dimen/button_size" />
@@ -49,7 +52,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_normal"
             android:background="@drawable/background_rounded"
-            android:backgroundTint="@color/secundary"
+            android:backgroundTint="@color/primary_green"
+            android:drawableEnd="@drawable/ic_white_square"
+            android:padding="16dp"
             android:text="@string/light_theme"
             android:textColor="@color/secundary"
             android:textSize="@dimen/button_size" />
@@ -59,26 +64,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/background_rounded"
-            android:backgroundTint="@color/secundary"
+            android:backgroundTint="@color/primary_green"
+            android:drawableEnd="@drawable/ic_black_square"
+            android:padding="16dp"
             android:text="@string/dark_theme"
             android:textColor="@color/secundary"
             android:textSize="@dimen/button_size" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/buttons_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="end">
+        android:gravity="center"
+        android:layout_marginTop="@dimen/spacing_large">
 
         <Button
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="@string/btn_cancel"
-            android:background="@drawable/rounded_button_shadow"
             android:layout_weight="1"
+            android:background="@drawable/rounded_button_shadow"
+            android:text="@string/btn_cancel"
             android:textColor="@color/primary" />
 
         <Button

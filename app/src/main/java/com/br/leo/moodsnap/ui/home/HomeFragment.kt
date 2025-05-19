@@ -833,7 +833,7 @@ class HomeFragment : Fragment() {
         val btnThemes = bottomSheetView.findViewById<Button>(R.id.btn_themes)
         btnThemes.setOnClickListener {
             bottomSheetDialog.dismiss()
-            showThemeSelectionDialog()
+            showThemeBottomSheet()
         }
         
         // Botão de notificações
@@ -979,29 +979,32 @@ class HomeFragment : Fragment() {
         bottomSheetDialog.show()
     }
 
-    private fun showThemeSelectionDialog() {
-        val themeDialogView = layoutInflater.inflate(R.layout.dialog_theme_selection, null)
-        val themeDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
-            .setView(themeDialogView)
-            .setCancelable(false)
-            .create()
-
-        themeDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-
-        // Apply current font to theme dialog
-        FontUtils.applyFontToView(requireContext(), themeDialogView)
-
-        // Get theme buttons
-        val btnSystemTheme = themeDialogView.findViewById<Button>(R.id.btn_system_theme)
-        val btnLightTheme = themeDialogView.findViewById<Button>(R.id.btn_light_theme)
-        val btnDarkTheme = themeDialogView.findViewById<Button>(R.id.btn_dark_theme)
+    private fun showThemeBottomSheet() {
+        // Criar o BottomSheetDialog com o estilo personalizado
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.CustomBottomSheetDialog)
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_theme_selection, null)
+        bottomSheetDialog.setContentView(bottomSheetView)
+        
+        // Aplicar a fonte atual ao BottomSheet
+        FontUtils.applyFontToView(requireContext(), bottomSheetView)
+        
+        // Garantir que o BottomSheet tenha bordas arredondadas
+        val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+        bottomSheet?.let {
+            it.setBackgroundResource(R.drawable.background_rounded_top)
+        }
+        
+        // Obter os botões de tema
+        val btnSystemTheme = bottomSheetView.findViewById<Button>(R.id.btn_system_theme)
+        val btnLightTheme = bottomSheetView.findViewById<Button>(R.id.btn_light_theme)
+        val btnDarkTheme = bottomSheetView.findViewById<Button>(R.id.btn_dark_theme)
 
         val buttons = listOf(btnSystemTheme, btnLightTheme, btnDarkTheme)
 
         // Verificar se é a primeira execução do app
         val isFirstThemeApply = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getBoolean("is_first_theme_apply", true)
 
-        // Set initial selection based on current theme or first run
+        // Definir a seleção inicial com base no tema atual ou na primeira execução
         ButtonUtils.resetAllButtons(requireContext(), buttons)
         if (isFirstThemeApply) {
             ButtonUtils.highlightButton(requireContext(), btnSystemTheme)
@@ -1014,30 +1017,21 @@ class HomeFragment : Fragment() {
             }
         }
 
-        // Set up click listeners for theme buttons
+        // Configurar os listeners de clique para os botões de tema
         ButtonUtils.setupToggleButtonGroup(requireContext(), buttons)
 
-        themeDialogView.findViewById<View>(R.id.btn_back).setOnClickListener {
-            themeDialog.dismiss()
-            // Reopen the settings dialog
-            val settingsDialogView = layoutInflater.inflate(R.layout.dialog_settings, null)
-            val settingsDialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
-                .setView(settingsDialogView)
-                .setCancelable(false)
-                .create()
-
-            settingsDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-
-            // Apply current font to settings dialog
-            FontUtils.applyFontToView(requireContext(), settingsDialogView)
-
-            showDialogs(settingsDialogView, settingsDialog)
-
-            settingsDialog.show()
+        // Botão de cancelar
+        val btnCancel : Button =  bottomSheetView.findViewById<Button>(R.id.btn_cancel)
+        Utils.updateBackGroundColor(requireContext(), btnCancel, textColor = resources.getColor(R.color.primary))
+        btnCancel.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            // Reabrir o BottomSheet de configurações
+            showSettingsBottomSheet()
         }
 
-        val btnConfirm : Button = themeDialogView.findViewById<Button>(R.id.btn_confirm)
-        Utils.updateBackGroundColor(requireContext(), btnConfirm)
+        // Botão de confirmar
+        val btnConfirm = bottomSheetView.findViewById<Button>(R.id.btn_confirm)
+        Utils.updateBackGroundColor(requireContext(), btnConfirm, textColor = resources.getColor(R.color.primary))
         btnConfirm.setOnClickListener {
             val nightMode = when {
                 btnLightTheme.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> {
@@ -1051,25 +1045,25 @@ class HomeFragment : Fragment() {
                 }
             }
 
-            // Save the selected theme to shared preferences
+            // Salvar o tema selecionado nas preferências compartilhadas
             with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
                 putInt("current_theme", nightMode)
                 apply()
             }
 
-            if(isFirstThemeApply){
+            if (isFirstThemeApply) {
                 with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
                     putBoolean("is_first_theme_apply", false)
                     apply()
                 }
             }
 
-            // Apply the theme
+            // Aplicar o tema
             AppCompatDelegate.setDefaultNightMode(nightMode)
-            themeDialog.dismiss()
+            bottomSheetDialog.dismiss()
         }
 
-        themeDialog.show()
+        bottomSheetDialog.show()
     }
 
     private fun showNotificationSettingsDialog() {
@@ -1339,7 +1333,7 @@ class HomeFragment : Fragment() {
         Utils.setupDialogConfirmButton(requireContext(), btnThemes)
         btnThemes.setOnClickListener {
             settingsDialog.dismiss()
-            showThemeSelectionDialog()
+            showThemeBottomSheet()
         }
 
         val btnNotifications : Button = settingsDialogView.findViewById<Button>(R.id.btn_notifications)
