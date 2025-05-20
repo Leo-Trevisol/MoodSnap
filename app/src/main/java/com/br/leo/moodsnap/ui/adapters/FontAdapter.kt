@@ -1,6 +1,7 @@
 package com.br.leo.moodsnap.ui.adapters
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +33,8 @@ class FontAdapter(
 
             // Atualizar o estado visual do item
             if (position == selectedPosition) {
-                rootLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_green))
+                rootLayout.setBackgroundResource(R.drawable.background_rounded_left)
+                rootLayout.backgroundTintList = ColorStateList.valueOf(context.getResources().getColor(R. color. primary_green))
                 textFont.setTextColor(ContextCompat.getColor(context, R.color.white))
             } else {
                 rootLayout.setBackgroundResource(android.R.color.transparent)
