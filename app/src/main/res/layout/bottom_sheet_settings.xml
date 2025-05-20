@@ -8,7 +8,6 @@
     android:background="@drawable/background_rounded_top"
     android:padding="@dimen/spacing_large">
 
-
     <View
         android:layout_width="40dp"
         android:layout_height="4dp"
@@ -19,7 +18,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_large">
+        android:layout_marginBottom="@dimen/spacing_normal">
 
         <ImageView
             android:id="@+id/btn_close"
@@ -53,8 +52,7 @@
             android:id="@+id/settings_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/spacing_normal">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/btn_languages"
@@ -64,7 +62,7 @@
                 android:gravity="center_vertical"
                 android:background="?attr/selectableItemBackground"
                 android:padding="16dp"
-                android:layout_marginBottom="@dimen/spacing_small">
+                android:layout_marginBottom="@dimen/spacing_normal">
 
                 <ImageView
                     android:layout_width="@dimen/options_icons_size"
@@ -110,7 +108,7 @@
                 android:gravity="center_vertical"
                 android:background="?attr/selectableItemBackground"
                 android:padding="16dp"
-                android:layout_marginBottom="@dimen/spacing_small">
+                android:layout_marginBottom="@dimen/spacing_normal">
 
                 <ImageView
                     android:layout_width="@dimen/options_icons_size"
@@ -155,7 +153,7 @@
                 android:gravity="center_vertical"
                 android:background="?attr/selectableItemBackground"
                 android:padding="16dp"
-                android:layout_marginBottom="@dimen/spacing_small">
+                android:layout_marginBottom="@dimen/spacing_normal">
 
                 <ImageView
                     android:layout_width="@dimen/options_icons_size"
@@ -200,7 +198,7 @@
                 android:gravity="center_vertical"
                 android:background="?attr/selectableItemBackground"
                 android:padding="16dp"
-                android:layout_marginBottom="@dimen/spacing_small">
+                android:layout_marginBottom="@dimen/spacing_normal">
 
                 <ImageView
                     android:layout_width="@dimen/options_icons_size"

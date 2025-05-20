@@ -18,7 +18,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_large">
+        android:layout_marginBottom="@dimen/spacing_normal">
 
         <ImageView
             android:id="@+id/btn_back"
@@ -57,7 +57,7 @@
             android:gravity="center_vertical"
             android:background="?attr/selectableItemBackground"
             android:padding="16dp"
-            android:layout_marginBottom="@dimen/spacing_small">
+            android:layout_marginBottom="@dimen/spacing_normal">
 
             <ImageView
                 android:layout_width="@dimen/options_icons_size"
@@ -85,7 +85,7 @@
             android:gravity="center_vertical"
             android:background="?attr/selectableItemBackground"
             android:padding="16dp"
-            android:layout_marginBottom="@dimen/spacing_small">
+            android:layout_marginBottom="@dimen/spacing_normal">
 
             <ImageView
                 android:layout_width="@dimen/options_icons_size"
@@ -113,7 +113,7 @@
             android:gravity="center_vertical"
             android:background="?attr/selectableItemBackground"
             android:padding="16dp"
-            android:layout_marginBottom="@dimen/spacing_small">
+            android:layout_marginBottom="@dimen/spacing_normal">
 
             <ImageView
                 android:layout_width="@dimen/options_icons_size"
@@ -139,8 +139,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/spacing_large">
+        android:gravity="center">
 
         <Button
             android:id="@+id/btn_confirm"
