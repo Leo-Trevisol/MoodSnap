@@ -15,16 +15,32 @@
         android:layout_marginBottom="@dimen/spacing_large"
         android:background="@color/secundary" />
 
-    <TextView
-        android:id="@+id/text_theme_title"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/theme_settings"
-        android:textColor="@color/secundary"
-        android:textSize="@dimen/text_size_xlarge"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="@dimen/spacing_large" />
+        android:layout_marginBottom="@dimen/spacing_large">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="@dimen/options_icons_size"
+            android:layout_height="@dimen/options_icons_size"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="@string/btn_back"
+            app:tint="@color/secundary" />
+
+        <TextView
+            android:id="@+id/text_theme_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/theme_settings"
+            android:textColor="@color/secundary"
+            android:textSize="@dimen/text_size_xlarge"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/themes_container"
@@ -125,18 +141,6 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_marginTop="@dimen/spacing_large">
-
-        <Button
-            android:id="@+id/btn_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_button_shadow"
-            android:text="@string/btn_cancel"
-            android:textSize="@dimen/text_size_xlarge"
-            android:textStyle="bold"
-            android:textColor="@color/primary" />
 
         <Button
             android:id="@+id/btn_confirm"

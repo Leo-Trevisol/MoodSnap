@@ -16,16 +16,16 @@
         android:layout_marginBottom="@dimen/spacing_large"
         android:background="@color/secundary" />
 
-    <TextView
-        android:id="@+id/text_settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/select_settings_option"
-        android:textColor="@color/secundary"
-        android:textSize="@dimen/text_size_xlarge"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="@dimen/spacing_large" />
+        <TextView
+            android:id="@+id/text_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/select_settings_option"
+            android:textColor="@color/secundary"
+            android:textSize="@dimen/text_size_xlarge"
+            android:layout_marginBottom="@dimen/spacing_large"
+            android:textStyle="bold"
+            android:gravity="center" />
 
     <ScrollView
         android:layout_width="match_parent"

@@ -36,6 +36,7 @@ import com.br.leo.moodsnap.ui.adapters.WeekdaysAdapter
 import com.br.leo.moodsnap.ui.dialog.CustomAlertDialog
 import com.br.leo.moodsnap.ui.dialog.DialogEmotions
 import com.br.leo.moodsnap.ui.dialog.OnboardingDialog
+import com.br.leo.moodsnap.ui.dialog.TutorialBottomSheet
 import com.br.leo.moodsnap.ui.model.FontModel
 import com.br.leo.moodsnap.ui.model.LanguageModel
 import com.br.leo.moodsnap.ui.notifications.NotificationHelper
@@ -808,7 +809,7 @@ class HomeFragment : Fragment() {
         
         // Aplicar a fonte atual ao BottomSheet
         FontUtils.applyFontToView(requireContext(), bottomSheetView)
-        
+
         // Obter o idioma atual
         val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val currentLanguage = sharedPreferences.getString("current_language", "system")
@@ -948,6 +949,10 @@ class HomeFragment : Fragment() {
         // Aplicar a fonte atual ao BottomSheet
         FontUtils.applyFontToView(requireContext(), bottomSheetView)
         
+        // Configurar o botão de voltar
+        configureBackButton(bottomSheetView, bottomSheetDialog)
+
+        
         // Lista de idiomas disponíveis
         val languages = listOf(
             LanguageModel("system", R.string.language_system, "system"),
@@ -983,19 +988,8 @@ class HomeFragment : Fragment() {
         // Definir a seleção inicial
         adapter.setSelectedLanguage(selectedLanguage)
 
-        val btnCancel : Button =  bottomSheetView.findViewById<Button>(R.id.btn_cancel)
         val btnConfirm : Button =  bottomSheetView.findViewById<Button>(R.id.btn_confirm)
-
-        Utils.updateBackGroundColor(requireContext(), btnCancel, textColor = resources.getColor(R.color.primary))
         Utils.updateBackGroundColor(requireContext(), btnConfirm, textColor = resources.getColor(R.color.primary))
-
-        // Botão de cancelar
-        btnCancel.setOnClickListener {
-            bottomSheetDialog.dismiss()
-            // Reabrir o BottomSheet de configurações
-            showSettingsBottomSheet()
-        }
-
         btnConfirm.setOnClickListener {
             with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
                 putString("current_language", selectedLanguage)
@@ -1120,16 +1114,10 @@ class HomeFragment : Fragment() {
             highlightSelectedTheme(2)
             selectedTheme = AppCompatDelegate.MODE_NIGHT_YES
         }
-        
-        // Botão de cancelar
-        val btnCancel: Button = bottomSheetView.findViewById<Button>(R.id.btn_cancel)
-        Utils.updateBackGroundColor(requireContext(), btnCancel, textColor = resources.getColor(R.color.primary))
-        btnCancel.setOnClickListener {
-            bottomSheetDialog.dismiss()
-            // Reabrir o BottomSheet de configurações
-            showSettingsBottomSheet()
-        }
-        
+
+        // Configurar o botão de voltar
+        configureBackButton(bottomSheetView, bottomSheetDialog)
+
         // Botão de confirmar
         val btnConfirm: Button = bottomSheetView.findViewById<Button>(R.id.btn_confirm)
         Utils.updateBackGroundColor(requireContext(), btnConfirm, textColor = resources.getColor(R.color.primary))
@@ -1200,14 +1188,8 @@ class HomeFragment : Fragment() {
             }
         }
 
-        // Botão de cancelar
-        val btnCancel : Button =  bottomSheetView.findViewById<Button>(R.id.btn_cancel)
-        Utils.updateBackGroundColor(requireContext(), btnCancel, textColor = resources.getColor(R.color.primary))
-        btnCancel.setOnClickListener {
-            bottomSheetDialog.dismiss()
-            // Reabrir o BottomSheet de configurações
-            showSettingsBottomSheet()
-        }
+        // Configurar o botão de voltar
+        configureBackButton(bottomSheetView, bottomSheetDialog)
 
         // Botão de confirmar
         val btnConfirm = bottomSheetView.findViewById<Button>(R.id.btn_confirm)
@@ -1277,9 +1259,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun showOnboardingTutorial() {
-        val onboardingDialog = OnboardingDialog(requireContext())
-        onboardingDialog.setCancelable(false)
-        onboardingDialog.show()
+        val tutorialBottomSheet = TutorialBottomSheet()
+        tutorialBottomSheet.show(parentFragmentManager, "TutorialBottomSheet")
     }
 
     private fun showFontBottomSheet() {
@@ -1356,14 +1337,8 @@ class HomeFragment : Fragment() {
         weekText.typeface = currentTypeface
         dayText.typeface = currentTypeface
 
-        // Botão de cancelar
-        val btnCancel : Button =  bottomSheetView.findViewById<Button>(R.id.btn_cancel)
-        Utils.updateBackGroundColor(requireContext(), btnCancel, textColor = resources.getColor(R.color.primary))
-        btnCancel.setOnClickListener {
-            bottomSheetDialog.dismiss()
-            // Reabrir o BottomSheet de configurações
-            showSettingsBottomSheet()
-        }
+        // Configurar o botão de voltar
+        configureBackButton(bottomSheetView, bottomSheetDialog)
 
         // Botão de confirmar
         val btnConfirm = bottomSheetView.findViewById<Button>(R.id.btn_confirm)
@@ -1449,6 +1424,14 @@ class HomeFragment : Fragment() {
         val btnBack : Button = settingsDialogView.findViewById<Button>(R.id.btn_back)
         btnBack.setOnClickListener {
             settingsDialog.dismiss()
+        }
+    }
+
+    private fun configureBackButton(bottomSheetView: View, bottomSheetDialog: BottomSheetDialog) {
+        val btnBack = bottomSheetView.findViewById<ImageView>(R.id.btn_back)
+        btnBack.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            showSettingsBottomSheet()
         }
     }
 }

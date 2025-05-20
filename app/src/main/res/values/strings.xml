@@ -16,6 +16,7 @@
     <string name="btn_no">No</string>
     <string name="btn_go_config">Go to Settings</string>
     <string name="btn_share">Share</string>
+    <string name="btn_skip">Skip</string>
 
     <!-- Titles and Headers -->
     <string name="title_how_are_you">How are you feeling?</string>
