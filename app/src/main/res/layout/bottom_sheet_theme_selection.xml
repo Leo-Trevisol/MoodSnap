@@ -33,43 +33,102 @@
         android:orientation="vertical"
         android:layout_marginBottom="@dimen/spacing_large">
 
-        <Button
+        <LinearLayout
             android:id="@+id/btn_system_theme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_normal"
-            android:background="@drawable/background_rounded"
-            android:backgroundTint="@color/primary_green"
-            android:drawableEnd="@drawable/ic_half_square"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
             android:padding="16dp"
-            android:text="@string/system_theme"
-            android:textColor="@color/secundary"
-            android:textSize="@dimen/button_size" />
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/spacing_small">
 
-        <Button
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_half_square"/>
+
+            <TextView
+                android:id="@+id/text_system_theme"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/system_theme"
+                android:textColor="@color/secundary"
+                android:textSize="16sp"/>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_dark"/>
+
+        <LinearLayout
             android:id="@+id/btn_light_theme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_normal"
-            android:background="@drawable/background_rounded"
-            android:backgroundTint="@color/primary_green"
-            android:drawableEnd="@drawable/ic_white_square"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
             android:padding="16dp"
-            android:text="@string/light_theme"
-            android:textColor="@color/secundary"
-            android:textSize="@dimen/button_size" />
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/spacing_small">
 
-        <Button
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_white_square"/>
+
+            <TextView
+                android:id="@+id/text_light_theme"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/light_theme"
+                android:textColor="@color/secundary"
+                android:textSize="16sp"/>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_dark"/>
+
+        <LinearLayout
             android:id="@+id/btn_dark_theme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_rounded"
-            android:backgroundTint="@color/primary_green"
-            android:drawableEnd="@drawable/ic_black_square"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
             android:padding="16dp"
-            android:text="@string/dark_theme"
-            android:textColor="@color/secundary"
-            android:textSize="@dimen/button_size" />
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/spacing_small">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_black_square"/>
+
+            <TextView
+                android:id="@+id/text_dark_theme"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/dark_theme"
+                android:textColor="@color/secundary"
+                android:textSize="16sp"/>
+
+
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

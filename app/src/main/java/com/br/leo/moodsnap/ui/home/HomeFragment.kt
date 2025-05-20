@@ -948,12 +948,6 @@ class HomeFragment : Fragment() {
         // Aplicar a fonte atual ao BottomSheet
         FontUtils.applyFontToView(requireContext(), bottomSheetView)
         
-        // Garantir que o BottomSheet tenha bordas arredondadas
-        val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-        bottomSheet?.let {
-            it.setBackgroundResource(R.drawable.background_rounded_top)
-        }
-        
         // Lista de idiomas disponíveis
         val languages = listOf(
             LanguageModel("system", R.string.language_system, "system"),
@@ -1055,81 +1049,105 @@ class HomeFragment : Fragment() {
         // Aplicar a fonte atual ao BottomSheet
         FontUtils.applyFontToView(requireContext(), bottomSheetView)
         
-        // Garantir que o BottomSheet tenha bordas arredondadas
-        val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-        bottomSheet?.let {
-            it.setBackgroundResource(R.drawable.background_rounded_top)
+        // Obter os layouts de tema
+        val layoutSystemTheme = bottomSheetView.findViewById<LinearLayout>(R.id.btn_system_theme)
+        val layoutLightTheme = bottomSheetView.findViewById<LinearLayout>(R.id.btn_light_theme)
+        val layoutDarkTheme = bottomSheetView.findViewById<LinearLayout>(R.id.btn_dark_theme)
+        
+        // Obter os TextViews de tema
+        val textSystemTheme = bottomSheetView.findViewById<TextView>(R.id.text_system_theme)
+        val textLightTheme = bottomSheetView.findViewById<TextView>(R.id.text_light_theme)
+        val textDarkTheme = bottomSheetView.findViewById<TextView>(R.id.text_dark_theme)
+        
+        // Lista de layouts e textos para facilitar a manipulação
+        val themeLayouts = listOf(layoutSystemTheme, layoutLightTheme, layoutDarkTheme)
+        val themeTexts = listOf(textSystemTheme, textLightTheme, textDarkTheme)
+        
+        // Verificar se é a primeira vez que o tema está sendo aplicado
+        val isFirstThemeApply = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getBoolean("is_first_theme_apply", true)
+        
+        // Função para destacar o layout selecionado
+        fun highlightSelectedTheme(position: Int) {
+            // Resetar todos os layouts para o estado normal
+            themeLayouts.forEachIndexed { index, layout ->
+                layout.setBackgroundResource(android.R.color.transparent)
+                themeTexts[index].setTextColor(ContextCompat.getColor(requireContext(), R.color.secundary))
+                themeTexts[position].setCompoundDrawables(null, null, null, null)
+
+            }
+            
+            // Destacar o layout selecionado
+            themeLayouts[position].setBackgroundResource(R.drawable.background_rounded_left)
+            themeLayouts[position].backgroundTintList =ColorStateList.valueOf(getResources().getColor(R. color. primary_green))
+            themeTexts[position].setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         }
         
-        // Obter os botões de tema
-        val btnSystemTheme = bottomSheetView.findViewById<Button>(R.id.btn_system_theme)
-        val btnLightTheme = bottomSheetView.findViewById<Button>(R.id.btn_light_theme)
-        val btnDarkTheme = bottomSheetView.findViewById<Button>(R.id.btn_dark_theme)
-
-        val buttons = listOf(btnSystemTheme, btnLightTheme, btnDarkTheme)
-
-        // Verificar se é a primeira execução do app
-        val isFirstThemeApply = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getBoolean("is_first_theme_apply", true)
-
-        // Definir a seleção inicial com base no tema atual ou na primeira execução
-        ButtonUtils.resetAllButtons(requireContext(), buttons)
-        if (isFirstThemeApply) {
-            ButtonUtils.highlightButton(requireContext(), btnSystemTheme)
+        // Variável para armazenar o tema selecionado
+        var selectedTheme = if (isFirstThemeApply) {
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
         } else {
-            val currentNightMode = AppCompatDelegate.getDefaultNightMode()
-            when (currentNightMode) {
-                AppCompatDelegate.MODE_NIGHT_YES -> ButtonUtils.highlightButton(requireContext(), btnDarkTheme)
-                AppCompatDelegate.MODE_NIGHT_NO -> ButtonUtils.highlightButton(requireContext(), btnLightTheme)
-                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> ButtonUtils.highlightButton(requireContext(), btnSystemTheme)
-            }
+            AppCompatDelegate.getDefaultNightMode()
         }
-
-        // Configurar os listeners de clique para os botões de tema
-        ButtonUtils.setupToggleButtonGroup(requireContext(), buttons)
-
+        
+        // Destacar o tema atual
+        when (selectedTheme) {
+            AppCompatDelegate.MODE_NIGHT_YES -> highlightSelectedTheme(2) // Dark theme
+            AppCompatDelegate.MODE_NIGHT_NO -> highlightSelectedTheme(1) // Light theme
+            else -> highlightSelectedTheme(0) // System theme
+        }
+        
+        // Configurar os listeners de clique para os layouts de tema
+        layoutSystemTheme.setOnClickListener {
+            highlightSelectedTheme(0)
+            selectedTheme = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        }
+        
+        layoutLightTheme.setOnClickListener {
+            highlightSelectedTheme(1)
+            selectedTheme = AppCompatDelegate.MODE_NIGHT_NO
+        }
+        
+        layoutDarkTheme.setOnClickListener {
+            highlightSelectedTheme(2)
+            selectedTheme = AppCompatDelegate.MODE_NIGHT_YES
+        }
+        
         // Botão de cancelar
-        val btnCancel : Button =  bottomSheetView.findViewById<Button>(R.id.btn_cancel)
+        val btnCancel: Button = bottomSheetView.findViewById<Button>(R.id.btn_cancel)
         Utils.updateBackGroundColor(requireContext(), btnCancel, textColor = resources.getColor(R.color.primary))
         btnCancel.setOnClickListener {
             bottomSheetDialog.dismiss()
             // Reabrir o BottomSheet de configurações
             showSettingsBottomSheet()
         }
-
+        
         // Botão de confirmar
-        val btnConfirm = bottomSheetView.findViewById<Button>(R.id.btn_confirm)
+        val btnConfirm: Button = bottomSheetView.findViewById<Button>(R.id.btn_confirm)
         Utils.updateBackGroundColor(requireContext(), btnConfirm, textColor = resources.getColor(R.color.primary))
         btnConfirm.setOnClickListener {
-            val nightMode = when {
-                btnLightTheme.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> {
-                    AppCompatDelegate.MODE_NIGHT_NO
-                }
-                btnDarkTheme.backgroundTintList?.defaultColor == ContextCompat.getColor(requireContext(), R.color.primary_green) -> {
-                    AppCompatDelegate.MODE_NIGHT_YES
-                }
-                else -> {
-                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-                }
-            }
-
             // Salvar o tema selecionado nas preferências compartilhadas
             with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
-                putInt("current_theme", nightMode)
+                putInt("current_theme", selectedTheme)
                 apply()
             }
-
+            
             if (isFirstThemeApply) {
                 with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
                     putBoolean("is_first_theme_apply", false)
                     apply()
                 }
             }
-
+            
             // Aplicar o tema
-            AppCompatDelegate.setDefaultNightMode(nightMode)
+            AppCompatDelegate.setDefaultNightMode(selectedTheme)
             bottomSheetDialog.dismiss()
         }
-
+        
+        val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+        bottomSheet?.let {
+            it.setBackgroundResource(R.drawable.background_rounded_top)
+        }
+        
         bottomSheetDialog.show()
     }
 
