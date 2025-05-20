@@ -56,4 +56,7 @@
     
     <!-- FAB dimensions -->
     <dimen name="fab_icon_size">56dp</dimen>
+
+    <dimen name="options_icons_size">24dp</dimen>
+
 </resources>

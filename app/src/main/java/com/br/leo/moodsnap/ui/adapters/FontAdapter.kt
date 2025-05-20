@@ -27,18 +27,25 @@ class FontAdapter(
         fun bind(font: FontModel, position: Int) {
             // Configurar o texto da fonte
             textFont.text = font.name
-            
+
             // Aplicar a fonte atual ao texto
             textFont.typeface = ResourcesCompat.getFont(context, font.resourceId)
 
-            // Atualizar o estado visual do item
             if (position == selectedPosition) {
                 rootLayout.setBackgroundResource(R.drawable.background_rounded_left)
-                rootLayout.backgroundTintList = ColorStateList.valueOf(context.getResources().getColor(R. color. primary_green))
+                rootLayout.backgroundTintList = ColorStateList.valueOf(
+                    ContextCompat.getColor(context, R.color.primary_green)
+                )
                 textFont.setTextColor(ContextCompat.getColor(context, R.color.white))
+
+                val drawable = ContextCompat.getDrawable(context, R.drawable.ic_check)
+                drawable?.setTint(ContextCompat.getColor(context, R.color.secundary))
+                textFont.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
             } else {
                 rootLayout.setBackgroundResource(android.R.color.transparent)
                 textFont.setTextColor(ContextCompat.getColor(context, R.color.secundary))
+
+                textFont.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
             }
 
             // Configurar o clique
@@ -50,6 +57,7 @@ class FontAdapter(
                 onFontSelected(font)
             }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FontViewHolder {

@@ -41,12 +41,11 @@
             android:gravity="center_vertical"
             android:background="?attr/selectableItemBackground"
             android:padding="16dp"
-            android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_small">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/options_icons_size"
+                android:layout_height="@dimen/options_icons_size"
                 android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_half_square"/>
 
@@ -62,11 +61,6 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray_dark"/>
-
         <LinearLayout
             android:id="@+id/btn_light_theme"
             android:layout_width="match_parent"
@@ -75,12 +69,11 @@
             android:gravity="center_vertical"
             android:background="?attr/selectableItemBackground"
             android:padding="16dp"
-            android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_small">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/options_icons_size"
+                android:layout_height="@dimen/options_icons_size"
                 android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_white_square"/>
 
@@ -96,11 +89,6 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray_dark"/>
-
         <LinearLayout
             android:id="@+id/btn_dark_theme"
             android:layout_width="match_parent"
@@ -109,12 +97,11 @@
             android:gravity="center_vertical"
             android:background="?attr/selectableItemBackground"
             android:padding="16dp"
-            android:layout_marginTop="@dimen/spacing_small"
             android:layout_marginBottom="@dimen/spacing_small">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/options_icons_size"
+                android:layout_height="@dimen/options_icons_size"
                 android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_black_square"/>
 

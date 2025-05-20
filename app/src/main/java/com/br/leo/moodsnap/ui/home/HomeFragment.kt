@@ -1072,15 +1072,24 @@ class HomeFragment : Fragment() {
             themeLayouts.forEachIndexed { index, layout ->
                 layout.setBackgroundResource(android.R.color.transparent)
                 themeTexts[index].setTextColor(ContextCompat.getColor(requireContext(), R.color.secundary))
-                themeTexts[position].setCompoundDrawables(null, null, null, null)
 
+                // Remover drawableRight de todos
+                themeTexts[index].setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
             }
-            
-            // Destacar o layout selecionado
+
+            // Aplicar estilo de seleção no item escolhido
             themeLayouts[position].setBackgroundResource(R.drawable.background_rounded_left)
-            themeLayouts[position].backgroundTintList =ColorStateList.valueOf(getResources().getColor(R. color. primary_green))
+            themeLayouts[position].backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(requireContext(), R.color.primary_green)
+            )
             themeTexts[position].setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+
+            // Adicionar drawableRight apenas ao item selecionado
+            val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)
+            drawable?.setTint(ContextCompat.getColor(requireContext(), R.color.secundary))
+            themeTexts[position].setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
         }
+
         
         // Variável para armazenar o tema selecionado
         var selectedTheme = if (isFirstThemeApply) {

@@ -11,8 +11,8 @@
     android:layout_marginBottom="@dimen/spacing_normal">
 
     <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="@dimen/options_icons_size"
+        android:layout_height="@dimen/options_icons_size"
         android:src="@drawable/ic_language"
         android:layout_marginEnd="16dp"
         app:tint="@color/secundary" />

@@ -39,9 +39,13 @@ class LanguageAdapter(
                 rootLayout.setBackgroundResource(R.drawable.background_rounded_left)
                 rootLayout.backgroundTintList = ColorStateList.valueOf(context.getResources().getColor(R. color. primary_green))
                 textLanguage.setTextColor(ContextCompat.getColor(context, R.color.white))
+                val drawable = ContextCompat.getDrawable(context, R.drawable.ic_check)
+                drawable?.setTint(ContextCompat.getColor(context, R.color.secundary))
+                textLanguage.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
             } else {
                 rootLayout.setBackgroundResource(android.R.color.transparent)
                 textLanguage.setTextColor(ContextCompat.getColor(context, R.color.secundary))
+                textLanguage.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
             }
 
             // Configurar o clique

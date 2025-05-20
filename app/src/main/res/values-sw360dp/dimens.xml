@@ -43,4 +43,7 @@
     <dimen name="no_data_text">14px</dimen>
 
     <dimen name="hole_pie_chart">25px</dimen>
+
+    <dimen name="options_icons_size">22dp</dimen>
+
 </resources> 
