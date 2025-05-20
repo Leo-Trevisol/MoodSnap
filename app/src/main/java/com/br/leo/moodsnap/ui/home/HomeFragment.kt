@@ -938,6 +938,11 @@ class HomeFragment : Fragment() {
             bottomSheetDialog.dismiss()
             showOnboardingTutorial()
         }
+
+        val btnClose = bottomSheetView.findViewById<ImageView>(R.id.btn_close)
+        btnClose.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
     }
 
     private fun showLanguageBottomSheet() {

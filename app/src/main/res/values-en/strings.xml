@@ -154,7 +154,7 @@
     <string name="how_were_you_feeling_that_day">How were you feeling?</string>
 
     <!-- Settings Dialog -->
-    <string name="select_settings_option">Select a settings option</string>
+    <string name="select_settings_option">Settings</string>
     <string name="languages">Languages</string>
     <string name="themes">Themes</string>
 
