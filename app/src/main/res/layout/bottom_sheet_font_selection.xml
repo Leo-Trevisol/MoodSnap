@@ -114,6 +114,8 @@
             android:layout_weight="1"
             android:background="@drawable/rounded_button_shadow"
             android:text="@string/btn_cancel"
+            android:textSize="@dimen/text_size_xlarge"
+            android:textStyle="bold"
             android:textColor="@color/primary" />
 
         <Button
@@ -123,6 +125,8 @@
             android:text="@string/btn_confirm"
             android:background="@drawable/rounded_button_shadow"
             android:layout_weight="1"
+            android:textSize="@dimen/text_size_xlarge"
+            android:textStyle="bold"
             android:textColor="@color/primary" />
     </LinearLayout>
 </LinearLayout>

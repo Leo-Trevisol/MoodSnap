@@ -56,7 +56,7 @@
                 android:layout_weight="1"
                 android:text="@string/system_theme"
                 android:textColor="@color/secundary"
-                android:textSize="16sp"/>
+                android:textSize="@dimen/text_size_large"/>
 
 
         </LinearLayout>
@@ -84,7 +84,7 @@
                 android:layout_weight="1"
                 android:text="@string/light_theme"
                 android:textColor="@color/secundary"
-                android:textSize="16sp"/>
+                android:textSize="@dimen/text_size_large"/>
 
 
         </LinearLayout>
@@ -112,7 +112,7 @@
                 android:layout_weight="1"
                 android:text="@string/dark_theme"
                 android:textColor="@color/secundary"
-                android:textSize="16sp"/>
+                android:textSize="@dimen/text_size_large"/>
 
 
         </LinearLayout>
@@ -134,6 +134,8 @@
             android:layout_weight="1"
             android:background="@drawable/rounded_button_shadow"
             android:text="@string/btn_cancel"
+            android:textSize="@dimen/text_size_xlarge"
+            android:textStyle="bold"
             android:textColor="@color/primary" />
 
         <Button
@@ -143,6 +145,8 @@
             android:text="@string/btn_confirm"
             android:background="@drawable/rounded_button_shadow"
             android:layout_weight="1"
+            android:textSize="@dimen/text_size_xlarge"
+            android:textStyle="bold"
             android:textColor="@color/primary" />
     </LinearLayout>
 </LinearLayout>

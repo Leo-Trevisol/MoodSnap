@@ -60,14 +60,14 @@
                     android:layout_weight="1"
                     android:text="@string/languages"
                     android:textColor="@color/secundary"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/text_size_large"/>
 
                 <TextView
                     android:id="@+id/text_current_language"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/gray_dark"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/text_size_normal"
                     android:layout_marginEnd="8dp"
                     android:text="Português"/>
 
@@ -106,14 +106,14 @@
                     android:layout_weight="1"
                     android:text="@string/themes"
                     android:textColor="@color/secundary"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/text_size_large"/>
 
                 <TextView
                     android:id="@+id/text_current_theme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/gray_dark"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/text_size_normal"
                     android:layout_marginEnd="8dp"/>
 
                 <ImageView
@@ -151,14 +151,14 @@
                     android:layout_weight="1"
                     android:text="@string/notifications"
                     android:textColor="@color/secundary"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/text_size_large"/>
 
                 <TextView
                     android:id="@+id/text_notification_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/gray_dark"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/text_size_normal"
                     android:layout_marginEnd="8dp"/>
 
                 <ImageView
@@ -196,14 +196,14 @@
                     android:layout_weight="1"
                     android:text="@string/font"
                     android:textColor="@color/secundary"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/text_size_large"/>
 
                 <TextView
                     android:id="@+id/text_current_font"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/gray_dark"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/text_size_normal"
                     android:layout_marginEnd="8dp"/>
 
                 <ImageView
@@ -240,7 +240,7 @@
                     android:layout_weight="1"
                     android:text="@string/tutorial"
                     android:textColor="@color/secundary"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/text_size_large"/>
 
                 <ImageView
                     android:layout_width="@dimen/options_icons_size"
