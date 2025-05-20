@@ -4,14 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.ui.model.FontModel
-import com.br.leo.moodsnap.ui.utils.ButtonUtils
-import com.br.leo.moodsnap.ui.utils.Utils
 
 class FontAdapter(
     private val context: Context,
@@ -20,51 +18,34 @@ class FontAdapter(
 ) : RecyclerView.Adapter<FontAdapter.FontViewHolder>() {
 
     private var selectedPosition = -1
-    private var lastSelectedButton: Button? = null
-    private var currentSelectedButton: Button? = null
 
     inner class FontViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val fontButton: Button = itemView.findViewById(R.id.btn_font)
+        private val textFont: TextView = itemView.findViewById(R.id.text_font)
+        private val rootLayout: View = itemView
 
         fun bind(font: FontModel, position: Int) {
-            // Configurar o texto do botão
-            fontButton.text = font.name
+            // Configurar o texto da fonte
+            textFont.text = font.name
             
-            // Aplicar a fonte ao próprio botão
-            fontButton.typeface = ResourcesCompat.getFont(context, font.resourceId)
+            // Aplicar a fonte atual ao texto
+            textFont.typeface = ResourcesCompat.getFont(context, font.resourceId)
 
-            // Atualizar o estado visual do botão
+            // Atualizar o estado visual do item
             if (position == selectedPosition) {
-                ButtonUtils.highlightButton(context, fontButton)
-                currentSelectedButton = fontButton
+                rootLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_green))
+                textFont.setTextColor(ContextCompat.getColor(context, R.color.white))
             } else {
-                Utils.updateBackGroundColor(context, fontButton, R.color.gray_dark)
+                rootLayout.setBackgroundResource(android.R.color.transparent)
+                textFont.setTextColor(ContextCompat.getColor(context, R.color.secundary))
             }
 
             // Configurar o clique
-            fontButton.setOnClickListener {
-                // Atualizar o estado visual dos botões manualmente
-                if (lastSelectedButton != fontButton) {
-                    // Desmarcar o botão anteriormente selecionado
-                    lastSelectedButton?.let { button ->
-                        Utils.updateBackGroundColor(context, button, R.color.gray_dark)
-                    }
-                    
-                    // Marcar o novo botão selecionado
-                    ButtonUtils.highlightButton(context, fontButton)
-                    
-                    // Atualizar as referências
-                    lastSelectedButton = fontButton
-                    selectedPosition = position
-                    
-                    // Notificar o callback
-                    onFontSelected(font)
-                }
-            }
-            
-            // Manter referência ao botão selecionado
-            if (position == selectedPosition) {
-                lastSelectedButton = fontButton
+            rootLayout.setOnClickListener {
+                val previousPosition = selectedPosition
+                selectedPosition = position
+                notifyItemChanged(previousPosition)
+                notifyItemChanged(selectedPosition)
+                onFontSelected(font)
             }
         }
     }
@@ -92,4 +73,4 @@ class FontAdapter(
             notifyDataSetChanged()
         }
     }
-} 
+}

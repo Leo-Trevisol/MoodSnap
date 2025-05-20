@@ -93,7 +93,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fonts_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:layout_marginBottom="@dimen/spacing_large"
         android:overScrollMode="never"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
