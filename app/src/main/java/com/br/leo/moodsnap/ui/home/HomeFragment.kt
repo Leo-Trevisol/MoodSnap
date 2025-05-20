@@ -860,10 +860,26 @@ class HomeFragment : Fragment() {
         }
         textCurrentFont.text = fontName
         
+        // Obter o status das notificações
+        val notificationsEnabled = sharedPreferences.getBoolean("notifications_enabled", false)
+        val notificationHour = sharedPreferences.getInt("notification_hour", 20)
+        val notificationMinute = sharedPreferences.getInt("notification_minute", 0)
+        
+        // Definir o texto do status das notificações
+        val textNotificationStatus = bottomSheetView.findViewById<TextView>(R.id.text_notification_status)
+        if (notificationsEnabled) {
+            // Formatar o horário em formato de 12 horas com AM/PM
+            val hour = if (notificationHour > 12) notificationHour - 12 else if (notificationHour == 0) 12 else notificationHour
+            val amPm = if (notificationHour >= 12) "PM" else "AM"
+            val minuteStr = if (notificationMinute < 10) "0$notificationMinute" else "$notificationMinute"
+            textNotificationStatus.text = "$hour:$minuteStr $amPm"
+        } else {
+            textNotificationStatus.text = ""//getString(R.string.disabled)
+        }
+        
         // Configurar os listeners dos botões
         setupSettingsButtons(bottomSheetView, bottomSheetDialog)
         
-        // Garantir que o BottomSheet tenha bordas arredondadas
         val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
         bottomSheet?.let {
             it.setBackgroundResource(R.drawable.background_rounded_top)
