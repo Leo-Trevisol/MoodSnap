@@ -1,17 +1,17 @@
 package com.br.leo.moodsnap.ui.adapters
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.ui.model.LanguageModel
-import com.br.leo.moodsnap.ui.utils.ButtonUtils
 import com.br.leo.moodsnap.ui.utils.FontUtils
-import com.br.leo.moodsnap.ui.utils.Utils
 
 class LanguageAdapter(
     private val context: Context,
@@ -24,24 +24,28 @@ class LanguageAdapter(
         .getString("current_font", "default")
 
     inner class LanguageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val languageButton: Button = itemView.findViewById(R.id.btn_language)
+        private val textLanguage: TextView = itemView.findViewById(R.id.text_language)
+        private val rootLayout: View = itemView
 
         fun bind(language: LanguageModel, position: Int) {
-            // Configurar o texto do botão
-            languageButton.text = context.getString(language.name)
+            // Configurar o texto do idioma
+            textLanguage.text = context.getString(language.name)
             
-            // Aplicar a fonte atual ao botão
-            languageButton.typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
+            // Aplicar a fonte atual ao texto
+            textLanguage.typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
 
-            // Atualizar o estado visual do botão
+            // Atualizar o estado visual do item
             if (position == selectedPosition) {
-                ButtonUtils.highlightButton(context, languageButton)
+                rootLayout.setBackgroundResource(R.drawable.background_rounded_left)
+                rootLayout.backgroundTintList = ColorStateList.valueOf(context.getResources().getColor(R. color. primary_green))
+                textLanguage.setTextColor(ContextCompat.getColor(context, R.color.white))
             } else {
-                Utils.updateBackGroundColor(context, languageButton, R.color.gray_dark)
+                rootLayout.setBackgroundResource(android.R.color.transparent)
+                textLanguage.setTextColor(ContextCompat.getColor(context, R.color.secundary))
             }
 
             // Configurar o clique
-            languageButton.setOnClickListener {
+            rootLayout.setOnClickListener {
                 val previousPosition = selectedPosition
                 selectedPosition = position
                 notifyItemChanged(previousPosition)
@@ -74,4 +78,4 @@ class LanguageAdapter(
             notifyDataSetChanged()
         }
     }
-} 
+}
