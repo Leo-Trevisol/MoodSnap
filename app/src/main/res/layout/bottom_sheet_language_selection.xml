@@ -8,6 +8,13 @@
     android:background="@drawable/background_rounded_top"
     android:padding="@dimen/spacing_large">
 
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:background="@color/secundary" />
+
     <TextView
         android:id="@+id/text_language_title"
         android:layout_width="match_parent"
@@ -18,13 +25,6 @@
         android:textStyle="bold"
         android:gravity="center"
         android:layout_marginBottom="@dimen/spacing_large" />
-
-    <View
-        android:layout_width="40dp"
-        android:layout_height="4dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/spacing_large"
-        android:background="@color/secundary" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/languages_recycler_view"
