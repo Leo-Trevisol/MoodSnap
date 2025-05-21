@@ -24,6 +24,9 @@
     <!-- Percentage badge dimensions -->
     <dimen name="percentage_width">40dp</dimen>
     <dimen name="percentage_height">24dp</dimen>
+
+    <dimen name="percentage_width_min">30dp</dimen>
+    <dimen name="percentage_height_min">18dp</dimen>
     
     <!-- Text sizes -->
     <dimen name="text_size_small">12sp</dimen>

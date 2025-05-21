@@ -62,12 +62,13 @@
                 android:paddingTop="@dimen/spacing_large"
                 android:paddingBottom="@dimen/spacing_large"
                 android:paddingStart="@dimen/spacing_large"
+                android:paddingEnd="@dimen/spacing_large"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/week_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="60dp"
+                    android:layout_height="35dp"
                     android:gravity="center"
                     android:textColor="@color/secundary"
                     android:textSize="@dimen/button_text_size"
@@ -82,25 +83,55 @@
 
                 <TextView
                     android:id="@+id/day_text"
-                    android:layout_width="match_parent"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@color/secundary"
+                    android:background="@drawable/rounded_percentage_background"
                     android:textSize="@dimen/button_text_size"
                     android:text="1">
                 </TextView>
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/preview_text"
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_large"
+                android:background="@color/gray_dark"/>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:padding="@dimen/spacing_large"
-                android:textColor="@color/secundary"
-                android:text="@string/font_preview_text"
-                android:textSize="@dimen/text_size_xlarge" />
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/quick_distribution_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="top"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    >
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/preview_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:gravity="top"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:paddingEnd="@dimen/spacing_large"
+                    android:layout_weight="2"
+                    android:textColor="@color/secundary"
+                    android:text="@string/font_preview_text"
+                    android:textSize="@dimen/text_size_xlarge" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

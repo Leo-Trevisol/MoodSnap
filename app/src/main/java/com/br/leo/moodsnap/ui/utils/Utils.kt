@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import com.br.leo.moodsnap.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -92,6 +93,19 @@ object Utils {
             4 -> R.drawable.very_sad_icon
             else -> R.drawable.neutral_icon
         }
+    }
+
+    fun getMoodColor(moodType: Int, context: Context): Int {
+        // Cores para cada tipo de humor
+            val moodColors = mapOf(
+            0 to ContextCompat.getColor(context, R.color.very_happy_color),
+            1 to ContextCompat.getColor(context, R.color.happy_color),
+            2 to ContextCompat.getColor(context, R.color.neutral_color),
+            3 to ContextCompat.getColor(context, R.color.sad_color),
+            4 to ContextCompat.getColor(context, R.color.very_sad_color)
+        )
+
+        return moodColors[moodType] ?: Color.WHITE
     }
 
     fun <T : View> View.findViewsByType(type: Class<T>): List<T> {

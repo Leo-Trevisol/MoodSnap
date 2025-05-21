@@ -20,6 +20,7 @@ import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.GestureDetectorCompat
@@ -53,6 +54,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.abs
+import kotlin.math.roundToInt
 
 class HomeFragment : Fragment() {
 
@@ -1325,6 +1327,9 @@ class HomeFragment : Fragment() {
             previewText.typeface = typeface
             weekText.typeface = typeface
             dayText.typeface = typeface
+            if (typeface != null) {
+                updateQuickDistribution(bottomSheetView, typeface)
+            }
         }
         
         recyclerView.adapter = fontAdapter
@@ -1341,6 +1346,9 @@ class HomeFragment : Fragment() {
         previewText.typeface = currentTypeface
         weekText.typeface = currentTypeface
         dayText.typeface = currentTypeface
+        if (currentTypeface != null) {
+            updateQuickDistribution(bottomSheetView, currentTypeface)
+        }
 
         // Configurar o botão de voltar
         configureBackButton(bottomSheetView, bottomSheetDialog)
@@ -1439,4 +1447,106 @@ class HomeFragment : Fragment() {
             showSettingsBottomSheet()
         }
     }
+
+    private fun updateQuickDistribution(view: View, typeface: Typeface) {
+        val container = view.findViewById<LinearLayout>(R.id.quick_distribution_container)
+        container.removeAllViews()
+
+        val total = 100f
+
+        // Encontrar o humor com a maior porcentagem
+        var maxPercentage = 0
+        var maxMoodType = -1
+
+        listOf(4, 3, 2, 1, 0).forEach { moodType ->
+            val count = 20
+            val percentage = (count / total * 100).roundToInt()
+            if (percentage > maxPercentage) {
+                maxPercentage = percentage
+                maxMoodType = moodType
+            }
+        }
+
+        // Calcular tamanho baseado na largura da tela
+        val screenWidth = resources.displayMetrics.widthPixels
+        val containerSize = (screenWidth * 0.1).toInt() // 13% da largura da tela
+        val iconSize = (containerSize * 1).toInt() // 100% do tamanho do container
+
+        // Tamanho fixo para o container de porcentagem
+        val percentageWidth = resources.getDimensionPixelSize(R.dimen.percentage_width_min)
+        val percentageHeight = resources.getDimensionPixelSize(R.dimen.percentage_height_min)
+
+        listOf(4, 3, 2, 1, 0).forEach { moodType ->
+            val itemLayout = LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.VERTICAL
+                gravity = Gravity.CENTER
+                layoutParams = LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    1f
+                )
+            }
+
+            // Container circular para o ícone
+            val iconContainer = CardView(requireContext()).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    containerSize,
+                    containerSize
+                )
+                radius = containerSize / 2f
+                cardElevation = 0f
+                setCardBackgroundColor(Utils.getMoodColor(moodType, requireContext()))
+            }
+
+            // Ícone do humor
+            val icon = ImageView(context).apply {
+                setImageResource(Utils.getMoodDrawable(moodType))
+                layoutParams = LinearLayout.LayoutParams(
+                    iconSize,
+                    iconSize
+                ).apply {
+                    gravity = Gravity.CENTER
+                }
+            }
+
+            // Texto da porcentagem com background arredondado
+            val percentageText = TextView(requireContext()).apply {
+                if(total == 0f) {
+                    text = "0%"
+                } else {
+                    val count = 20
+                    val percentage = (count / total * 100).roundToInt()
+                    text = "$percentage%"
+                }
+
+                // Aplicar cor de texto baseada no background
+                if (moodType == 2) {
+                    background = ContextCompat.getDrawable(requireContext(), R.drawable.highlighted_percentage_background)
+                    setTextColor(Color.WHITE)
+                } else {
+                    background = ContextCompat.getDrawable(requireContext(), R.drawable.rounded_percentage_background)
+                    setTextColor(ContextCompat.getColor(requireContext(), R.color.secundary))
+                }
+
+                textSize = resources.getDimension(R.dimen.legend_bar_chart)
+                gravity = Gravity.CENTER
+
+                // Aplicar tamanho fixo
+                layoutParams = LinearLayout.LayoutParams(
+                    percentageWidth,
+                    percentageHeight
+                ).apply {
+                    topMargin = resources.getDimensionPixelSize(R.dimen.spacing_small)
+                }
+            }
+
+            percentageText.typeface = typeface
+
+            iconContainer.addView(icon)
+            itemLayout.addView(iconContainer)
+            itemLayout.addView(percentageText)
+            container.addView(itemLayout)
+        }
+    }
+
 }
