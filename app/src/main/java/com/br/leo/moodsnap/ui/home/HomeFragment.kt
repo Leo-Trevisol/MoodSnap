@@ -964,11 +964,11 @@ class HomeFragment : Fragment() {
             LanguageModel("en", R.string.language_english, "en"),
             LanguageModel("pt", R.string.language_portuguese, "pt"),
             LanguageModel("es", R.string.language_spanish, "es"),
-            LanguageModel("fr", R.string.language_french, "fr"),
-            LanguageModel("it", R.string.language_italian, "it"),
             LanguageModel("zh", R.string.language_chinese, "zh"),
+            LanguageModel("fr", R.string.language_french, "fr"),
             LanguageModel("ru", R.string.language_russian, "ru"),
-            LanguageModel("de", R.string.language_german, "de")
+            LanguageModel("de", R.string.language_german, "de"),
+            LanguageModel("it", R.string.language_italian, "it")
         )
 
         // Carregar a preferência de idioma atual

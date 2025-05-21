@@ -18,7 +18,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_normal">
+        android:layout_marginBottom="@dimen/spacing_large">
 
         <ImageView
             android:id="@+id/btn_back"

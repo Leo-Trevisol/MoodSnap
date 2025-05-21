@@ -48,37 +48,29 @@ object FontUtils {
     fun getAllFonts(context: Context): List<FontModel> {
         return listOf(
             FontModel("default", context.getString(R.string.default_font), R.font.poppins_regular, true),
-            //FontModel("roboto", context.getString(R.string.roboto_font), R.font.roboto_regular),
-            FontModel("itim", "Itim", R.font.itim_regular),
             FontModel("open_sans", context.getString(R.string.open_sans_font), R.font.open_sans_regular),
-            FontModel("pangolin", "Pangolin", R.font.pangolin_regular),
-            //FontModel("tangerine", "Tangerine", R.font.tangerine_regular),
-            FontModel("underdog", "Underdog", R.font.underdog_regular),
+            FontModel("itim", "Itim", R.font.itim_regular),
+            FontModel("source_code_pro", "Source Code Pro", R.font.source_code_pro_regular),
             FontModel("lato", context.getString(R.string.lato_font), R.font.lato_regular),
-            FontModel("orbitron", "Orbitron", R.font.orbitron_regular),
-            FontModel("mulish", context.getString(R.string.mulish_font), R.font.mulish_regular),
-            FontModel("limelight", "LimeLight", R.font.lime_light_regular)
-            //FontModel("poppins", context.getString(R.string.poppins_font), R.font.poppins_regular),
+            FontModel("lobster", "Lobster", R.font.lobster_regular),
+            FontModel("noto_sans", "Noto Sans", R.font.noto_sans_regular),
+            FontModel("pangolin", "Pangolin", R.font.pangolin_regular)
         )
     }
 
     /**
      * Gets the resource ID for the specified font name
      */
+
     fun getFontResourceId(fontName: String): Int {
         return when (fontName) {
-            "roboto" -> R.font.roboto_regular
             "open_sans" -> R.font.open_sans_regular
-            "lato" -> R.font.lato_regular
-            "poppins" -> R.font.poppins_regular
-            "mulish" -> R.font.mulish_regular
-            "limelight" -> R.font.lime_light_regular
-            "alumni_sans_pinstripe" -> R.font.alumni_sans_pinstripe_regular
             "itim" -> R.font.itim_regular
+            "source_code_pro" -> R.font.source_code_pro_regular
+            "lato" -> R.font.lato_regular
+            "lobster" -> R.font.lobster_regular
+            "noto_sans" -> R.font.noto_sans_regular
             "pangolin" -> R.font.pangolin_regular
-            "tangerine" -> R.font.tangerine_regular
-            "underdog" -> R.font.underdog_regular
-            "orbitron" -> R.font.orbitron_regular
             else -> R.font.poppins_regular
         }
     }

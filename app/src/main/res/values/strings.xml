@@ -186,14 +186,16 @@
     <!-- Language Names -->
     <string name="language_settings">Language Settings</string>
     <string name="language_system">System language</string>
-    <string name="language_english">English - En</string>
-    <string name="language_portuguese">Portuguese - Pt-Br</string>
-    <string name="language_spanish">Spanish - Es</string>
-    <string name="language_french">French - Fr</string>
-    <string name="language_italian">Italian - It</string>
-    <string name="language_chinese">Chinese - Zh</string>
-    <string name="language_russian">Russian - Ru</string>
-    <string name="language_german">German - De</string>
+
+    <string name="language_english" translatable="false">English (en)</string>
+    <string name="language_portuguese" translatable="false">Português (pt-BR)</string>
+    <string name="language_spanish" translatable="false">Español (es)</string>
+    <string name="language_french" translatable="false">Français (fr)</string>
+    <string name="language_italian" translatable="false">Italiano (it)</string>
+    <string name="language_chinese" translatable="false">中文 (zh)</string>
+    <string name="language_russian" translatable="false">Русский (ru)</string>
+    <string name="language_german" translatable="false">Deutsch (de)</string>
+
 
     <string name="theme_settings">Theme Settings</string>
     <string name="system_theme">System Theme</string>
