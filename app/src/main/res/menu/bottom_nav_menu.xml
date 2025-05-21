@@ -8,12 +8,14 @@
 
     <item
         android:id="@+id/navigation_empty1"
-        android:checkable="false"
+        android:enabled="false"
+        android:icon="@android:color/transparent"
         android:title="" />
 
     <item
         android:id="@+id/navigation_empty2"
-        android:checkable="false"
+        android:enabled="false"
+        android:icon="@android:color/transparent"
         android:title="" />
 
     <item

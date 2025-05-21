@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
 import com.br.leo.moodsnap.databinding.ActivityMainBinding
 import com.br.leo.moodsnap.ui.dialog.DialogEmotions
 import com.br.leo.moodsnap.ui.dialog.OnboardingDialog
@@ -21,9 +20,12 @@ import com.br.leo.moodsnap.ui.utils.FontUtils
 import android.graphics.Color
 import android.content.res.ColorStateList
 import android.content.res.Resources
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -40,6 +42,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Obter o NavController
+        navController = (supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
+        
+        // Configurar os listeners dos ícones de navegação
+        setupCustomNavigation()
+        
         setupNavigation()
         setListeners()
         observeViewModel()
@@ -121,37 +130,65 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         resources.updateConfiguration(config, resources.displayMetrics)
     }
 
+    private fun setupCustomNavigation() {
+        // Configurar o ícone de Home (Calendário)
+        val navHome = findViewById<ImageView>(R.id.nav_home)
+        navHome.setOnClickListener {
+            navController.navigate(R.id.navigation_home)
+            updateNavigationIcons(R.id.navigation_home)
+        }
+        
+        // Configurar o ícone de Dashboard (Estatísticas)
+        val navDashboard = findViewById<ImageView>(R.id.nav_dashboard)
+        navDashboard.setOnClickListener {
+            navController.navigate(R.id.navigation_dashboard)
+            updateNavigationIcons(R.id.navigation_dashboard)
+        }
+        
+        // Definir o ícone inicial como selecionado
+        updateNavigationIcons(R.id.navigation_home)
+        
+        // Observar mudanças na navegação para atualizar os ícones
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.navigation_home -> updateNavigationIcons(R.id.navigation_home)
+                R.id.navigation_dashboard -> updateNavigationIcons(R.id.navigation_dashboard)
+            }
+        }
+    }
+    
+    private fun updateNavigationIcons(selectedItemId: Int) {
+        val navHome = findViewById<ImageView>(R.id.nav_home)
+        val navDashboard = findViewById<ImageView>(R.id.nav_dashboard)
+        
+        // Resetar todos os ícones para a cor não selecionada
+        navHome.setColorFilter(ContextCompat.getColor(this, R.color.gray_dark))
+        navDashboard.setColorFilter(ContextCompat.getColor(this, R.color.gray_dark))
+        
+        // Definir a cor do ícone selecionado
+        when (selectedItemId) {
+            R.id.navigation_home -> navHome.setColorFilter(ContextCompat.getColor(this, R.color.primary_green))
+            R.id.navigation_dashboard -> navDashboard.setColorFilter(ContextCompat.getColor(this, R.color.primary_green))
+        }
+    }
+
     private fun setupNavigation() {
+        // Esta função agora está simplificada, pois a navegação é tratada em setupCustomNavigation()
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-        binding.navView.setupWithNavController(navController)
-
-        // Configurar o comportamento dos itens do menu
-        binding.navView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.navigation_home -> {
-                    val navOptions = NavOptions.Builder()
-                        .setEnterAnim(R.anim.dialog_enter)
-                        .setExitAnim(R.anim.dialog_exit)
-                        .setPopEnterAnim(R.anim.dialog_enter)
-                        .setPopExitAnim(R.anim.dialog_exit)
-                        .build()
-                    navController.navigate(R.id.navigation_home, null, navOptions)
-                    true
-                }
-                R.id.navigation_dashboard -> {
-                    val navOptions = NavOptions.Builder()
-                        .setEnterAnim(R.anim.dialog_enter)
-                        .setExitAnim(R.anim.dialog_exit)
-                        .setPopEnterAnim(R.anim.dialog_enter)
-                        .setPopExitAnim(R.anim.dialog_exit)
-                        .build()
-                    navController.navigate(R.id.navigation_dashboard, null, navOptions)
-                    true
-                }
-                else -> false
-            }
+        
+        // Configurar as animações de navegação
+        val navOptions = NavOptions.Builder()
+            .setEnterAnim(R.anim.dialog_enter)
+            .setExitAnim(R.anim.dialog_exit)
+            .setPopEnterAnim(R.anim.dialog_enter)
+            .setPopExitAnim(R.anim.dialog_exit)
+            .build()
+            
+        // Configurar o controlador de navegação com as opções de animação
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            //Log.d("Navigation", "Navigated to: ${destination.label}")
         }
     }
 
