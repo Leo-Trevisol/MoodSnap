@@ -135,10 +135,14 @@ class CalendarAdapter(
                     holder.moodIndicator.setImageResource(Utils.getMoodDrawable(mood.moodType))
                     holder.dayNumber.setTextColor(if (isSelected) context.getColor(R.color.day_text_color) else context.getColor(R.color.day_text_color))
                 } else {
-                    holder.dayCard.setCardBackgroundColor(
-                        if (isSelected) context.getColor(R.color.primary_green)
-                        else context.getColor(R.color.past_day_background_color)
-                    )
+
+                    if (isSelected) {
+                        holder.dayCard.setBackgroundResource(R.drawable.cardview_border_background)
+                    } else {
+                        holder.dayCard.setBackgroundResource(R.drawable.cardview_background)
+                    }
+
+
                     holder.moodIndicator.visibility = View.GONE
                     holder.dayNumber.setTextColor(if (isSelected)  context.getColor(R.color.day_text_color) else context.getColor(R.color.day_text_color))
                 }
@@ -177,14 +181,14 @@ class CalendarAdapter(
     private fun isDateInFuture(dayOfMonth: Int): Boolean {
         // Criar e normalizar a data atual
         val normalizedToday = normalizeCalendarDate(Calendar.getInstance())
-        
+
         // Criar e normalizar a data a ser verificada
         val dateToCheck = Calendar.getInstance()
         dateToCheck.set(Calendar.YEAR, displayMonth.get(Calendar.YEAR))
         dateToCheck.set(Calendar.MONTH, displayMonth.get(Calendar.MONTH))
         dateToCheck.set(Calendar.DAY_OF_MONTH, dayOfMonth)
         val normalizedDateToCheck = normalizeCalendarDate(dateToCheck)
-        
+
         // Comparar as datas normalizadas
         return normalizedDateToCheck.after(normalizedToday)
     }
