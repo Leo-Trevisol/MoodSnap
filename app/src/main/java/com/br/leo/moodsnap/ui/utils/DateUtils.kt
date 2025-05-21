@@ -24,15 +24,33 @@ object DateUtils {
         }
     }
 
+    fun getMonthNameShort(context: Context, month: Int): String {
+        return when (month) {
+            Calendar.JANUARY -> context.getString(R.string.month_january_short)
+            Calendar.FEBRUARY -> context.getString(R.string.month_february_short)
+            Calendar.MARCH -> context.getString(R.string.month_march_short)
+            Calendar.APRIL -> context.getString(R.string.month_april_short)
+            Calendar.MAY -> context.getString(R.string.month_may_short)
+            Calendar.JUNE -> context.getString(R.string.month_june_short)
+            Calendar.JULY -> context.getString(R.string.month_july_short)
+            Calendar.AUGUST -> context.getString(R.string.month_august_short)
+            Calendar.SEPTEMBER -> context.getString(R.string.month_september_short)
+            Calendar.OCTOBER -> context.getString(R.string.month_october_short)
+            Calendar.NOVEMBER -> context.getString(R.string.month_november_short)
+            Calendar.DECEMBER -> context.getString(R.string.month_december_short)
+            else -> ""
+        }
+    }
+
     fun formatDateToString(date: Date, pattern: String = "dd/MM/yyyy"): String {
         val formatter = SimpleDateFormat(pattern, Locale.getDefault())
         return formatter.format(date)
     }
 
     fun formatMonthYear(context: Context, calendar: Calendar): String {
-        val month = getMonthName(context, calendar.get(Calendar.MONTH))
+        val month = getMonthNameShort(context, calendar.get(Calendar.MONTH))
         val year = calendar.get(Calendar.YEAR).toString()
-        return "$month $year"
+        return "$month. $year"
     }
 
     fun getStartAndEndOfDay(date: Date): Pair<Date, Date> {

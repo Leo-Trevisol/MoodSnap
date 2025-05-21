@@ -1,79 +1,63 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_marginTop="@dimen/spacing_large"
     tools:context=".ui.home.HomeFragment">
 
-    <!-- Cabeçalho -->
+<!-- Cabeçalho -->
     <LinearLayout
         android:id="@+id/date_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="16dp"
-        android:layout_marginTop="10dp"
+        android:padding="8dp"
+        android:layout_marginBottom="@dimen/spacing_large"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/btn_settings"
-            android:layout_width="@dimen/item_calendar_day"
-            android:layout_height="@dimen/item_calendar_day"
-            android:layout_weight="1"
-            android:padding="4dp"
+            android:layout_width="@dimen/options_icons_size"
+            android:layout_height="@dimen/options_icons_size"
             android:src="@drawable/ic_settings"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
-            app:tint="@color/primary_green"
-            android:scrollY="-4dp"/>
-
-        <ImageView
-            android:id="@+id/btn_previous_month"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_weight="1"
-            android:padding="4dp"
-            android:src="@drawable/ic_chevron_left_24"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:scaleType="center"
-            android:scrollY="-4dp"
-            android:visibility="invisible"
+            android:layout_marginStart="@dimen/spacing_normal"
             app:tint="@color/primary_green"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+        </View>
+
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/date_text"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:gravity="center"
-            android:textSize="20sp"
-            android:layout_marginHorizontal="16dp"
-            android:drawableEnd="@drawable/ic_chevron_dowm_24"
+            android:textSize="@dimen/text_size_xlarge"
+            android:drawableEnd="@drawable/ic_dowm"
             app:drawableTint="@color/primary_green"
             android:textColor="@color/day_text_color"
-            tools:text="Janeiro 2024"/>
+            tools:text="Jan 2024"/>
 
-        <ImageView
-            android:id="@+id/btn_next_month"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:padding="4dp"
-            android:src="@drawable/ic_chevron_right_24"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:scaleType="center"
-            android:scrollY="-4dp"
-            android:visibility="invisible"
-            app:tint="@color/primary_green"/>
+            android:layout_marginEnd="@dimen/spacing_normal"
+            >
+        </View>
 
     </LinearLayout>
 
@@ -81,8 +65,6 @@
         android:id="@+id/weekdays_grid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:paddingHorizontal="4dp"
         android:clipToPadding="false"
         app:layout_constraintTop_toBottomOf="@id/date_container"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"

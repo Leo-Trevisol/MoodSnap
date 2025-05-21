@@ -554,22 +554,22 @@ class HomeFragment : Fragment() {
 
         // Atualizar o texto do mês
         val month = when (calendar.get(Calendar.MONTH)) {
-            Calendar.JANUARY -> getString(R.string.month_january)
-            Calendar.FEBRUARY -> getString(R.string.month_february)
-            Calendar.MARCH -> getString(R.string.month_march)
-            Calendar.APRIL -> getString(R.string.month_april)
-            Calendar.MAY -> getString(R.string.month_may)
-            Calendar.JUNE -> getString(R.string.month_june)
-            Calendar.JULY -> getString(R.string.month_july)
-            Calendar.AUGUST -> getString(R.string.month_august)
-            Calendar.SEPTEMBER -> getString(R.string.month_september)
-            Calendar.OCTOBER -> getString(R.string.month_october)
-            Calendar.NOVEMBER -> getString(R.string.month_november)
-            Calendar.DECEMBER -> getString(R.string.month_december)
+            Calendar.JANUARY -> getString(R.string.month_january_short)
+            Calendar.FEBRUARY -> getString(R.string.month_february_short)
+            Calendar.MARCH -> getString(R.string.month_march_short)
+            Calendar.APRIL -> getString(R.string.month_april_short)
+            Calendar.MAY -> getString(R.string.month_may_short)
+            Calendar.JUNE -> getString(R.string.month_june_short)
+            Calendar.JULY -> getString(R.string.month_july_short)
+            Calendar.AUGUST -> getString(R.string.month_august_short)
+            Calendar.SEPTEMBER -> getString(R.string.month_september_short)
+            Calendar.OCTOBER -> getString(R.string.month_october_short)
+            Calendar.NOVEMBER -> getString(R.string.month_november_short)
+            Calendar.DECEMBER -> getString(R.string.month_december_short)
             else -> ""
         }
         val year = calendar.get(Calendar.YEAR)
-        binding.dateText.text = "$month $year"
+        binding.dateText.text = "$month. $year"
 
         // Carregar humores do mês
         homeViewModel.loadMoodsForMonth(
