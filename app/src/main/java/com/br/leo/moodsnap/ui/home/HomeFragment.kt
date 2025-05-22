@@ -1269,6 +1269,7 @@ class HomeFragment : Fragment() {
             .setDescricaoBtnPositive(getString(R.string.btn_go_config))
             .setDescricaoBtnNegative(getString(R.string.btn_cancel))
             .setNegativeListener(null)
+            .setSmallFont()
             .show()
     }
 

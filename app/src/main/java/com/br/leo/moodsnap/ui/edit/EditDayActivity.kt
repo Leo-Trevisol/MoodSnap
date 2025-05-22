@@ -696,6 +696,7 @@ class EditDayActivity : AppCompatActivity() {
                             }
                         }
                     }
+                    .setNegativeListener {  }
                     .show()
             }
         })
@@ -765,6 +766,7 @@ class EditDayActivity : AppCompatActivity() {
                 // Quando o usuário clicar em cancelar, reabrir o diálogo de fonte de imagem
                 showImageSourceDialog()
             }
+            .setSmallFont()
             .show()
     }
 

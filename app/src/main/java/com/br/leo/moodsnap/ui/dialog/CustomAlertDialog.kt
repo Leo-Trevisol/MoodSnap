@@ -124,6 +124,14 @@ class CustomAlertDialog private constructor(
         return this
     }
 
+    fun setSmallFont(): CustomAlertDialog {
+        binding.btnConfirm.textSize = 12f
+        binding.btnCancel.textSize = 12f
+        binding.btnConfirm.setPadding(0,0,0,0)
+        binding.btnCancel.setPadding(0,0,0,0)
+        return this
+    }
+
     fun dismiss() {
         presentDialog?.dismiss()
     }

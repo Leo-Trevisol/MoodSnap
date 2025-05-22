@@ -69,12 +69,14 @@
                 android:id="@+id/btn_cancel"
                 style="@style/RoundedConfirmButton"
                 android:text="@string/btn_cancel"
+                android:layout_width="wrap_content"
                 android:layout_marginEnd="@dimen/spacing_normal"
                 />
 
             <Button
                 android:id="@+id/btn_confirm"
                 style="@style/RoundedConfirmButton"
+                android:layout_width="wrap_content"
                 android:text="@string/btn_confirm"
                 android:layout_marginStart="@dimen/spacing_normal"
                 />
