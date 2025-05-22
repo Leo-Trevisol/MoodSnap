@@ -36,7 +36,7 @@ class FontAdapter(
                 rootLayout.backgroundTintList = ColorStateList.valueOf(
                     ContextCompat.getColor(context, R.color.primary_green)
                 )
-                textFont.setTextColor(ContextCompat.getColor(context, R.color.white))
+                textFont.setTextColor(ContextCompat.getColor(context, R.color.primary))
 
                 val drawable = ContextCompat.getDrawable(context, R.drawable.ic_check)
                 drawable?.setTint(ContextCompat.getColor(context, R.color.secundary))

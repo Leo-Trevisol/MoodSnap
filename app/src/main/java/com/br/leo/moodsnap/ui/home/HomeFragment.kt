@@ -1011,7 +1011,7 @@ class HomeFragment : Fragment() {
         configureBackButton(bottomSheetView, bottomSheetDialog)
 
         val btnConfirm : Button =  bottomSheetView.findViewById<Button>(R.id.btn_confirm)
-        Utils.updateBackGroundColor(requireContext(), btnConfirm, textColor = resources.getColor(R.color.primary))
+        Utils.updateBackGroundColor(requireContext(), btnConfirm)
         btnConfirm.setOnClickListener {
             with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
                 putString("current_language", selectedLanguage)
@@ -1098,7 +1098,7 @@ class HomeFragment : Fragment() {
             themeLayouts[position].backgroundTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(requireContext(), R.color.primary_green)
             )
-            themeTexts[position].setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            themeTexts[position].setTextColor(ContextCompat.getColor(requireContext(), R.color.primary))
 
             // Adicionar drawableRight apenas ao item selecionado
             val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_check)
@@ -1142,7 +1142,7 @@ class HomeFragment : Fragment() {
 
         // Botão de confirmar
         val btnConfirm: Button = bottomSheetView.findViewById<Button>(R.id.btn_confirm)
-        Utils.updateBackGroundColor(requireContext(), btnConfirm, textColor = resources.getColor(R.color.primary))
+        Utils.updateBackGroundColor(requireContext(), btnConfirm)
         btnConfirm.setOnClickListener {
             // Salvar o tema selecionado nas preferências compartilhadas
             with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
@@ -1215,7 +1215,7 @@ class HomeFragment : Fragment() {
 
         // Botão de confirmar
         val btnConfirm = bottomSheetView.findViewById<Button>(R.id.btn_confirm)
-        Utils.updateBackGroundColor(requireContext(), btnConfirm, textColor = resources.getColor(R.color.primary))
+        Utils.updateBackGroundColor(requireContext(), btnConfirm)
         btnConfirm.setOnClickListener {
             val isEnabled = switchNotifications.isChecked
             val hour = timePicker.hour
@@ -1370,7 +1370,7 @@ class HomeFragment : Fragment() {
 
         // Botão de confirmar
         val btnConfirm = bottomSheetView.findViewById<Button>(R.id.btn_confirm)
-        Utils.updateBackGroundColor(requireContext(), btnConfirm, textColor = resources.getColor(R.color.primary))
+        Utils.updateBackGroundColor(requireContext(), btnConfirm)
         btnConfirm.setOnClickListener {
             with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
                 putString("current_font", selectedFont)

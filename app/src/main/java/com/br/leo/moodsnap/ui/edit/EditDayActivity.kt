@@ -243,8 +243,8 @@ class EditDayActivity : AppCompatActivity() {
         val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
         val btnOk = dialogView.findViewById<Button>(R.id.btn_ok)
 
-        Utils.updateBackGroundColor(this, btnCancel, textColor = resources.getColor(R.color.primary))
-        Utils.updateBackGroundColor(this, btnOk, textColor = resources.getColor(R.color.primary))
+        Utils.updateBackGroundColor(this, btnCancel)
+        Utils.updateBackGroundColor(this, btnOk)
 
         val primaryGreen = ContextCompat.getColor(this, R.color.primary_green)
 
@@ -660,7 +660,7 @@ class EditDayActivity : AppCompatActivity() {
 
         // Verificar se existe imagem para mostrar botão de deletar
         val btnDeleteImage = dialogView.findViewById<MaterialButton>(R.id.btn_delete_image)
-        Utils.updateBackGroundColor(applicationContext, btnDeleteImage, R.color.primary_red)
+        Utils.updateBackGroundColor(applicationContext, btnDeleteImage)
         val hasExistingImage = if (moodId > 0) {
             val mood = repository.get(moodId)
             !mood.imagePath.isNullOrEmpty()

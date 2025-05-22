@@ -84,13 +84,7 @@
 
         <Button
             android:id="@+id/btn_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_confirm"
-            android:background="@drawable/rounded_button_shadow"
-            android:layout_weight="1"
-            android:textSize="@dimen/text_size_xlarge"
-            android:textStyle="bold"
-            android:textColor="@color/primary" />
+            style="@style/RoundedConfirmButton"
+            android:text="@string/btn_confirm" />
     </LinearLayout>
 </LinearLayout>

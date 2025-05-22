@@ -29,14 +29,8 @@
 
     <Button
         android:id="@+id/confirm_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/RoundedConfirmButton"
         android:text="@string/btn_confirm"
-        android:backgroundTint="@color/primary_green"
-        android:background="@drawable/rounded_button_shadow"
-        android:textSize="@dimen/text_size_xlarge"
-        android:textStyle="bold"
-        android:textColor="@color/primary"
         android:layout_marginBottom="@dimen/spacing_normal"
         android:layout_marginHorizontal="@dimen/spacing_xlarge"
         />

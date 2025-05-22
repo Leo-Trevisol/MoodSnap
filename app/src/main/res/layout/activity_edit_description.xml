@@ -84,6 +84,7 @@
         android:id="@+id/container_cards"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:padding="16dp"
         app:layout_constraintBottom_toTopOf="@id/btn_save"
         app:layout_constraintTop_toBottomOf="@id/date_container">
 
@@ -324,18 +325,11 @@
 
     <Button
         android:id="@+id/btn_save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/RoundedConfirmButton"
         android:layout_margin="16dp"
-        android:text="@string/btn_save"
-        android:textSize="@dimen/button_confirm_cancel"
+        android:text="@string/btn_confirm"
         android:textStyle="bold"
-        android:padding="12dp"
-        android:background="@drawable/rounded_button_shadow"
-        app:icon="@drawable/ic_save"
-        app:iconGravity="textStart"
-        android:shadowColor="@color/white"
-        app:iconTint="@color/white"
+        app:iconTint="@color/primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

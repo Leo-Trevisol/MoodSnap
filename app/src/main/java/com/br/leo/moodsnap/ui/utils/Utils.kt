@@ -64,8 +64,7 @@ object Utils {
         }
     }
 
-    fun updateBackGroundColor(context: Context, button: Button, backgroundColor: Int = getMainColor(), textColor: Int = Color.BLACK) {
-        button.setTextColor(textColor)
+    fun updateBackGroundColor(context: Context, button: Button, backgroundColor: Int = getMainColor()) {
         button.backgroundTintList = ColorStateList.valueOf(context.resources.getColor(backgroundColor))
     }
 

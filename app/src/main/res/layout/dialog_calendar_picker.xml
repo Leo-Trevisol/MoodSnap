@@ -139,25 +139,17 @@
 
         <Button
             android:id="@+id/btn_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            style="@style/RoundedConfirmButton"
             android:text="@string/btn_cancel"
-            android:background="@drawable/rounded_button_shadow"
-            android:layout_weight="1"
-            android:textSize="@dimen/text_size_xlarge"
-            android:textStyle="bold"
-            android:textColor="@color/primary" />
+            android:layout_marginEnd="@dimen/spacing_normal"
+            />
 
         <Button
             android:id="@+id/btn_ok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/RoundedConfirmButton"
             android:text="@string/btn_confirm"
-            android:background="@drawable/rounded_button_shadow"
-            android:layout_weight="1"
-            android:textSize="@dimen/text_size_xlarge"
-            android:textStyle="bold"
-            android:textColor="@color/primary" />
+            android:layout_marginStart="@dimen/spacing_normal"
+            />
+
     </LinearLayout>
 </LinearLayout>

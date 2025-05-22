@@ -38,7 +38,7 @@ class LanguageAdapter(
             if (position == selectedPosition) {
                 rootLayout.setBackgroundResource(R.drawable.background_rounded_left)
                 rootLayout.backgroundTintList = ColorStateList.valueOf(context.getResources().getColor(R. color. primary_green))
-                textLanguage.setTextColor(ContextCompat.getColor(context, R.color.white))
+                textLanguage.setTextColor(ContextCompat.getColor(context, R.color.primary))
                 val drawable = ContextCompat.getDrawable(context, R.drawable.ic_check)
                 drawable?.setTint(ContextCompat.getColor(context, R.color.secundary))
                 textLanguage.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
