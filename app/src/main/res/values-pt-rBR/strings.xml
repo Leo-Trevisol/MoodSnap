@@ -275,4 +275,46 @@
     <string name="bar_chart_compare_moods_mood_spinner_2">Humor 2:</string>
     <string name="bar_chart_compare_moods_day_spinner">Dia:</string>
 
+    <string name="btn_skip">Pular</string>
+
+    <string name="month_january_short">Jan</string>
+    <string name="month_february_short">Fev</string>
+    <string name="month_march_short">Mar</string>
+    <string name="month_april_short">Abr</string>
+    <string name="month_may_short">Mai</string>
+    <string name="month_june_short">Jun</string>
+    <string name="month_july_short">Jul</string>
+    <string name="month_august_short">Ago</string>
+    <string name="month_september_short">Set</string>
+    <string name="month_october_short">Out</string>
+    <string name="month_november_short">Nov</string>
+    <string name="month_december_short">Dez</string>
+
+    <string name="most_consistent_day">Mais consistente</string>
+    <string name="most_variable_day">Mais variável</string>
+    <string name="most_entries_day">Mais registros</string>
+    <string name="least_entries_day">Menos registros</string>
+    <string name="happiest_day">Mais feliz</string>
+    <string name="saddest_day">Mais triste</string>
+
+    <string name="most_consistent_day_usually">Seu dia mais consistente geralmente é %1$s</string>
+    <string name="most_variable_day_usually">Seu dia mais variável geralmente é %1$s</string>
+    <string name="most_entries_day_usually">Você registra mais entradas na(o) %1$s</string>
+    <string name="least_entries_day_usually">Você registra menos entradas na(o) %1$s</string>
+    <string name="happiest_day_usually">Seu dia mais feliz geralmente é %1$s</string>
+    <string name="saddest_day_usually">Seu dia mais triste geralmente é %1$s</string>
+
+    <string name="when_is_this_record">Quando é a data desse registro?</string>
+    <string name="previous_month">Mês anterior</string>
+    <string name="next_month">Próximo mês</string>
+    <string name="day_sunday_short">Dom</string>
+    <string name="day_monday_short">Seg</string>
+    <string name="day_tuesday_short">Ter</string>
+    <string name="day_wednesday_short">Qua</string>
+    <string name="day_thursday_short">Qui</string>
+    <string name="day_friday_short">Sex</string>
+    <string name="day_saturday_short">Sáb</string>
+    <string name="month_year_format">%1$s de %2$d</string>
+
+
 </resources>

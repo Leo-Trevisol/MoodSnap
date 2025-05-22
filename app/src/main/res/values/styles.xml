@@ -12,7 +12,7 @@
         <item name="materialAlertDialogTitlePanelStyle">@style/CustomTitlePanelStyle</item>
         <item name="buttonBarStyle">@style/CustomButtonBarStyle</item>
         <item name="android:background">@drawable/rounded_background</item>
-        <item name="android:windowBackground">@drawable/rounded_background</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="materialAlertDialogBodyTextStyle">@style/CustomBodyTextStyle</item>
         <item name="android:textViewStyle">@style/CustomTextViewStyle</item>
         <item name="android:buttonStyle">@style/CustomButtonStyle</item>
@@ -31,10 +31,10 @@
         <item name="android:textAlignment">center</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingTop">4dp</item>
         <item name="android:textColor">@color/secundary</item>
     </style>
 
@@ -47,7 +47,7 @@
     </style>
 
     <style name="CustomTitlePanelStyle" parent="MaterialAlertDialog.MaterialComponents.Title.Panel">
-        <item name="android:padding">16dp</item>
+        <item name="android:padding">8dp</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_width">match_parent</item>
@@ -60,9 +60,9 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:paddingTop">16dp</item>
-        <item name="android:paddingBottom">16dp</item>
-        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:layout_marginTop">0dp</item>
     </style>
 
     <style name="CustomButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
@@ -76,7 +76,7 @@
     </style>
 
     <style name="CustomNumberPicker">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:textColorPrimary">@color/secundary</item>
         <item name="colorControlNormal">@color/primary_green</item>
         <item name="android:background">@android:color/transparent</item>

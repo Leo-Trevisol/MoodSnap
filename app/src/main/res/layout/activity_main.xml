@@ -22,7 +22,7 @@
         android:backgroundTint="@color/background_card_view"
         app:fabAlignmentMode="center"
         app:fabAnchorMode="cradle"
-        app:fabCradleMargin="6dp"
+        app:fabCradleMargin="8dp"
         app:fabCradleVerticalOffset="2dp"
         app:hideOnScroll="false">
 

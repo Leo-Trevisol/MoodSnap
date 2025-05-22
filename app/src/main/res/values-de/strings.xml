@@ -272,4 +272,46 @@
     <string name="bar_chart_compare_moods_mood_spinner_2">Stimmung 2:</string>
     <string name="bar_chart_compare_moods_day_spinner">Tag:</string>
 
+    <string name="btn_skip">Überspringen</string>
+
+    <string name="month_january_short">Jan</string>
+    <string name="month_february_short">Feb</string>
+    <string name="month_march_short">Mär</string>
+    <string name="month_april_short">Apr</string>
+    <string name="month_may_short">Mai</string>
+    <string name="month_june_short">Jun</string>
+    <string name="month_july_short">Jul</string>
+    <string name="month_august_short">Aug</string>
+    <string name="month_september_short">Sep</string>
+    <string name="month_october_short">Okt</string>
+    <string name="month_november_short">Nov</string>
+    <string name="month_december_short">Dez</string>
+
+    <string name="most_consistent_day">Konstantester Tag</string>
+    <string name="most_variable_day">Unbeständigster Tag</string>
+    <string name="most_entries_day">Meiste Einträge</string>
+    <string name="least_entries_day">Wenigste Einträge</string>
+    <string name="happiest_day">Glücklichster Tag</string>
+    <string name="saddest_day">Traurigster Tag</string>
+
+    <string name="most_consistent_day_usually">Dein konstantester Tag ist normalerweise %1$s</string>
+    <string name="most_variable_day_usually">Dein unbeständigster Tag ist normalerweise %1$s</string>
+    <string name="most_entries_day_usually">Du machst die meisten Einträge am %1$s</string>
+    <string name="least_entries_day_usually">Du machst die wenigsten Einträge am %1$s</string>
+    <string name="happiest_day_usually">Dein glücklichster Tag ist normalerweise %1$s</string>
+    <string name="saddest_day_usually">Dein traurigster Tag ist normalerweise %1$s</string>
+
+    <string name="when_is_this_record">Wann ist dieses Ereignis datiert?</string>
+    <string name="previous_month">Vorheriger Monat</string>
+    <string name="next_month">Nächster Monat</string>
+    <string name="day_sunday_short">So</string>
+    <string name="day_monday_short">Mo</string>
+    <string name="day_tuesday_short">Di</string>
+    <string name="day_wednesday_short">Mi</string>
+    <string name="day_thursday_short">Do</string>
+    <string name="day_friday_short">Fr</string>
+    <string name="day_saturday_short">Sa</string>
+    <string name="month_year_format">%1$s %2$d</string>
+
+
 </resources>

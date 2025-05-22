@@ -226,7 +226,7 @@ class EditDayActivity : AppCompatActivity() {
 
     private fun updateDateText() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
-        val month = DateUtils.getMonthName(this, calendar.get(Calendar.MONTH))
+        val month = DateUtils.getMonthNameShort(this, calendar.get(Calendar.MONTH))
         binding.dateText.text = "$day - $month"
     }
 

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/when_is_this_record"
-        android:textSize="@dimen/text_size_large"
+        android:textSize="@dimen/text_size_xlarge"
         android:textColor="@color/secundary"
         android:textStyle="bold"
         android:layout_marginBottom="16dp" />
@@ -145,6 +145,8 @@
             android:text="@string/btn_cancel"
             android:background="@drawable/rounded_button_shadow"
             android:layout_weight="1"
+            android:textSize="@dimen/text_size_xlarge"
+            android:textStyle="bold"
             android:textColor="@color/primary" />
 
         <Button
@@ -154,6 +156,8 @@
             android:text="@string/btn_confirm"
             android:background="@drawable/rounded_button_shadow"
             android:layout_weight="1"
+            android:textSize="@dimen/text_size_xlarge"
+            android:textStyle="bold"
             android:textColor="@color/primary" />
     </LinearLayout>
 </LinearLayout>

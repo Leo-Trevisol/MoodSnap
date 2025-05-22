@@ -273,4 +273,45 @@
     <string name="bar_chart_compare_moods_mood_spinner_2">Настроение 2:</string>
     <string name="bar_chart_compare_moods_day_spinner">День:</string>
 
+    <string name="btn_skip">Пропустить</string>
+
+    <string name="month_january_short">Янв</string>
+    <string name="month_february_short">Фев</string>
+    <string name="month_march_short">Мар</string>
+    <string name="month_april_short">Апр</string>
+    <string name="month_may_short">Май</string>
+    <string name="month_june_short">Июн</string>
+    <string name="month_july_short">Июл</string>
+    <string name="month_august_short">Авг</string>
+    <string name="month_september_short">Сен</string>
+    <string name="month_october_short">Окт</string>
+    <string name="month_november_short">Ноя</string>
+    <string name="month_december_short">Дек</string>
+
+    <string name="most_consistent_day">Самый стабильный день</string>
+    <string name="most_variable_day">Самый изменчивый день</string>
+    <string name="most_entries_day">Больше всего записей</string>
+    <string name="least_entries_day">Меньше всего записей</string>
+    <string name="happiest_day">Самый счастливый день</string>
+    <string name="saddest_day">Самый грустный день</string>
+
+    <string name="most_consistent_day_usually">Ваш самый стабильный день обычно — %1$s</string>
+    <string name="most_variable_day_usually">Ваш самый изменчивый день обычно — %1$s</string>
+    <string name="most_entries_day_usually">Больше всего записей вы делаете в %1$s</string>
+    <string name="least_entries_day_usually">Меньше всего записей вы делаете в %1$s</string>
+    <string name="happiest_day_usually">Ваш самый счастливый день обычно — %1$s</string>
+    <string name="saddest_day_usually">Ваш самый грустный день обычно — %1$s</string>
+
+    <string name="when_is_this_record">Когда была сделана эта запись?</string>
+    <string name="previous_month">Предыдущий месяц</string>
+    <string name="next_month">Следующий месяц</string>
+    <string name="day_sunday_short">Вс</string>
+    <string name="day_monday_short">Пн</string>
+    <string name="day_tuesday_short">Вт</string>
+    <string name="day_wednesday_short">Ср</string>
+    <string name="day_thursday_short">Чт</string>
+    <string name="day_friday_short">Пт</string>
+    <string name="day_saturday_short">Сб</string>
+    <string name="month_year_format">%1$s %2$d</string>
+
 </resources>

@@ -274,4 +274,47 @@
     <string name="bar_chart_compare_moods_mood_spinner_2">Humeur 2 :</string>
     <string name="bar_chart_compare_moods_day_spinner">Jour :</string>
 
+    <string name="btn_skip">Passer</string>
+
+    <string name="month_january_short">Janv</string>
+    <string name="month_february_short">Févr</string>
+    <string name="month_march_short">Mars</string>
+    <string name="month_april_short">Avr</string>
+    <string name="month_may_short">Mai</string>
+    <string name="month_june_short">Juin</string>
+    <string name="month_july_short">Juil</string>
+    <string name="month_august_short">Août</string>
+    <string name="month_september_short">Sept</string>
+    <string name="month_october_short">Oct</string>
+    <string name="month_november_short">Nov</string>
+    <string name="month_december_short">Déc</string>
+
+    <string name="most_consistent_day">Jour le plus constant</string>
+    <string name="most_variable_day">Jour le plus variable</string>
+    <string name="most_entries_day">Le plus d\'entrées</string>
+    <string name="least_entries_day">Le moins d\'entrées</string>
+    <string name="happiest_day">Jour le plus heureux</string>
+    <string name="saddest_day">Jour le plus triste</string>
+
+    <string name="most_consistent_day_usually">Votre jour le plus constant est généralement le %1$s</string>
+    <string name="most_variable_day_usually">Votre jour le plus variable est généralement le %1$s</string>
+    <string name="most_entries_day_usually">Vous enregistrez le plus d\'entrées le %1$s</string>
+    <string name="least_entries_day_usually">Vous enregistrez le moins d\'entrées le %1$s</string>
+    <string name="happiest_day_usually">Votre jour le plus heureux est généralement le %1$s</string>
+    <string name="saddest_day_usually">Votre jour le plus triste est généralement le %1$s</string>
+
+    <string name="when_is_this_record">Quelle est la date de cet enregistrement ?</string>
+
+    <string name="previous_month">Mois précédent</string>
+    <string name="next_month">Mois suivant</string>
+    <string name="day_sunday_short">Dim</string>
+    <string name="day_monday_short">Lun</string>
+    <string name="day_tuesday_short">Mar</string>
+    <string name="day_wednesday_short">Mer</string>
+    <string name="day_thursday_short">Jeu</string>
+    <string name="day_friday_short">Ven</string>
+    <string name="day_saturday_short">Sam</string>
+    <string name="month_year_format">%1$s %2$d</string>
+
+
 </resources>

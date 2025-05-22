@@ -16,7 +16,6 @@
     <string name="btn_no">No</string>
     <string name="btn_go_config">Go to Settings</string>
     <string name="btn_share">Share</string>
-    <string name="btn_skip">Skip</string>
 
     <!-- Titles and Headers -->
     <string name="title_how_are_you">How are you feeling?</string>
@@ -35,8 +34,6 @@
     <string name="share_preview_title">Share mood</string>
     <string name="share_preview_description">Mood image preview</string>
     <string name="share_mood_title">My mood today</string>
-    <string name="expand_collapse_chart">Expandir ou recolher gráfico</string>
-    <string name="chart_info">Informações sobre o gráfico</string>
 
     <!-- Mood States -->
     <string name="mood_very_happy">Very happy</string>
@@ -59,20 +56,6 @@
     <string name="month_november">November</string>
     <string name="month_december">December</string>
 
-    <!-- Abbreviated Months -->
-    <string name="month_january_short">Jan</string>
-    <string name="month_february_short">Feb</string>
-    <string name="month_march_short">Mar</string>
-    <string name="month_april_short">Apr</string>
-    <string name="month_may_short">May</string>
-    <string name="month_june_short">Jun</string>
-    <string name="month_july_short">Jul</string>
-    <string name="month_august_short">Aug</string>
-    <string name="month_september_short">Sep</string>
-    <string name="month_october_short">Oct</string>
-    <string name="month_november_short">Nov</string>
-    <string name="month_december_short">Dec</string>
-
     <!-- Weekdays -->
     <string name="weekday_sunday">Sun</string>
     <string name="weekday_monday">Mon</string>
@@ -94,23 +77,13 @@
     <!-- Day Filters -->
     <string name="best_day">Best</string>
     <string name="worst_day">Worst</string>
-    <string name="most_consistent_day">Most Consistent</string>
-    <string name="most_variable_day">Most Variable</string>
-    <string name="most_entries_day">Most Entries</string>
-    <string name="least_entries_day">Least Entries</string>
-    <string name="happiest_day">Happiest</string>
-    <string name="saddest_day">Saddest</string>
+
 
     <!-- Statistics Messages -->
     <string name="register_more_moods">Register more moods to see statistics</string>
     <string name="best_day_usually">Your best day is usually %1$s</string>
     <string name="worst_day_usually">Your worst day is usually %1$s</string>
-    <string name="most_consistent_day_usually">Your most consistent day is usually %1$s</string>
-    <string name="most_variable_day_usually">Your most variable day is usually %1$s</string>
-    <string name="most_entries_day_usually">You register most entries on %1$s</string>
-    <string name="least_entries_day_usually">You register least entries on %1$s</string>
-    <string name="happiest_day_usually">Your happiest day is usually %1$s</string>
-    <string name="saddest_day_usually">Your saddest day is usually %1$s</string>
+
 
     <!-- DialogEmotions -->
     <string name="how_are_you_feeling">How are you feeling?</string>
@@ -309,17 +282,46 @@
     <string name="bar_chart_compare_moods_mood_spinner_2">Mood 2:</string>
     <string name="bar_chart_compare_moods_day_spinner">Day:</string>
 
-    <!-- Calendar Dialog -->
-    <string name="when_is_this_record">Quando é a data desse registro?</string>
-    <string name="previous_month">Mês anterior</string>
-    <string name="next_month">Próximo mês</string>
-    <string name="day_sunday_short">Dom</string>
-    <string name="day_monday_short">Seg</string>
-    <string name="day_tuesday_short">Ter</string>
-    <string name="day_wednesday_short">Qua</string>
-    <string name="day_thursday_short">Qui</string>
-    <string name="day_friday_short">Sex</string>
-    <string name="day_saturday_short">Sáb</string>
+    <string name="btn_skip">Skip</string>
+
+    <string name="month_january_short">Jan</string>
+    <string name="month_february_short">Feb</string>
+    <string name="month_march_short">Mar</string>
+    <string name="month_april_short">Apr</string>
+    <string name="month_may_short">May</string>
+    <string name="month_june_short">Jun</string>
+    <string name="month_july_short">Jul</string>
+    <string name="month_august_short">Aug</string>
+    <string name="month_september_short">Sep</string>
+    <string name="month_october_short">Oct</string>
+    <string name="month_november_short">Nov</string>
+    <string name="month_december_short">Dec</string>
+
+    <string name="most_consistent_day">Most Consistent</string>
+    <string name="most_variable_day">Most Variable</string>
+    <string name="most_entries_day">Most Entries</string>
+    <string name="least_entries_day">Least Entries</string>
+    <string name="happiest_day">Happiest</string>
+    <string name="saddest_day">Saddest</string>
+
+    <string name="most_consistent_day_usually">Your most consistent day is usually %1$s</string>
+    <string name="most_variable_day_usually">Your most variable day is usually %1$s</string>
+    <string name="most_entries_day_usually">You register most entries on %1$s</string>
+    <string name="least_entries_day_usually">You register least entries on %1$s</string>
+    <string name="happiest_day_usually">Your happiest day is usually %1$s</string>
+    <string name="saddest_day_usually">Your saddest day is usually %1$s</string>
+
+    <string name="when_is_this_record">When is this record dated?</string>
+    <string name="previous_month">Previous month</string>
+    <string name="next_month">Next month</string>
+    <string name="day_sunday_short">Sun</string>
+    <string name="day_monday_short">Mon</string>
+    <string name="day_tuesday_short">Tue</string>
+    <string name="day_wednesday_short">Wed</string>
+    <string name="day_thursday_short">Thu</string>
+    <string name="day_friday_short">Fri</string>
+    <string name="day_saturday_short">Sat</string>
     <string name="month_year_format">%1$s %2$d</string>
+
 
 </resources>

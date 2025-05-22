@@ -271,4 +271,46 @@
     <string name="bar_chart_compare_moods_mood_spinner_2">情绪2：</string>
     <string name="bar_chart_compare_moods_day_spinner">天：</string>
 
+    <string name="btn_skip">跳过</string>
+
+    <string name="month_january_short">1月</string>
+    <string name="month_february_short">2月</string>
+    <string name="month_march_short">3月</string>
+    <string name="month_april_short">4月</string>
+    <string name="month_may_short">5月</string>
+    <string name="month_june_short">6月</string>
+    <string name="month_july_short">7月</string>
+    <string name="month_august_short">8月</string>
+    <string name="month_september_short">9月</string>
+    <string name="month_october_short">10月</string>
+    <string name="month_november_short">11月</string>
+    <string name="month_december_short">12月</string>
+
+    <string name="most_consistent_day">最稳定的日子</string>
+    <string name="most_variable_day">最波动的日子</string>
+    <string name="most_entries_day">最多记录的日子</string>
+    <string name="least_entries_day">最少记录的日子</string>
+    <string name="happiest_day">最快乐的日子</string>
+    <string name="saddest_day">最难过的日子</string>
+
+    <string name="most_consistent_day_usually">你最稳定的日子通常是 %1$s</string>
+    <string name="most_variable_day_usually">你最波动的日子通常是 %1$s</string>
+    <string name="most_entries_day_usually">你通常在 %1$s 记录最多</string>
+    <string name="least_entries_day_usually">你通常在 %1$s 记录最少</string>
+    <string name="happiest_day_usually">你最快乐的日子通常是 %1$s</string>
+    <string name="saddest_day_usually">你最难过的日子通常是 %1$s</string>
+
+    <string name="when_is_this_record">这条记录是哪一天的？</string>
+    <string name="previous_month">上个月</string>
+    <string name="next_month">下个月</string>
+    <string name="day_sunday_short">周日</string>
+    <string name="day_monday_short">周一</string>
+    <string name="day_tuesday_short">周二</string>
+    <string name="day_wednesday_short">周三</string>
+    <string name="day_thursday_short">周四</string>
+    <string name="day_friday_short">周五</string>
+    <string name="day_saturday_short">周六</string>
+    <string name="month_year_format">%2$d年%1$s</string>
+
+
 </resources>

@@ -440,35 +440,52 @@ class HomeFragment : Fragment() {
             monthPicker.value = currentMonth
         }
 
-        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
-            .setTitle(getString(R.string.hint_date))
+        // Criar o layout de título personalizado com o botão de fechar
+        val titleView = layoutInflater.inflate(R.layout.dialog_date_picker_title, null)
+        val titleTextView = titleView.findViewById<TextView>(R.id.dialog_title)
+        titleTextView.text = getString(R.string.hint_date)
+
+        // Criar o diálogo com apenas o botão de confirmar
+        val confirmButton = dialogView.findViewById<Button>(R.id.confirm_button)
+
+        Utils.updateBackGroundColor(requireContext(), confirmButton)
+
+        val dialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+            .setCustomTitle(titleView)
             .setView(dialogView)
             .setCancelable(false)
-            .setNegativeButton(getString(R.string.btn_cancel), null)
-            .setPositiveButton(getString(R.string.btn_confirm)) { _, _ ->
-                val selectedYear = yearPicker.value
-                val selectedMonth = monthPicker.value
+            .create()
 
-                // Verificar se a data selecionada é futura
-                if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
-                    Utils.showCustomToast(requireContext(), getString(R.string.error_invalid_date))
-                    return@setPositiveButton
-                }
+        confirmButton.setOnClickListener {
+            val selectedYear = yearPicker.value
+            val selectedMonth = monthPicker.value
 
+            if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
+                Utils.showCustomToast(requireContext(), getString(R.string.error_invalid_date))
+            } else {
                 calendar.set(Calendar.YEAR, selectedYear)
                 calendar.set(Calendar.MONTH, selectedMonth)
                 updateDateTexts()
                 updateCalendarForDate(calendar)
                 homeViewModel.loadMoodsForMonth(selectedYear, selectedMonth)
+                dialog.dismiss()
             }
-            .create()
+        }
+
+        // Configurar o botão de fechar
+        val closeButton = titleView.findViewById<ImageView>(R.id.btn_close_dialog)
+        closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
 
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
 
         // Apply font to dialog title and buttons when dialog is shown
         dialog.setOnShowListener {
-
             updateFontDialogPicker(requireContext(), dialog, dialogView)
+            
+            // Aplicar fonte ao título personalizado
+            FontUtils.applyFontToView(requireContext(), titleView)
 
             // Apply font to the dialog view itself to catch any remaining text elements
             FontUtils.applyFontToView(requireContext(), dialog.window?.decorView ?: return@setOnShowListener)
@@ -956,10 +973,6 @@ class HomeFragment : Fragment() {
         // Aplicar a fonte atual ao BottomSheet
         FontUtils.applyFontToView(requireContext(), bottomSheetView)
         
-        // Configurar o botão de voltar
-        configureBackButton(bottomSheetView, bottomSheetDialog)
-
-        
         // Lista de idiomas disponíveis
         val languages = listOf(
             LanguageModel("system", R.string.language_system, "system"),
@@ -994,6 +1007,8 @@ class HomeFragment : Fragment() {
 
         // Definir a seleção inicial
         adapter.setSelectedLanguage(selectedLanguage)
+
+        configureBackButton(bottomSheetView, bottomSheetDialog)
 
         val btnConfirm : Button =  bottomSheetView.findViewById<Button>(R.id.btn_confirm)
         Utils.updateBackGroundColor(requireContext(), btnConfirm, textColor = resources.getColor(R.color.primary))
@@ -1176,7 +1191,7 @@ class HomeFragment : Fragment() {
 
         // Carregar configurações de notificação salvas
         val notificationsEnabled = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getBoolean("notifications_enabled", false)
-        val notificationHour = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getInt("notification_hour", 20) // Padrão para 20h
+        val notificationHour = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getInt("notification_hour", 20)
         val notificationMinute = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).getInt("notification_minute", 0)
 
         Log.d(TAG, "Loading notification settings - Enabled: $notificationsEnabled, Hour: $notificationHour, Minute: $notificationMinute")
