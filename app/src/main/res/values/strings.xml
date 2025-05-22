@@ -323,5 +323,6 @@
     <string name="day_saturday_short">Sat</string>
     <string name="month_year_format">%1$s %2$d</string>
 
+    <string name="error_sharing_image">Erro ao compartilhar imagem</string>
 
 </resources>

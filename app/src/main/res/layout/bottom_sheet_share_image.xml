@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/background_rounded_top"
+    android:padding="@dimen/spacing_large">
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:background="@color/secundary" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_normal">
+
+        <ImageView
+            android:id="@+id/btn_close"
+            android:layout_width="@dimen/options_icons_size"
+            android:layout_height="@dimen/options_icons_size"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_xmark"
+            android:contentDescription="@string/btn_back"
+            app:tint="@color/secundary" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/btn_close"
+            android:text="@string/share_mood"
+            android:textColor="@color/secundary"
+            android:textSize="@dimen/text_size_xlarge"
+            android:textStyle="bold"
+            android:layout_marginEnd="@dimen/options_icons_size"
+            android:gravity="center" />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/share_preview_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/share_preview_description"
+            android:scaleType="fitCenter"
+            app:layout_constraintDimensionRatio="H,1200:630"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/share_preview_title"
+            app:shapeAppearanceOverlay="@style/RoundedImageView" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/buttons_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_share"
+            style="@style/RoundedConfirmButton"
+            android:text="@string/btn_share" />
+    </LinearLayout>
+
+</LinearLayout>

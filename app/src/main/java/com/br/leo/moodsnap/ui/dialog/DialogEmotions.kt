@@ -328,28 +328,12 @@ class DialogEmotions() : BottomSheetDialogFragment() {
     }
     
     private fun showSharePreviewDialog(bitmap: Bitmap) {
-        // Create dialog
-        val dialogView = layoutInflater.inflate(R.layout.dialog_share_preview, null)
-        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
-            .setView(dialogView)
-            .create()
-
-        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-
-        // Set preview image
-        val previewImage = dialogView.findViewById<ShapeableImageView>(R.id.share_preview_image)
-        previewImage.setImageBitmap(bitmap)
-        
-        // Set share button click listener
-        val shareButton = dialogView.findViewById<MaterialButton>(R.id.btn_share_confirm)
-        shareButton.setOnClickListener {
-            dialog.dismiss()
-            // Proceed with actual sharing
-            shareImageToApps(bitmap)
-        }
-        
-        // Show dialog
-        dialog.show()
+        // Criar e mostrar o BottomSheet para compartilhamento de imagem
+        val bottomSheet = ShareImageBottomSheet.newInstance(
+            bitmap, 
+            getString(R.string.share_mood_title)
+        )
+        bottomSheet.show(parentFragmentManager, "ShareImageBottomSheet")
     }
     
     private fun shareImageToApps(bitmap: Bitmap) {
@@ -391,7 +375,7 @@ class DialogEmotions() : BottomSheetDialogFragment() {
         val bitmap = createBitmap(width, height)
         val canvas = Canvas(bitmap)
         
-        canvas.drawColor("#F9F6F1".toColorInt())
+        canvas.drawColor(getResources().getColor(R.color.primary))
 
         val moodColor = when (moodType) {
             0 -> resources.getColor(R.color.very_happy_color)
@@ -432,13 +416,13 @@ class DialogEmotions() : BottomSheetDialogFragment() {
         val formattedDate = "$dayOfWeek, $month $day"
         
         val dateBackgroundPaint = Paint().apply {
-            color = "#F5F5F5".toColorInt()
+            color = getResources().getColor(R. color. primary_alpha)
             style = Paint.Style.FILL
             isAntiAlias = true
         }
         
         val dateTextPaint = Paint().apply {
-            color = Color.DKGRAY
+            color = getResources().getColor(R. color. secundary)
             textSize = 45f
             typeface = Typeface.DEFAULT
             textAlign = Paint.Align.CENTER

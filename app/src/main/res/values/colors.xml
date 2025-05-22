@@ -25,6 +25,8 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000</color>
 
+    <color name="primary_alpha">#EBEBEB</color>
+
     <color name="gray_light">#F8EDED</color>
     <color name="gray_dark">#CBC6C6</color>
 
