@@ -697,6 +697,7 @@ class EditDayActivity : AppCompatActivity() {
                         }
                     }
                     .setNegativeListener {  }
+                    .setCancelable(false)
                     .show()
             }
         })
@@ -767,6 +768,7 @@ class EditDayActivity : AppCompatActivity() {
                 showImageSourceDialog()
             }
             .setSmallFont()
+            .setCancelable(false)
             .show()
     }
 
@@ -837,6 +839,7 @@ class EditDayActivity : AppCompatActivity() {
             .setPositiveListener {
                 onConfirm()
             }
+            .setCancelable(false)
             .setNegativeListener(null)
             .show()
     }

@@ -1256,6 +1256,7 @@ class HomeFragment : Fragment() {
             .setDescricaoBtnPositive(getString(R.string.btn_ok))
             .setDescricaoBtnNegative(getString(R.string.btn_cancel))
             .setNegativeListener(null)
+            .setCancelable(false)
             .show()
 
     }
@@ -1270,6 +1271,7 @@ class HomeFragment : Fragment() {
             .setDescricaoBtnNegative(getString(R.string.btn_cancel))
             .setNegativeListener(null)
             .setSmallFont()
+            .setCancelable(false)
             .show()
     }
 

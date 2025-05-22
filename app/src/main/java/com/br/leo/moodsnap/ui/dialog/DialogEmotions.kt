@@ -298,6 +298,7 @@ class DialogEmotions() : BottomSheetDialogFragment() {
                 dismissAllowingStateLoss()
             }
             .setNegativeListener(null)
+            .setCancelable(false)
             .show()
     }
 
