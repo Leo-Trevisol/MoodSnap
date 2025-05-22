@@ -52,6 +52,7 @@ import android.widget.GridLayout
 import android.widget.ImageButton
 import android.widget.Spinner
 import androidx.core.widget.ImageViewCompat
+import com.br.leo.moodsnap.ui.dialog.ImageSourceBottomSheet
 
 class EditDayActivity : AppCompatActivity() {
 
@@ -651,71 +652,56 @@ class EditDayActivity : AppCompatActivity() {
     }
 
     private fun showImageSourceDialog() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_image_source, null)
-        dialogView.setBackgroundColor(ContextCompat.getColor(this, R.color.background_card_view))
-
-        imageSourceDialog = MaterialAlertDialogBuilder(this)
-            .setView(dialogView)
-            .create()
-
-        // Aplica a animação de entrada e saída
-        imageSourceDialog?.window?.attributes?.windowAnimations = R.style.DialogAnimation
-
-        FontUtils.applyFontToView(this, dialogView)
-
         // Verificar se existe imagem para mostrar botão de deletar
-        val btnDeleteImage = dialogView.findViewById<MaterialButton>(R.id.btn_delete_image)
-        Utils.updateBackGroundColor(applicationContext, btnDeleteImage)
         val hasExistingImage = if (moodId > 0) {
             val mood = repository.get(moodId)
             !mood.imagePath.isNullOrEmpty()
         } else false
 
-        btnDeleteImage.visibility = if (hasExistingImage) View.VISIBLE else View.GONE
+        // Criar e configurar o BottomSheet
+        val bottomSheet = ImageSourceBottomSheet.newInstance(hasExistingImage)
+        
+        // Configurar o listener para as ações do BottomSheet
+        bottomSheet.setImageSourceListener(object : ImageSourceBottomSheet.ImageSourceListener {
+            override fun onCameraSelected() {
+                checkCameraPermission()
+            }
 
-        val btnCamera: Button = dialogView.findViewById<MaterialButton>(R.id.btn_camera)
-        Utils.updateBackGroundColor(applicationContext, btnCamera)
-        btnCamera.setOnClickListener {
-            imageSourceDialog?.dismiss()
-            checkCameraPermission()
-        }
+            override fun onGallerySelected() {
+                checkGalleryPermission()
+            }
 
-        val btnGallery: Button = dialogView.findViewById<MaterialButton>(R.id.btn_gallery)
-        Utils.updateBackGroundColor(applicationContext, btnGallery)
-        btnGallery.setOnClickListener {
-            imageSourceDialog?.dismiss()
-            checkGalleryPermission()
-        }
-
-        btnDeleteImage.setOnClickListener {
-            imageSourceDialog?.dismiss()
-            CustomAlertDialog.create(this)
-                .setMessage(getString(R.string.confirm_delete_image))
-                .setPositiveListener {
-                    // Deletar a imagem
-                    if (moodId > 0) {
-                        val mood = repository.get(moodId)
-                        mood.imagePath?.let { path ->
-                            // Deletar o arquivo
-                            File(path).delete()
-                            // Limpar o path no modelo
-                            mood.imagePath = null
-                            repository.update(mood)
-                            // Resetar a ImageView
-                            binding.imageDay.setImageDrawable(null)
-                            binding.imageDay.visibility = View.GONE
-                            binding.placeholderContainer.visibility = View.VISIBLE
-                            selectedImageUri = null
-                            checkForChanges()
-                            showCustomToast(this, getString(R.string.image_deleted))
+            override fun onDeleteSelected() {
+                CustomAlertDialog.create(this@EditDayActivity)
+                    .setMessage(getString(R.string.confirm_delete_image))
+                    .setPositiveListener {
+                        // Deletar a imagem
+                        if (moodId > 0) {
+                            val mood = repository.get(moodId)
+                            mood.imagePath?.let { path ->
+                                // Deletar o arquivo
+                                File(path).delete()
+                                // Limpar o path no modelo
+                                mood.imagePath = null
+                                repository.update(mood)
+                                
+                                // Atualizar a UI
+                                binding.imageDay.setImageDrawable(null)
+                                binding.imageDay.visibility = View.GONE
+                                binding.placeholderContainer.visibility = View.VISIBLE
+                                selectedImageUri = null
+                                
+                                showCustomToast(this@EditDayActivity, getString(R.string.image_deleted))
+                                checkForChanges()
+                            }
                         }
                     }
-                }
-                .setNegativeListener(null)
-                .show()
-        }
-
-        imageSourceDialog?.show()
+                    .show()
+            }
+        })
+        
+        // Mostrar o BottomSheet
+        bottomSheet.show(supportFragmentManager, "ImageSourceBottomSheet")
     }
 
     private fun checkCameraPermission() {
