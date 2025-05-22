@@ -211,7 +211,7 @@ class HomeFragment : Fragment() {
 
             // Abre o diálogo de emoções
             val moodId = existingMood?.id?.toLong() ?: 0L
-            val dialogEmotions = DialogEmotions(mainViewModel, moodId, selectedCalendar)
+            val dialogEmotions = DialogEmotions.newInstance(mainViewModel, moodId, selectedCalendar)
             dialogEmotions.show(childFragmentManager, dialogEmotions.tag)
         }
     }
@@ -446,9 +446,10 @@ class HomeFragment : Fragment() {
         titleTextView.text = getString(R.string.hint_date)
 
         // Criar o diálogo com apenas o botão de confirmar
-        val confirmButton = dialogView.findViewById<Button>(R.id.confirm_button)
+        val btnConfirm = dialogView.findViewById<Button>(R.id.btn_confirm)
+        Utils.updateBackGroundColor(requireContext(), btnConfirm)
 
-        Utils.updateBackGroundColor(requireContext(), confirmButton)
+        Utils.updateBackGroundColor(requireContext(), btnConfirm)
 
         val dialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
             .setCustomTitle(titleView)
@@ -456,7 +457,7 @@ class HomeFragment : Fragment() {
             .setCancelable(false)
             .create()
 
-        confirmButton.setOnClickListener {
+        btnConfirm.setOnClickListener {
             val selectedYear = yearPicker.value
             val selectedMonth = monthPicker.value
 
@@ -473,8 +474,9 @@ class HomeFragment : Fragment() {
         }
 
         // Configurar o botão de fechar
-        val closeButton = titleView.findViewById<ImageView>(R.id.btn_close_dialog)
-        closeButton.setOnClickListener {
+        val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
+        Utils.updateBackGroundColor(requireContext(), btnCancel, backgroundColor = R.color.gray_dark)
+        btnCancel.setOnClickListener {
             dialog.dismiss()
         }
 
@@ -554,7 +556,7 @@ class HomeFragment : Fragment() {
 
             // Mostrar o BottomSheet de emoções
             val moodId = existingMood?.id?.toLong() ?: 0L
-            val dialogEmotions = DialogEmotions(mainViewModel, moodId, selectedCalendar)
+            val dialogEmotions = DialogEmotions.newInstance(mainViewModel, moodId, selectedCalendar)
             dialogEmotions.show(childFragmentManager, dialogEmotions.tag)
         }
     }
@@ -1247,7 +1249,6 @@ class HomeFragment : Fragment() {
     private fun showNotificationPermissionRationaleDialog() {
 
         CustomAlertDialog .create(requireContext())
-            .setTitle(getString(R.string.notifications))
             .setMessage(getString(R.string.notification_permission_required))
             .setPositiveListener {
                 notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -1261,7 +1262,6 @@ class HomeFragment : Fragment() {
 
     private fun showNotificationPermissionDeniedDialog() {
         CustomAlertDialog .create(requireContext())
-            .setTitle(getString(R.string.attention_dialog))
             .setMessage(getString(R.string.notification_permission_denied_permanently))
             .setPositiveListener {
                 openNotificationSettings()

@@ -2625,7 +2625,6 @@ class DashboardFragment : Fragment() {
     
     private fun showChartInfoDialog(title: String, description: String) {
         CustomAlertDialog.create(requireContext())
-            .setTitle(title)
             .setMessage(description)
             .isSingleButton("OK", null)
             .setIcon(R.drawable.ic_stats_24)

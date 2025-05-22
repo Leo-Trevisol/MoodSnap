@@ -31,21 +31,22 @@ class CustomAlertDialog private constructor(
 
         FontUtils.applyFontToView(context, binding.root)
 
-        binding.imageViewIconDialog.setBackgroundResource(android.R.drawable.ic_dialog_alert)
+        binding.imageViewIconDialog.setBackgroundResource(R.drawable.ic_danger)
         binding.textViewCustomDialogMessage.visibility = View.GONE
 
-        val mainColor: Int = context.getColor(R.color.primary_green)
-        binding.btnNegative.setTextColor(mainColor)
-        Utils.updateBackGroundColor(context, binding.btnPositive)
+        Utils.updateBackGroundColor(context, binding.btnCancel, backgroundColor = R.color.gray_dark)
+        Utils.updateBackGroundColor(context, binding.btnConfirm)
     }
 
     fun setTitle(title: String?): CustomAlertDialog {
+        binding.linearTitle.visibility = View.VISIBLE
+        binding.viewMargin.visibility = View.GONE
         binding.textViewTitleDialog.text = title
         return this
     }
 
     fun setPositiveListener(listener: (() -> Unit)?): CustomAlertDialog {
-        binding.btnPositive.setOnClickListener {
+        binding.btnConfirm.setOnClickListener {
             listener?.invoke()
             presentDialog?.dismiss()
         }
@@ -53,7 +54,7 @@ class CustomAlertDialog private constructor(
     }
 
     fun setNegativeListener(listener: (() -> Unit)?): CustomAlertDialog {
-        binding.btnNegative.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             listener?.invoke()
             presentDialog?.dismiss()
         }
@@ -87,8 +88,8 @@ class CustomAlertDialog private constructor(
     }
 
     fun isSingleButton(title: String?, listener: (() -> Unit)?): CustomAlertDialog {
-        binding.btnPositive.text = title
-        binding.btnNegative.visibility = View.GONE
+        binding.btnConfirm.text = title
+        binding.btnCancel.visibility = View.GONE
         setPositiveListener(listener)
         return this
     }
@@ -107,12 +108,12 @@ class CustomAlertDialog private constructor(
     }
 
     fun setDescricaoBtnPositive(descricao: String?): CustomAlertDialog {
-        binding.btnPositive.text = descricao
+        binding.btnConfirm.text = descricao
         return this
     }
 
     fun setDescricaoBtnNegative(descricao: String?): CustomAlertDialog {
-        binding.btnNegative.text = descricao
+        binding.btnCancel.text = descricao
         return this
     }
 

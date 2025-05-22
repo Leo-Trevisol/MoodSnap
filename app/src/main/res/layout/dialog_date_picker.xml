@@ -27,12 +27,29 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/confirm_button"
-        style="@style/RoundedConfirmButton"
-        android:text="@string/btn_confirm"
-        android:layout_marginBottom="@dimen/spacing_normal"
-        android:layout_marginHorizontal="@dimen/spacing_xlarge"
-        />
+
+    <LinearLayout
+        android:id="@+id/buttons_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginHorizontal="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_normal">
+
+        <Button
+            android:id="@+id/btn_cancel"
+            style="@style/RoundedConfirmButton"
+            android:text="@string/btn_cancel"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            />
+
+        <Button
+            android:id="@+id/btn_confirm"
+            style="@style/RoundedConfirmButton"
+            android:text="@string/btn_confirm"
+            android:layout_marginStart="@dimen/spacing_normal"
+            />
+    </LinearLayout>
 
 </LinearLayout>

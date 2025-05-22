@@ -43,14 +43,71 @@ import androidx.core.graphics.toColorInt
 import androidx.core.graphics.createBitmap
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.imageview.ShapeableImageView
+import androidx.lifecycle.ViewModelProvider
 
-class DialogEmotions(
-    private val viewModel: MainViewModel,
-    private val existingMoodId: Long = 0,
-    private val selectedDate: Calendar
-) : BottomSheetDialogFragment() {
+class DialogEmotions() : BottomSheetDialogFragment() {
 
     private val EDIT_DAY_REQUEST = 100
+    
+    private lateinit var viewModel: MainViewModel
+    private var existingMoodId: Long = 0
+    private lateinit var selectedDate: Calendar
+    private var isTutorial: Boolean = false
+
+    // Construtor secundário para manter compatibilidade com código existente
+    constructor(
+        viewModel: MainViewModel,
+        existingMoodId: Long = 0,
+        selectedDate: Calendar,
+        isTutorial: Boolean = false
+    ) : this() {
+        this.viewModel = viewModel
+        this.existingMoodId = existingMoodId
+        this.selectedDate = selectedDate
+        this.isTutorial = isTutorial
+    }
+    
+    companion object {
+        private const val ARG_EXISTING_MOOD_ID = "existingMoodId"
+        private const val ARG_SELECTED_DATE_MILLIS = "selectedDateMillis"
+        private const val ARG_IS_TUTORIAL = "isTutorial"
+        
+        fun newInstance(viewModel: MainViewModel, existingMoodId: Long = 0, selectedDate: Calendar, isTutorial: Boolean = false): DialogEmotions {
+            val fragment = DialogEmotions()
+            fragment.viewModel = viewModel
+            
+            val args = Bundle().apply {
+                putLong(ARG_EXISTING_MOOD_ID, existingMoodId)
+                putLong(ARG_SELECTED_DATE_MILLIS, selectedDate.timeInMillis)
+                putBoolean(ARG_IS_TUTORIAL, isTutorial)
+            }
+            fragment.arguments = args
+            
+            return fragment
+        }
+    }
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        
+        // Inicializar o Calendar se ainda não foi feito
+        if (!::selectedDate.isInitialized) {
+            selectedDate = Calendar.getInstance()
+        }
+        
+        // Recuperar argumentos se necessário
+        arguments?.let {
+            existingMoodId = it.getLong(ARG_EXISTING_MOOD_ID, 0)
+            val dateMillis = it.getLong(ARG_SELECTED_DATE_MILLIS, System.currentTimeMillis())
+            selectedDate.timeInMillis = dateMillis
+            isTutorial = it.getBoolean(ARG_IS_TUTORIAL, false)
+        }
+        
+        // Se o viewModel não foi injetado pelo construtor, obtê-lo do ViewModelProvider
+        if (!::viewModel.isInitialized) {
+            viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -213,7 +270,7 @@ class DialogEmotions(
                 val mood = viewModel.getMoodByDate(selectedDate.time)
                 val moodId = mood?.id?.toLong() ?: 0L
                 
-                val dialogEmotions = DialogEmotions(viewModel, moodId, selectedDate)
+                val dialogEmotions = DialogEmotions.newInstance(viewModel, moodId, selectedDate)
                 dialogEmotions.show(parentFragmentManager, dialogEmotions.tag)
             }
         }
@@ -234,7 +291,6 @@ class DialogEmotions(
     private fun showDeleteConfirmationDialog() {
         val selectedDateText = requireView().findViewById<TextView>(R.id.selected_date)
         CustomAlertDialog.create(requireContext())
-            .setTitle(getString(R.string.attention))
             .setMessage(getString(R.string.confirm_delete_mood, selectedDateText.text))
             .setPositiveListener {
                 viewModel.deleteMood(existingMoodId)

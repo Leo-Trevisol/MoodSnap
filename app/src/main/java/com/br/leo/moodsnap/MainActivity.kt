@@ -194,13 +194,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         if (v.id == R.id.fab) {
-            val dialogEmotions = DialogEmotions(viewModel, 0L, Calendar.getInstance())
+            val dialogEmotions = DialogEmotions.newInstance(viewModel, 0L, Calendar.getInstance())
             dialogEmotions.show(supportFragmentManager, dialogEmotions.tag)
         }
     }
 
     private fun setListeners() {
-        binding.fab.setOnClickListener(this)
+        binding.fab.setOnClickListener {
+            // Mostrar o diálogo de emoções
+            val dialogEmotions = DialogEmotions.newInstance(viewModel, 0L, Calendar.getInstance())
+            dialogEmotions.show(supportFragmentManager, dialogEmotions.tag)
+        }
 
         // Configurar o FAB com fundo completamente transparente
         binding.fab.apply {

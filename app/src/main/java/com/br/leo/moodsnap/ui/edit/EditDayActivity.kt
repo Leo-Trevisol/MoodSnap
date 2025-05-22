@@ -243,7 +243,7 @@ class EditDayActivity : AppCompatActivity() {
         val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
         val btnOk = dialogView.findViewById<Button>(R.id.btn_ok)
 
-        Utils.updateBackGroundColor(this, btnCancel)
+        Utils.updateBackGroundColor(this, btnCancel, backgroundColor = R.color.gray_dark)
         Utils.updateBackGroundColor(this, btnOk)
 
         val primaryGreen = ContextCompat.getColor(this, R.color.primary_green)
@@ -392,11 +392,16 @@ class EditDayActivity : AppCompatActivity() {
         monthYearSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedItem = monthYearList[position]
-                val parts = selectedItem.split(" ")
+                
+                // Extrair o mês e o ano da string selecionada
+                // O formato pode variar dependendo do idioma (por exemplo, "dezembro de 2025" em português)
+                val monthName = monthNames.firstOrNull { monthName -> selectedItem.contains(monthName) }
+                val yearStr = selectedItem.replace(monthName ?: "", "").trim()
+                                         .replace("de", "").trim() // Remove "de" para português/espanhol
+                val year = yearStr.toInt()
                 
                 // Encontrar o índice do mês selecionado
-                val monthIndex = monthNames.indexOf(parts[0])
-                val year = parts[1].toInt()
+                val monthIndex = monthNames.indexOf(monthName)
                 
                 // Atualizar o calendário do diálogo
                 dialogCalendar.set(Calendar.YEAR, year)
@@ -685,7 +690,6 @@ class EditDayActivity : AppCompatActivity() {
         btnDeleteImage.setOnClickListener {
             imageSourceDialog?.dismiss()
             CustomAlertDialog.create(this)
-                .setTitle(getString(R.string.attention_dialog))
                 .setMessage(getString(R.string.confirm_delete_image))
                 .setPositiveListener {
                     // Deletar a imagem
@@ -761,7 +765,6 @@ class EditDayActivity : AppCompatActivity() {
     private fun showSettingsPermissionDialog(message: String) {
 
         CustomAlertDialog .create(this)
-            .setTitle(getString(R.string.attention_dialog))
             .setMessage(message)
             .setPositiveListener {
                 // Abrir configurações do aplicativo
@@ -842,7 +845,6 @@ class EditDayActivity : AppCompatActivity() {
 
     private fun showDiscardChangesDialog(onConfirm: () -> Unit) {
         CustomAlertDialog.create(this)
-            .setTitle(getString(R.string.unsaved_changes_title))
             .setMessage(getString(R.string.unsaved_changes_message))
             .setPositiveListener {
                 onConfirm()
