@@ -16,16 +16,26 @@
         android:layout_marginBottom="@dimen/spacing_large"
         android:background="@color/secundary" />
 
-        <TextView
-            android:id="@+id/text_tutorial_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/tutorial"
-            android:textColor="@color/secundary"
-            android:textSize="@dimen/text_size_xlarge"
-            android:textStyle="bold"
-            android:layout_marginBottom="@dimen/spacing_normal"
-            android:gravity="center" />
+    <TextView
+        android:id="@+id/text_tutorial_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tutorial"
+        android:textColor="@color/secundary"
+        android:textSize="@dimen/text_size_xlarge"
+        android:textStyle="bold"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/text_tutorial_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/secundary"
+        android:textSize="@dimen/text_size_normal"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        tools:text="Descrição do slide atual" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"

@@ -29,6 +29,7 @@ class TutorialBottomSheet : BottomSheetDialogFragment() {
     private lateinit var btnPrevious: Button
     private lateinit var btnSkip: Button
     private lateinit var titleText: TextView
+    private lateinit var descriptionText: TextView
 
     private val slides: List<OnboardingSlide> by lazy {
         val context = requireContext()
@@ -50,15 +51,7 @@ class TutorialBottomSheet : BottomSheetDialogFragment() {
 
         val currentTheme = currentThemeValue ?: "system"
 
-        val imageRes1 = when (currentTheme) {
-            "light" -> R.drawable.tutorial_light_1
-            "dark" -> R.drawable.tutorial_dark_1
-            else -> if (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK == android.content.res.Configuration.UI_MODE_NIGHT_YES) {
-                R.drawable.tutorial_dark_1
-            } else {
-                R.drawable.tutorial_light_1
-            }
-        }
+        val imageRes1 = R.drawable.ic_mascote
 
         val imageRes2 = when (currentTheme) {
             "light" -> R.drawable.tutorial_light_2
@@ -165,6 +158,7 @@ class TutorialBottomSheet : BottomSheetDialogFragment() {
         btnPrevious = view.findViewById(R.id.btn_previous)
         btnSkip = view.findViewById(R.id.btn_skip)
         titleText = view.findViewById(R.id.text_tutorial_title)
+        descriptionText = view.findViewById(R.id.text_tutorial_description)
     }
 
     private fun setupViewPager() {
@@ -177,8 +171,18 @@ class TutorialBottomSheet : BottomSheetDialogFragment() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 updateButtonsVisibility(position)
+                updateDescription(position)
             }
         })
+        
+        // Inicializar com a descrição do primeiro slide
+        updateDescription(0)
+    }
+    
+    private fun updateDescription(position: Int) {
+        if (position < slides.size) {
+            descriptionText.text = slides[position].description
+        }
     }
 
     private fun setupButtons() {

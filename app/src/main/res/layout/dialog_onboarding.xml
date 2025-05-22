@@ -24,7 +24,7 @@
         android:textSize="14sp"
         android:textStyle="bold"
         android:padding="@dimen/spacing_small"
-        android:textColor="@color/primary_green"
+        android:textColor="@color/secundary"
         android:background="@android:color/transparent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -49,7 +49,7 @@
         android:textStyle="bold"
         android:layout_marginTop="@dimen/spacing_small"
         android:background="@android:color/transparent"
-        android:textColor="@color/primary_green"
+        android:textColor="@color/secundary"
         android:text="@string/btn_previous"
         app:layout_constraintTop_toBottomOf="@id/tabLayout"
         app:layout_constraintStart_toStartOf="parent"/>
@@ -62,7 +62,7 @@
         android:textStyle="bold"
         android:layout_marginTop="@dimen/spacing_small"
         android:background="@android:color/transparent"
-        android:textColor="@color/primary_green"
+        android:textColor="@color/secundary"
         android:text="@string/btn_next"
         app:layout_constraintTop_toBottomOf="@id/tabLayout"
         app:layout_constraintEnd_toEndOf="parent"/>
