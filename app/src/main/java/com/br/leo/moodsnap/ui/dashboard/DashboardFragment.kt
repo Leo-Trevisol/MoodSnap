@@ -385,27 +385,6 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        // Observar humor médio
-        dashboardViewModel.averageMood.observe(viewLifecycleOwner) { average ->
-            if (average == null) {
-                binding.averageMoodIcon.setImageResource(R.drawable.neutral_icon)
-                binding.averageMoodIcon2.setImageResource(R.drawable.neutral_icon)
-                binding.averageMoodText.text = getString(R.string.no_mood_registered)
-            } else {
-                val moodType = average.roundToInt()
-                binding.averageMoodIcon.setImageResource(Utils.getMoodDrawable(moodType))
-                binding.averageMoodIcon2.setImageResource(Utils.getMoodDrawable(moodType))
-               binding.averageMoodText.text =
-                   getString(R.string.your_average_mood, dashboardViewModel.getMoodName(requireContext(), moodType))
-             //   binding.averageMoodText.text = dashboardViewModel.getMoodName(requireContext(), moodType)
-                binding.cardAverageMood.setCardBackgroundColor(
-                    dashboardViewModel.getMoodColor(
-                        moodType
-                    )
-                )
-            }
-
-        }
 
         // Observar distribuição de humores
         dashboardViewModel.moodDistribution.observe(viewLifecycleOwner) { distribution ->
