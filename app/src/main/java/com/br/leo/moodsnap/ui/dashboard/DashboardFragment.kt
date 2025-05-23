@@ -395,9 +395,9 @@ class DashboardFragment : Fragment() {
                 val moodType = average.roundToInt()
                 binding.averageMoodIcon.setImageResource(Utils.getMoodDrawable(moodType))
                 binding.averageMoodIcon2.setImageResource(Utils.getMoodDrawable(moodType))
-//                binding.averageMoodText.text =
-//                    getString(R.string.your_average_mood, dashboardViewModel.getMoodName(requireContext(), moodType))
-                binding.averageMoodText.text = dashboardViewModel.getMoodName(requireContext(), moodType)
+               binding.averageMoodText.text =
+                   getString(R.string.your_average_mood, dashboardViewModel.getMoodName(requireContext(), moodType))
+             //   binding.averageMoodText.text = dashboardViewModel.getMoodName(requireContext(), moodType)
                 binding.cardAverageMood.setCardBackgroundColor(
                     dashboardViewModel.getMoodColor(
                         moodType

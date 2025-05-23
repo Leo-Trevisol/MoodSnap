@@ -46,28 +46,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardCornerRadius="16dp"
+            app:cardCornerRadius="8dp"
             app:cardElevation="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingBottom="16dp"
+                android:paddingTop="5dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="12dp">
-
-                    <ImageView
-                        android:layout_width="@dimen/options_icons_size"
-                        android:layout_height="@dimen/options_icons_size"
-                        android:src="@drawable/ic_stats_24"
-                        app:tint="@color/primary_green"
-                        android:layout_marginEnd="8dp"/>
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:id="@+id/average_mood_title"
@@ -75,28 +70,19 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/average_mood"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
                         android:gravity="center"
-                        android:layout_marginEnd="@dimen/options_icons_size"
-                        android:textSize="@dimen/text_size_xlarge"/>
+                        android:textColor="@color/primary"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/text_size_large"/>
+
+
                 </LinearLayout>
 
-                <!-- Linha separadora -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/gray_dark"
-                    android:layout_marginBottom="16dp"/>
-
-                <!-- Conteúdo principal com ícone e texto -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:background="@drawable/rounded_content_background"
-                    android:backgroundTint="@color/background_card_view"
                     android:padding="12dp">
 
                     <ImageView
@@ -113,7 +99,7 @@
                         android:textStyle="bold"
                         android:textSize="@dimen/text_size_xlarge"
                         android:gravity="center"
-                        android:textColor="@color/secundary"/>
+                        android:textColor="@color/black"/>
 
                     <ImageView
                         android:id="@+id/average_mood_icon_2"
