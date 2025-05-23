@@ -23,14 +23,16 @@
 
         <ImageView
             android:id="@+id/btn_settings"
-            android:layout_width="@dimen/options_icons_size"
-            android:layout_height="@dimen/options_icons_size"
+            android:layout_width="@dimen/options_icons_size_large"
+            android:layout_height="@dimen/options_icons_size_large"
             android:src="@drawable/ic_settings"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
             android:layout_marginStart="@dimen/spacing_normal"
-            app:tint="@color/primary_green"/>
+            android:scaleType="center"
+            app:tint="@color/primary_green" />
+
 
         <View
             android:layout_width="0dp"
@@ -43,12 +45,13 @@
             android:id="@+id/date_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:gravity="center"
             android:textSize="@dimen/text_size_xlarge"
             android:drawableEnd="@drawable/ic_dowm"
             app:drawableTint="@color/primary_green"
             android:textColor="@color/day_text_color"
+            android:layout_marginEnd="@dimen/options_icons_size"
             tools:text="Jan 2024"/>
 
         <View

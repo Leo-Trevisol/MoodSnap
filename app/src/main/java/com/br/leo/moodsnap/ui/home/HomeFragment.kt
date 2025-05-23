@@ -41,7 +41,7 @@ import com.br.leo.moodsnap.ui.dialog.TutorialBottomSheet
 import com.br.leo.moodsnap.ui.model.FontModel
 import com.br.leo.moodsnap.ui.model.LanguageModel
 import com.br.leo.moodsnap.ui.notifications.NotificationHelper
-import com.br.leo.moodsnap.ui.utils.ButtonUtils
+import com.br.leo.moodsnap.ui.utils.ClickUtils
 import com.br.leo.moodsnap.ui.utils.DateUtils
 import com.br.leo.moodsnap.ui.utils.FontUtils
 import com.br.leo.moodsnap.ui.utils.FontUtils.updateFontDialogPicker
@@ -173,46 +173,48 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupFabListener() {
-        activity?.findViewById<View>(R.id.fab)?.setOnClickListener {
-            if (selectedDay == -1) {
-                // Se não houver dia selecionado, selecionar o dia atual
-                val today = Calendar.getInstance()
-                if (today.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) &&
-                    today.get(Calendar.MONTH) == calendar.get(Calendar.MONTH)) {
-                    // Se já estiver no mês atual, apenas seleciona o dia
-                    selectedDay = today.get(Calendar.DAY_OF_MONTH)
-                    calendarAdapter.setSelectedDay(selectedDay)
-                    calendarAdapter.notifyDataSetChanged()
-                } else {
-                    // Se não estiver no mês atual, navega para o mês atual e seleciona o dia
-                    calendar.set(Calendar.YEAR, today.get(Calendar.YEAR))
-                    calendar.set(Calendar.MONTH, today.get(Calendar.MONTH))
-                    selectedDay = today.get(Calendar.DAY_OF_MONTH)
-                    updateCalendarForDate(calendar, keepSelectedDay = true)
-                    calendarAdapter.setSelectedDay(selectedDay)
-                    calendarAdapter.notifyDataSetChanged()
+        activity?.findViewById<View>(R.id.fab)?.let {
+            ClickUtils.setDebounceClickListener(it){
+                if (selectedDay == -1) {
+                    // Se não houver dia selecionado, selecionar o dia atual
+                    val today = Calendar.getInstance()
+                    if (today.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) &&
+                        today.get(Calendar.MONTH) == calendar.get(Calendar.MONTH)) {
+                        // Se já estiver no mês atual, apenas seleciona o dia
+                        selectedDay = today.get(Calendar.DAY_OF_MONTH)
+                        calendarAdapter.setSelectedDay(selectedDay)
+                        calendarAdapter.notifyDataSetChanged()
+                    } else {
+                        // Se não estiver no mês atual, navega para o mês atual e seleciona o dia
+                        calendar.set(Calendar.YEAR, today.get(Calendar.YEAR))
+                        calendar.set(Calendar.MONTH, today.get(Calendar.MONTH))
+                        selectedDay = today.get(Calendar.DAY_OF_MONTH)
+                        updateCalendarForDate(calendar, keepSelectedDay = true)
+                        calendarAdapter.setSelectedDay(selectedDay)
+                        calendarAdapter.notifyDataSetChanged()
+                    }
                 }
-            }
 
-            // Verificar se já existe um humor para este dia
-            val existingMood = homeViewModel.moodsForMonth.value?.find { mood ->
-                val moodCalendar = Calendar.getInstance().apply { time = mood.date }
-                moodCalendar.get(Calendar.DAY_OF_MONTH) == selectedDay &&
-                        moodCalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
-                        moodCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)
-            }
+                // Verificar se já existe um humor para este dia
+                val existingMood = homeViewModel.moodsForMonth.value?.find { mood ->
+                    val moodCalendar = Calendar.getInstance().apply { time = mood.date }
+                    moodCalendar.get(Calendar.DAY_OF_MONTH) == selectedDay &&
+                            moodCalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH) &&
+                            moodCalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR)
+                }
 
-            // Criar um Calendar com a data selecionada
-            val selectedCalendar = Calendar.getInstance().apply {
-                set(Calendar.YEAR, calendar.get(Calendar.YEAR))
-                set(Calendar.MONTH, calendar.get(Calendar.MONTH))
-                set(Calendar.DAY_OF_MONTH, selectedDay)
-            }
+                // Criar um Calendar com a data selecionada
+                val selectedCalendar = Calendar.getInstance().apply {
+                    set(Calendar.YEAR, calendar.get(Calendar.YEAR))
+                    set(Calendar.MONTH, calendar.get(Calendar.MONTH))
+                    set(Calendar.DAY_OF_MONTH, selectedDay)
+                }
 
-            // Abre o diálogo de emoções
-            val moodId = existingMood?.id?.toLong() ?: 0L
-            val dialogEmotions = DialogEmotions.newInstance(mainViewModel, moodId, selectedCalendar)
-            dialogEmotions.show(childFragmentManager, dialogEmotions.tag)
+                // Abre o diálogo de emoções
+                val moodId = existingMood?.id?.toLong() ?: 0L
+                val dialogEmotions = DialogEmotions.newInstance(mainViewModel, moodId, selectedCalendar)
+                dialogEmotions.show(childFragmentManager, dialogEmotions.tag)
+            }
         }
     }
 
@@ -316,7 +318,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupDatePickers() {
-        binding.dateText.setOnClickListener { showDatePicker() }
+        // Usar o ClickUtils para configurar o listener com proteção contra múltiplos cliques
+        ClickUtils.setDebounceClickListener(binding.dateText) {
+            showDatePicker()
+        }
     }
 
     private fun showDatePicker() {
@@ -457,7 +462,7 @@ class HomeFragment : Fragment() {
             .setCancelable(false)
             .create()
 
-        btnConfirm.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnConfirm){
             val selectedYear = yearPicker.value
             val selectedMonth = monthPicker.value
 
@@ -476,7 +481,7 @@ class HomeFragment : Fragment() {
         // Configurar o botão de fechar
         val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
         Utils.updateBackGroundColor(requireContext(), btnCancel, backgroundColor = R.color.gray_dark)
-        btnCancel.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnCancel){
             dialog.dismiss()
         }
 
@@ -817,8 +822,10 @@ class HomeFragment : Fragment() {
 
     private fun setupSettingsMenu() {
         val settingsButton = view?.findViewById<View>(R.id.btn_settings)
-        settingsButton?.setOnClickListener {
-            showSettingsBottomSheet()
+        if (settingsButton != null) {
+            ClickUtils.setDebounceClickListener(settingsButton) {
+                showSettingsBottomSheet()
+            }
         }
     }
 
@@ -913,21 +920,21 @@ class HomeFragment : Fragment() {
     private fun setupSettingsButtons(bottomSheetView: View, bottomSheetDialog: BottomSheetDialog) {
         // Botão de idiomas
         val btnLanguages = bottomSheetView.findViewById<LinearLayout>(R.id.btn_languages)
-        btnLanguages.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnLanguages){
             bottomSheetDialog.dismiss()
             showLanguageBottomSheet()
         }
         
         // Botão de temas
         val btnThemes = bottomSheetView.findViewById<LinearLayout>(R.id.btn_themes)
-        btnThemes.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnThemes){
             bottomSheetDialog.dismiss()
             showThemeBottomSheet()
         }
         
         // Botão de notificações
         val btnNotifications = bottomSheetView.findViewById<LinearLayout>(R.id.btn_notifications)
-        btnNotifications.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnNotifications){
             bottomSheetDialog.dismiss()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 when {
@@ -948,20 +955,20 @@ class HomeFragment : Fragment() {
         
         // Botão de fontes
         val btnFonts = bottomSheetView.findViewById<LinearLayout>(R.id.btn_fonts)
-        btnFonts.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnFonts){
             bottomSheetDialog.dismiss()
             showFontBottomSheet()
         }
         
         // Botão de tutorial
         val btnTutorial = bottomSheetView.findViewById<LinearLayout>(R.id.btn_tutorial)
-        btnTutorial.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnTutorial){
             bottomSheetDialog.dismiss()
             showOnboardingTutorial()
         }
 
         val btnClose = bottomSheetView.findViewById<ImageView>(R.id.btn_close)
-        btnClose.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnClose){
             bottomSheetDialog.dismiss()
         }
     }
@@ -1014,7 +1021,7 @@ class HomeFragment : Fragment() {
 
         val btnConfirm : Button =  bottomSheetView.findViewById<Button>(R.id.btn_confirm)
         Utils.updateBackGroundColor(requireContext(), btnConfirm)
-        btnConfirm.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnConfirm){
             with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
                 putString("current_language", selectedLanguage)
                 apply()
@@ -1124,17 +1131,17 @@ class HomeFragment : Fragment() {
         }
         
         // Configurar os listeners de clique para os layouts de tema
-        layoutSystemTheme.setOnClickListener {
+        ClickUtils.setDebounceClickListener(layoutSystemTheme){
             highlightSelectedTheme(0)
             selectedTheme = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
         }
-        
-        layoutLightTheme.setOnClickListener {
+
+        ClickUtils.setDebounceClickListener(layoutLightTheme){
             highlightSelectedTheme(1)
             selectedTheme = AppCompatDelegate.MODE_NIGHT_NO
         }
-        
-        layoutDarkTheme.setOnClickListener {
+
+        ClickUtils.setDebounceClickListener(layoutDarkTheme){
             highlightSelectedTheme(2)
             selectedTheme = AppCompatDelegate.MODE_NIGHT_YES
         }
@@ -1145,7 +1152,7 @@ class HomeFragment : Fragment() {
         // Botão de confirmar
         val btnConfirm: Button = bottomSheetView.findViewById<Button>(R.id.btn_confirm)
         Utils.updateBackGroundColor(requireContext(), btnConfirm)
-        btnConfirm.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnConfirm){
             // Salvar o tema selecionado nas preferências compartilhadas
             with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
                 putInt("current_theme", selectedTheme)
@@ -1218,7 +1225,7 @@ class HomeFragment : Fragment() {
         // Botão de confirmar
         val btnConfirm = bottomSheetView.findViewById<Button>(R.id.btn_confirm)
         Utils.updateBackGroundColor(requireContext(), btnConfirm)
-        btnConfirm.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnConfirm){
             val isEnabled = switchNotifications.isChecked
             val hour = timePicker.hour
             val minute = timePicker.minute
@@ -1374,7 +1381,7 @@ class HomeFragment : Fragment() {
         // Botão de confirmar
         val btnConfirm = bottomSheetView.findViewById<Button>(R.id.btn_confirm)
         Utils.updateBackGroundColor(requireContext(), btnConfirm)
-        btnConfirm.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnConfirm){
             with(requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE).edit()) {
                 putString("current_font", selectedFont)
                 apply()
@@ -1405,28 +1412,28 @@ class HomeFragment : Fragment() {
 
         val btnTutorial : Button = settingsDialogView.findViewById<Button>(R.id.btn_tutorial)
         Utils.setupDialogConfirmButton(requireContext(), btnTutorial)
-        btnTutorial.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnTutorial){
             settingsDialog.dismiss()
             showOnboardingTutorial()
         }
 
         val btnLanguages : Button = settingsDialogView.findViewById<Button>(R.id.btn_languages)
         Utils.setupDialogConfirmButton(requireContext(), btnLanguages)
-        btnLanguages.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnLanguages){
             settingsDialog.dismiss()
             showLanguageBottomSheet()
         }
 
         val btnThemes : Button = settingsDialogView.findViewById<Button>(R.id.btn_themes)
         Utils.setupDialogConfirmButton(requireContext(), btnThemes)
-        btnThemes.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnThemes){
             settingsDialog.dismiss()
             showThemeBottomSheet()
         }
 
         val btnNotifications : Button = settingsDialogView.findViewById<Button>(R.id.btn_notifications)
         Utils.setupDialogConfirmButton(requireContext(), btnNotifications)
-        btnNotifications.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnNotifications){
             settingsDialog.dismiss()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 when {
@@ -1447,20 +1454,20 @@ class HomeFragment : Fragment() {
 
         val btnFonts : Button = settingsDialogView.findViewById<Button>(R.id.btn_fonts)
         Utils.setupDialogConfirmButton(requireContext(), btnFonts)
-        btnFonts.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnFonts){
             settingsDialog.dismiss()
             showFontBottomSheet()
         }
 
         val btnBack : Button = settingsDialogView.findViewById<Button>(R.id.btn_back)
-        btnBack.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnBack){
             settingsDialog.dismiss()
         }
     }
 
     private fun configureBackButton(bottomSheetView: View, bottomSheetDialog: BottomSheetDialog) {
         val btnBack = bottomSheetView.findViewById<ImageView>(R.id.btn_back)
-        btnBack.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnBack){
             bottomSheetDialog.dismiss()
             showSettingsBottomSheet()
         }

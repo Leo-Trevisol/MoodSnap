@@ -26,10 +26,10 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentManager
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.ui.edit.EditDayActivity
+import com.br.leo.moodsnap.ui.utils.ClickUtils
 import com.br.leo.moodsnap.ui.utils.DateUtils
 import com.br.leo.moodsnap.ui.utils.FontUtils
 import com.br.leo.moodsnap.ui.utils.Utils
-import com.br.leo.moodsnap.ui.utils.Utils.showCustomToast
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -44,6 +44,7 @@ import androidx.core.graphics.createBitmap
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.imageview.ShapeableImageView
 import androidx.lifecycle.ViewModelProvider
+import com.br.leo.moodsnap.ui.utils.Utils.showCustomToast
 
 class DialogEmotions() : BottomSheetDialogFragment() {
 
@@ -181,14 +182,14 @@ class DialogEmotions() : BottomSheetDialogFragment() {
         //Utils.updateBackGroundColor(requireContext(), btnDelete, R.color.primary_red)
         if (existingMoodId > 0) {
             btnDelete.visibility = View.VISIBLE
-            btnDelete.setOnClickListener {
+            ClickUtils.setDebounceClickListener(btnDelete) {
                 showDeleteConfirmationDialog()
             }
             
             // Configurar botão de compartilhar
             val btnShare = view.findViewById<ImageButton>(R.id.btn_share)
             btnShare.visibility = View.VISIBLE
-            btnShare.setOnClickListener {
+            ClickUtils.setDebounceClickListener(btnShare) {
                 shareMood()
             }
         }
@@ -215,30 +216,30 @@ class DialogEmotions() : BottomSheetDialogFragment() {
         happyImage.layoutParams = layoutParams
         veryHappyImage.layoutParams = layoutParams
 
-        view.findViewById<ImageView>(R.id.emotion_very_happy)?.setOnClickListener {
+        ClickUtils.setDebounceClickListener(view.findViewById<ImageView>(R.id.emotion_very_happy)) {
             saveMood(R.drawable.very_happy_icon)
         }
 
-        view.findViewById<ImageView>(R.id.emotion_happy)?.setOnClickListener {
+        ClickUtils.setDebounceClickListener(view.findViewById<ImageView>(R.id.emotion_happy)) {
             saveMood(R.drawable.happy_icon)
         }
 
-        view.findViewById<ImageView>(R.id.emotion_neutral)?.setOnClickListener {
+        ClickUtils.setDebounceClickListener(view.findViewById<ImageView>(R.id.emotion_neutral)) {
             saveMood(R.drawable.neutral_icon)
         }
 
-        view.findViewById<ImageView>(R.id.emotion_sad)?.setOnClickListener {
+        ClickUtils.setDebounceClickListener(view.findViewById<ImageView>(R.id.emotion_sad)) {
             saveMood(R.drawable.sad_icon)
         }
 
-        view.findViewById<ImageView>(R.id.emotion_very_sad)?.setOnClickListener {
+        ClickUtils.setDebounceClickListener(view.findViewById<ImageView>(R.id.emotion_very_sad)) {
             saveMood(R.drawable.very_sad_icon)
         }
     }
 
     private fun setupEditButton() {
         val btnEdit = requireView().findViewById<ImageButton>(R.id.btn_edit)
-        btnEdit.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnEdit) {
             val intent = Intent(requireContext(), EditDayActivity::class.java)
             intent.putExtra("mood_id", existingMoodId)
             intent.putExtra("selected_date", selectedDate.timeInMillis)

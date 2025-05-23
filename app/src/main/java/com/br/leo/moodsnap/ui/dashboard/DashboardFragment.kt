@@ -37,6 +37,7 @@ import android.widget.Spinner
 import androidx.core.animation.doOnEnd
 import androidx.core.content.res.ResourcesCompat
 import com.br.leo.moodsnap.ui.dialog.CustomAlertDialog
+import com.br.leo.moodsnap.ui.utils.ClickUtils
 import com.br.leo.moodsnap.ui.utils.DateUtils
 import com.br.leo.moodsnap.ui.utils.RoundedBarChartRenderer
 import com.br.leo.moodsnap.ui.utils.Utils.showCustomToast
@@ -2554,7 +2555,7 @@ class DashboardFragment : Fragment() {
             }
         }
 
-        iconView.setOnClickListener {
+        ClickUtils.setDebounceClickListener(iconView){
             val isCurrentlyExpanded = contentView.visibility == View.VISIBLE
             val shouldExpand = !isCurrentlyExpanded
 
@@ -2584,7 +2585,7 @@ class DashboardFragment : Fragment() {
         val rootView = view ?: return
         
         // Configurar listener para o gráfico de donut
-        rootView.findViewById<ImageView>(R.id.donut_chart_info)?.setOnClickListener {
+        ClickUtils.setDebounceClickListener(rootView.findViewById<ImageView>(R.id.donut_chart_info)){
             showChartInfoDialog(
                 getString(R.string.pie_chart_title),
                 getString(R.string.donut_chart_description),
@@ -2592,7 +2593,7 @@ class DashboardFragment : Fragment() {
         }
         
         // Configurar listener para o gráfico de barras
-        rootView.findViewById<ImageView>(R.id.bar_chart_info)?.setOnClickListener {
+        ClickUtils.setDebounceClickListener(rootView.findViewById<ImageView>(R.id.bar_chart_info)){
             showChartInfoDialog(
                 getString(R.string.bar_chart_title),
                 getString(R.string.bar_chart_description),
@@ -2600,7 +2601,7 @@ class DashboardFragment : Fragment() {
         }
         
         // Configurar listener para o gráfico de radar
-        rootView.findViewById<ImageView>(R.id.radar_chart_info)?.setOnClickListener {
+        ClickUtils.setDebounceClickListener(rootView.findViewById<ImageView>(R.id.radar_chart_info)){
             showChartInfoDialog(
                 getString(R.string.radar_chart_title),
                 getString(R.string.radar_chart_description),
@@ -2608,14 +2609,14 @@ class DashboardFragment : Fragment() {
         }
         
         // Configurar listener para o gráfico de barras agrupadas
-        rootView.findViewById<ImageView>(R.id.grouped_bar_chart_info)?.setOnClickListener {
+        ClickUtils.setDebounceClickListener(rootView.findViewById<ImageView>(R.id.grouped_bar_chart_info)){
             showChartInfoDialog(
                 getString(R.string.bar_chart_compare_days_title),
                 getString(R.string.bar_chart_compare_week_days),
             )
         }
-        
-        rootView.findViewById<ImageView>(R.id.mood_comparison_chart_info)?.setOnClickListener {
+
+        ClickUtils.setDebounceClickListener(rootView.findViewById<ImageView>(R.id.mood_comparison_chart_info)){
             showChartInfoDialog(
                 getString(R.string.bar_chart_compare_moods_title),
                 getString(R.string.bar_chart_compare_moods),

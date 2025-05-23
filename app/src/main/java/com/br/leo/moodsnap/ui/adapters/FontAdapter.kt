@@ -11,6 +11,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.ui.model.FontModel
+import com.br.leo.moodsnap.ui.utils.ClickUtils
 
 class FontAdapter(
     private val context: Context,
@@ -49,7 +50,7 @@ class FontAdapter(
             }
 
             // Configurar o clique
-            rootLayout.setOnClickListener {
+            ClickUtils.setDebounceClickListener(rootLayout){
                 val previousPosition = selectedPosition
                 selectedPosition = position
                 notifyItemChanged(previousPosition)

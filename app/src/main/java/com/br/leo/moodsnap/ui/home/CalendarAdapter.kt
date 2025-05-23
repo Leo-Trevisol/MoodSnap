@@ -14,6 +14,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.service.model.MoodModel
+import com.br.leo.moodsnap.ui.utils.ClickUtils
 import com.br.leo.moodsnap.ui.utils.FontUtils
 import com.br.leo.moodsnap.ui.utils.Utils
 import java.util.Calendar
@@ -149,7 +150,7 @@ class CalendarAdapter(
             }
         }
 
-        holder.dayCard.setOnClickListener {
+        ClickUtils.setDebounceClickListener(holder.dayCard){
             if (!isFutureDate) {
                 val previousSelected = selectedPosition
                 selectedPosition = position - firstDayOfWeek

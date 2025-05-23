@@ -12,6 +12,7 @@ import com.br.leo.moodsnap.ui.dialog.DialogEmotions
 import com.br.leo.moodsnap.ui.dialog.OnboardingDialog
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
 import com.br.leo.moodsnap.ui.utils.PreferencesManager
+import com.br.leo.moodsnap.ui.utils.ClickUtils
 import java.util.*
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
@@ -133,14 +134,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun setupCustomNavigation() {
         // Configurar o ícone de Home (Calendário)
         val navHome = findViewById<ImageView>(R.id.nav_home)
-        navHome.setOnClickListener {
+            ClickUtils.setDebounceClickListener(navHome){
             navController.navigate(R.id.navigation_home)
             updateNavigationIcons(R.id.navigation_home)
         }
         
         // Configurar o ícone de Dashboard (Estatísticas)
         val navDashboard = findViewById<ImageView>(R.id.nav_dashboard)
-        navDashboard.setOnClickListener {
+        ClickUtils.setDebounceClickListener(navDashboard){
             navController.navigate(R.id.navigation_dashboard)
             updateNavigationIcons(R.id.navigation_dashboard)
         }
@@ -194,13 +195,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         if (v.id == R.id.fab) {
-            val dialogEmotions = DialogEmotions.newInstance(viewModel, 0L, Calendar.getInstance())
-            dialogEmotions.show(supportFragmentManager, dialogEmotions.tag)
+            // Verificar se o clique é válido (não é um clique rápido repetido)
+            if (ClickUtils.isClickValid(v.id)) {
+                val dialogEmotions = DialogEmotions.newInstance(viewModel, 0L, Calendar.getInstance())
+                dialogEmotions.show(supportFragmentManager, dialogEmotions.tag)
+            }
         }
     }
 
     private fun setListeners() {
-        binding.fab.setOnClickListener {
+        ClickUtils.setDebounceClickListener(binding.fab) {
             // Mostrar o diálogo de emoções
             val dialogEmotions = DialogEmotions.newInstance(viewModel, 0L, Calendar.getInstance())
             dialogEmotions.show(supportFragmentManager, dialogEmotions.tag)

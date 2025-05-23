@@ -53,6 +53,7 @@ import android.widget.ImageButton
 import android.widget.Spinner
 import androidx.core.widget.ImageViewCompat
 import com.br.leo.moodsnap.ui.dialog.ImageSourceBottomSheet
+import com.br.leo.moodsnap.ui.utils.ClickUtils
 
 class EditDayActivity : AppCompatActivity() {
 
@@ -174,7 +175,7 @@ class EditDayActivity : AppCompatActivity() {
         updateDateText()
 
         // Configurar botão de voltar
-        binding.btnBack.setOnClickListener {
+        ClickUtils.setDebounceClickListener(binding.btnBack){
             if (hasChanges) {
                 showDiscardChangesDialog { returnResult(); finish() }
             } else {
@@ -184,7 +185,7 @@ class EditDayActivity : AppCompatActivity() {
         }
 
         // Configurar navegação entre dias
-        binding.btnPreviousMonth.setOnClickListener {
+        ClickUtils.setDebounceClickListener(binding.btnPreviousMonth){
             if (hasChanges) {
                 showDiscardChangesDialog {
                     calendar.add(Calendar.DAY_OF_MONTH, -1)
@@ -199,7 +200,7 @@ class EditDayActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnNextMonth.setOnClickListener {
+        ClickUtils.setDebounceClickListener(binding.btnNextMonth){
             // Não permitir navegar para dias futuros
             val nextDay = calendar.clone() as Calendar
             nextDay.add(Calendar.DAY_OF_MONTH, 1)
@@ -220,7 +221,7 @@ class EditDayActivity : AppCompatActivity() {
         }
 
         // Configurar clique na data
-        binding.dateText.setOnClickListener {
+        ClickUtils.setDebounceClickListener(binding.dateText){
             showCalendarPicker()
         }
     }
@@ -374,7 +375,7 @@ class EditDayActivity : AppCompatActivity() {
                         dayCell.setTextColor(resources.getColor(R.color.secundary))
 
                         // Configurar clique para selecionar o dia
-                        dayCell.setOnClickListener {
+                        ClickUtils.setDebounceClickListener(dayCell){
                             // Atualizar a seleção
                             selectedDay = day
                             updateCalendarGrid()
@@ -424,14 +425,14 @@ class EditDayActivity : AppCompatActivity() {
         }
         
         // Configurar botões de navegação
-        prevMonthButton.setOnClickListener {
+        ClickUtils.setDebounceClickListener(prevMonthButton){
             val currentPosition = monthYearSpinner.selectedItemPosition
             if (currentPosition > 0) {
                 monthYearSpinner.setSelection(currentPosition - 1)
             }
         }
-        
-        nextMonthButton.setOnClickListener {
+
+        ClickUtils.setDebounceClickListener(nextMonthButton){
             val currentPosition = monthYearSpinner.selectedItemPosition
             if (currentPosition < monthYearList.size - 1) {
                 monthYearSpinner.setSelection(currentPosition + 1)
@@ -445,11 +446,11 @@ class EditDayActivity : AppCompatActivity() {
             .create()
         
         // Configurar botões de ação
-        btnCancel.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnCancel){
             dialog.dismiss()
         }
-        
-        btnOk.setOnClickListener {
+
+        ClickUtils.setDebounceClickListener(btnOk){
             // Atualizar o calendário principal com a data selecionada
             calendar.set(Calendar.YEAR, dialogCalendar.get(Calendar.YEAR))
             calendar.set(Calendar.MONTH, dialogCalendar.get(Calendar.MONTH))
@@ -492,32 +493,31 @@ class EditDayActivity : AppCompatActivity() {
         veryHappyImage.layoutParams = layoutParams
 
         // Configurar cliques nos humores
-        binding.emotionVeryHappy.setOnClickListener {
+            ClickUtils.setDebounceClickListener(binding.emotionVeryHappy){
             selectedMoodType = 0
             updateMoodSelection()
             checkForChanges()
         }
 
-        binding.emotionHappy.setOnClickListener {
+        ClickUtils.setDebounceClickListener(binding.emotionHappy){
             selectedMoodType = 1
             updateMoodSelection()
             checkForChanges()
         }
 
-        binding.emotionNeutral.setOnClickListener {
+        ClickUtils.setDebounceClickListener(binding.emotionNeutral){
             selectedMoodType = 2
             updateMoodSelection()
             checkForChanges()
         }
 
-        binding.emotionSad.setOnClickListener {
+        ClickUtils.setDebounceClickListener(binding.emotionSad){
             selectedMoodType = 3
             updateMoodSelection()
             checkForChanges()
         }
 
-
-        binding.emotionVerySad.setOnClickListener {
+        ClickUtils.setDebounceClickListener(binding.emotionVerySad){
             selectedMoodType = 4
             updateMoodSelection()
             checkForChanges()
@@ -584,15 +584,15 @@ class EditDayActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        binding.imageDay.setOnClickListener {
+        ClickUtils.setDebounceClickListener(binding.imageDay){
             showImageSourceDialog()
         }
 
-        binding.cardImage.setOnClickListener {
+        ClickUtils.setDebounceClickListener(binding.cardImage){
             showImageSourceDialog()
         }
 
-        binding.placeholderContainer.setOnClickListener {
+        ClickUtils.setDebounceClickListener(binding.placeholderContainer){
             showImageSourceDialog()
         }
 
@@ -606,6 +606,7 @@ class EditDayActivity : AppCompatActivity() {
                 checkForChanges()
             }
         })
+
 
         binding.btnSave.setOnClickListener {
             if (moodId == 0 && selectedMoodType == null) {

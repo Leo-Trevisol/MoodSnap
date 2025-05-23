@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.databinding.ActivityEditDescriptionBinding
 import com.br.leo.moodsnap.service.repository.MoodRepository
+import com.br.leo.moodsnap.ui.utils.ClickUtils
 import com.br.leo.moodsnap.ui.utils.Utils.showCustomToast
 import java.io.File
 import java.io.FileOutputStream
@@ -57,12 +58,12 @@ class EditDescriptionDialog(private val moodId: Int) : DialogFragment() {
     }
 
     private fun setupListeners() {
-        binding.imageDay.setOnClickListener {
+        ClickUtils.setDebounceClickListener(binding.imageDay){
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(intent, PICK_IMAGE_REQUEST)
         }
 
-        binding.btnSave.setOnClickListener {
+        ClickUtils.setDebounceClickListener(binding.btnSave){
             val description = binding.editDescription.text.toString()
             
             // Atualizar a descrição e imagem no banco de dados

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.br.leo.moodsnap.R
+import com.br.leo.moodsnap.ui.utils.ClickUtils
 import com.br.leo.moodsnap.ui.utils.FontUtils
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -64,23 +65,22 @@ class ImageSourceBottomSheet : BottomSheetDialogFragment() {
         }
 
         // Configurar os listeners de clique
-        view.findViewById<LinearLayout>(R.id.camera_option).setOnClickListener {
+        ClickUtils.setDebounceClickListener(view.findViewById<LinearLayout>(R.id.camera_option)){
             listener?.onCameraSelected()
             dismiss()
         }
-
-        view.findViewById<LinearLayout>(R.id.gallery_option).setOnClickListener {
+        ClickUtils.setDebounceClickListener(view.findViewById<LinearLayout>(R.id.gallery_option)){
             listener?.onGallerySelected()
             dismiss()
         }
 
-        deleteOption.setOnClickListener {
+        ClickUtils.setDebounceClickListener(deleteOption){
             listener?.onDeleteSelected()
             dismiss()
         }
 
         // Configurar o clique fora do BottomSheet para fechá-lo
-        view.findViewById<ImageView>(R.id.btn_close).setOnClickListener {
+        ClickUtils.setDebounceClickListener(view.findViewById<ImageView>(R.id.btn_close)){
             dismiss()
         }
     }

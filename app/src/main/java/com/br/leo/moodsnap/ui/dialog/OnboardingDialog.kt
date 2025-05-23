@@ -17,6 +17,7 @@ import com.br.leo.moodsnap.ui.models.OnboardingSlide
 import com.br.leo.moodsnap.ui.models.OnboardingMedia
 import com.br.leo.moodsnap.ui.utils.FontUtils
 import com.br.leo.moodsnap.ui.utils.Utils
+import com.br.leo.moodsnap.ui.utils.ClickUtils
 import com.br.leo.moodsnap.ui.utils.Utils.getCurrentTheme
 
 class OnboardingDialog(context: Context) : Dialog(context) {
@@ -105,7 +106,8 @@ class OnboardingDialog(context: Context) : Dialog(context) {
     }
 
     private fun setupButtons() {
-        btnNext.setOnClickListener {
+        // Usar ClickUtils para evitar múltiplos cliques rápidos
+        ClickUtils.setDebounceClickListener(btnNext) {
             if (viewPager.currentItem == slides.size - 1) {
                 dismiss()
             } else {
@@ -113,11 +115,11 @@ class OnboardingDialog(context: Context) : Dialog(context) {
             }
         }
 
-        btnPrevious.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnPrevious) {
             viewPager.currentItem = viewPager.currentItem - 1
         }
 
-        btnSkip.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnSkip) {
            dismiss()
         }
 

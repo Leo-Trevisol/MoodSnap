@@ -12,6 +12,7 @@ import android.view.WindowManager
 import androidx.annotation.DrawableRes
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.databinding.DialogCustomPositiveNegativeAltBinding
+import com.br.leo.moodsnap.ui.utils.ClickUtils
 import com.br.leo.moodsnap.ui.utils.FontUtils
 import com.br.leo.moodsnap.ui.utils.Utils
 
@@ -46,7 +47,7 @@ class CustomAlertDialog private constructor(
     }
 
     fun setPositiveListener(listener: (() -> Unit)?): CustomAlertDialog {
-        binding.btnConfirm.setOnClickListener {
+        ClickUtils.setDebounceClickListener(binding.btnConfirm){
             listener?.invoke()
             presentDialog?.dismiss()
         }
@@ -54,7 +55,7 @@ class CustomAlertDialog private constructor(
     }
 
     fun setNegativeListener(listener: (() -> Unit)?): CustomAlertDialog {
-        binding.btnCancel.setOnClickListener {
+        ClickUtils.setDebounceClickListener(binding.btnCancel){
             listener?.invoke()
             presentDialog?.dismiss()
         }

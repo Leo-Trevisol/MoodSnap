@@ -74,7 +74,7 @@ object ButtonUtils {
         onButtonClicked: ((Button) -> Unit)? = null
     ) {
         buttons.forEach { button ->
-            button.setOnClickListener {
+            ClickUtils.setDebounceClickListener(button){
                 resetAllButtons(context, buttons)
                 highlightButton(context, button)
                 onButtonClicked?.invoke(button)

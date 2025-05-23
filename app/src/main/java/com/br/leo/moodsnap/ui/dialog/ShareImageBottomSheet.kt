@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.content.FileProvider
 import com.br.leo.moodsnap.R
+import com.br.leo.moodsnap.ui.utils.ClickUtils
 import com.br.leo.moodsnap.ui.utils.FontUtils
 import com.br.leo.moodsnap.ui.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -59,13 +60,13 @@ class ShareImageBottomSheet : BottomSheetDialogFragment() {
         // Configurar o botão de compartilhar
         val btnShare = view.findViewById<MaterialButton>(R.id.btn_share)
         Utils.updateBackGroundColor(requireContext(), btnShare)
-        btnShare.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnShare){
             shareImage()
         }
 
         // Configurar o botão de compartilhar
         val btnClose = view.findViewById<ImageView>(R.id.btn_close)
-        btnClose.setOnClickListener {
+        ClickUtils.setDebounceClickListener(btnClose){
             dismiss()
         }
     }

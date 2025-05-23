@@ -46,4 +46,6 @@
 
     <dimen name="options_icons_size">24dp</dimen>
 
+    <dimen name="options_icons_size_large">48dp</dimen>
+
 </resources> 
