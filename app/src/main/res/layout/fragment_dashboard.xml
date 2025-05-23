@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
         <TextView
@@ -45,23 +46,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="16dp"
             app:cardElevation="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="16dp"
-                android:paddingTop="5dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
+                android:padding="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/options_icons_size"
+                        android:layout_height="@dimen/options_icons_size"
+                        android:src="@drawable/ic_stats_24"
+                        app:tint="@color/primary_green"
+                        android:layout_marginEnd="8dp"/>
 
                     <TextView
                         android:id="@+id/average_mood_title"
@@ -69,42 +75,51 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/average_mood"
-                        android:gravity="center"
-                        android:textColor="@color/primary"
+                        android:textColor="@color/black"
                         android:textStyle="bold"
-                        android:textSize="@dimen/text_size_large"/>
-
-
+                        android:gravity="center"
+                        android:layout_marginEnd="@dimen/options_icons_size"
+                        android:textSize="@dimen/text_size_xlarge"/>
                 </LinearLayout>
 
+                <!-- Linha separadora -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray_dark"
+                    android:layout_marginBottom="16dp"/>
+
+                <!-- Conteúdo principal com ícone e texto -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:layout_marginTop="8dp">
+                    android:background="@drawable/rounded_content_background"
+                    android:backgroundTint="@color/background_card_view"
+                    android:padding="12dp">
 
                     <ImageView
                         android:id="@+id/average_mood_icon"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:layout_marginEnd="16dp"
-                        android:scaleType="centerCrop"
-                        android:layout_weight="1"/>
+                        android:layout_width="@dimen/options_icons_size_large"
+                        android:layout_height="@dimen/options_icons_size_large"
+                        android:scaleType="fitCenter"/>
 
                     <TextView
                         android:id="@+id/average_mood_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:textStyle="bold"
-                        android:layout_weight="4"
+                        android:textSize="@dimen/text_size_xlarge"
                         android:gravity="center"
-                        android:textSize="@dimen/text_size_large"/>
+                        android:textColor="@color/secundary"/>
 
                     <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:layout_weight="1"/>
+                        android:id="@+id/average_mood_icon_2"
+                        android:layout_width="@dimen/options_icons_size_large"
+                        android:layout_height="@dimen/options_icons_size_large"
+                        android:scaleType="fitCenter"/>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -284,7 +299,8 @@
                         android:id="@+id/donut_chart_expand_collapse"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
-                        android:src="@drawable/ic_arrow_down" />
+                        android:src="@drawable/ic_arrow_down"
+                        app:tint="@color/secundary" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -303,10 +319,17 @@
 
                     <Spinner
                         android:id="@+id/donut_period_spinner"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:spinnerMode="dropdown"
+                        android:layout_weight="1.5"
                         android:gravity="start"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                        </View>
 
                 </LinearLayout>
 
@@ -378,7 +401,8 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:rotation="180"
-                        android:src="@drawable/ic_arrow_down"/>
+                        android:src="@drawable/ic_arrow_down"
+                        app:tint="@color/secundary"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -397,10 +421,17 @@
 
                     <Spinner
                         android:id="@+id/bar_period_spinner"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:spinnerMode="dropdown"
+                        android:layout_weight="1.5"
                         android:gravity="start"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                        </View>
 
                 </LinearLayout>
 
@@ -472,7 +503,8 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:rotation="180"
-                        android:src="@drawable/ic_arrow_down" />
+                        android:src="@drawable/ic_arrow_down"
+                        app:tint="@color/secundary"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -491,10 +523,17 @@
 
                     <Spinner
                         android:id="@+id/radar_period_spinner"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:spinnerMode="dropdown"
+                        android:layout_weight="1.5"
                         android:gravity="start"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                        </View>
 
                 </LinearLayout>
 
@@ -566,7 +605,8 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:rotation="180"
-                        android:src="@drawable/ic_arrow_down" />
+                        android:src="@drawable/ic_arrow_down"
+                        app:tint="@color/secundary"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -585,10 +625,17 @@
 
                         <Spinner
                             android:id="@+id/grouped_bar_period_spinner"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:spinnerMode="dropdown"
+                            android:layout_weight="1.5"
                             android:gravity="start"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                        </View>
 
                     </LinearLayout>
 
@@ -612,8 +659,14 @@
                             android:id="@+id/grouped_bar_day1_spinner"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="2"
                             android:spinnerMode="dropdown"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                        </View>
 
                     </LinearLayout>
 
@@ -637,8 +690,14 @@
                             android:id="@+id/grouped_bar_day2_spinner"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="2"
                             android:spinnerMode="dropdown"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                        </View>
 
                     </LinearLayout>
 
@@ -662,8 +721,14 @@
                             android:id="@+id/grouped_bar_mood_spinner"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.5"
                             android:spinnerMode="dropdown"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                        </View>
 
                     </LinearLayout>
 
@@ -696,9 +761,9 @@
                             android:id="@+id/grouped_bar_mood_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="3"
                             android:textSize="@dimen/text_size_large"
                             android:textColor="@color/black"
+                            android:layout_weight="3"
                             android:textStyle="bold"/>
 
                     </LinearLayout>
@@ -751,7 +816,8 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:rotation="180"
-                        android:src="@drawable/ic_arrow_down" />
+                        android:src="@drawable/ic_arrow_down"
+                        app:tint="@color/secundary"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -770,10 +836,17 @@
 
                         <Spinner
                             android:id="@+id/mood_comparison_period_spinner"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:spinnerMode="dropdown"
+                            android:layout_weight="1.5"
                             android:gravity="start"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                        </View>
 
                     </LinearLayout>
 
@@ -797,8 +870,14 @@
                             android:id="@+id/mood_comparison_day_spinner"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.5"
                             android:spinnerMode="dropdown"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                        </View>
 
                     </LinearLayout>
 
@@ -822,8 +901,14 @@
                             android:id="@+id/mood_comparison_mood1_spinner"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.5"
                             android:spinnerMode="dropdown"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                        </View>
 
                     </LinearLayout>
 
@@ -847,8 +932,14 @@
                             android:id="@+id/mood_comparison_mood2_spinner"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.5"
                             android:spinnerMode="dropdown"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                        </View>
 
                     </LinearLayout>
 

@@ -389,12 +389,15 @@ class DashboardFragment : Fragment() {
         dashboardViewModel.averageMood.observe(viewLifecycleOwner) { average ->
             if (average == null) {
                 binding.averageMoodIcon.setImageResource(R.drawable.neutral_icon)
+                binding.averageMoodIcon2.setImageResource(R.drawable.neutral_icon)
                 binding.averageMoodText.text = getString(R.string.no_mood_registered)
             } else {
                 val moodType = average.roundToInt()
                 binding.averageMoodIcon.setImageResource(Utils.getMoodDrawable(moodType))
-                binding.averageMoodText.text =
-                    getString(R.string.your_average_mood, dashboardViewModel.getMoodName(requireContext(), moodType))
+                binding.averageMoodIcon2.setImageResource(Utils.getMoodDrawable(moodType))
+//                binding.averageMoodText.text =
+//                    getString(R.string.your_average_mood, dashboardViewModel.getMoodName(requireContext(), moodType))
+                binding.averageMoodText.text = dashboardViewModel.getMoodName(requireContext(), moodType)
                 binding.cardAverageMood.setCardBackgroundColor(
                     dashboardViewModel.getMoodColor(
                         moodType
@@ -402,10 +405,6 @@ class DashboardFragment : Fragment() {
                 )
             }
 
-            // Ajustar cor do texto baseado na cor de fundo
-            val textColor = Color.BLACK
-            binding.averageMoodTitle.setTextColor(textColor)
-            binding.averageMoodText.setTextColor(textColor)
         }
 
         // Observar distribuição de humores

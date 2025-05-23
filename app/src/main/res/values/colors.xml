@@ -42,4 +42,10 @@
 
     <color name="background_card_view_alpha">#EBEAEA</color>
 
+    <!-- Cores para o card de humor médio redesenhado -->
+    <color name="card_background">#FFFFFF</color>
+    <color name="divider_color">#E0E0E0</color>
+    <color name="background_light">#F8F8F8</color>
+    <color name="text_primary">#333333</color>
+
 </resources>
