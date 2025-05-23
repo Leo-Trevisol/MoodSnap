@@ -134,18 +134,28 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun setupCustomNavigation() {
         // Configurar o ícone de Home (Calendário)
         val navHome = findViewById<ImageView>(R.id.nav_home)
-            ClickUtils.setDebounceClickListener(navHome){
-            navController.navigate(R.id.navigation_home)
+        ClickUtils.setDebounceClickListener(navHome){
+            // Usar NavOptions para adicionar animações
+            val navOptions = NavOptions.Builder()
+                .setEnterAnim(R.anim.slide_in_left)
+                .setExitAnim(R.anim.slide_out_right)
+                .build()
+            navController.navigate(R.id.navigation_home, null, navOptions)
             updateNavigationIcons(R.id.navigation_home)
         }
-        
+
         // Configurar o ícone de Dashboard (Estatísticas)
         val navDashboard = findViewById<ImageView>(R.id.nav_dashboard)
         ClickUtils.setDebounceClickListener(navDashboard){
-            navController.navigate(R.id.navigation_dashboard)
+            // Usar NavOptions para adicionar animações
+            val navOptions = NavOptions.Builder()
+                .setEnterAnim(R.anim.slide_in_right)
+                .setExitAnim(R.anim.slide_out_left)
+                .build()
+            navController.navigate(R.id.navigation_dashboard, null, navOptions)
             updateNavigationIcons(R.id.navigation_dashboard)
         }
-        
+
         // Definir o ícone inicial como selecionado
         updateNavigationIcons(R.id.navigation_home)
         

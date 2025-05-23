@@ -13,10 +13,10 @@
         <action
             android:id="@+id/action_home_to_dashboard"
             app:destination="@id/navigation_dashboard"
-            app:enterAnim="@anim/dialog_enter"
-            app:exitAnim="@anim/dialog_exit"
-            app:popEnterAnim="@anim/dialog_enter"
-            app:popExitAnim="@anim/dialog_exit" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
@@ -27,10 +27,10 @@
         <action
             android:id="@+id/action_dashboard_to_home"
             app:destination="@id/navigation_home"
-            app:enterAnim="@anim/dialog_enter"
-            app:exitAnim="@anim/dialog_exit"
-            app:popEnterAnim="@anim/dialog_enter"
-            app:popExitAnim="@anim/dialog_exit" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
 
 </navigation>
