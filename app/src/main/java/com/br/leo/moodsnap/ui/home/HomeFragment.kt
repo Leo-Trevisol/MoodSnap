@@ -16,6 +16,8 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.*
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -720,64 +722,107 @@ class HomeFragment : Fragment() {
                     val currentCalendar = Calendar.getInstance()
                     val currentYear = currentCalendar.get(Calendar.YEAR)
                     val currentMonth = currentCalendar.get(Calendar.MONTH)
-                    val isCurrentMonth = calendar.get(Calendar.YEAR) == currentYear && 
-                                       calendar.get(Calendar.MONTH) == currentMonth
-                    val minYear = currentYear - 10 // Ano mínimo permitido
+                    val isCurrentMonth = calendar.get(Calendar.YEAR) == currentYear &&
+                            calendar.get(Calendar.MONTH) == currentMonth
 
-                    if (diffX > 0) { // Deslize para a direita - Mês anterior
-                        // Verificar se está tentando navegar para um ano anterior ao mínimo permitido
-                        if (calendar.get(Calendar.MONTH) == Calendar.JANUARY) {
-                            val nextYear = calendar.get(Calendar.YEAR) - 1
-                            if (nextYear < minYear) {
-                                Utils.showCustomToast(requireContext(), getString(R.string.error_invalid_date))
-                                return false
+                    val minYear = currentYear - 10
+
+                    if (diffX > 0) {
+
+                        val slideOut = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_in_left_month)
+                        val slideIn = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_right_month)
+
+                        slideIn.setAnimationListener(object : Animation.AnimationListener {
+                            override fun onAnimationStart(animation: Animation?) {}
+
+                            override fun onAnimationEnd(animation: Animation?) {
+                                // Deslize para a direita - Mês anterior
+                                if (calendar.get(Calendar.MONTH) == Calendar.JANUARY) {
+                                    val nextYear = calendar.get(Calendar.YEAR) - 1
+                                    if (nextYear < minYear) {
+                                        Utils.showCustomToast(requireContext(), getString(R.string.error_invalid_date))
+                                    }
+                                    calendar.set(Calendar.YEAR, nextYear)
+                                    calendar.set(Calendar.MONTH, Calendar.DECEMBER)
+                                } else {
+                                    calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1)
+                                }
+                                updateCalendarForDate(calendar)
+                                binding.calendarGrid.startAnimation(slideOut)
                             }
-                            calendar.set(Calendar.YEAR, nextYear)
-                            calendar.set(Calendar.MONTH, Calendar.DECEMBER)
-                        } else {
-                            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1)
-                        }
-                        updateCalendarForDate(calendar)
-                        return true
-                    } else { // Deslize para a esquerda
-                        // Verificar se o próximo mês seria o mês atual
+
+                            override fun onAnimationRepeat(animation: Animation?) {}
+                        })
+
+                        binding.calendarGrid.startAnimation(slideIn)
+
+                    } else {
+                        // Deslize para a esquerda - Próximo mês
                         val nextMonth = if (calendar.get(Calendar.MONTH) == Calendar.DECEMBER) {
                             Calendar.JANUARY
                         } else {
                             calendar.get(Calendar.MONTH) + 1
                         }
-                        
+
                         val nextYear = if (calendar.get(Calendar.MONTH) == Calendar.DECEMBER) {
                             calendar.get(Calendar.YEAR) + 1
                         } else {
                             calendar.get(Calendar.YEAR)
                         }
-                        
-                        // Verificar se o próximo mês/ano seria o mês/ano atual
+
                         val wouldBeCurrentMonth = nextYear == currentYear && nextMonth == currentMonth
-                        
+
                         if (wouldBeCurrentMonth) {
-                            // Se o próximo mês seria o mês atual, navega para o mês atual
-                            calendar.set(Calendar.DAY_OF_MONTH, 1) // Evita problemas com dias que não existem no novo mês
-                            calendar.set(Calendar.YEAR, currentYear)
-                            calendar.set(Calendar.MONTH, currentMonth)
-                            updateCalendarForDate(calendar)
+
+                            val slideOut = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_left_month)
+                            val slideIn = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_in_right_month)
+
+                            slideOut.setAnimationListener(object : Animation.AnimationListener {
+                                override fun onAnimationStart(animation: Animation?) {}
+
+                                override fun onAnimationEnd(animation: Animation?) {
+                                    calendar.set(Calendar.DAY_OF_MONTH, 1)
+                                    calendar.set(Calendar.YEAR, currentYear)
+                                    calendar.set(Calendar.MONTH, currentMonth)
+                                    updateCalendarForDate(calendar)
+                                    binding.calendarGrid.startAnimation(slideIn)
+                                }
+
+                                override fun onAnimationRepeat(animation: Animation?) {}
+                            })
+
+                            binding.calendarGrid.startAnimation(slideOut)
+
                         } else if (isCurrentMonth) {
-                            // Se já estiver no mês atual, navega para o dashboard
                             findNavController().navigate(R.id.action_home_to_dashboard)
+
                         } else {
-                            // Se estiver em um mês anterior e o próximo não é o atual, navega para o próximo mês
-                            if (calendar.get(Calendar.MONTH) == Calendar.DECEMBER) {
-                                calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1)
-                                calendar.set(Calendar.MONTH, Calendar.JANUARY)
-                            } else {
-                                calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1)
-                            }
-                            updateCalendarForDate(calendar)
+                            val slideOut = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_out_left_month)
+                            val slideIn = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_in_right_month)
+
+                            slideOut.setAnimationListener(object : Animation.AnimationListener {
+                                override fun onAnimationStart(animation: Animation?) {}
+
+                                override fun onAnimationEnd(animation: Animation?) {
+                                    if (calendar.get(Calendar.MONTH) == Calendar.DECEMBER) {
+                                        calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1)
+                                        calendar.set(Calendar.MONTH, Calendar.JANUARY)
+                                    } else {
+                                        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1)
+                                    }
+                                    updateCalendarForDate(calendar)
+                                    binding.calendarGrid.startAnimation(slideIn)
+                                }
+
+                                override fun onAnimationRepeat(animation: Animation?) {}
+                            })
+
+                            binding.calendarGrid.startAnimation(slideOut)
                         }
                         return true
                     }
                 }
+
                 return false
             }
         })
