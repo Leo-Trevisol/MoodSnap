@@ -14,68 +14,82 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:padding="8dp"
-        android:layout_marginBottom="@dimen/spacing_large"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/btn_back"
-            android:layout_width="@dimen/options_icons_size"
-            android:layout_height="@dimen/options_icons_size"
+            android:layout_width="@dimen/options_icons_size_large"
+            android:layout_height="@dimen/options_icons_size_large"
             android:src="@drawable/ic_xmark"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@drawable/ripple_background"
             android:clickable="true"
             android:focusable="true"
+            android:padding="@dimen/spacing_normal"
             android:layout_marginStart="@dimen/spacing_normal"
             app:tint="@color/primary_green"/>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-        </View>
-
-
-        <ImageView
-            android:id="@+id/btn_previous_month"
-            android:layout_width="@dimen/options_icons_size"
-            android:layout_height="@dimen/options_icons_size"
-            android:src="@drawable/ic_arrow_left"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_marginStart="@dimen/spacing_normal"
-            app:tint="@color/primary_green"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/date_text"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:orientation="horizontal"
             android:gravity="center"
-            android:textSize="@dimen/text_size_xlarge"
-            android:drawableEnd="@drawable/ic_dowm"
-            app:drawableTint="@color/primary_green"
-            android:textColor="@color/day_text_color"
-            tools:text="Jan 2024"/>
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            >
+
+            <ImageView
+                android:id="@+id/btn_previous_month"
+                android:layout_width="@dimen/options_icons_size_large"
+                android:layout_height="@dimen/options_icons_size_large"
+                android:src="@drawable/ic_arrow_left"
+                android:background="@drawable/ripple_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginEnd="@dimen/spacing_large"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:padding="@dimen/spacing_normal"
+
+                app:tint="@color/primary_green"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/date_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/text_size_xlarge"
+                android:drawableEnd="@drawable/ic_dowm"
+                app:drawableTint="@color/primary_green"
+                android:layout_weight="1"
+                android:textColor="@color/day_text_color"
+                tools:text="Jan 2024"/>
+
+            <ImageView
+                android:id="@+id/btn_next_month"
+                android:layout_width="@dimen/options_icons_size_large"
+                android:layout_height="@dimen/options_icons_size_large"
+                android:src="@drawable/ic_arrow_right"
+                android:background="@drawable/ripple_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginStart="@dimen/spacing_large"
+                android:padding="@dimen/spacing_normal"
+                app:tint="@color/primary_green"/>
+
+
+
+        </LinearLayout>
 
         <ImageView
-            android:id="@+id/btn_next_month"
-            android:layout_width="@dimen/options_icons_size"
-            android:layout_height="@dimen/options_icons_size"
-            android:src="@drawable/ic_arrow_right"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_width="@dimen/options_icons_size_large"
+            android:layout_height="@dimen/options_icons_size_large"
+            android:background="@drawable/ripple_background"
             android:clickable="true"
             android:focusable="true"
-            android:layout_marginStart="@dimen/spacing_large"
+            android:padding="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
             app:tint="@color/primary_green"/>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-        </View>
-
 
     </LinearLayout>
 

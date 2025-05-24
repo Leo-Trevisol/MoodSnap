@@ -185,7 +185,8 @@ class EditDayActivity : AppCompatActivity() {
         }
 
         // Configurar navegação entre dias
-        ClickUtils.setDebounceClickListener(binding.btnPreviousMonth){
+        binding.btnPreviousMonth.setOnClickListener({
+
             if (hasChanges) {
                 showDiscardChangesDialog {
                     calendar.add(Calendar.DAY_OF_MONTH, -1)
@@ -198,9 +199,9 @@ class EditDayActivity : AppCompatActivity() {
                 updateDateText()
                 loadExistingData()
             }
-        }
+        })
 
-        ClickUtils.setDebounceClickListener(binding.btnNextMonth){
+        binding.btnNextMonth.setOnClickListener({
             // Não permitir navegar para dias futuros
             val nextDay = calendar.clone() as Calendar
             nextDay.add(Calendar.DAY_OF_MONTH, 1)
@@ -218,7 +219,7 @@ class EditDayActivity : AppCompatActivity() {
                     loadExistingData()
                 }
             }
-        }
+        })
 
         // Configurar clique na data
         ClickUtils.setDebounceClickListener(binding.dateText){

@@ -27,7 +27,6 @@
                 android:layout_marginBottom="@dimen/spacing_large"
                 android:gravity="center_vertical">
 
-
                 <TextView
                     android:id="@+id/selected_date"
                     android:layout_width="0dp"
@@ -39,37 +38,42 @@
 
                 <ImageButton
                     android:id="@+id/btn_edit"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="@dimen/options_icons_size"
+                    android:layout_height="@dimen/options_icons_size"
+                    android:padding="2dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
-                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_background"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:src="@drawable/ic_pen_edit"
                     android:contentDescription="@string/detail_day"
                     app:tint="@android:color/darker_gray" />
 
                 <ImageButton
                     android:id="@+id/btn_delete"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="@dimen/options_icons_size"
+                    android:layout_height="@dimen/options_icons_size"
+                    android:padding="2dp"
                     android:layout_weight="1"
-                    android:visibility="gone"
                     android:scaleType="fitCenter"
-                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_background"
                     android:src="@drawable/ic_trash"
                     app:tint="@android:color/darker_gray"
+                    android:visibility="gone"
                     android:contentDescription="@string/delete_mood" />
 
                 <ImageButton
                     android:id="@+id/btn_share"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="@dimen/options_icons_size"
+                    android:layout_height="@dimen/options_icons_size"
+                    android:padding="2dp"
                     android:layout_weight="1"
-                    android:visibility="gone"
                     android:scaleType="fitCenter"
-                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:background="@drawable/ripple_background"
                     android:src="@drawable/ic_share"
                     app:tint="@android:color/darker_gray"
+                    android:visibility="gone"
                     android:contentDescription="@string/share_mood" />
             </LinearLayout>
 

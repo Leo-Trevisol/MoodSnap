@@ -26,13 +26,12 @@
             android:layout_width="@dimen/options_icons_size_large"
             android:layout_height="@dimen/options_icons_size_large"
             android:src="@drawable/ic_settings"
-            android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
-            android:layout_marginStart="@dimen/spacing_normal"
             android:scaleType="center"
-            app:tint="@color/primary_green" />
-
+            android:layout_marginStart="@dimen/spacing_normal"
+            app:tint="@color/primary_green"
+            android:background="@drawable/ripple_background"/>
 
         <View
             android:layout_width="0dp"

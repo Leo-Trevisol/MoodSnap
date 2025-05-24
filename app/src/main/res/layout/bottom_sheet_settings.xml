@@ -30,6 +30,7 @@
             android:contentDescription="@string/btn_back"
             app:tint="@color/secundary" />
 
+
         <TextView
             android:id="@+id/text_language_title"
             android:layout_width="match_parent"

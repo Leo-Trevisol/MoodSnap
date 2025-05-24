@@ -206,17 +206,20 @@
 
                     <ImageView
                         android:id="@+id/donut_chart_info"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_width="@dimen/options_icons_size"
+                        android:layout_height="@dimen/options_icons_size"
+                        android:padding="2dp"
+                        android:layout_marginEnd="@dimen/spacing_large"
+                        android:background="@drawable/ripple_background"
                         android:src="@drawable/info_icon"/>
 
                     <ImageView
                         android:id="@+id/donut_chart_expand_collapse"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/options_icons_size"
+                        android:layout_height="@dimen/options_icons_size"
+                        android:padding="2dp"
                         android:src="@drawable/ic_arrow_up"
-                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:background="@drawable/ripple_background"
                         android:rotation="0"
                         app:tint="@color/secundary" />
                 </LinearLayout>
@@ -309,17 +312,20 @@
 
                     <ImageView
                         android:id="@+id/bar_chart_info"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_width="@dimen/options_icons_size"
+                        android:layout_height="@dimen/options_icons_size"
+                        android:padding="2dp"
+                        android:layout_marginEnd="@dimen/spacing_large"
+                        android:background="@drawable/ripple_background"
                         android:src="@drawable/info_icon" />
 
                     <ImageView
                         android:id="@+id/bar_chart_expand_collapse"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/options_icons_size"
+                        android:layout_height="@dimen/options_icons_size"
+                        android:padding="2dp"
                         android:src="@drawable/ic_arrow_up"
-                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:background="@drawable/ripple_background"
                         android:rotation="0"
                         app:tint="@color/secundary"/>
                 </LinearLayout>
@@ -412,17 +418,20 @@
 
                     <ImageView
                         android:id="@+id/radar_chart_info"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_width="@dimen/options_icons_size"
+                        android:layout_height="@dimen/options_icons_size"
+                        android:padding="2dp"
+                        android:layout_marginEnd="@dimen/spacing_large"
+                        android:background="@drawable/ripple_background"
                         android:src="@drawable/info_icon"/>
 
                     <ImageView
                         android:id="@+id/radar_chart_expand_collapse"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/options_icons_size"
+                        android:layout_height="@dimen/options_icons_size"
+                        android:padding="2dp"
                         android:src="@drawable/ic_arrow_up"
-                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:background="@drawable/ripple_background"
                         android:rotation="0"
                         app:tint="@color/secundary" />
                 </LinearLayout>
@@ -515,17 +524,20 @@
 
                     <ImageView
                         android:id="@+id/grouped_bar_chart_info"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_width="@dimen/options_icons_size"
+                        android:layout_height="@dimen/options_icons_size"
+                        android:padding="2dp"
+                        android:layout_marginEnd="@dimen/spacing_large"
+                        android:background="@drawable/ripple_background"
                         android:src="@drawable/info_icon" />
 
                     <ImageView
                         android:id="@+id/grouped_bar_chart_expand_collapse"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/options_icons_size"
+                        android:layout_height="@dimen/options_icons_size"
+                        android:padding="2dp"
                         android:src="@drawable/ic_arrow_up"
-                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:background="@drawable/ripple_background"
                         android:rotation="0"
                         app:tint="@color/secundary"/>
                 </LinearLayout>
@@ -727,17 +739,20 @@
 
                     <ImageView
                         android:id="@+id/mood_comparison_chart_info"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_width="@dimen/options_icons_size"
+                        android:layout_height="@dimen/options_icons_size"
+                        android:padding="2dp"
+                        android:layout_marginEnd="@dimen/spacing_large"
+                        android:background="@drawable/ripple_background"
                         android:src="@drawable/info_icon"/>
 
                     <ImageView
                         android:id="@+id/mood_comparison_chart_expand_collapse"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="@dimen/options_icons_size"
+                        android:layout_height="@dimen/options_icons_size"
+                        android:padding="2dp"
                         android:src="@drawable/ic_arrow_up"
-                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:background="@drawable/ripple_background"
                         android:rotation="0"
                         app:tint="@color/secundary"/>
                 </LinearLayout>
