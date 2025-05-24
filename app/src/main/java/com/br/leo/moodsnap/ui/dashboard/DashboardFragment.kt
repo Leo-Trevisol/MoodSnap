@@ -59,6 +59,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.File
 import java.text.SimpleDateFormat
+import androidx.core.view.isVisible
 
 class DashboardFragment : Fragment() {
 
@@ -2504,12 +2505,15 @@ class DashboardFragment : Fragment() {
 
         val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
 
-        // Recuperar estado salvo
-        val savedExpanded = sharedPreferences.getBoolean(preferenceKey, true)
+        // Recuperar estado salvo - por padrão, os gráficos começam recolhidos (false)
+        val savedExpanded = sharedPreferences.getBoolean(preferenceKey, false)
 
         // Aplicar estado inicial
         contentView.visibility = if (savedExpanded) View.VISIBLE else View.GONE
-        iconView.rotation = if (savedExpanded) 0f else 180f
+        
+        // Quando está expandido (VISIBLE), a seta deve apontar para baixo (180f)
+        // Quando está recolhido (GONE), a seta deve apontar para cima (0f)
+        iconView.rotation = if (savedExpanded) 180f else 0f
 
         // Configurar mensagem de "sem dados" nos gráficos
         val noDataMessage = getString(R.string.no_mood_registered)
@@ -2533,13 +2537,14 @@ class DashboardFragment : Fragment() {
             }
         }
 
-        ClickUtils.setDebounceClickListener(iconView){
-            val isCurrentlyExpanded = contentView.visibility == View.VISIBLE
+        iconView.setOnClickListener {
+            val isCurrentlyExpanded = contentView.isVisible
             val shouldExpand = !isCurrentlyExpanded
 
-            // Rotacionar ícone
-            val rotation = if (shouldExpand) 0f else 180f
-            iconView.animate().rotation(rotation).setDuration(300).start()
+            // Quando expandir, a seta deve apontar para baixo (180f)
+            // Quando recolher, a seta deve apontar para cima (0f)
+            val newRotation = if (shouldExpand) 180f else 0f
+            iconView.animate().rotation(newRotation).setDuration(300).start()
 
             // Alternar visibilidade com pequeno delay para suavidade
             Handler(Looper.getMainLooper()).postDelayed({

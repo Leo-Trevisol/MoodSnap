@@ -188,21 +188,22 @@ class TutorialBottomSheet : BottomSheetDialogFragment() {
 
     private fun setupButtons() {
         // Usar ClickUtils para evitar múltiplos cliques rápidos
-        ClickUtils.setDebounceClickListener(btnNext) {
+        btnNext.setOnClickListener({
+
             if (viewPager.currentItem == slides.size - 1) {
                 dismiss()
             } else {
                 viewPager.currentItem = viewPager.currentItem + 1
             }
-        }
+        })
 
-        ClickUtils.setDebounceClickListener(btnPrevious) {
+        btnPrevious.setOnClickListener({
             viewPager.currentItem = viewPager.currentItem - 1
-        }
+        })
 
-        ClickUtils.setDebounceClickListener(btnSkip) {
-            dismiss()
-        }
+        btnSkip.setOnClickListener({
+        dismiss()
+        })
 
         updateButtonsVisibility(0)
     }

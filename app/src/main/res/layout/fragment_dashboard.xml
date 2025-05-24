@@ -215,7 +215,9 @@
                         android:id="@+id/donut_chart_expand_collapse"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
-                        android:src="@drawable/ic_arrow_down"
+                        android:src="@drawable/ic_arrow_up"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:rotation="0"
                         app:tint="@color/secundary" />
                 </LinearLayout>
 
@@ -316,8 +318,9 @@
                         android:id="@+id/bar_chart_expand_collapse"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
-                        android:rotation="180"
-                        android:src="@drawable/ic_arrow_down"
+                        android:src="@drawable/ic_arrow_up"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:rotation="0"
                         app:tint="@color/secundary"/>
                 </LinearLayout>
 
@@ -418,9 +421,10 @@
                         android:id="@+id/radar_chart_expand_collapse"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
-                        android:rotation="180"
-                        android:src="@drawable/ic_arrow_down"
-                        app:tint="@color/secundary"/>
+                        android:src="@drawable/ic_arrow_up"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:rotation="0"
+                        app:tint="@color/secundary" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -520,8 +524,9 @@
                         android:id="@+id/grouped_bar_chart_expand_collapse"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
-                        android:rotation="180"
-                        android:src="@drawable/ic_arrow_down"
+                        android:src="@drawable/ic_arrow_up"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:rotation="0"
                         app:tint="@color/secundary"/>
                 </LinearLayout>
 
@@ -731,8 +736,9 @@
                         android:id="@+id/mood_comparison_chart_expand_collapse"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
-                        android:rotation="180"
-                        android:src="@drawable/ic_arrow_down"
+                        android:src="@drawable/ic_arrow_up"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:rotation="0"
                         app:tint="@color/secundary"/>
                 </LinearLayout>
 

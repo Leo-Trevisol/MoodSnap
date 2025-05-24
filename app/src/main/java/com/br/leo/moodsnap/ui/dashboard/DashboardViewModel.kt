@@ -44,6 +44,9 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
     private val _currentStreak = MutableLiveData<Int>()
     val currentStreak: LiveData<Int> = _currentStreak
 
+    private val _totalMoodsRecorded = MutableLiveData<Int>()
+    val totalMoodsRecorded: LiveData<Int> = _totalMoodsRecorded
+
     private val _bestDayOfWeek = MutableLiveData<Int>()
     val bestDayOfWeek: LiveData<Int> = _bestDayOfWeek
 
@@ -99,6 +102,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             _averageMood.postValue(null)
             _moodDistribution.postValue(emptyMap())
             _currentStreak.postValue(0)
+            _totalMoodsRecorded.postValue(0)
             _bestDayOfWeek.postValue(-1)
             return
         }
@@ -115,6 +119,9 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         // Calcular sequência atual
         val streak = calculateCurrentStreak(moods)
         _currentStreak.postValue(streak)
+
+        // Calcular total de humores registrados
+        _totalMoodsRecorded.postValue(moods.size)
 
         // Calcular estatísticas do dia da semana com base no filtro selecionado
         val dayResult =
