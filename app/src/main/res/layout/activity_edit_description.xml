@@ -125,6 +125,8 @@
                     android:id="@+id/tv_mood_question"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+
                     android:layout_marginBottom="8dp"
                     android:textColor="@color/secundary"
                     android:layout_gravity="center"
@@ -217,6 +219,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+
                     android:textColor="@color/secundary"
                     android:layout_gravity="center"
                     android:text="@string/day_note"
@@ -271,6 +275,7 @@
                     android:layout_marginBottom="8dp"
                     android:textColor="@color/secundary"
                     android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
                     android:text="@string/day_image"
                     android:textSize="@dimen/text_size_xlarge"
                     android:textStyle="bold" />
