@@ -890,27 +890,30 @@ class HomeFragment : Fragment() {
         
         // Definir o texto do idioma atual
         val textCurrentLanguage = bottomSheetView.findViewById<TextView>(R.id.text_current_language)
-        val languageName = when (currentLanguage) {
-            "system" -> getString(R.string.language_system)
-            "pt" -> "Português"
-            "en" -> "English"
-            "es" -> "Español"
-            "fr" -> "Français"
-            "de" -> "Deutsch"
-            "it" -> "Italiano"
+        val languageName = when {
+            // Se for a primeira vez ou o idioma for "system", mostrar "System Language"
+            isSystemLanguageApply || currentLanguage == "system" -> getString(R.string.language_system)
+            currentLanguage == "pt" -> "Português"
+            currentLanguage == "en" -> "English"
+            currentLanguage == "es" -> "Español"
+            currentLanguage == "fr" -> "Français"
+            currentLanguage == "de" -> "Deutsch"
+            currentLanguage == "it" -> "Italiano"
             else -> getString(R.string.language_system)
         }
         textCurrentLanguage.text = languageName
         
         // Obter o tema atual
+        val isFirstThemeApply = sharedPreferences.getBoolean("is_first_theme_apply", true)
         val currentTheme = sharedPreferences.getInt("current_theme", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         
         // Definir o texto do tema atual
         val textCurrentTheme = bottomSheetView.findViewById<TextView>(R.id.text_current_theme)
-        val themeName = when (currentTheme) {
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> getString(R.string.system_theme)
-            AppCompatDelegate.MODE_NIGHT_NO -> getString(R.string.light_theme)
-            AppCompatDelegate.MODE_NIGHT_YES -> getString(R.string.dark_theme)
+        val themeName = when {
+            // Se for a primeira vez ou o tema for o do sistema, mostrar "System Theme"
+            isFirstThemeApply || currentTheme == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> getString(R.string.system_theme)
+            currentTheme == AppCompatDelegate.MODE_NIGHT_NO -> getString(R.string.light_theme)
+            currentTheme == AppCompatDelegate.MODE_NIGHT_YES -> getString(R.string.dark_theme)
             else -> getString(R.string.system_theme)
         }
         textCurrentTheme.text = themeName
