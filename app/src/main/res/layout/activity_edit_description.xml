@@ -13,6 +13,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:padding="8dp"
+        android:layout_marginTop="@dimen/spacing_large"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -46,6 +47,8 @@
                 android:background="@drawable/ripple_background"
                 android:clickable="true"
                 android:focusable="true"
+                android:visibility="gone"
+
                 android:layout_marginEnd="@dimen/spacing_large"
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:padding="@dimen/spacing_normal"
@@ -54,15 +57,15 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/date_text"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textSize="@dimen/text_size_xlarge"
                 android:drawableEnd="@drawable/ic_dowm"
+                android:drawablePadding="@dimen/spacing_normal"
                 app:drawableTint="@color/primary_green"
-                android:layout_weight="1"
                 android:textColor="@color/day_text_color"
-                tools:text="Jan 2024"/>
+                tools:text="Friday, 23 may"/>
 
             <ImageView
                 android:id="@+id/btn_next_month"
@@ -72,6 +75,7 @@
                 android:background="@drawable/ripple_background"
                 android:clickable="true"
                 android:focusable="true"
+                android:visibility="gone"
                 android:layout_marginStart="@dimen/spacing_large"
                 android:padding="@dimen/spacing_normal"
                 app:tint="@color/primary_green"/>

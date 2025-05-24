@@ -228,9 +228,29 @@ class EditDayActivity : AppCompatActivity() {
     }
 
     private fun updateDateText() {
+        // Obter o dia da semana
+        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+        
+        // Obter o nome do dia da semana do arquivo de strings
+        val dayOfWeekString = when (dayOfWeek) {
+            Calendar.SUNDAY -> getString(R.string.weekday_full_sunday)
+            Calendar.MONDAY -> getString(R.string.weekday_full_monday)
+            Calendar.TUESDAY -> getString(R.string.weekday_full_tuesday)
+            Calendar.WEDNESDAY -> getString(R.string.weekday_full_wednesday)
+            Calendar.THURSDAY -> getString(R.string.weekday_full_thursday)
+            Calendar.FRIDAY -> getString(R.string.weekday_full_friday)
+            Calendar.SATURDAY -> getString(R.string.weekday_full_saturday)
+            else -> ""
+        }
+        
+        // Obter o dia do mês
         val day = calendar.get(Calendar.DAY_OF_MONTH)
+        
+        // Obter o nome do mês
         val month = DateUtils.getMonthNameShort(this, calendar.get(Calendar.MONTH))
-        binding.dateText.text = "$day - $month"
+        
+        // Formatar a data no formato "Sexta-feira, 21 maio"
+        binding.dateText.text = "$dayOfWeekString, $day $month"
     }
 
     private fun showCalendarPicker() {
