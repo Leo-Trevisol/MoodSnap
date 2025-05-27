@@ -32,7 +32,6 @@ class CustomAlertDialog private constructor(
 
         FontUtils.applyFontToView(context, binding.root)
 
-        binding.imageViewIconDialog.setBackgroundResource(R.drawable.ic_danger)
         binding.textViewCustomDialogMessage.visibility = View.GONE
 
         Utils.updateBackGroundColor(context, binding.btnCancel, backgroundColor = R.color.gray_dark)
