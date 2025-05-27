@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/gray_dark"
+            android:textColor="@color/secundary"
             android:textSize="@dimen/text_size_normal"
             android:layout_marginBottom="8dp" />
 
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/gray_dark"
+            android:textColor="@color/secundary"
             android:textSize="@dimen/text_size_normal"
             android:layout_marginBottom="16dp" />
 
@@ -85,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/gray_dark"
-            android:layout_marginBottom="@dimen/spacing_large" />
+            android:layout_marginBottom="@dimen/spacing_normal"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/date_recycler_view"

@@ -30,6 +30,8 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import android.content.Context
 import android.content.DialogInterface
 import android.content.res.ColorStateList
+import android.graphics.Canvas
+import android.graphics.Rect
 import android.os.Handler
 import android.os.Looper
 import com.br.leo.moodsnap.ui.utils.FontUtils
@@ -886,10 +888,12 @@ class DashboardFragment : Fragment() {
             weekdayLayout.findViewById<TextView>(R.id.weekday_text).apply {
                 text = weekday
                 setTextColor(resources.getColor(R.color.secundary))
+                textSize = resources.getDimension(R.dimen.text_recycler_dialog)
             }
             weekdayLayout.findViewById<TextView>(R.id.count_text).apply {
                 text = getString(R.string.weekday_count_format, count, (count.toFloat() / totalCount * 100).roundToInt())
                 setTextColor(resources.getColor(R.color.secundary))
+                textSize = resources.getDimension(R.dimen.text_recycler_dialog)
             }
 
             weekdayContainer.addView(weekdayLayout)
@@ -902,9 +906,9 @@ class DashboardFragment : Fragment() {
                         resources.getDimensionPixelSize(R.dimen.divider_height)
                     ).apply {
                         setMargins(
-                            resources.getDimensionPixelSize(R.dimen.margin_medium),
+                           0,
                             resources.getDimensionPixelSize(R.dimen.margin_small),
-                            resources.getDimensionPixelSize(R.dimen.margin_medium),
+                            0,
                             resources.getDimensionPixelSize(R.dimen.margin_small)
                         )
                     }
@@ -2947,21 +2951,51 @@ class DashboardFragment : Fragment() {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = MoodDateAdapter(requireContext(), dates, moodColor)
 
-                // Adicionar divisores entre os itens
-                if (itemDecorationCount == 0) {
-                    addItemDecoration(
-                        DividerItemDecoration(
-                            requireContext(),
-                            DividerItemDecoration.VERTICAL
-                        ).apply {
-                            val dividerDrawable = ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.recycler_view_divider
-                            )
-                            dividerDrawable?.let { setDrawable(it) }
-                        }
-                    )
+                // Remover decorações anteriores
+                while (itemDecorationCount > 0) {
+                    removeItemDecorationAt(0)
                 }
+
+                // Adicionar divisores entre os itens, exceto após o último
+                val dividerDrawable = ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.recycler_view_divider
+                )
+                
+                addItemDecoration(object : RecyclerView.ItemDecoration() {
+                    override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+                        val left = parent.paddingLeft
+                        val right = parent.width - parent.paddingRight
+                        
+                        for (i in 0 until parent.childCount) {
+                            val child = parent.getChildAt(i)
+                            val position = parent.getChildAdapterPosition(child)
+                            
+                            // Não desenhar divisor após o último item
+                            if (position == parent.adapter?.itemCount?.minus(1)) {
+                                continue
+                            }
+                            
+                            val params = child.layoutParams as RecyclerView.LayoutParams
+                            val top = child.bottom + params.bottomMargin
+                            val bottom = top + (dividerDrawable?.intrinsicHeight ?: 0)
+                            
+                            dividerDrawable?.setBounds(left, top, right, bottom)
+                            dividerDrawable?.draw(c)
+                        }
+                    }
+                    
+                    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                        val position = parent.getChildAdapterPosition(view)
+                        if (position == parent.adapter?.itemCount?.minus(1)) {
+                            // Último item não tem divisor
+                            outRect.set(0, 0, 0, 0)
+                        } else {
+                            // Outros itens têm divisor
+                            outRect.set(0, 0, 0, dividerDrawable?.intrinsicHeight ?: 0)
+                        }
+                    }
+                })
                 
                 // Limitar a altura máxima do RecyclerView para evitar diálogos muito grandes
                 if (dates.size > 5) {

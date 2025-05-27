@@ -4,9 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp"
+    android:layout_marginLeft="@dimen/margin_small"
+    android:layout_marginTop="@dimen/margin_medium"
+    android:layout_marginRight="@dimen/margin_small"
     android:gravity="center_vertical"
-    android:layout_marginBottom="8dp">
+    android:layout_marginBottom="@dimen/margin_medium">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -20,8 +22,7 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:textColor="@color/secundary"
-            android:textSize="@dimen/text_size_large"
-            android:paddingBottom="8dp" />
+            android:textSize="@dimen/text_size_normal" />
 
     </LinearLayout>
 
