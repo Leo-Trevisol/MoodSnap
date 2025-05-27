@@ -22,9 +22,26 @@
             android:gravity="center"
             android:textColor="@color/secundary"
             android:text="@string/dialog_title_weekday_distribution"
-            android:textSize="@dimen/text_size_large"
+            app:drawableStartCompat="@drawable/ic_stats_24"
+            app:drawableTint="@color/primary_green"
+            android:textSize="@dimen/text_size_xlarge"
             android:textStyle="bold"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/period_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/gray_dark"
+            android:textSize="@dimen/text_size_large"
             android:paddingBottom="16dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_dark"
+            android:layout_marginBottom="@dimen/spacing_large" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/mood_card_view"
@@ -68,4 +85,4 @@
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView> 
+</androidx.cardview.widget.CardView>

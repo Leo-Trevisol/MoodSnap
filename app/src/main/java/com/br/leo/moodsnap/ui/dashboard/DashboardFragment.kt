@@ -671,7 +671,6 @@ class DashboardFragment : Fragment() {
             }
         }
 
-
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         binding.donutPeriodSpinner.apply {
             this.adapter = adapter
@@ -807,7 +806,8 @@ class DashboardFragment : Fragment() {
                             weekdayData,
                             weekdays,
                             totalCount,
-                            dashboardViewModel.getMoodColor(moodType)
+                            dashboardViewModel.getMoodColor(moodType),
+                            selectedFilter
                         )
                     }
                 }
@@ -835,7 +835,8 @@ class DashboardFragment : Fragment() {
         weekdayData: Map<Int, Int>,
         weekdays: List<String>,
         totalCount: Int,
-        moodColor: Int
+        moodColor: Int,
+        selectedFilter: FilterType
     ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -859,6 +860,8 @@ class DashboardFragment : Fragment() {
         titleText.text = moodName
         titleText.setTextColor(Color.BLACK)
         moodIcon.setImageResource(Utils.getMoodIcon(moodType))
+        val filterName = selectedFilter.getFilterName(requireContext())
+        dialog.findViewById<TextView>(R.id.period_text).text = getString(R.string.period_label, filterName)
 
         // Filtrar dias da semana com contagem maior que zero
         val daysWithData = weekdays.mapIndexed { index, weekday ->
@@ -1159,7 +1162,8 @@ class DashboardFragment : Fragment() {
                                 moodType,
                                 it.date,
                                 it.description,
-                                dashboardViewModel.getMoodColor(moodType)
+                                dashboardViewModel.getMoodColor(moodType),
+                                getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date()).getOrNull(binding.barPeriodSpinner.selectedItemPosition) ?: DayFilterType.LAST_7_DAYS
                             )
                         }
                     }
@@ -1190,7 +1194,8 @@ class DashboardFragment : Fragment() {
         moodType: Int,
         date: Date,
         note: String?,
-        moodColor: Int
+        moodColor: Int,
+        selectedFilter: FilterType
     ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -1208,6 +1213,7 @@ class DashboardFragment : Fragment() {
         val moodIcon = dialog.findViewById<ImageView>(R.id.mood_icon)
         val dateText = dialog.findViewById<TextView>(R.id.date_text)
         val noteText = dialog.findViewById<TextView>(R.id.note_text)
+        val periodText = dialog.findViewById<TextView>(R.id.period_text)
 
         // Configurar conteúdo
         moodCardView.setCardBackgroundColor(moodColor)
@@ -1215,6 +1221,9 @@ class DashboardFragment : Fragment() {
         titleText.setTextColor(Color.BLACK)
         moodIcon.setImageResource(Utils.getMoodIcon(moodType))
         dateText.text = DateUtils.formatDateTime(requireContext(), date)
+        
+        // Configurar o texto do período
+        periodText.text = getString(R.string.period_label, selectedFilter.getFilterName(requireContext()))
 
         if (!note.isNullOrBlank()) {
             noteText.text = note
@@ -1463,7 +1472,8 @@ class DashboardFragment : Fragment() {
                                 weekdayIndex,
                                 moodType,
                                 count,
-                                dashboardViewModel.getMoodColor(moodType)
+                                dashboardViewModel.getMoodColor(moodType),
+                                getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date()).getOrNull(binding.radarPeriodSpinner.selectedItemPosition) ?: DayFilterType.LAST_7_DAYS
                             )
                         }
                     }
@@ -1661,7 +1671,8 @@ class DashboardFragment : Fragment() {
         weekdayIndex: Int,
         moodType: Int,
         count: Int,
-        moodColor: Int
+        moodColor: Int,
+        selectedFilter: FilterType
     ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -1675,6 +1686,7 @@ class DashboardFragment : Fragment() {
         // Configurar views do dialog
         val cardView = dialog.findViewById<CardView>(R.id.card_view)
         val moodContainer = dialog.findViewById<LinearLayout>(R.id.mood_container)
+        val periodText = dialog.findViewById<TextView>(R.id.period_text)
 
         // Obter o nome do dia da semana
         val weekdays = listOf(
@@ -1693,6 +1705,9 @@ class DashboardFragment : Fragment() {
             R.string.dialog_title_radar_distribution,
             weekdayName
         )
+        
+        // Configurar o texto do período
+        periodText.text = getString(R.string.period_label, selectedFilter.getFilterName(requireContext()))
 
         // Obter todos os humores registrados para este dia da semana
         val days = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date()).getOrNull(binding.radarPeriodSpinner.selectedItemPosition)
@@ -2782,12 +2797,6 @@ class DashboardFragment : Fragment() {
         val dialog = Dialog(requireContext(), R.style.CustomAlertDialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_mood_comparison_details)
-        dialog.window?.apply {
-            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            val width = (resources.displayMetrics.widthPixels * 0.85).toInt() // 85% da largura da tela
-            setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT)
-        }
-
         // Configurar views do dialog
         val cardView = dialog.findViewById<CardView>(R.id.card_view)
         val dialogTitle = dialog.findViewById<TextView>(R.id.dialog_title)

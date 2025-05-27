@@ -246,7 +246,7 @@
     <string name="dialog_title_last_mood">Last Mood Record</string>
     <string name="dialog_title_mood_weekday">Mood Details by Day</string>
     <string name="dialog_title_mood_time">Mood Details by Time</string>
-    <string name="dialog_title_radar_distribution">Mood Distribution - %1$s</string>
+    <string name="dialog_title_radar_distribution">Mood Distribution: \n %1$s</string>
 
     <string name="donut_chart_description">Click to see how many times the mood was recorded on each day of the week</string>
     <string name="bar_chart_description">Click to see the last time the mood was recorded</string>

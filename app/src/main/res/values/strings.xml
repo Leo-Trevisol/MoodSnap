@@ -78,12 +78,10 @@
     <string name="best_day">Best</string>
     <string name="worst_day">Worst</string>
 
-
     <!-- Statistics Messages -->
     <string name="register_more_moods">Register more moods to see statistics</string>
     <string name="best_day_usually">Your best day is usually %1$s</string>
     <string name="worst_day_usually">Your worst day is usually %1$s</string>
-
 
     <!-- DialogEmotions -->
     <string name="how_are_you_feeling">How are you feeling?</string>
@@ -183,7 +181,6 @@
     <string name="language_russian" translatable="false">Русский (ru)</string>
     <string name="language_german" translatable="false">Deutsch (de)</string>
 
-
     <string name="theme_settings">Theme Settings</string>
     <string name="system_theme">System Theme</string>
     <string name="light_theme">Light Theme</string>
@@ -249,6 +246,13 @@
     <string name="filter_last_year">Last year</string>
     <string name="filter_all">All</string>
 
+    <string name="last_7_days">Last 7 days</string>
+    <string name="last_30_days">Last 30 days</string>
+    <string name="last_90_days">Last 90 days</string>
+    <string name="all_time">All time</string>
+    <string name="last_n_days">Last %1$d days</string>
+    <string name="period_label">Period: %1$s</string>
+
     <string name="quick_distribution">Quick Distribution</string>
 
     <string name="weekday_count_format">%1$d (%2$d%%)</string>
@@ -259,7 +263,7 @@
     <string name="dialog_title_last_mood">Last Mood Record</string>
     <string name="dialog_title_mood_weekday">Mood Details by Day</string>
     <string name="dialog_title_mood_time">Mood Details by Time</string>
-    <string name="dialog_title_radar_distribution">Mood Distribution - %1$s</string>
+    <string name="dialog_title_radar_distribution">Mood Distribution: \n %1$s</string>
 
     <string name="donut_chart_description">Click to see how many times the mood was recorded on each day of the week</string>
     <string name="bar_chart_description">Click to see the last time the mood was recorded</string>
