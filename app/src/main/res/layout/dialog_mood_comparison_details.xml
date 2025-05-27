@@ -21,11 +21,63 @@
             android:gravity="center"
             android:textColor="@color/secundary"
             android:textSize="@dimen/text_size_xlarge"
-            android:text="@string/mood_dates_title"
+            android:text="@string/mood_dates_title_simple"
             app:drawableStartCompat="@drawable/ic_stats_24"
             app:drawableTint="@color/primary_green"
             android:textStyle="bold"
             android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/period_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/gray_dark"
+            android:textSize="@dimen/text_size_normal"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/weekday_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/gray_dark"
+            android:textSize="@dimen/text_size_normal"
+            android:layout_marginBottom="16dp" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/mood_card_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:cardCornerRadius="8dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/mood_icon"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:layout_marginEnd="8dp" />
+
+                <TextView
+                    android:id="@+id/title_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_size_large" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <View
             android:layout_width="match_parent"
@@ -37,7 +89,7 @@
             android:id="@+id/date_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxHeight="300dp"
+            android:maxHeight="200dp"
             android:scrollbars="vertical"
             android:scrollbarStyle="outsideOverlay"
             android:fadeScrollbars="false" />

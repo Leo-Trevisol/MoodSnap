@@ -1970,7 +1970,9 @@ class DashboardFragment : Fragment() {
                             moodName = moodName,
                             moodType = moodType,
                             dates = dates,
-                            moodColor = dashboardViewModel.getMoodColor(moodType)
+                            moodColor = dashboardViewModel.getMoodColor(moodType),
+                            selectedFilter = selectedFilter,
+                            selectedWeekday = selectedDay
                         )
                     }
                 }
@@ -2457,7 +2459,9 @@ class DashboardFragment : Fragment() {
                             moodName = moodName,
                             moodType = selectedMoodType,
                             dates = dates,
-                            moodColor = dashboardViewModel.getMoodColor(selectedMoodType)
+                            moodColor = dashboardViewModel.getMoodColor(selectedMoodType),
+                            selectedFilter = selectedFilter,
+                            selectedWeekday = dayPosition
                         )
                     }
                 }
@@ -2792,20 +2796,53 @@ class DashboardFragment : Fragment() {
         moodName: String,
         moodType: Int,
         dates: List<Date>,
-        moodColor: Int
+        moodColor: Int,
+        selectedFilter: FilterType,
+        selectedWeekday: Int
     ) {
         val dialog = Dialog(requireContext(), R.style.CustomAlertDialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_mood_comparison_details)
+        dialog.window?.apply {
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val width = (resources.displayMetrics.widthPixels * 0.85).toInt() // 85% da largura da tela
+            setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT)
+        }
         // Configurar views do dialog
         val cardView = dialog.findViewById<CardView>(R.id.card_view)
         val dialogTitle = dialog.findViewById<TextView>(R.id.dialog_title)
         val recyclerView = dialog.findViewById<RecyclerView>(R.id.date_recycler_view)
 
+        // Configurar o CardView do humor
+        val moodCardView = dialog.findViewById<CardView>(R.id.mood_card_view)
+        val moodIcon = dialog.findViewById<ImageView>(R.id.mood_icon)
+        val titleText = dialog.findViewById<TextView>(R.id.title_text)
+
         // Configurar conteúdo
-        dialogTitle.text = getString(R.string.mood_dates_title, moodName)
+        dialogTitle.text = getString(R.string.mood_dates_title_simple)
         dialogTitle.setTextColor(resources.getColor(R.color.secundary))
 
+        // Configurar o texto do período
+        dialog.findViewById<TextView>(R.id.period_text).text = getString(R.string.period_label, selectedFilter.getFilterName(requireContext()))
+
+        // Configurar o texto do dia da semana
+        val weekdays = listOf(
+            getString(R.string.weekday_full_sunday),
+            getString(R.string.weekday_full_monday),
+            getString(R.string.weekday_full_tuesday),
+            getString(R.string.weekday_full_wednesday),
+            getString(R.string.weekday_full_thursday),
+            getString(R.string.weekday_full_friday),
+            getString(R.string.weekday_full_saturday)
+        )
+        dialog.findViewById<TextView>(R.id.weekday_text).text = getString(R.string.selected_weekday, weekdays[selectedWeekday])
+
+        // Configurar o card do humor com a cor correta
+        moodCardView.setCardBackgroundColor(moodColor)
+        moodIcon.setImageResource(Utils.getMoodIcon(moodType))
+        titleText.text = moodName
+        titleText.setTextColor(Color.BLACK)
+        
         // Verificar se há datas para exibir
         if (dates.isEmpty()) {
             // Criar um TextView para mostrar mensagem de "Nenhuma data encontrada"

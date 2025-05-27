@@ -332,6 +332,9 @@
     <string name="no_data_message_for_period">Nenhum humor registrado no período selecionado</string>
     <string name="no_data_message_for_all_time">Nenhum humor registrado</string>
     <string name="mood_dates_title">Datas com humor: %1$s</string>
+    <string name="mood_dates_title_simple">Datas com humor:</string>
     <string name="no_dates_found">Nenhuma data encontrada</string>
+    <string name="scroll_for_more">Deslize para ver mais</string>
+    <string name="selected_weekday">Dia: %1$s</string>
 
 </resources>

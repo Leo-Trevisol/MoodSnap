@@ -53,7 +53,7 @@
     <dimen name="margin_small">4dp</dimen>
     <dimen name="margin_medium">8dp</dimen>
     
-    <dimen name="dialog_recycler_max_height">300dp</dimen>
+    <dimen name="dialog_recycler_max_height">200dp</dimen>
 
     <dimen name="no_data_text">16px</dimen>
 

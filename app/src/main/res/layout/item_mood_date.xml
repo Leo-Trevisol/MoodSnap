@@ -8,15 +8,6 @@
     android:gravity="center_vertical"
     android:layout_marginBottom="8dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/date_card_view"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        app:cardCornerRadius="20dp"
-        android:layout_marginEnd="12dp">
-
-    </androidx.cardview.widget.CardView>
-
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -27,15 +18,10 @@
             android:id="@+id/date_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="start"
             android:textColor="@color/secundary"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/weekday_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/gray_dark"
-            android:textSize="14sp" />
+            android:textSize="@dimen/text_size_large"
+            android:paddingBottom="8dp" />
 
     </LinearLayout>
 
