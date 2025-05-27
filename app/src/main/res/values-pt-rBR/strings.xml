@@ -254,12 +254,23 @@
     <string name="dialog_title_mood_time">Detalhes do humor por horário</string>
     <string name="dialog_title_radar_distribution">Distribuição de humor - %1$s</string>
 
-    <string name="donut_chart_description">Clique e veja quantas vezes o humor foi registrado em cada dia da semana</string>
-    <string name="bar_chart_description">Clique e veja a última vez que o humor foi registrado</string>
-    <string name="radar_chart_description">Clique e veja os humores e quantas vezes foram registrados no dia da semana</string>
+    <string name="donut_chart_description">
+• Veja quantas vezes cada humor foi registrado durante o período selecionado e a porcentagem correspondente ao total de registros nesse período.\n\n• Ao selecionar uma fatia, você verá quantas vezes o humor foi registrado em cada dia da semana.
+</string>
+    <string name="bar_chart_description">
+• Veja quantas vezes cada humor foi registrado durante o período selecionado e a porcentagem correspondente ao total de registros nesse período\n\n• Ao selecionar uma barra, você verá a data do último registro desse humor.
+</string>
+    <string name="radar_chart_description">
+• Veja quantos registros houve em cada dia da semana.\n\n• Ao selecionar um ponto do gráfico, você verá os humores registrados naquele dia da semana, com a quantidade e a porcentagem de cada um.
+</string>
 
-    <string name="bar_chart_compare_week_days">Compare um humor em dois dias diferentes da semana</string>
-    <string name="bar_chart_compare_moods">Compare dois humores em um mesmo dia da semana</string>
+    <string name="bar_chart_compare_week_days">
+• Compare um humor específico em dois dias da semana.\n\n• Ao selecionar uma barra, você verá todos os dias em que esse humor foi registrado no dia da semana correspondente.
+</string>
+
+    <string name="bar_chart_compare_moods">
+• Compare dois humores diferentes em um único dia da semana.\n\n• Ao selecionar uma barra, você verá todos os dias em que esse humor foi registrado no dia da semana correspondente.
+</string>
 
     <string name="pie_chart_title">Gráfico de Pizza</string>
     <string name="bar_chart_title">Gráfico de Barras</string>
