@@ -1,5 +1,7 @@
 package com.br.leo.moodsnap.ui.dashboard
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.app.Dialog
 import android.graphics.Color
@@ -2699,6 +2701,7 @@ class DashboardFragment : Fragment() {
 
         // Aplicar estado inicial
         contentView.visibility = if (savedExpanded) View.VISIBLE else View.GONE
+        contentView.alpha = if (savedExpanded) 1f else 0f
 
         // Quando está expandido (VISIBLE), a seta deve apontar para baixo (180f)
         // Quando está recolhido (GONE), a seta deve apontar para cima (0f)
@@ -2720,9 +2723,6 @@ class DashboardFragment : Fragment() {
             contentView.findViewById<Chart<*>>(chartId)?.let { chart ->
                 chart.setNoDataText(noDataMessage)
                 chart.setNoDataTextColor(textColor)
-                if (chart.data == null || chart.data.entryCount == 0) {
-                    chart.invalidate()
-                }
             }
         }
 
@@ -2736,28 +2736,70 @@ class DashboardFragment : Fragment() {
             }
 
             val isCurrentlyExpanded = contentView.isVisible
-            val shouldExpand = !isCurrentlyExpanded
+            val newExpanded = !isCurrentlyExpanded
 
-            // Quando expandir, a seta deve apontar para baixo (180f)
-            // Quando recolher, a seta deve apontar para cima (0f)
-            val newRotation = if (shouldExpand) 180f else 0f
+            // Salvar novo estado
+            sharedPreferences.edit().putBoolean(preferenceKey, newExpanded).apply()
+
+            // Animar rotação da seta
+            val newRotation = if (newExpanded) 180f else 0f
             iconView.animate().rotation(newRotation).setDuration(300).start()
 
-            // Alternar visibilidade com pequeno delay para suavidade
-            Handler(Looper.getMainLooper()).postDelayed({
-                contentView.visibility = if (shouldExpand) View.VISIBLE else View.GONE
+            // Animar expansão/contração do conteúdo
+            if (newExpanded) {
+                // Expandir
+                contentView.visibility = View.VISIBLE
+                contentView.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                val targetHeight = contentView.measuredHeight
 
-                if (shouldExpand) {
-                    chartIds.forEach { chartId ->
-                        contentView.findViewById<Chart<*>>(chartId)?.let { chart ->
-                            chart.notifyDataSetChanged()
-                            chart.invalidate()
-                        }
-                    }
+                // Iniciar com altura 0
+                contentView.layoutParams.height = 0
+                contentView.alpha = 0f
+                
+                // Animar para a altura total
+                val heightAnimator = ValueAnimator.ofInt(0, targetHeight)
+                heightAnimator.duration = 300
+                heightAnimator.addUpdateListener { animation ->
+                    val value = animation.animatedValue as Int
+                    contentView.layoutParams.height = value
+                    contentView.requestLayout()
+                    
+                    // Animar também a transparência
+                    val progress = value.toFloat() / targetHeight.toFloat()
+                    contentView.alpha = progress
                 }
-
-                sharedPreferences.edit().putBoolean(preferenceKey, shouldExpand).apply()
-            }, 150)
+                heightAnimator.addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        // Restaurar wrap_content após a animação
+                        contentView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                    }
+                })
+                heightAnimator.start()
+            } else {
+                // Contrair
+                val initialHeight = contentView.height
+                
+                // Animar para altura 0
+                val heightAnimator = ValueAnimator.ofInt(initialHeight, 0)
+                heightAnimator.duration = 600
+                heightAnimator.addUpdateListener { animation ->
+                    val value = animation.animatedValue as Int
+                    contentView.layoutParams.height = value
+                    contentView.requestLayout()
+                    
+                    // Animar também a transparência
+                    val progress = value.toFloat() / initialHeight.toFloat()
+                    contentView.alpha = progress
+                }
+                heightAnimator.addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        contentView.visibility = View.GONE
+                        // Restaurar wrap_content após a animação
+                        contentView.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                    }
+                })
+                heightAnimator.start()
+            }
         }
     }
 
