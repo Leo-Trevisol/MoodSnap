@@ -199,6 +199,14 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         return Utils.getMoodName(context, moodType)
     }
 
+    /**
+     * Verifica se há dados de humor disponíveis.
+     * @return true se houver pelo menos um registro de humor, false caso contrário
+     */
+    fun hasMoodData(): Boolean {
+        return _moods.value?.isNotEmpty() ?: false
+    }
+
     fun setDayFilter(filter: DayFilter) {
         _selectedDayFilter.value = filter
         // Recalcular as estatísticas com o novo filtro

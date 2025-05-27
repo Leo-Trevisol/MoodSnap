@@ -2689,6 +2689,11 @@ class DashboardFragment : Fragment() {
 
         val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
 
+        if(!checkDataAvailabilityAndShowToast(false)){
+            val newRotation = 0f
+            iconView.animate().rotation(newRotation).setDuration(300).start()
+            sharedPreferences.edit().putBoolean(preferenceKey, false).apply()
+        }
         // Recuperar estado salvo - por padrão, os gráficos começam recolhidos (false)
         val savedExpanded = sharedPreferences.getBoolean(preferenceKey, false)
 
@@ -2722,6 +2727,14 @@ class DashboardFragment : Fragment() {
         }
 
         iconView.setOnClickListener {
+
+            if(!checkDataAvailabilityAndShowToast()){
+                val newRotation = 0f
+                iconView.animate().rotation(newRotation).setDuration(300).start()
+
+                return@setOnClickListener
+            }
+
             val isCurrentlyExpanded = contentView.isVisible
             val shouldExpand = !isCurrentlyExpanded
 
@@ -2897,5 +2910,18 @@ class DashboardFragment : Fragment() {
         }
 
         dialog.show()
+    }
+
+    /**
+     * Verifica se há dados disponíveis para exibir nos gráficos.
+     * Se não houver dados, exibe um Toast informando ao usuário.
+     * @return true se há dados, false caso contrário
+     */
+    private fun checkDataAvailabilityAndShowToast(showToast : Boolean = true): Boolean {
+        val hasMoodData = dashboardViewModel.hasMoodData()
+        if (!hasMoodData && showToast) {
+           showCustomToast(requireContext(), getString(R.string.register_more_moods))
+        }
+        return hasMoodData
     }
 }
