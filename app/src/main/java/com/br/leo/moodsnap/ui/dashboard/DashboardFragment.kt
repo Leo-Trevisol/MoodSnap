@@ -1801,12 +1801,24 @@ class DashboardFragment : Fragment() {
         setupWeekdaySpinner(binding.groupedBarDay1Spinner, 1) // Segunda-feira como padrão
 
         // Configurar spinner de dias da semana 2
-        setupWeekdaySpinner(binding.groupedBarDay2Spinner, 2) // Terça-feira como padrão
+        setupWeekdaySpinner(binding.groupedBarDay2Spinner, 5) // Sexta-feira como padrão
 
         // Configurar spinner de tipos de humor
         setupMoodTypeSpinner(binding.groupedBarMoodSpinner)
 
-        // Configurar o gráfico
+        // Configurar spinner de período
+        setupGroupedBarPeriodSpinner()
+
+        // Restaurar as seleções salvas para os dias e humor
+        val sharedPreferencesChart = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
+        val savedDay1Position = sharedPreferencesChart.getInt("grouped_bar_day1_position", 1) // Default: Segunda-feira
+        val savedDay2Position = sharedPreferencesChart.getInt("grouped_bar_day2_position", 5) // Default: Sexta-feira
+        val savedMoodPosition = sharedPreferencesChart.getInt("grouped_bar_mood_position", 0) // Default: Muito Feliz
+
+        binding.groupedBarDay1Spinner.setSelection(savedDay1Position)
+        binding.groupedBarDay2Spinner.setSelection(savedDay2Position)
+        binding.groupedBarMoodSpinner.setSelection(savedMoodPosition)
+
         val barChart = binding.groupedBarChart
 
         // Get current font
@@ -1940,6 +1952,9 @@ class DashboardFragment : Fragment() {
         // Adicionar listeners para os spinners de dias e humor
         binding.groupedBarDay1Spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // Salvar a posição selecionada
+                val chartPrefs = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
+                chartPrefs.edit().putInt("grouped_bar_day1_position", position).apply()
                 updateGroupedBarChart()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -1947,6 +1962,9 @@ class DashboardFragment : Fragment() {
 
         binding.groupedBarDay2Spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // Salvar a posição selecionada
+                val chartPrefs = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
+                chartPrefs.edit().putInt("grouped_bar_day2_position", position).apply()
                 updateGroupedBarChart()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -1959,7 +1977,10 @@ class DashboardFragment : Fragment() {
                 binding.cardGroupedBarMoodInfoContainer.setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
                 binding.groupedBarMoodIcon.setImageResource(Utils.getMoodIcon(moodType))
                 binding.groupedBarMoodName.text = dashboardViewModel.getMoodName(requireContext(), moodType)
-
+                
+                // Salvar a posição selecionada
+                val chartPrefs = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
+                chartPrefs.edit().putInt("grouped_bar_mood_position", position).apply()
                 updateGroupedBarChart()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -2268,24 +2289,30 @@ class DashboardFragment : Fragment() {
         // Configurar spinner de dia da semana
         setupWeekdaySpinner(binding.moodComparisonDaySpinner, 1) // Segunda-feira como padrão
 
-        // Configurar spinners de tipos de humor
-        setupMoodTypeSpinner(binding.moodComparisonMood1Spinner, 0) // Muito feliz como padrão para humor 1
-        setupMoodTypeSpinner(binding.moodComparisonMood2Spinner, 4) // Triste como padrão para humor 2
+        // Configurar spinner de humor 1
+        setupMoodTypeSpinner(binding.moodComparisonMood1Spinner)
 
-        // Inicializar os ícones e nomes dos humores padrão
-        val defaultMood1Type = 0 // Muito Feliz
-        val defaultMood2Type = 4 // Muito Triste
-        binding.moodComparisonMood1Icon.setImageResource(Utils.getMoodIcon(defaultMood1Type))
-        binding.moodComparisonMood1Name.text = dashboardViewModel.getMoodName(requireContext(), defaultMood1Type)
-        binding.moodComparisonMood2Icon.setImageResource(Utils.getMoodIcon(defaultMood2Type))
-        binding.moodComparisonMood2Name.text = dashboardViewModel.getMoodName(requireContext(), defaultMood2Type)
+        // Configurar spinner de humor 2
+        setupMoodTypeSpinner(binding.moodComparisonMood2Spinner)
 
-        // Configurar o gráfico
+        // Configurar spinner de período
+        setupMoodComparisonPeriodSpinner()
+
+        // Restaurar as seleções salvas para o dia e humores
+        val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
+        val savedDayPosition = sharedPreferences.getInt("mood_comparison_day_position", 1) // Default: Segunda-feira
+        val savedMood1Position = sharedPreferences.getInt("mood_comparison_mood1_position", 0) // Default: Muito Feliz
+        val savedMood2Position = sharedPreferences.getInt("mood_comparison_mood2_position", 4) // Default: Muito Triste
+
+        binding.moodComparisonDaySpinner.setSelection(savedDayPosition)
+        binding.moodComparisonMood1Spinner.setSelection(savedMood1Position)
+        binding.moodComparisonMood2Spinner.setSelection(savedMood2Position)
+
         val barChart = binding.moodComparisonChart
 
         // Get current font
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
+        val currentFont = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            .getString("current_font", "default")
         val customTypeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
         // Configurações básicas
@@ -2412,6 +2439,9 @@ class DashboardFragment : Fragment() {
         // Adicionar listeners para os spinners de dia e humores
         binding.moodComparisonDaySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // Salvar a posição selecionada
+                val chartPrefs = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
+                chartPrefs.edit().putInt("mood_comparison_day_position", position).apply()
                 updateMoodComparisonChart()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -2424,7 +2454,10 @@ class DashboardFragment : Fragment() {
                 binding.cardMoodComparisonMoodsInfoContainer1.setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
                 binding.moodComparisonMood1Icon.setImageResource(Utils.getMoodIcon(moodType))
                 binding.moodComparisonMood1Name.text = dashboardViewModel.getMoodName(requireContext(), moodType)
-
+                
+                // Salvar a posição selecionada
+                val chartPrefs = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
+                chartPrefs.edit().putInt("mood_comparison_mood1_position", position).apply()
                 updateMoodComparisonChart()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -2437,7 +2470,10 @@ class DashboardFragment : Fragment() {
                 binding.cardMoodComparisonMoodsInfoContainer2.setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
                 binding.moodComparisonMood2Icon.setImageResource(Utils.getMoodIcon(moodType))
                 binding.moodComparisonMood2Name.text = dashboardViewModel.getMoodName(requireContext(), moodType)
-
+                
+                // Salvar a posição selecionada
+                val chartPrefs = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
+                chartPrefs.edit().putInt("mood_comparison_mood2_position", position).apply()
                 updateMoodComparisonChart()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
