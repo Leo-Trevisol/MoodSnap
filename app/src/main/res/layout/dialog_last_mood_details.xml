@@ -86,11 +86,29 @@
             android:textSize="@dimen/text_size_large"
             android:paddingBottom="8dp" />
 
+        <View
+            android:id="@+id/divider_note_last_mood"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_dark"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/spacing_large" />
+
+        <TextView
+            android:id="@+id/note_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/gray_dark"
+            android:text="@string/day_note"
+            android:textSize="@dimen/text_size_large"
+            android:visibility="gone"/>
+
         <TextView
             android:id="@+id/note_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="start"
             android:textColor="@color/secundary"
             android:textSize="@dimen/text_size_large"
             android:maxLines="4"

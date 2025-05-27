@@ -1213,6 +1213,8 @@ class DashboardFragment : Fragment() {
         val moodIcon = dialog.findViewById<ImageView>(R.id.mood_icon)
         val dateText = dialog.findViewById<TextView>(R.id.date_text)
         val noteText = dialog.findViewById<TextView>(R.id.note_text)
+        val noteTitle = dialog.findViewById<TextView>(R.id.note_title)
+        val dividerNote = dialog.findViewById<View>(R.id.divider_note_last_mood)
         val periodText = dialog.findViewById<TextView>(R.id.period_text)
 
         // Configurar conteúdo
@@ -1228,8 +1230,12 @@ class DashboardFragment : Fragment() {
         if (!note.isNullOrBlank()) {
             noteText.text = note
             noteText.visibility = View.VISIBLE
+            dividerNote.visibility = View.VISIBLE
+            noteTitle.visibility = View.VISIBLE
         } else {
             noteText.visibility = View.GONE
+            dividerNote.visibility = View.GONE
+            noteTitle.visibility = View.GONE
         }
 
         dialog.show()
@@ -2408,19 +2414,19 @@ class DashboardFragment : Fragment() {
                         )
                         val selectedMoodType = moodTypes[index]
                         val moodName = dashboardViewModel.getMoodName(requireContext(), selectedMoodType)
-                        
+
                         // Obter o dia da semana selecionado
                         val dayPosition = binding.moodComparisonDaySpinner.selectedItemPosition
-                        
+
                         // Obter o período selecionado
                         val periodPosition = binding.moodComparisonPeriodSpinner.selectedItemPosition
                         val availableFilters = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date())
                         val selectedFilter = availableFilters.getOrNull(periodPosition) ?: DayFilterType.LAST_7_DAYS
-                        
+
                         // Obter as datas de início e fim baseadas no filtro
                         val startDate: Date?
                         val endDate: Date?
-                        
+
                         when (selectedFilter) {
                             is DayFilterType -> {
                                 if (selectedFilter.days == -1) {
@@ -2445,7 +2451,7 @@ class DashboardFragment : Fragment() {
                                 endDate = null
                             }
                         }
-                        
+
                         // Obter as datas para o humor selecionado no dia da semana específico
                         val dates = dashboardViewModel.getMoodDatesForTypeAndWeekday(
                             moodType = selectedMoodType,
@@ -2453,7 +2459,7 @@ class DashboardFragment : Fragment() {
                             startDate = startDate,
                             endDate = endDate
                         )
-                        
+
                         // Mostrar o diálogo com as datas
                         showMoodComparisonDetailsDialog(
                             moodName = moodName,
@@ -2497,7 +2503,7 @@ class DashboardFragment : Fragment() {
                 binding.cardMoodComparisonMoodsInfoContainer1.setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
                 binding.moodComparisonMood1Icon.setImageResource(Utils.getMoodIcon(moodType))
                 binding.moodComparisonMood1Name.text = dashboardViewModel.getMoodName(requireContext(), moodType)
-                
+
                 // Salvar a posição selecionada
                 val chartPrefs = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
                 chartPrefs.edit().putInt("mood_comparison_mood1_position", position).apply()
@@ -2513,7 +2519,7 @@ class DashboardFragment : Fragment() {
                 binding.cardMoodComparisonMoodsInfoContainer2.setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
                 binding.moodComparisonMood2Icon.setImageResource(Utils.getMoodIcon(moodType))
                 binding.moodComparisonMood2Name.text = dashboardViewModel.getMoodName(requireContext(), moodType)
-                
+
                 // Salvar a posição selecionada
                 val chartPrefs = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
                 chartPrefs.edit().putInt("mood_comparison_mood2_position", position).apply()
@@ -2640,7 +2646,7 @@ class DashboardFragment : Fragment() {
 
     private fun setupExpandCollapseListeners() {
         val rootView = view ?: return
-        
+
         // Gráfico de Donut
         setupExpandCollapseForChart(
             rootView.findViewById(R.id.donut_chart_expand_collapse),
@@ -2687,7 +2693,7 @@ class DashboardFragment : Fragment() {
 
         // Aplicar estado inicial
         contentView.visibility = if (savedExpanded) View.VISIBLE else View.GONE
-        
+
         // Quando está expandido (VISIBLE), a seta deve apontar para baixo (180f)
         // Quando está recolhido (GONE), a seta deve apontar para cima (0f)
         iconView.rotation = if (savedExpanded) 180f else 0f
@@ -2743,7 +2749,7 @@ class DashboardFragment : Fragment() {
 
     private fun setupInfoButtonListeners() {
         val rootView = view ?: return
-        
+
         // Configurar listener para o gráfico de donut
         ClickUtils.setDebounceClickListener(rootView.findViewById<ImageView>(R.id.donut_chart_info)){
             showChartInfoDialog(
@@ -2751,7 +2757,7 @@ class DashboardFragment : Fragment() {
                 getString(R.string.donut_chart_description),
             )
         }
-        
+
         // Configurar listener para o gráfico de barras
         ClickUtils.setDebounceClickListener(rootView.findViewById<ImageView>(R.id.bar_chart_info)){
             showChartInfoDialog(
@@ -2759,7 +2765,7 @@ class DashboardFragment : Fragment() {
                 getString(R.string.bar_chart_description),
             )
         }
-        
+
         // Configurar listener para o gráfico de radar
         ClickUtils.setDebounceClickListener(rootView.findViewById<ImageView>(R.id.radar_chart_info)){
             showChartInfoDialog(
@@ -2767,7 +2773,7 @@ class DashboardFragment : Fragment() {
                 getString(R.string.radar_chart_description),
             )
         }
-        
+
         // Configurar listener para o gráfico de barras agrupadas
         ClickUtils.setDebounceClickListener(rootView.findViewById<ImageView>(R.id.grouped_bar_chart_info)){
             showChartInfoDialog(
@@ -2783,7 +2789,7 @@ class DashboardFragment : Fragment() {
             )
         }
     }
-    
+
     private fun showChartInfoDialog(title: String, description: String) {
         CustomAlertDialog.create(requireContext())
             .setMessage(description)
@@ -2842,7 +2848,7 @@ class DashboardFragment : Fragment() {
         moodIcon.setImageResource(Utils.getMoodIcon(moodType))
         titleText.text = moodName
         titleText.setTextColor(Color.BLACK)
-        
+
         // Verificar se há datas para exibir
         if (dates.isEmpty()) {
             // Criar um TextView para mostrar mensagem de "Nenhuma data encontrada"
@@ -2853,7 +2859,7 @@ class DashboardFragment : Fragment() {
                 gravity = Gravity.CENTER
                 setPadding(0, 16, 0, 16)
             }
-            
+
             // Adicionar o TextView ao layout do diálogo
             val parentLayout = recyclerView.parent as ViewGroup
             parentLayout.removeView(recyclerView)
@@ -2863,7 +2869,7 @@ class DashboardFragment : Fragment() {
             recyclerView.apply {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = MoodDateAdapter(requireContext(), dates, moodColor)
-                
+
                 // Adicionar divisores entre os itens
                 if (itemDecorationCount == 0) {
                     addItemDecoration(
