@@ -51,9 +51,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
             android:layout_marginBottom="16dp">
 
             <LinearLayout
+                android:id="@+id/mood_card_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"

@@ -29,6 +29,7 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import android.content.Context
 import android.content.DialogInterface
+import android.content.res.ColorStateList
 import android.os.Handler
 import android.os.Looper
 import com.br.leo.moodsnap.ui.utils.FontUtils
@@ -2891,6 +2892,14 @@ class DashboardFragment : Fragment() {
         val moodCardView = dialog.findViewById<CardView>(R.id.mood_card_view)
         val moodIcon = dialog.findViewById<ImageView>(R.id.mood_icon)
         val titleText = dialog.findViewById<TextView>(R.id.title_text)
+
+        val moodCardContainer = dialog.findViewById<LinearLayout>(R.id.mood_card_content)
+
+        moodCardContainer.backgroundTintList = ColorStateList.valueOf(moodColor)
+
+        moodIcon.setBackgroundColor(moodColor)
+
+        titleText.setBackgroundColor(moodColor)
 
         // Configurar conteúdo
         dialogTitle.text = getString(R.string.mood_dates_title_simple)
