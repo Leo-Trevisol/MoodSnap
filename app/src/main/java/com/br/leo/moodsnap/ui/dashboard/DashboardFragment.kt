@@ -222,6 +222,14 @@ class DashboardFragment : Fragment() {
         binding.moodComparisonMood2Container.visibility = View.GONE
         binding.moodComparisonMoodsInfoContainer.visibility = View.GONE
 
+        val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
+
+        sharedPreferences.edit().putBoolean("donut_chart_expanded", false).apply()
+        sharedPreferences.edit().putBoolean("bar_chart_expanded", false).apply()
+        sharedPreferences.edit().putBoolean("radar_chart_expanded", false).apply()
+        sharedPreferences.edit().putBoolean("grouped_bar_chart_expanded", false).apply()
+        sharedPreferences.edit().putBoolean("mood_comparison_chart_expanded", false).apply()
+
     }
 
     private fun setupDayFilterSpinner() {
@@ -2691,13 +2699,17 @@ class DashboardFragment : Fragment() {
 
         val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
 
-        if(!checkDataAvailabilityAndShowToast(false)){
-            val newRotation = 0f
-            iconView.animate().rotation(newRotation).setDuration(300).start()
-            sharedPreferences.edit().putBoolean(preferenceKey, false).apply()
-        }
         // Recuperar estado salvo - por padrão, os gráficos começam recolhidos (false)
         val savedExpanded = sharedPreferences.getBoolean(preferenceKey, false)
+
+        // Observar quando os dados forem carregados para configurar os spinners
+        dashboardViewModel.moods.observe(viewLifecycleOwner) { moods ->
+            if (moods.isEmpty()) {
+                val newRotation = 0f
+                iconView.animate().rotation(newRotation).setDuration(300).start()
+                sharedPreferences.edit().putBoolean(preferenceKey, false).apply()
+            }
+        }
 
         // Aplicar estado inicial
         contentView.visibility = if (savedExpanded) View.VISIBLE else View.GONE
