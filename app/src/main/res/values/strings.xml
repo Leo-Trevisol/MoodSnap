@@ -264,6 +264,7 @@
     <string name="dialog_title_mood_weekday">Mood Details by Day</string>
     <string name="dialog_title_mood_time">Mood Details by Time</string>
     <string name="dialog_title_radar_distribution">Mood Distribution: \n %1$s</string>
+    <string name="dialog_title_radar_distribution_simple">Mood Distribution</string>
 
     <string name="donut_chart_description">Click to see how many times the mood was recorded on each day of the week</string>
     <string name="bar_chart_description">Click to see the last time the mood was recorded</string>
@@ -332,7 +333,7 @@
     <string name="no_data_message_for_period">Nenhum humor registrado no período selecionado</string>
     <string name="no_data_message_for_all_time">Nenhum humor registrado</string>
     <string name="mood_dates_title">Datas com humor: %1$s</string>
-    <string name="mood_dates_title_simple">Datas com humor:</string>
+    <string name="mood_dates_title_simple">Datas com humor</string>
     <string name="no_dates_found">Nenhuma data encontrada</string>
     <string name="scroll_for_more">Deslize para ver mais</string>
     <string name="selected_weekday">Dia: %1$s</string>

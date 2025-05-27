@@ -1693,6 +1693,7 @@ class DashboardFragment : Fragment() {
         val cardView = dialog.findViewById<CardView>(R.id.card_view)
         val moodContainer = dialog.findViewById<LinearLayout>(R.id.mood_container)
         val periodText = dialog.findViewById<TextView>(R.id.period_text)
+        val weekdayText = dialog.findViewById<TextView>(R.id.weekday_text)
 
         // Obter o nome do dia da semana
         val weekdays = listOf(
@@ -1707,13 +1708,13 @@ class DashboardFragment : Fragment() {
         val weekdayName = weekdays[weekdayIndex]
 
         // Configurar título do dialog
-        dialog.findViewById<TextView>(R.id.dialog_title).text = getString(
-            R.string.dialog_title_radar_distribution,
-            weekdayName
-        )
+        dialog.findViewById<TextView>(R.id.dialog_title).text = getString(R.string.dialog_title_radar_distribution_simple)
         
         // Configurar o texto do período
         periodText.text = getString(R.string.period_label, selectedFilter.getFilterName(requireContext()))
+        
+        // Configurar o texto do dia da semana
+        weekdayText.text = getString(R.string.selected_weekday, weekdayName)
 
         // Obter todos os humores registrados para este dia da semana
         val days = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date()).getOrNull(binding.radarPeriodSpinner.selectedItemPosition)

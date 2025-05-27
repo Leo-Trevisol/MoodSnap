@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/secundary"
-            android:text="@string/dialog_title_radar_distribution"
+            android:text="Mood Distribution"
             app:drawableStartCompat="@drawable/ic_stats_24"
             app:drawableTint="@color/primary_green"
             android:textSize="@dimen/text_size_large"
@@ -30,6 +30,15 @@
 
         <TextView
             android:id="@+id/period_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/gray_dark"
+            android:textSize="@dimen/text_size_normal"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/weekday_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
