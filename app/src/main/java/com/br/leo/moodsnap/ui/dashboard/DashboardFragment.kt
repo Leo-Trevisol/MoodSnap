@@ -60,6 +60,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.File
 import java.text.SimpleDateFormat
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class DashboardFragment : Fragment() {
 
@@ -855,24 +858,45 @@ class DashboardFragment : Fragment() {
         moodCardView.setCardBackgroundColor(moodColor)
         titleText.text = moodName
         titleText.setTextColor(Color.BLACK)
-        moodIcon.setImageResource(Utils.getMoodDrawable(moodType))
+        moodIcon.setImageResource(Utils.getMoodIcon(moodType))
+
+        // Filtrar dias da semana com contagem maior que zero
+        val daysWithData = weekdays.mapIndexed { index, weekday ->
+            Pair(weekday, weekdayData[index] ?: 0)
+        }.filter { it.second > 0 }
 
         // Adicionar informações de cada dia da semana
-        weekdays.forEachIndexed { index, weekday ->
-            val count = weekdayData[index] ?: 0
-            if (count > 0) {
-                val weekdayLayout = layoutInflater.inflate(R.layout.item_weekday_count, null)
+        daysWithData.forEachIndexed { itemIndex, (weekday, count) ->
+            val weekdayLayout = layoutInflater.inflate(R.layout.item_weekday_count, null)
 
-                weekdayLayout.findViewById<TextView>(R.id.weekday_text).apply {
-                    text = weekday
-                    setTextColor(resources.getColor(R.color.secundary))
-                }
-                weekdayLayout.findViewById<TextView>(R.id.count_text).apply {
-                    text = getString(R.string.weekday_count_format, count, (count.toFloat() / totalCount * 100).roundToInt())
-                    setTextColor(resources.getColor(R.color.secundary))
-                }
+            weekdayLayout.findViewById<TextView>(R.id.weekday_text).apply {
+                text = weekday
+                setTextColor(resources.getColor(R.color.secundary))
+            }
+            weekdayLayout.findViewById<TextView>(R.id.count_text).apply {
+                text = getString(R.string.weekday_count_format, count, (count.toFloat() / totalCount * 100).roundToInt())
+                setTextColor(resources.getColor(R.color.secundary))
+            }
 
-                weekdayContainer.addView(weekdayLayout)
+            weekdayContainer.addView(weekdayLayout)
+
+            // Adicionar divisor após cada item, exceto o último
+            if (itemIndex < daysWithData.size - 1) {
+                val divider = View(requireContext()).apply {
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        resources.getDimensionPixelSize(R.dimen.divider_height)
+                    ).apply {
+                        setMargins(
+                            resources.getDimensionPixelSize(R.dimen.margin_medium),
+                            resources.getDimensionPixelSize(R.dimen.margin_small),
+                            resources.getDimensionPixelSize(R.dimen.margin_medium),
+                            resources.getDimensionPixelSize(R.dimen.margin_small)
+                        )
+                    }
+                    setBackgroundColor(resources.getColor(R.color.gray_light))
+                }
+                weekdayContainer.addView(divider)
             }
         }
 
@@ -2755,7 +2779,7 @@ class DashboardFragment : Fragment() {
         dates: List<Date>,
         moodColor: Int
     ) {
-        val dialog = Dialog(requireContext())
+        val dialog = Dialog(requireContext(), R.style.CustomAlertDialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_mood_comparison_details)
         dialog.window?.apply {
@@ -2767,7 +2791,7 @@ class DashboardFragment : Fragment() {
         // Configurar views do dialog
         val cardView = dialog.findViewById<CardView>(R.id.card_view)
         val dialogTitle = dialog.findViewById<TextView>(R.id.dialog_title)
-        val dateContainer = dialog.findViewById<LinearLayout>(R.id.date_container)
+        val recyclerView = dialog.findViewById<RecyclerView>(R.id.date_recycler_view)
 
         // Configurar conteúdo
         dialogTitle.text = getString(R.string.mood_dates_title, moodName)
@@ -2775,50 +2799,47 @@ class DashboardFragment : Fragment() {
 
         // Verificar se há datas para exibir
         if (dates.isEmpty()) {
-            val emptyText = TextView(requireContext()).apply {
+            // Criar um TextView para mostrar mensagem de "Nenhuma data encontrada"
+            val emptyView = TextView(requireContext()).apply {
                 text = getString(R.string.no_dates_found)
                 setTextColor(resources.getColor(R.color.secundary))
                 textSize = 16f
                 gravity = Gravity.CENTER
                 setPadding(0, 16, 0, 16)
             }
-            dateContainer.addView(emptyText)
+            
+            // Adicionar o TextView ao layout do diálogo
+            val parentLayout = recyclerView.parent as ViewGroup
+            parentLayout.removeView(recyclerView)
+            parentLayout.addView(emptyView)
         } else {
-            // Adicionar cada data ao container
-            for (date in dates) {
-                val dateLayout = layoutInflater.inflate(R.layout.item_mood_date, null)
-
-                val dateCardView = dateLayout.findViewById<CardView>(R.id.date_card_view)
-                val dateText = dateLayout.findViewById<TextView>(R.id.date_text)
-                val weekdayText = dateLayout.findViewById<TextView>(R.id.weekday_text)
-
-                // Configurar a data
-                dateCardView.setCardBackgroundColor(moodColor)
-
-                // Formatar a data
-                val calendar = Calendar.getInstance()
-                calendar.time = date
-                val day = calendar.get(Calendar.DAY_OF_MONTH)
-                val month = calendar.get(Calendar.MONTH)
-                val year = calendar.get(Calendar.YEAR)
-                val monthName = DateUtils.getMonthName(requireContext(), month)
-
-                dateText.text = "$day $monthName $year"
-
-                // Obter o nome do dia da semana
-                val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1
-                val weekdays = listOf(
-                    getString(R.string.weekday_full_sunday),
-                    getString(R.string.weekday_full_monday),
-                    getString(R.string.weekday_full_tuesday),
-                    getString(R.string.weekday_full_wednesday),
-                    getString(R.string.weekday_full_thursday),
-                    getString(R.string.weekday_full_friday),
-                    getString(R.string.weekday_full_saturday)
-                )
-                weekdayText.text = weekdays[dayOfWeek]
-
-                dateContainer.addView(dateLayout)
+            // Configurar o RecyclerView com o adaptador
+            recyclerView.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = MoodDateAdapter(requireContext(), dates, moodColor)
+                
+                // Adicionar divisores entre os itens
+                if (itemDecorationCount == 0) {
+                    addItemDecoration(
+                        DividerItemDecoration(
+                            requireContext(),
+                            DividerItemDecoration.VERTICAL
+                        ).apply {
+                            val dividerDrawable = ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.recycler_view_divider
+                            )
+                            dividerDrawable?.let { setDrawable(it) }
+                        }
+                    )
+                }
+                
+                // Limitar a altura máxima do RecyclerView para evitar diálogos muito grandes
+                if (dates.size > 5) {
+                    val params = layoutParams
+                    params.height = resources.getDimensionPixelSize(R.dimen.dialog_recycler_max_height)
+                    layoutParams = params
+                }
             }
         }
 

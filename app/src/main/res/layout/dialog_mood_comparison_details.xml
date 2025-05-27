@@ -30,11 +30,14 @@
             android:background="@color/gray_dark"
             android:layout_marginBottom="16dp" />
 
-        <LinearLayout
-            android:id="@+id/date_container"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/date_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:maxHeight="300dp"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="outsideOverlay"
+            android:fadeScrollbars="false" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
