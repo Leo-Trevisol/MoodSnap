@@ -325,4 +325,9 @@
 
     <string name="error_sharing_image">Erro ao compartilhar imagem</string>
 
+    <string name="no_data_message_for_period">Nenhum humor registrado no período selecionado</string>
+    <string name="no_data_message_for_all_time">Nenhum humor registrado</string>
+    <string name="mood_dates_title">Datas com humor: %1$s</string>
+    <string name="no_dates_found">Nenhuma data encontrada</string>
+
 </resources>

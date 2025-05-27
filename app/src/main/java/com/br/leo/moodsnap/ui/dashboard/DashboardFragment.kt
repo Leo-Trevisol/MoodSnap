@@ -1189,7 +1189,7 @@ class DashboardFragment : Fragment() {
         moodCardView.setCardBackgroundColor(moodColor)
         titleText.text = moodName
         titleText.setTextColor(Color.BLACK)
-        moodIcon.setImageResource(Utils.getMoodDrawable(moodType))
+        moodIcon.setImageResource(Utils.getMoodIcon(moodType))
         dateText.text = DateUtils.formatDateTime(requireContext(), date)
 
         if (!note.isNullOrBlank()) {
@@ -1856,28 +1856,78 @@ class DashboardFragment : Fragment() {
             getPaint(BarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
 
             // Adicionar listener de clique
-//            setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
-//                override fun onValueSelected(e: Entry?, h: Highlight?) {
-//                    if (e != null) {
-//                        val moodType = moodOrder[e.x.toInt()]
-//                        val lastMood = dashboardViewModel.getLastMoodByType(moodType)
-//
-//                        lastMood?.let {
-//                            showLastMoodDetailsDialog(
-//                                dashboardViewModel.getMoodName(requireContext(), moodType),
-//                                moodType,
-//                                it.date,
-//                                it.description,
-//                                dashboardViewModel.getMoodColor(moodType)
-//                            )
-//                        }
-//                    }
-//                }
-//
-//                override fun onNothingSelected() {
-//                    // Não é necessário fazer nada aqui
-//                }
-//            })
+            setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                override fun onValueSelected(e: Entry?, h: Highlight?) {
+                    if (e != null) {
+                        val index = e.x.toInt()
+                        
+                        // Obter os dias selecionados
+                        val days = listOf(
+                            binding.groupedBarDay1Spinner.selectedItemPosition,
+                            binding.groupedBarDay2Spinner.selectedItemPosition
+                        )
+                        val selectedDay = days[index]
+                        
+                        // Obter o tipo de humor selecionado
+                        val moodType = binding.groupedBarMoodSpinner.selectedItemPosition
+                        val moodName = dashboardViewModel.getMoodName(requireContext(), moodType)
+                        
+                        // Obter o período selecionado
+                        val periodPosition = binding.groupedBarPeriodSpinner.selectedItemPosition
+                        val availableFilters = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date())
+                        val selectedFilter = availableFilters.getOrNull(periodPosition) ?: DayFilterType.LAST_7_DAYS
+                        
+                        // Obter as datas de início e fim baseadas no filtro
+                        val startDate: Date?
+                        val endDate: Date?
+                        
+                        when (selectedFilter) {
+                            is DayFilterType -> {
+                                if (selectedFilter.days == -1) {
+                                    // "Tudo" - sem filtro de data
+                                    startDate = null
+                                    endDate = null
+                                } else {
+                                    // Filtro de dias
+                                    startDate = Calendar.getInstance().apply {
+                                        add(Calendar.DAY_OF_YEAR, -selectedFilter.days)
+                                    }.time
+                                    endDate = Calendar.getInstance().time
+                                }
+                            }
+                            is MonthFilterType -> {
+                                // Filtro de mês específico
+                                startDate = selectedFilter.getStartDate()
+                                endDate = selectedFilter.getEndDate()
+                            }
+                            else -> {
+                                startDate = null
+                                endDate = null
+                            }
+                        }
+                        
+                        // Obter as datas para o humor selecionado no dia da semana específico
+                        val dates = dashboardViewModel.getMoodDatesForTypeAndWeekday(
+                            moodType = moodType,
+                            weekday = selectedDay,
+                            startDate = startDate,
+                            endDate = endDate
+                        )
+                        
+                        // Mostrar o diálogo com as datas
+                        showMoodComparisonDetailsDialog(
+                            moodName = moodName,
+                            moodType = moodType,
+                            dates = dates,
+                            moodColor = dashboardViewModel.getMoodColor(moodType)
+                        )
+                    }
+                }
+
+                override fun onNothingSelected() {
+                    // Não é necessário fazer nada aqui
+                }
+            })
         }
 
         // Definir renderer com cantos arredondados
@@ -2280,28 +2330,76 @@ class DashboardFragment : Fragment() {
             getPaint(BarChart.PAINT_INFO).textSize = resources.getDimension(R.dimen.no_data_text) * resources.displayMetrics.density
 
             // Adicionar listener de clique
-//            setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
-//                override fun onValueSelected(e: Entry?, h: Highlight?) {
-//                    if (e != null) {
-//                        val moodType = moodOrder[e.x.toInt()]
-//                        val lastMood = dashboardViewModel.getLastMoodByType(moodType)
-//
-//                        lastMood?.let {
-//                            showLastMoodDetailsDialog(
-//                                dashboardViewModel.getMoodName(requireContext(), moodType),
-//                                moodType,
-//                                it.date,
-//                                it.description,
-//                                dashboardViewModel.getMoodColor(moodType)
-//                            )
-//                        }
-//                    }
-//                }
-//
-//                override fun onNothingSelected() {
-//                    // Não é necessário fazer nada aqui
-//                }
-//            })
+            setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                override fun onValueSelected(e: Entry?, h: Highlight?) {
+                    if (e != null) {
+                        val index = e.x.toInt()
+                        val moodTypes = listOf(
+                            binding.moodComparisonMood1Spinner.selectedItemPosition,
+                            binding.moodComparisonMood2Spinner.selectedItemPosition
+                        )
+                        val selectedMoodType = moodTypes[index]
+                        val moodName = dashboardViewModel.getMoodName(requireContext(), selectedMoodType)
+                        
+                        // Obter o dia da semana selecionado
+                        val dayPosition = binding.moodComparisonDaySpinner.selectedItemPosition
+                        
+                        // Obter o período selecionado
+                        val periodPosition = binding.moodComparisonPeriodSpinner.selectedItemPosition
+                        val availableFilters = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date())
+                        val selectedFilter = availableFilters.getOrNull(periodPosition) ?: DayFilterType.LAST_7_DAYS
+                        
+                        // Obter as datas de início e fim baseadas no filtro
+                        val startDate: Date?
+                        val endDate: Date?
+                        
+                        when (selectedFilter) {
+                            is DayFilterType -> {
+                                if (selectedFilter.days == -1) {
+                                    // "Tudo" - sem filtro de data
+                                    startDate = null
+                                    endDate = null
+                                } else {
+                                    // Filtro de dias
+                                    startDate = Calendar.getInstance().apply {
+                                        add(Calendar.DAY_OF_YEAR, -selectedFilter.days)
+                                    }.time
+                                    endDate = Calendar.getInstance().time
+                                }
+                            }
+                            is MonthFilterType -> {
+                                // Filtro de mês específico
+                                startDate = selectedFilter.getStartDate()
+                                endDate = selectedFilter.getEndDate()
+                            }
+                            else -> {
+                                startDate = null
+                                endDate = null
+                            }
+                        }
+                        
+                        // Obter as datas para o humor selecionado no dia da semana específico
+                        val dates = dashboardViewModel.getMoodDatesForTypeAndWeekday(
+                            moodType = selectedMoodType,
+                            weekday = dayPosition,
+                            startDate = startDate,
+                            endDate = endDate
+                        )
+                        
+                        // Mostrar o diálogo com as datas
+                        showMoodComparisonDetailsDialog(
+                            moodName = moodName,
+                            moodType = selectedMoodType,
+                            dates = dates,
+                            moodColor = dashboardViewModel.getMoodColor(selectedMoodType)
+                        )
+                    }
+                }
+
+                override fun onNothingSelected() {
+                    // Não é necessário fazer nada aqui
+                }
+            })
         }
 
         // Definir renderer com cantos arredondados
@@ -2613,5 +2711,81 @@ class DashboardFragment : Fragment() {
             .isSingleButton("OK", null)
             .setIcon(R.drawable.ic_stats_24)
             .show()
+    }
+
+    private fun showMoodComparisonDetailsDialog(
+        moodName: String,
+        moodType: Int,
+        dates: List<Date>,
+        moodColor: Int
+    ) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_mood_comparison_details)
+        dialog.window?.apply {
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val width = (resources.displayMetrics.widthPixels * 0.85).toInt() // 85% da largura da tela
+            setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT)
+        }
+
+        // Configurar views do dialog
+        val cardView = dialog.findViewById<CardView>(R.id.card_view)
+        val dialogTitle = dialog.findViewById<TextView>(R.id.dialog_title)
+        val dateContainer = dialog.findViewById<LinearLayout>(R.id.date_container)
+
+        // Configurar conteúdo
+        dialogTitle.text = getString(R.string.mood_dates_title, moodName)
+        dialogTitle.setTextColor(resources.getColor(R.color.secundary))
+
+        // Verificar se há datas para exibir
+        if (dates.isEmpty()) {
+            val emptyText = TextView(requireContext()).apply {
+                text = getString(R.string.no_dates_found)
+                setTextColor(resources.getColor(R.color.secundary))
+                textSize = 16f
+                gravity = Gravity.CENTER
+                setPadding(0, 16, 0, 16)
+            }
+            dateContainer.addView(emptyText)
+        } else {
+            // Adicionar cada data ao container
+            for (date in dates) {
+                val dateLayout = layoutInflater.inflate(R.layout.item_mood_date, null)
+
+                val dateCardView = dateLayout.findViewById<CardView>(R.id.date_card_view)
+                val dateText = dateLayout.findViewById<TextView>(R.id.date_text)
+                val weekdayText = dateLayout.findViewById<TextView>(R.id.weekday_text)
+
+                // Configurar a data
+                dateCardView.setCardBackgroundColor(moodColor)
+
+                // Formatar a data
+                val calendar = Calendar.getInstance()
+                calendar.time = date
+                val day = calendar.get(Calendar.DAY_OF_MONTH)
+                val month = calendar.get(Calendar.MONTH)
+                val year = calendar.get(Calendar.YEAR)
+                val monthName = DateUtils.getMonthName(requireContext(), month)
+
+                dateText.text = "$day $monthName $year"
+
+                // Obter o nome do dia da semana
+                val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1
+                val weekdays = listOf(
+                    getString(R.string.weekday_full_sunday),
+                    getString(R.string.weekday_full_monday),
+                    getString(R.string.weekday_full_tuesday),
+                    getString(R.string.weekday_full_wednesday),
+                    getString(R.string.weekday_full_thursday),
+                    getString(R.string.weekday_full_friday),
+                    getString(R.string.weekday_full_saturday)
+                )
+                weekdayText.text = weekdays[dayOfWeek]
+
+                dateContainer.addView(dateLayout)
+            }
+        }
+
+        dialog.show()
     }
 }

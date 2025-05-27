@@ -631,4 +631,32 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         
         return result
     }
+
+    // Obter todas as datas para um tipo de humor específico no período
+    fun getMoodDatesForType(moodType: Int, startDate: Date?, endDate: Date?): List<Date> {
+        return _moods.value?.filter { mood ->
+            mood.moodType == moodType && 
+            (startDate == null || mood.date.after(startDate) || mood.date == startDate) &&
+            (endDate == null || mood.date.before(endDate) || mood.date == endDate)
+        }?.map { it.date }?.sortedByDescending { it.time } ?: emptyList()
+    }
+
+    // Obter todas as datas para um tipo de humor específico no período e dia da semana
+    fun getMoodDatesForTypeAndWeekday(moodType: Int, weekday: Int, startDate: Date?, endDate: Date?): List<Date> {
+        return _moods.value?.filter { mood ->
+            // Verificar se o humor corresponde
+            if (mood.moodType != moodType) return@filter false
+            
+            // Verificar se está dentro do período
+            if (startDate != null && mood.date.before(startDate) && mood.date != startDate) return@filter false
+            if (endDate != null && mood.date.after(endDate) && mood.date != endDate) return@filter false
+            
+            // Verificar se o dia da semana corresponde
+            val calendar = Calendar.getInstance()
+            calendar.time = mood.date
+            val moodDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1 // Converter para 0-6
+            
+            moodDayOfWeek == weekday
+        }?.map { it.date }?.sortedByDescending { it.time } ?: emptyList()
+    }
 }

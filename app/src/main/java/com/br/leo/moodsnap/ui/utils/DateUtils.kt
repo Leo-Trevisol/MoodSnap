@@ -156,6 +156,16 @@ object DateUtils {
         }
     }
 
+    /**
+     * Retorna o dia da semana (0 = Domingo, 1 = Segunda, ..., 6 = Sábado)
+     */
+    fun getDayOfWeek(date: Date): Int {
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        // Converter para índice 0-6 (Domingo = 0, Segunda = 1, ..., Sábado = 6)
+        return calendar.get(Calendar.DAY_OF_WEEK) - 1
+    }
+
     fun getStartOfDay(date: Date): Date {
         val calendar = Calendar.getInstance()
         calendar.time = date
