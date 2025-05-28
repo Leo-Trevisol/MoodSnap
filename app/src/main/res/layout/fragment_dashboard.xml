@@ -784,14 +784,16 @@
                                 android:spinnerMode="dropdown"
                                 android:background="@drawable/rounded_background_dark"
                                 android:popupBackground="@color/primary_background"
-                                android:gravity="start"/>
+                                android:gravity="start"
+                                android:paddingEnd="32dp"/>
 
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/ic_arrow_down"
                                 android:layout_gravity="end|center_vertical"
-                                android:layout_marginEnd="12dp"/>
+                                android:layout_marginEnd="2dp"
+                                app:tint="@color/secundary"/>
 
                         </FrameLayout>
 
@@ -825,39 +827,34 @@
                                 android:spinnerMode="dropdown"
                                 android:background="@drawable/rounded_background_dark"
                                 android:popupBackground="@color/primary_background"
-                                android:gravity="start"/>
+                                android:gravity="start"
+                                android:paddingEnd="32dp"/>
 
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/ic_arrow_down"
                                 android:layout_gravity="end|center_vertical"
-                                android:layout_marginEnd="12dp"/>
+                                android:layout_marginEnd="2dp"
+                                app:tint="@color/secundary"/>
 
                         </FrameLayout>
 
                     </LinearLayout>
 
+                    <!-- Container horizontal para os spinners de humor lado a lado -->
                     <LinearLayout
-                        android:id="@+id/mood_comparison_mood_1_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginTop="8dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/bar_chart_compare_moods_mood_spinner_1"
-                            android:textSize="@dimen/text_size_normal"
-                            android:textColor="@color/secundary"
-                            android:layout_marginEnd="8dp"
-                            android:visibility="gone"
-                            android:layout_gravity="center_vertical"/>
-
+                        <!-- Container do Humor 1 -->
                         <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="4dp">
 
                             <Spinner
                                 android:id="@+id/mood_comparison_mood1_spinner"
@@ -866,39 +863,25 @@
                                 android:spinnerMode="dropdown"
                                 android:background="@drawable/rounded_background_dark"
                                 android:popupBackground="@color/primary_background"
-                                android:gravity="start"/>
+                                android:gravity="start"
+                                android:paddingEnd="@dimen/spacing_large"/>
 
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/ic_arrow_down"
                                 android:layout_gravity="end|center_vertical"
-                                android:layout_marginEnd="12dp"/>
+                                android:layout_marginEnd="2dp"
+                                app:tint="@color/secundary"/>
 
                         </FrameLayout>
 
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/mood_comparison_mood_2_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/bar_chart_compare_moods_mood_spinner_2"
-                            android:textSize="@dimen/text_size_normal"
-                            android:textColor="@color/secundary"
-                            android:layout_marginEnd="8dp"
-                            android:visibility="gone"
-                            android:layout_gravity="center_vertical"/>
-
+                        <!-- Container do Humor 2 -->
                         <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="4dp">
 
                             <Spinner
                                 android:id="@+id/mood_comparison_mood2_spinner"
@@ -907,14 +890,16 @@
                                 android:spinnerMode="dropdown"
                                 android:background="@drawable/rounded_background_dark"
                                 android:popupBackground="@color/primary_background"
-                                android:gravity="start"/>
+                                android:gravity="start"
+                                android:paddingEnd="@dimen/spacing_large"/>
 
                             <ImageView
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/ic_arrow_down"
                                 android:layout_gravity="end|center_vertical"
-                                android:layout_marginEnd="12dp"/>
+                                android:layout_marginEnd="2dp"
+                                app:tint="@color/secundary" />
 
                         </FrameLayout>
 

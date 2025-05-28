@@ -12,8 +12,8 @@
         android:id="@+id/spinner_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textColor="@color/secundary"
+        android:textSize="@dimen/text_size_normal"
         android:layout_marginEnd="4dp" />
 
     <TextView
@@ -23,7 +23,7 @@
         android:layout_weight="1"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:textColor="@color/secundary"
+        android:textSize="@dimen/text_size_normal" />
 
 </LinearLayout>

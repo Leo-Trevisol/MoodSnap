@@ -220,8 +220,8 @@ class DashboardFragment : Fragment() {
 
         //Gráfico de comparação de humor
         binding.moodComparisonDayContainer.visibility = View.GONE
-        binding.moodComparisonMood1Container.visibility = View.GONE
-        binding.moodComparisonMood2Container.visibility = View.GONE
+      //  binding.moodComparisonMood1Container.visibility = View.GONE
+     //   binding.moodComparisonMood2Container.visibility = View.GONE
         binding.moodComparisonMoodsInfoContainer.visibility = View.GONE
 
         val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
