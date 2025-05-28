@@ -338,4 +338,10 @@
     <string name="scroll_for_more">Deslize para ver mais</string>
     <string name="selected_weekday">Dia: %1$s</string>
 
+    <!-- Spinner Labels -->
+    <string name="periodo_label">Período:</string>
+    <string name="dia_label">Dia:</string>
+    <string name="humor_1_label">Humor 1:</string>
+    <string name="humor_2_label">Humor 2:</string>
+
 </resources>

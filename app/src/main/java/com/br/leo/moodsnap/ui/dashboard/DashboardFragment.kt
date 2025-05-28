@@ -86,7 +86,7 @@ class DashboardFragment : Fragment() {
     }
 
     // Modificado: Enum para os filtros de dias agora implementa FilterType
-    private enum class DayFilterType(val days: Int, private val resourceId: Int) : FilterType {
+    enum class DayFilterType(val days: Int, private val resourceId: Int) : FilterType {
         LAST_7_DAYS(7, R.string.filter_last_7_days),
         LAST_MONTH(30, R.string.filter_last_month),
         LAST_3_MONTHS(90, R.string.filter_last_3_months),
@@ -2133,32 +2133,15 @@ class DashboardFragment : Fragment() {
         val currentFont = sharedPreferences.getString("current_font", "default")
         val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
-        val adapter = object : ArrayAdapter<String>(
+        val adapter = LabeledSpinnerAdapter(
             requireContext(),
-            R.layout.spinner_item,
-            weekdays
-        ) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getView(position, convertView, parent)
-                (view as TextView).apply {
-                    this.typeface = typeface
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                }
-                return view
-            }
+            weekdays,
+            getString(R.string.dia_label) + " ",
+            typeface,
+            { it }
+        )
 
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getDropDownView(position, convertView, parent)
-                view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
-                (view as TextView).apply {
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    this.typeface = typeface
-                }
-                return view
-            }
-        }
-
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.custom_comparison_spinner_dropdown_item)
         spinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
@@ -2179,32 +2162,22 @@ class DashboardFragment : Fragment() {
         val currentFont = sharedPreferences.getString("current_font", "default")
         val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
-        val adapter = object : ArrayAdapter<String>(
-            requireContext(),
-            R.layout.spinner_item,
-            moodTypes
-        ) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getView(position, convertView, parent)
-                (view as TextView).apply {
-                    this.typeface = typeface
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                }
-                return view
-            }
-
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getDropDownView(position, convertView, parent)
-                view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
-                (view as TextView).apply {
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    this.typeface = typeface
-                }
-                return view
-            }
+        // Determinar qual rótulo usar com base no ID do spinner
+        val label = when (spinner.id) {
+            R.id.mood_comparison_mood1_spinner -> getString(R.string.humor_1_label) + " "
+            R.id.mood_comparison_mood2_spinner -> getString(R.string.humor_2_label) + " "
+            else -> ""
         }
 
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        val adapter = LabeledSpinnerAdapter(
+            requireContext(),
+            moodTypes,
+            label,
+            typeface,
+            { it }
+        )
+
+        adapter.setDropDownViewResource(R.layout.custom_comparison_spinner_dropdown_item)
         spinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
@@ -2352,37 +2325,17 @@ class DashboardFragment : Fragment() {
         val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
         val currentFont = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
             .getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
-        val adapter = object : ArrayAdapter<FilterType>(
+        val adapter = LabeledSpinnerAdapter(
             requireContext(),
-            R.layout.spinner_item,
-            availableFilters
-        ) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getView(position, convertView, parent)
-                val filter = getItem(position)
-                (view as TextView).apply {
-                    text = filter?.getFilterName(context)
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
-                }
-                return view
-            }
+            availableFilters,
+            getString(R.string.periodo_label) + " ",
+            typeface,
+            { it.getFilterName(requireContext()) }
+        )
 
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getDropDownView(position, convertView, parent)
-                val filter = getItem(position)
-                view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
-                (view as TextView).apply {
-                    text = filter?.getFilterName(context)
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
-                }
-                return view
-            }
-        }
-
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.custom_comparison_spinner_dropdown_item)
         binding.moodComparisonPeriodSpinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
@@ -2840,7 +2793,7 @@ class DashboardFragment : Fragment() {
                 // Iniciar com altura 0
                 contentView.layoutParams.height = 0
                 contentView.alpha = 0f
-                
+
                 // Animar para a altura total
                 val heightAnimator = ValueAnimator.ofInt(0, targetHeight)
                 heightAnimator.duration = 300
@@ -2848,7 +2801,7 @@ class DashboardFragment : Fragment() {
                     val value = animation.animatedValue as Int
                     contentView.layoutParams.height = value
                     contentView.requestLayout()
-                    
+
                     // Animar também a transparência
                     val progress = value.toFloat() / targetHeight.toFloat()
                     contentView.alpha = progress
@@ -2863,7 +2816,7 @@ class DashboardFragment : Fragment() {
             } else {
                 // Contrair
                 val initialHeight = contentView.height
-                
+
                 // Animar para altura 0
                 val heightAnimator = ValueAnimator.ofInt(initialHeight, 0)
                 heightAnimator.duration = 600
@@ -2871,7 +2824,7 @@ class DashboardFragment : Fragment() {
                     val value = animation.animatedValue as Int
                     contentView.layoutParams.height = value
                     contentView.requestLayout()
-                    
+
                     // Animar também a transparência
                     val progress = value.toFloat() / initialHeight.toFloat()
                     contentView.alpha = progress
@@ -3029,33 +2982,33 @@ class DashboardFragment : Fragment() {
                     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
                         val divider = ContextCompat.getDrawable(requireContext(), R.drawable.recycler_view_divider)
                             ?: return
-                        
+
                         val left = parent.paddingLeft
                         val right = parent.width - parent.paddingRight
-                        
+
                         for (i in 0 until parent.childCount) {
                             val child = parent.getChildAt(i)
                             val position = parent.getChildAdapterPosition(child)
-                            
+
                             // Não desenhar divisor após o último item
                             if (position == parent.adapter?.itemCount?.minus(1)) {
                                 continue
                             }
-                            
+
                             val params = child.layoutParams as RecyclerView.LayoutParams
                             val top = child.bottom + params.bottomMargin
                             val bottom = top + (divider?.intrinsicHeight ?: 0)
-                            
+
                             divider?.setBounds(left, top, right, bottom)
                             divider?.draw(c)
                         }
                     }
-                    
+
                     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                         // Adicionar espaço para o divisor apenas se não for o último item
                         val position = parent.getChildAdapterPosition(view)
                         if (position < state.itemCount - 1) {
-                            outRect.bottom = resources.getDimensionPixelSize(R.dimen.divider_height) + 
+                            outRect.bottom = resources.getDimensionPixelSize(R.dimen.divider_height) +
                                             resources.getDimensionPixelSize(R.dimen.margin_small) * 2
                         }
                     }
