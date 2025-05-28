@@ -54,8 +54,8 @@
 
                 <ImageView
                     android:id="@+id/mood_icon"
-                    android:layout_width="52dp"
-                    android:layout_height="52dp"
+                    android:layout_width="@dimen/options_icons_size_large"
+                    android:layout_height="@dimen/options_icons_size_large"
                     android:layout_marginEnd="8dp" />
 
                 <TextView
@@ -65,7 +65,7 @@
                     android:textColor="@android:color/black"
                     android:gravity="center"
                     android:textStyle="bold"
-                    android:textSize="@dimen/text_size_large" />
+                    android:textSize="@dimen/text_size_normal" />
 
             </LinearLayout>
 
@@ -77,11 +77,14 @@
             android:background="@color/gray_dark"
             android:layout_marginBottom="@dimen/spacing_normal" />
 
-        <LinearLayout
-            android:id="@+id/weekday_container"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/weekday_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:maxHeight="50dp"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="outsideOverlay"
+            android:fadeScrollbars="false" />
 
     </LinearLayout>
 

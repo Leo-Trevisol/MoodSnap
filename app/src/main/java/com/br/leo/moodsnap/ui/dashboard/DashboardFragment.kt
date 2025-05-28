@@ -28,7 +28,6 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import android.content.Context
-import android.content.DialogInterface
 import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.Rect
@@ -865,10 +864,9 @@ class DashboardFragment : Fragment() {
         val moodCardView = dialog.findViewById<CardView>(R.id.mood_card_view)
         val titleText = dialog.findViewById<TextView>(R.id.title_text)
         val moodIcon = dialog.findViewById<ImageView>(R.id.mood_icon)
-        val weekdayContainer = dialog.findViewById<LinearLayout>(R.id.weekday_container)
+        val recyclerView = dialog.findViewById<RecyclerView>(R.id.weekday_recycler_view)
 
         // Configurar conteúdo
-       // cardView.setCardBackgroundColor(moodColor)
         moodCardView.setCardBackgroundColor(moodColor)
         titleText.text = moodName
         titleText.setTextColor(Color.BLACK)
@@ -881,40 +879,27 @@ class DashboardFragment : Fragment() {
             Pair(weekday, weekdayData[index] ?: 0)
         }.filter { it.second > 0 }
 
-        // Adicionar informações de cada dia da semana
-        daysWithData.forEachIndexed { itemIndex, (weekday, count) ->
-            val weekdayLayout = layoutInflater.inflate(R.layout.item_weekday_count, null)
-
-            weekdayLayout.findViewById<TextView>(R.id.weekday_text).apply {
-                text = weekday
-                setTextColor(resources.getColor(R.color.secundary))
-                textSize = resources.getDimension(R.dimen.text_recycler_dialog)
+        // Configurar RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        
+        // Adicionar divisores entre os itens (exceto após o último)
+        val dividerItemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).apply {
+            ContextCompat.getDrawable(requireContext(), R.drawable.recycler_view_divider)?.let { drawable ->
+                setDrawable(drawable)
             }
-            weekdayLayout.findViewById<TextView>(R.id.count_text).apply {
-                text = getString(R.string.weekday_count_format, count, (count.toFloat() / totalCount * 100).roundToInt())
-                setTextColor(resources.getColor(R.color.secundary))
-                textSize = resources.getDimension(R.dimen.text_recycler_dialog)
-            }
+        }
+        recyclerView.addItemDecoration(dividerItemDecoration)
+        
+        // Configurar o adaptador
+        val adapter = WeekdayCountAdapter(requireContext(), daysWithData, totalCount)
+        recyclerView.adapter = adapter
 
-            weekdayContainer.addView(weekdayLayout)
-
-            // Adicionar divisor após cada item, exceto o último
-            if (itemIndex < daysWithData.size - 1) {
-                val divider = View(requireContext()).apply {
-                    layoutParams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        resources.getDimensionPixelSize(R.dimen.divider_height)
-                    ).apply {
-                        setMargins(
-                           0,
-                            resources.getDimensionPixelSize(R.dimen.margin_small),
-                            0,
-                            resources.getDimensionPixelSize(R.dimen.margin_small)
-                        )
-                    }
-                    setBackgroundColor(resources.getColor(R.color.gray_light))
-                }
-                weekdayContainer.addView(divider)
+        recyclerView.apply {
+            // Limitar a altura máxima do RecyclerView para evitar diálogos muito grandes
+            if (weekdays.size > 5) {
+                val params = layoutParams
+                params.height = resources.getDimensionPixelSize(R.dimen.dialog_recycler_max_height)
+                layoutParams = params
             }
         }
 
@@ -2996,7 +2981,7 @@ class DashboardFragment : Fragment() {
                         }
                     }
                 })
-                
+
                 // Limitar a altura máxima do RecyclerView para evitar diálogos muito grandes
                 if (dates.size > 5) {
                     val params = layoutParams
