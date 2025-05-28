@@ -253,13 +253,6 @@
     <string name="dialog_title_mood_time">Détails de l\'humeur par heure</string>
     <string name="dialog_title_radar_distribution">Répartition de l\'humeur - %1$s</string>
 
-    <string name="donut_chart_description">Cliquez pour voir combien de fois l\'humeur a été enregistrée chaque jour de la semaine</string>
-    <string name="bar_chart_description">Cliquez pour voir la dernière fois que l\'humeur a été enregistrée</string>
-    <string name="radar_chart_description">Cliquez pour voir les humeurs et combien de fois elles ont été enregistrées chaque jour de la semaine</string>
-
-    <string name="bar_chart_compare_week_days">Comparez une humeur sur deux jours différents de la semaine</string>
-    <string name="bar_chart_compare_moods">Comparez deux humeurs le même jour de la semaine</string>
-
     <string name="pie_chart_title">Graphique à secteurs</string>
     <string name="bar_chart_title">Graphique à barres</string>
     <string name="radar_chart_title">Graphique en toile d’araignée</string>
@@ -315,6 +308,48 @@
     <string name="day_friday_short">Ven</string>
     <string name="day_saturday_short">Sam</string>
     <string name="month_year_format">%1$s %2$d</string>
+
+    <string name="error_sharing_image">Erreur lors du partage de l’image</string>
+
+    <string name="no_data_message_for_period">Aucune humeur enregistrée pour la période sélectionnée</string>
+    <string name="no_data_message_for_all_time">Aucune humeur enregistrée</string>
+    <string name="mood_dates_title">Dates avec humeur : %1$s</string>
+    <string name="mood_dates_title_simple">Dates avec humeur</string>
+    <string name="no_dates_found">Aucune date trouvée</string>
+    <string name="scroll_for_more">Faites défiler pour en voir plus</string>
+    <string name="selected_weekday">Jour : %1$s</string>
+
+    <!-- Étiquettes du menu déroulant -->
+    <string name="periodo_label">Période :</string>
+    <string name="dia_label">Jour :</string>
+    <string name="humor_1_label">Humeur 1 :</string>
+    <string name="humor_2_label">Humeur 2 :</string>
+
+    <string name="all_time">Toute la période</string>
+    <string name="last_n_days">Les %1$d derniers jours</string>
+    <string name="period_label">Période : %1$s</string>
+
+    <string name="dialog_title_radar_distribution_simple">Répartition des humeurs</string>
+
+    <string name="donut_chart_description">
+• Voyez combien de fois chaque humeur a été enregistrée pendant la période sélectionnée et le pourcentage correspondant du total des enregistrements.\n\n• En sélectionnant une tranche, vous verrez les jours de la semaine où cette humeur a été enregistrée.
+</string>
+
+    <string name="bar_chart_description">
+• Voyez combien de fois chaque humeur a été enregistrée pendant la période sélectionnée et le pourcentage correspondant du total des enregistrements.\n\n• En sélectionnant une barre, vous verrez la date du dernier enregistrement de cette humeur.
+</string>
+
+    <string name="radar_chart_description">
+• Voyez combien d’enregistrements ont été effectués pour chaque jour de la semaine.\n\n• En sélectionnant un point sur le graphique, vous verrez les humeurs enregistrées ce jour-là, avec la quantité et le pourcentage de chacune.
+</string>
+
+    <string name="bar_chart_compare_week_days">
+• Comparez une humeur spécifique entre deux jours de la semaine.\n\n• En sélectionnant une barre, vous verrez tous les jours où cette humeur a été enregistrée pour le jour de la semaine correspondant.
+</string>
+
+    <string name="bar_chart_compare_moods">
+• Comparez deux humeurs différentes pour un même jour de la semaine.\n\n• En sélectionnant une barre, vous verrez tous les jours où cette humeur a été enregistrée pour le jour de la semaine correspondant.
+</string>
 
 
 </resources>

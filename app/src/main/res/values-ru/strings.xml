@@ -252,13 +252,6 @@
     <string name="dialog_title_mood_time">Детали настроения по времени</string>
     <string name="dialog_title_radar_distribution">Распределение настроения — %1$s</string>
 
-    <string name="donut_chart_description">Нажмите, чтобы увидеть, сколько раз настроение было зарегистрировано в каждый день недели</string>
-    <string name="bar_chart_description">Нажмите, чтобы увидеть последний раз, когда настроение было зарегистрировано</string>
-    <string name="radar_chart_description">Нажмите, чтобы увидеть настроения и количество раз, когда они были зарегистрированы в каждый день недели</string>
-
-    <string name="bar_chart_compare_week_days">Сравните настроение в два разных дня недели</string>
-    <string name="bar_chart_compare_moods">Сравните два настроения в один и тот же день недели</string>
-
     <string name="pie_chart_title">Круговая диаграмма</string>
     <string name="bar_chart_title">Столбчатая диаграмма</string>
     <string name="radar_chart_title">Радарная диаграмма</string>
@@ -313,5 +306,47 @@
     <string name="day_friday_short">Пт</string>
     <string name="day_saturday_short">Сб</string>
     <string name="month_year_format">%1$s %2$d</string>
+
+    <string name="error_sharing_image">Ошибка при попытке поделиться изображением</string>
+
+    <string name="no_data_message_for_period">Нет записей о настроении за выбранный период</string>
+    <string name="no_data_message_for_all_time">Нет записей о настроении</string>
+    <string name="mood_dates_title">Даты с настроением: %1$s</string>
+    <string name="mood_dates_title_simple">Даты с настроением</string>
+    <string name="no_dates_found">Даты не найдены</string>
+    <string name="scroll_for_more">Прокрутите, чтобы увидеть больше</string>
+    <string name="selected_weekday">День: %1$s</string>
+
+    <!-- Метки выпадающих списков -->
+    <string name="periodo_label">Период:</string>
+    <string name="dia_label">День:</string>
+    <string name="humor_1_label">Настроение 1:</string>
+    <string name="humor_2_label">Настроение 2:</string>
+
+    <string name="all_time">Всё время</string>
+    <string name="last_n_days">Последние %1$d дней</string>
+    <string name="period_label">Период: %1$s</string>
+
+    <string name="dialog_title_radar_distribution_simple">Распределение настроений</string>
+
+    <string name="donut_chart_description">
+• Посмотрите, сколько раз каждое настроение было зарегистрировано за выбранный период и его процент от общего количества записей.\n\n• При выборе сектора вы увидите, в какие дни недели было зарегистрировано это настроение.
+</string>
+
+    <string name="bar_chart_description">
+• Посмотрите, сколько раз каждое настроение было зарегистрировано за выбранный период и его процент от общего количества записей.\n\n• При выборе столбца вы увидите дату последней записи этого настроения.
+</string>
+
+    <string name="radar_chart_description">
+• Посмотрите количество записей по каждому дню недели.\n\n• При выборе точки на графике вы увидите, какие настроения были зарегистрированы в этот день недели, с указанием количества и процента каждого.
+</string>
+
+    <string name="bar_chart_compare_week_days">
+• Сравните одно конкретное настроение в два разных дня недели.\n\n• При выборе столбца вы увидите все даты, когда это настроение было зарегистрировано в соответствующий день недели.
+</string>
+
+    <string name="bar_chart_compare_moods">
+• Сравните два разных настроения в один день недели.\n\n• При выборе столбца вы увидите все даты, когда это настроение было зарегистрировано в соответствующий день недели.
+</string>
 
 </resources>

@@ -251,13 +251,6 @@
     <string name="dialog_title_mood_time">Detalles del estado de ánimo por hora</string>
     <string name="dialog_title_radar_distribution">Distribución del estado de ánimo - %1$s</string>
 
-    <string name="donut_chart_description">Haz clic para ver cuántas veces se registró el estado de ánimo en cada día de la semana</string>
-    <string name="bar_chart_description">Haz clic para ver la última vez que se registró el estado de ánimo</string>
-    <string name="radar_chart_description">Haz clic para ver los estados de ánimo y cuántas veces se registraron en cada día de la semana</string>
-
-    <string name="bar_chart_compare_week_days">Compara un estado de ánimo en dos días diferentes de la semana</string>
-    <string name="bar_chart_compare_moods">Compara dos estados de ánimo en el mismo día de la semana</string>
-
     <string name="pie_chart_title">Gráfico de pastel</string>
     <string name="bar_chart_title">Gráfico de barras</string>
     <string name="radar_chart_title">Gráfico de radar</string>
@@ -312,6 +305,48 @@
     <string name="day_friday_short">Vie</string>
     <string name="day_saturday_short">Sáb</string>
     <string name="month_year_format">%1$s de %2$d</string>
+
+    <string name="error_sharing_image">Error al compartir la imagen</string>
+
+    <string name="no_data_message_for_period">No hay estados de ánimo registrados en el período seleccionado</string>
+    <string name="no_data_message_for_all_time">No hay estados de ánimo registrados</string>
+    <string name="mood_dates_title">Fechas con estado de ánimo: %1$s</string>
+    <string name="mood_dates_title_simple">Fechas con estado de ánimo</string>
+    <string name="no_dates_found">No se encontraron fechas</string>
+    <string name="scroll_for_more">Desliza para ver más</string>
+    <string name="selected_weekday">Día: %1$s</string>
+
+    <!-- Etiquetas del spinner -->
+    <string name="periodo_label">Período:</string>
+    <string name="dia_label">Día:</string>
+    <string name="humor_1_label">Estado de ánimo 1:</string>
+    <string name="humor_2_label">Estado de ánimo 2:</string>
+
+    <string name="all_time">Todo el tiempo</string>
+    <string name="last_n_days">Últimos %1$d días</string>
+    <string name="period_label">Período: %1$s</string>
+
+    <string name="dialog_title_radar_distribution_simple">Distribución de estados de ánimo</string>
+
+    <string name="donut_chart_description">
+• Consulta cuántas veces se registró cada estado de ánimo durante el período seleccionado y el porcentaje correspondiente del total.\n\n• Al seleccionar una porción, verás cuántas veces se registró ese estado de ánimo en cada día de la semana.
+</string>
+
+    <string name="bar_chart_description">
+• Consulta cuántas veces se registró cada estado de ánimo durante el período seleccionado y el porcentaje correspondiente del total.\n\n• Al seleccionar una barra, verás la fecha del último registro de ese estado de ánimo.
+</string>
+
+    <string name="radar_chart_description">
+• Consulta cuántos registros hubo en cada día de la semana.\n\n• Al seleccionar un punto en el gráfico, verás los estados de ánimo registrados ese día, con la cantidad y el porcentaje de cada uno.
+</string>
+
+    <string name="bar_chart_compare_week_days">
+• Compara un estado de ánimo específico entre dos días de la semana.\n\n• Al seleccionar una barra, verás todos los días en los que se registró ese estado de ánimo en el día correspondiente.
+</string>
+
+    <string name="bar_chart_compare_moods">
+• Compara dos estados de ánimo diferentes en un mismo día de la semana.\n\n• Al seleccionar una barra, verás todos los días en los que se registró ese estado de ánimo en ese día de la semana.
+</string>
 
 
 </resources>

@@ -251,13 +251,6 @@
     <string name="dialog_title_mood_time">Stimmungsdetails nach Uhrzeit</string>
     <string name="dialog_title_radar_distribution">Stimmungsverteilung – %1$s</string>
 
-    <string name="donut_chart_description">Klicken Sie, um zu sehen, wie oft die Stimmung an jedem Wochentag aufgezeichnet wurde</string>
-    <string name="bar_chart_description">Klicken Sie, um zu sehen, wann die Stimmung zuletzt aufgezeichnet wurde</string>
-    <string name="radar_chart_description">Klicken Sie, um die Stimmungen und die Häufigkeit ihrer Aufzeichnungen an jedem Wochentag zu sehen</string>
-
-    <string name="bar_chart_compare_week_days">Vergleiche eine Stimmung an zwei verschiedenen Tagen der Woche</string>
-    <string name="bar_chart_compare_moods">Vergleiche zwei Stimmungen am selben Wochentag</string>
-
     <string name="pie_chart_title">Kreisdiagramm</string>
     <string name="bar_chart_title">Balkendiagramm</string>
     <string name="radar_chart_title">Netzdiagramm</string>
@@ -312,6 +305,49 @@
     <string name="day_friday_short">Fr</string>
     <string name="day_saturday_short">Sa</string>
     <string name="month_year_format">%1$s %2$d</string>
+
+    <string name="error_sharing_image">Fehler beim Teilen des Bildes</string>
+
+    <string name="no_data_message_for_period">Keine Stimmung im ausgewählten Zeitraum erfasst</string>
+    <string name="no_data_message_for_all_time">Keine Stimmung erfasst</string>
+    <string name="mood_dates_title">Daten mit Stimmung: %1$s</string>
+    <string name="mood_dates_title_simple">Daten mit Stimmung</string>
+    <string name="no_dates_found">Keine Daten gefunden</string>
+    <string name="scroll_for_more">Zum Weiterschauen scrollen</string>
+    <string name="selected_weekday">Tag: %1$s</string>
+
+    <!-- Spinner Labels -->
+    <string name="periodo_label">Zeitraum:</string>
+    <string name="dia_label">Tag:</string>
+    <string name="humor_1_label">Stimmung 1:</string>
+    <string name="humor_2_label">Stimmung 2:</string>
+
+    <string name="all_time">Gesamter Zeitraum</string>
+    <string name="last_n_days">Letzte %1$d Tage</string>
+    <string name="period_label">Zeitraum: %1$s</string>
+
+    <string name="dialog_title_radar_distribution_simple">Stimmungsverteilung</string>
+
+    <string name="donut_chart_description">
+• Zeigt, wie oft jede Stimmung im ausgewählten Zeitraum erfasst wurde, sowie den entsprechenden Prozentsatz.\n\n• Beim Auswählen eines Abschnitts sehen Sie, an welchen Wochentagen diese Stimmung erfasst wurde.
+</string>
+
+    <string name="bar_chart_description">
+• Zeigt, wie oft jede Stimmung im ausgewählten Zeitraum erfasst wurde, sowie den entsprechenden Prozentsatz.\n\n• Beim Auswählen eines Balkens sehen Sie das Datum des letzten Eintrags für diese Stimmung.
+</string>
+
+    <string name="radar_chart_description">
+• Zeigt, wie viele Einträge es an jedem Wochentag gab.\n\n• Beim Auswählen eines Punkts im Diagramm sehen Sie, welche Stimmungen an diesem Wochentag erfasst wurden, inklusive Anzahl und Prozentsatz.
+</string>
+
+    <string name="bar_chart_compare_week_days">
+• Vergleichen Sie eine bestimmte Stimmung an zwei verschiedenen Wochentagen.\n\n• Beim Auswählen eines Balkens sehen Sie alle Tage, an denen diese Stimmung an dem jeweiligen Wochentag erfasst wurde.
+</string>
+
+    <string name="bar_chart_compare_moods">
+• Vergleichen Sie zwei verschiedene Stimmungen an einem einzigen Wochentag.\n\n• Beim Auswählen eines Balkens sehen Sie alle Tage, an denen diese Stimmung an dem jeweiligen Wochentag erfasst wurde.
+</string>
+
 
 
 </resources>

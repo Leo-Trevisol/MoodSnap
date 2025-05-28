@@ -247,13 +247,6 @@
     <string name="dialog_title_mood_time">Dettagli dell\'umore per ora</string>
     <string name="dialog_title_radar_distribution">Distribuzione dell\'umore - %1$s</string>
 
-    <string name="donut_chart_description">Clicca per vedere quante volte l\'umore è stato registrato in ogni giorno della settimana</string>
-    <string name="bar_chart_description">Clicca per vedere l\'ultima volta che l\'umore è stato registrato</string>
-    <string name="radar_chart_description">Clicca per vedere gli umori e quante volte sono stati registrati in ogni giorno della settimana</string>
-
-    <string name="bar_chart_compare_week_days">Confronta un umore in due giorni diversi della settimana</string>
-    <string name="bar_chart_compare_moods">Confronta due umori nello stesso giorno della settimana</string>
-
     <string name="pie_chart_title">Grafico a torta</string>
     <string name="bar_chart_title">Grafico a barre</string>
     <string name="radar_chart_title">Grafico a ragnatela</string>
@@ -309,5 +302,36 @@
     <string name="day_saturday_short">Sab</string>
     <string name="month_year_format">%1$s %2$d</string>
 
+        <string name="error_sharing_image">Errore durante la condivisione dell\'immagine</string>
+
+        <string name="no_data_message_for_period">Nessun umore registrato nel periodo selezionato</string>
+        <string name="no_data_message_for_all_time">Nessun umore registrato</string>
+        <string name="mood_dates_title">Date con umore: %1$s</string>
+        <string name="mood_dates_title_simple">Date con umore</string>
+        <string name="no_dates_found">Nessuna data trovata</string>
+        <string name="scroll_for_more">Scorri per vedere di più</string>
+        <string name="selected_weekday">Giorno: %1$s</string>
+
+        <!-- Spinner Labels -->
+        <string name="periodo_label">Periodo:</string>
+        <string name="dia_label">Giorno:</string>
+        <string name="humor_1_label">Umore 1:</string>
+        <string name="humor_2_label">Umore 2:</string>
+
+        <string name="all_time">Tutti i tempi</string>
+        <string name="last_n_days">Ultimi %1$d giorni</string>
+        <string name="period_label">Periodo: %1$s</string>
+
+        <string name="dialog_title_radar_distribution_simple">Distribuzione Umore</string>
+
+    <string name="donut_chart_description">• Vedi quante volte ogni umore è stato registrato durante il periodo selezionato e la percentuale rispetto al totale delle registrazioni.&#10;&#10;• Selezionando una fetta, vedrai quante volte l\'umore è stato registrato in ogni giorno della settimana.</string>
+
+    <string name="bar_chart_description">• Vedi quante volte ogni umore è stato registrato durante il periodo selezionato e la percentuale rispetto al totale delle registrazioni.&#10;&#10;• Selezionando una barra, vedrai la data dell\'ultima registrazione di quell\'umore.</string>
+
+    <string name="radar_chart_description">• Vedi quante registrazioni ci sono state in ogni giorno della settimana.&#10;&#10;• Selezionando un punto del grafico, vedrai gli umori registrati in quel giorno della settimana, con quantità e percentuale di ciascuno.</string>
+
+    <string name="bar_chart_compare_week_days">• Confronta un umore specifico in due giorni della settimana.&#10;&#10;• Selezionando una barra, vedrai tutti i giorni in cui quell\'umore è stato registrato nel corrispondente giorno della settimana.</string>
+
+    <string name="bar_chart_compare_moods">• Confronta due umori diversi in un unico giorno della settimana.&#10;&#10;• Selezionando una barra, vedrai tutti i giorni in cui quell\'umore è stato registrato nel corrispondente giorno della settimana.</string>
 
 </resources>

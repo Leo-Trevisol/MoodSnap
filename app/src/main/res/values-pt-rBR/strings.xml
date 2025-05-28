@@ -327,5 +327,26 @@
     <string name="day_saturday_short">Sáb</string>
     <string name="month_year_format">%1$s de %2$d</string>
 
+    <string name="error_sharing_image">Erro ao compartilhar a imagem</string>
+
+    <string name="no_data_message_for_period">Nenhum humor registrado no período selecionado</string>
+    <string name="no_data_message_for_all_time">Nenhum humor registrado</string>
+    <string name="mood_dates_title">Datas com humor: %1$s</string>
+    <string name="mood_dates_title_simple">Datas com humor</string>
+    <string name="no_dates_found">Nenhuma data encontrada</string>
+    <string name="scroll_for_more">Deslize para ver mais</string>
+    <string name="selected_weekday">Dia: %1$s</string>
+
+    <!-- Rótulos do Spinner -->
+    <string name="periodo_label">Período:</string>
+    <string name="dia_label">Dia:</string>
+    <string name="humor_1_label">Humor 1:</string>
+    <string name="humor_2_label">Humor 2:</string>
+
+    <string name="all_time">Todo o período</string>
+    <string name="last_n_days">Últimos %1$d dias</string>
+    <string name="period_label">Período: %1$s</string>
+
+    <string name="dialog_title_radar_distribution_simple">Distribuição de Humores</string>
 
 </resources>

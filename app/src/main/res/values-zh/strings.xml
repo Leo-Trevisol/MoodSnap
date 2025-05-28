@@ -250,13 +250,6 @@
     <string name="dialog_title_mood_time">按时间查看心情详情</string>
     <string name="dialog_title_radar_distribution">心情分布 - %1$s</string>
 
-    <string name="donut_chart_description">点击查看每个星期几记录的情绪次数</string>
-    <string name="bar_chart_description">点击查看情绪最后一次记录的时间</string>
-    <string name="radar_chart_description">点击查看每个星期几记录的情绪及其次数</string>
-
-    <string name="bar_chart_compare_week_days">比较同一情绪在一周的两个不同日期</string>
-    <string name="bar_chart_compare_moods">比较同一周内同一天的两种情绪</string>
-
     <string name="pie_chart_title">饼图</string>
     <string name="bar_chart_title">条形图</string>
     <string name="radar_chart_title">雷达图</string>
@@ -311,6 +304,48 @@
     <string name="day_friday_short">周五</string>
     <string name="day_saturday_short">周六</string>
     <string name="month_year_format">%2$d年%1$s</string>
+
+    <string name="error_sharing_image">分享图片时出错</string>
+
+    <string name="no_data_message_for_period">所选时间段内没有记录情绪</string>
+    <string name="no_data_message_for_all_time">没有记录任何情绪</string>
+    <string name="mood_dates_title">有情绪记录的日期：%1$s</string>
+    <string name="mood_dates_title_simple">有情绪记录的日期</string>
+    <string name="no_dates_found">未找到日期</string>
+    <string name="scroll_for_more">滑动查看更多</string>
+    <string name="selected_weekday">星期：%1$s</string>
+
+    <!-- 下拉菜单标签 -->
+    <string name="periodo_label">时间段：</string>
+    <string name="dia_label">日期：</string>
+    <string name="humor_1_label">情绪 1：</string>
+    <string name="humor_2_label">情绪 2：</string>
+
+    <string name="all_time">全部时间</string>
+    <string name="last_n_days">最近 %1$d 天</string>
+    <string name="period_label">时间段：%1$s</string>
+
+    <string name="dialog_title_radar_distribution_simple">情绪分布</string>
+
+    <string name="donut_chart_description">
+• 查看在所选时间段内每种情绪被记录的次数以及其在总记录中所占的百分比。\n\n• 点击某个区域，可以查看该情绪在每周的哪几天被记录过。
+</string>
+
+    <string name="bar_chart_description">
+• 查看在所选时间段内每种情绪被记录的次数以及其在总记录中所占的百分比。\n\n• 点击某个柱状图，可以查看该情绪最近一次被记录的日期。
+</string>
+
+    <string name="radar_chart_description">
+• 查看每周每天的记录数量。\n\n• 点击图表上的某个点，可以查看当天记录了哪些情绪，包括数量和比例。
+</string>
+
+    <string name="bar_chart_compare_week_days">
+• 比较某种情绪在两个不同星期几的出现情况。\n\n• 点击柱状图，可以查看该情绪在该星期几被记录的所有日期。
+</string>
+
+    <string name="bar_chart_compare_moods">
+• 比较两个不同情绪在同一星期几的记录情况。\n\n• 点击柱状图，可以查看该情绪在该星期几被记录的所有日期。
+</string>
 
 
 </resources>

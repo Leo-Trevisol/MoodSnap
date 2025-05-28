@@ -248,13 +248,6 @@
     <string name="dialog_title_mood_time">Mood Details by Time</string>
     <string name="dialog_title_radar_distribution">Mood Distribution: \n %1$s</string>
 
-    <string name="donut_chart_description">Click to see how many times the mood was recorded on each day of the week</string>
-    <string name="bar_chart_description">Click to see the last time the mood was recorded</string>
-    <string name="radar_chart_description">Click to see the moods and how many times they were recorded on each day of the week</string>
-
-    <string name="bar_chart_compare_week_days">Compare a mood on two different days of the week</string>
-    <string name="bar_chart_compare_moods">Compare two moods on the same day of the week</string>
-
     <string name="pie_chart_title">Pie Chart</string>
     <string name="bar_chart_title">Bar Chart</string>
     <string name="radar_chart_title">Radar Chart</string>
@@ -310,5 +303,46 @@
     <string name="day_saturday_short">Sat</string>
     <string name="month_year_format">%1$s %2$d</string>
 
+    <string name="error_sharing_image">Error sharing image</string>
+
+    <string name="no_data_message_for_period">No mood recorded during the selected period</string>
+    <string name="no_data_message_for_all_time">No mood recorded</string>
+    <string name="mood_dates_title">Dates with mood: %1$s</string>
+    <string name="mood_dates_title_simple">Dates with mood</string>
+    <string name="no_dates_found">No dates found</string>
+    <string name="scroll_for_more">Scroll to see more</string>
+    <string name="selected_weekday">Day: %1$s</string>
+
+    <!-- Spinner Labels -->
+    <string name="periodo_label">Period:</string>
+    <string name="dia_label">Day:</string>
+    <string name="humor_1_label">Mood 1:</string>
+    <string name="humor_2_label">Mood 2:</string>
+
+    <string name="all_time">All time</string>
+    <string name="last_n_days">Last %1$d days</string>
+    <string name="period_label">Period: %1$s</string>
+
+    <string name="dialog_title_radar_distribution_simple">Mood Distribution</string>
+
+    <string name="donut_chart_description">
+- See how many times each mood was recorded during the selected period and the percentage relative to the total number of records.\n\n- By selecting a slice, you will see on which weekdays this mood was recorded.
+</string>
+
+    <string name="bar_chart_description">
+- See how many times each mood was recorded during the selected period and the percentage relative to the total number of records.\n\n- By selecting a bar, you will see the date of the last record for that mood.
+</string>
+
+    <string name="radar_chart_description">
+- See how many records occurred on each weekday.\n\n- By selecting a point on the chart, you will see the moods recorded on that weekday, along with the count and percentage of each.
+</string>
+
+    <string name="bar_chart_compare_week_days">
+- Compare a specific mood on two weekdays.\n\n- By selecting a bar, you will see all the days that mood was recorded on the corresponding weekday.
+</string>
+
+    <string name="bar_chart_compare_moods">
+- Compare two different moods on a single weekday.\n\n- By selecting a bar, you will see all the days that mood was recorded on the corresponding weekday.
+</string>
 
 </resources>
