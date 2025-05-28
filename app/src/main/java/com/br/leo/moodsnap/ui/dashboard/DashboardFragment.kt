@@ -888,7 +888,42 @@ class DashboardFragment : Fragment() {
                 setDrawable(drawable)
             }
         }
-        recyclerView.addItemDecoration(dividerItemDecoration)
+        // Adicionar divisores entre os itens (exceto após o último)
+        recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+                val divider = ContextCompat.getDrawable(requireContext(), R.drawable.recycler_view_divider)
+                    ?: return
+
+                val left = parent.paddingLeft
+                val right = parent.width - parent.paddingRight
+
+                for (i in 0 until parent.childCount) {
+                    val child = parent.getChildAt(i)
+                    val position = parent.getChildAdapterPosition(child)
+
+                    // Não desenhar divisor após o último item
+                    if (position == parent.adapter?.itemCount?.minus(1)) {
+                        continue
+                    }
+
+                    val params = child.layoutParams as RecyclerView.LayoutParams
+                    val top = child.bottom + params.bottomMargin
+                    val bottom = top + divider.intrinsicHeight
+
+                    divider.setBounds(left, top, right, bottom)
+                    divider.draw(c)
+                }
+            }
+
+            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                // Adicionar espaço para o divisor apenas se não for o último item
+                val position = parent.getChildAdapterPosition(view)
+                if (position < state.itemCount - 1) {
+                    outRect.bottom = resources.getDimensionPixelSize(R.dimen.divider_height) +
+                            resources.getDimensionPixelSize(R.dimen.margin_small) * 2
+                }
+            }
+        })
         
         // Configurar o adaptador
         val adapter = WeekdayCountAdapter(requireContext(), daysWithData, totalCount)
