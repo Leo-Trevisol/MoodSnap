@@ -2879,7 +2879,7 @@ class DashboardFragment : Fragment() {
         selectedFilter: FilterType,
         selectedWeekday: Int
     ) {
-        val dialog = Dialog(requireContext(), R.style.CustomAlertDialog)
+        val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_mood_comparison_details)
         dialog.window?.apply {

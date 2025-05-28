@@ -26,4 +26,12 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/time_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:textColor="@color/secundary"
+        android:textSize="@dimen/text_size_normal" />
+
 </LinearLayout>

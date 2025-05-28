@@ -9,6 +9,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.ui.utils.DateUtils
+import java.text.SimpleDateFormat
 import java.util.*
 
 class MoodDateAdapter(
@@ -19,6 +20,7 @@ class MoodDateAdapter(
 
     class DateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dateText: TextView = itemView.findViewById(R.id.date_text)
+        val timeText: TextView = itemView.findViewById(R.id.time_text)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DateViewHolder {
@@ -35,7 +37,10 @@ class MoodDateAdapter(
         calendar.time = date
 
         holder.dateText.text = DateUtils.formatDateTime(context, date, false)
-
+        
+        // Formatar e exibir a hora no formato AM/PM
+        val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+        holder.timeText.text = timeFormat.format(date)
     }
 
     override fun getItemCount(): Int = dates.size
