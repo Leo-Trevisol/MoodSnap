@@ -1762,14 +1762,41 @@ class DashboardFragment : Fragment() {
         val recyclerView = dialog.findViewById<RecyclerView>(R.id.mood_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         
-        val dividerItemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).apply {
-            ContextCompat.getDrawable(requireContext(), R.drawable.recycler_view_divider)?.let { drawable ->
-                setDrawable(drawable)
+        recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+                val divider = ContextCompat.getDrawable(requireContext(), R.drawable.recycler_view_divider)
+                    ?: return
+                
+                val left = parent.paddingLeft
+                val right = parent.width - parent.paddingRight
+                
+                for (i in 0 until parent.childCount) {
+                    val child = parent.getChildAt(i)
+                    val position = parent.getChildAdapterPosition(child)
+                    
+                    // Não desenhar divisor após o último item
+                    if (position == parent.adapter?.itemCount?.minus(1)) {
+                        continue
+                    }
+                    
+                    val params = child.layoutParams as RecyclerView.LayoutParams
+                    val top = child.bottom + params.bottomMargin
+                    val bottom = top + (divider?.intrinsicHeight ?: 0)
+                    
+                    divider?.setBounds(left, top, right, bottom)
+                    divider?.draw(c)
+                }
             }
-
-
-        }
-        recyclerView.addItemDecoration(dividerItemDecoration)
+            
+            override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                // Adicionar espaço para o divisor apenas se não for o último item
+                val position = parent.getChildAdapterPosition(view)
+                if (position < state.itemCount - 1) {
+                    outRect.bottom = resources.getDimensionPixelSize(R.dimen.divider_height) + 
+                                    resources.getDimensionPixelSize(R.dimen.margin_small) * 2
+                }
+            }
+        })
         
         // Configurar o adaptador
         val adapter = RadarMoodAdapter(requireContext(), moodItems, totalMoods)
@@ -2963,13 +2990,11 @@ class DashboardFragment : Fragment() {
                 }
 
                 // Adicionar divisores entre os itens, exceto após o último
-                val dividerDrawable = ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.recycler_view_divider
-                )
-                
                 addItemDecoration(object : RecyclerView.ItemDecoration() {
                     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+                        val divider = ContextCompat.getDrawable(requireContext(), R.drawable.recycler_view_divider)
+                            ?: return
+                        
                         val left = parent.paddingLeft
                         val right = parent.width - parent.paddingRight
                         
@@ -2984,21 +3009,19 @@ class DashboardFragment : Fragment() {
                             
                             val params = child.layoutParams as RecyclerView.LayoutParams
                             val top = child.bottom + params.bottomMargin
-                            val bottom = top + (dividerDrawable?.intrinsicHeight ?: 0)
+                            val bottom = top + (divider?.intrinsicHeight ?: 0)
                             
-                            dividerDrawable?.setBounds(left, top, right, bottom)
-                            dividerDrawable?.draw(c)
+                            divider?.setBounds(left, top, right, bottom)
+                            divider?.draw(c)
                         }
                     }
                     
                     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                        // Adicionar espaço para o divisor apenas se não for o último item
                         val position = parent.getChildAdapterPosition(view)
-                        if (position == parent.adapter?.itemCount?.minus(1)) {
-                            // Último item não tem divisor
-                            outRect.set(0, 0, 0, 0)
-                        } else {
-                            // Outros itens têm divisor
-                            outRect.set(0, 0, 0, dividerDrawable?.intrinsicHeight ?: 0)
+                        if (position < state.itemCount - 1) {
+                            outRect.bottom = resources.getDimensionPixelSize(R.dimen.divider_height) + 
+                                            resources.getDimensionPixelSize(R.dimen.margin_small) * 2
                         }
                     }
                 })

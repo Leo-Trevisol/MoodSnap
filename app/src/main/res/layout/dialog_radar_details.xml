@@ -59,8 +59,7 @@
             android:maxHeight="200dp"
             android:scrollbars="vertical"
             android:scrollbarStyle="outsideOverlay"
-            android:fadeScrollbars="false"
-            android:paddingBottom="16dp" />
+            android:fadeScrollbars="false" />
 
     </LinearLayout>
 
