@@ -896,7 +896,7 @@ class DashboardFragment : Fragment() {
 
         recyclerView.apply {
             // Limitar a altura máxima do RecyclerView para evitar diálogos muito grandes
-            if (weekdays.size > 5) {
+            if (daysWithData.size > 5) {
                 val params = layoutParams
                 params.height = resources.getDimensionPixelSize(R.dimen.dialog_recycler_max_height)
                 layoutParams = params
@@ -1691,7 +1691,6 @@ class DashboardFragment : Fragment() {
 
         // Configurar views do dialog
         val cardView = dialog.findViewById<CardView>(R.id.card_view)
-        val moodContainer = dialog.findViewById<LinearLayout>(R.id.mood_container)
         val periodText = dialog.findViewById<TextView>(R.id.period_text)
         val weekdayText = dialog.findViewById<TextView>(R.id.weekday_text)
 
@@ -1741,24 +1740,46 @@ class DashboardFragment : Fragment() {
         val moodsForWeekday = weekdayData[weekdayIndex] ?: return
         val totalMoods = moodsForWeekday.values.sum()
 
+        // Preparar dados para o adaptador
+        val moodItems = mutableListOf<RadarMoodAdapter.MoodItem>()
+        
         // Adicionar um item para cada humor registrado neste dia
         moodOrder.forEach { moodType ->
             val count = moodsForWeekday[moodType] ?: 0
             if (count > 0) {
-                val moodItem = layoutInflater.inflate(R.layout.item_radar_mood, null)
-                val moodCardView = moodItem.findViewById<CardView>(R.id.mood_card_view)
-                val moodIcon = moodItem.findViewById<ImageView>(R.id.mood_icon)
-                val moodName = moodItem.findViewById<TextView>(R.id.mood_name)
-                val moodCount = moodItem.findViewById<TextView>(R.id.mood_count)
-
-                val percentage = (count.toFloat() / totalMoods * 100).roundToInt()
-                moodCardView.setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
-                moodIcon.setImageResource(Utils.getMoodIcon(moodType))
-                moodName.text = dashboardViewModel.getMoodName(requireContext(), moodType)
-                moodCount.text = getString(R.string.weekday_count_format, count, percentage)
-
-                moodContainer.addView(moodItem)
+                moodItems.add(
+                    RadarMoodAdapter.MoodItem(
+                        moodType = moodType,
+                        moodName = dashboardViewModel.getMoodName(requireContext(), moodType),
+                        count = count,
+                        color = dashboardViewModel.getMoodColor(moodType)
+                    )
+                )
             }
+        }
+
+        // Configurar RecyclerView
+        val recyclerView = dialog.findViewById<RecyclerView>(R.id.mood_recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        
+        val dividerItemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).apply {
+            ContextCompat.getDrawable(requireContext(), R.drawable.recycler_view_divider)?.let { drawable ->
+                setDrawable(drawable)
+            }
+
+
+        }
+        recyclerView.addItemDecoration(dividerItemDecoration)
+        
+        // Configurar o adaptador
+        val adapter = RadarMoodAdapter(requireContext(), moodItems, totalMoods)
+        recyclerView.adapter = adapter
+        
+        // Limitar a altura máxima do RecyclerView para evitar diálogos muito grandes
+        if (moodItems.size > 4) {
+            val params = recyclerView.layoutParams
+            params.height = resources.getDimensionPixelSize(R.dimen.dialog_recycler_max_height)
+            recyclerView.layoutParams = params
         }
 
         dialog.show()
@@ -2931,7 +2952,7 @@ class DashboardFragment : Fragment() {
             parentLayout.removeView(recyclerView)
             parentLayout.addView(emptyView)
         } else {
-            // Configurar o RecyclerView com o adaptador
+            // Configurar RecyclerView
             recyclerView.apply {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = MoodDateAdapter(requireContext(), dates, moodColor)

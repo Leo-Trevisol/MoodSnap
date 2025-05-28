@@ -52,14 +52,15 @@
             android:background="@color/gray_dark"
             android:layout_marginBottom="@dimen/spacing_large" />
 
-        <LinearLayout
-            android:id="@+id/mood_container"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mood_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="16dp">
-
-        </LinearLayout>
+            android:maxHeight="200dp"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="outsideOverlay"
+            android:fadeScrollbars="false"
+            android:paddingBottom="16dp" />
 
     </LinearLayout>
 

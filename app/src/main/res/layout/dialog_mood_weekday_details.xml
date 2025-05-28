@@ -81,7 +81,7 @@
             android:id="@+id/weekday_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxHeight="50dp"
+            android:maxHeight="200dp"
             android:scrollbars="vertical"
             android:scrollbarStyle="outsideOverlay"
             android:fadeScrollbars="false" />

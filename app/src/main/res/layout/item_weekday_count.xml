@@ -11,13 +11,14 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/text_size_large" />
+        android:textSize="@dimen/text_size_normal" />
 
     <TextView
         android:id="@+id/count_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/text_size_large" />
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:textSize="@dimen/text_size_normal" />
 
 </LinearLayout> 

@@ -32,6 +32,7 @@
         android:layout_height="wrap_content"
         android:gravity="end"
         android:textColor="@color/secundary"
+        android:layout_marginEnd="@dimen/spacing_normal"
         android:textSize="@dimen/text_size_normal" />
 
 </LinearLayout>
