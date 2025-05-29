@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
+import com.br.leo.moodsnap.ui.utils.FontUtils
 import com.br.leo.moodsnap.ui.utils.Utils
 import kotlin.math.roundToInt
 
@@ -42,11 +44,20 @@ class RadarMoodAdapter(
         val moodItem = moodData[position]
         
         val percentage = (moodItem.count.toFloat() / totalCount * 100).roundToInt()
+
+        val currentFont = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            .getString("current_font", "default")
         
         holder.moodCardView.setCardBackgroundColor(moodItem.color)
         holder.moodIcon.setImageResource(Utils.getMoodIcon(moodItem.moodType))
-        holder.moodName.text = moodItem.moodName
-        holder.moodCount.text = context.getString(R.string.weekday_count_format, moodItem.count, percentage)
+        holder.moodName.apply {
+            text = moodItem.moodName
+            typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
+        }
+        holder.moodCount.apply {
+            text = context.getString(R.string.weekday_count_format, moodItem.count, percentage)
+            typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
+        }
     }
 
     override fun getItemCount(): Int = moodData.size

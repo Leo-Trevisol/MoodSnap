@@ -476,12 +476,16 @@ class DashboardFragment : Fragment() {
                 // Adicionar o frame layout ao container circular
                 iconContainer.addView(frameLayout)
 
+                val currentFont = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+                    .getString("current_font", "default")
+
                 // Criar TextView para o dia
                 val dayText = TextView(requireContext()).apply {
                     text = "${dayMood.dayOfMonth}\n${DateUtils.getDayOfWeekShortName(requireContext(), dayMood.dayOfWeek)}"
                     textSize = 12f
                     gravity = Gravity.CENTER
                     setTextColor(ContextCompat.getColor(requireContext(), R.color.secundary))
+                    typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
                 }
 
                 // Adicionar views ao container do dia
@@ -519,11 +523,11 @@ class DashboardFragment : Fragment() {
         container.removeAllViews()
 
         val total = distribution.values.sum().toFloat()
-        
+
         // Encontrar o humor com a maior porcentagem
         var maxPercentage = 0
         var maxMoodType = -1
-        
+
         if (total > 0) {
             moodOrder.forEach { moodType ->
                 val count = distribution[moodType] ?: 0
@@ -539,7 +543,7 @@ class DashboardFragment : Fragment() {
         val screenWidth = resources.displayMetrics.widthPixels
         val containerSize = (screenWidth * 0.13).toInt() // 13% da largura da tela
         val iconSize = (containerSize * 1).toInt() // 100% do tamanho do container
-        
+
         // Tamanho fixo para o container de porcentagem
         val percentageWidth = resources.getDimensionPixelSize(R.dimen.percentage_width)
         val percentageHeight = resources.getDimensionPixelSize(R.dimen.percentage_height)
@@ -577,6 +581,9 @@ class DashboardFragment : Fragment() {
                 }
             }
 
+            val currentFont = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+                .getString("current_font", "default")
+
             // Texto da porcentagem com background arredondado
             val percentageText = TextView(requireContext()).apply {
                 if(total == 0f) {
@@ -586,7 +593,7 @@ class DashboardFragment : Fragment() {
                     val percentage = (count / total * 100).roundToInt()
                     text = "$percentage%"
                 }
-                
+
                 // Aplicar cor de texto baseada no background
                 if (moodType == maxMoodType) {
                     background = ContextCompat.getDrawable(requireContext(), R.drawable.highlighted_percentage_background)
@@ -595,10 +602,10 @@ class DashboardFragment : Fragment() {
                     background = ContextCompat.getDrawable(requireContext(), R.drawable.rounded_percentage_background)
                     setTextColor(ContextCompat.getColor(requireContext(), R.color.secundary))
                 }
-                
+
                 textSize = resources.getDimension(R.dimen.legend_pie_chart)
                 gravity = Gravity.CENTER
-                
+                typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
                 // Aplicar tamanho fixo
                 layoutParams = LinearLayout.LayoutParams(
                     percentageWidth,
@@ -749,7 +756,7 @@ class DashboardFragment : Fragment() {
                         // Calcular a data inicial e final do período
                         val startDate: Date?
                         val endDate: Date?
-                        
+
                         when (selectedFilter) {
                             is DayFilterType -> {
                                 if (selectedFilter.days > 0) {
@@ -839,10 +846,15 @@ class DashboardFragment : Fragment() {
             setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT)
         }
 
+        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val currentFont = sharedPreferences.getString("current_font", "default")
+
         // Configurar views do dialog
         val cardView = dialog.findViewById<CardView>(R.id.card_view)
         val moodCardView = dialog.findViewById<CardView>(R.id.mood_card_view)
+        val dialogTitle = dialog.findViewById<TextView>(R.id.dialog_title)
         val titleText = dialog.findViewById<TextView>(R.id.title_text)
+        val periodText = dialog.findViewById<TextView>(R.id.period_text)
         val moodIcon = dialog.findViewById<ImageView>(R.id.mood_icon)
         val recyclerView = dialog.findViewById<RecyclerView>(R.id.weekday_recycler_view)
 
@@ -850,6 +862,9 @@ class DashboardFragment : Fragment() {
         moodCardView.setCardBackgroundColor(moodColor)
         titleText.text = moodName
         titleText.setTextColor(Color.BLACK)
+        titleText.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+        dialogTitle.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+        periodText.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
         moodIcon.setImageResource(Utils.getMoodIcon(moodType))
         val filterName = selectedFilter.getFilterName(requireContext())
         dialog.findViewById<TextView>(R.id.period_text).text = getString(R.string.period_label, filterName)
@@ -861,7 +876,7 @@ class DashboardFragment : Fragment() {
 
         // Configurar RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        
+
         // Adicionar divisores entre os itens (exceto após o último)
         val dividerItemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL).apply {
             ContextCompat.getDrawable(requireContext(), R.drawable.recycler_view_divider)?.let { drawable ->
@@ -904,7 +919,7 @@ class DashboardFragment : Fragment() {
                 }
             }
         })
-        
+
         // Configurar o adaptador
         val adapter = WeekdayCountAdapter(requireContext(), daysWithData, totalCount)
         recyclerView.adapter = adapter
@@ -1205,6 +1220,7 @@ class DashboardFragment : Fragment() {
         // Configurar views do dialog
         val cardView = dialog.findViewById<CardView>(R.id.card_view)
         val moodCardView = dialog.findViewById<CardView>(R.id.mood_card_view)
+        val dialogTitle = dialog.findViewById<TextView>(R.id.dialog_title)
         val titleText = dialog.findViewById<TextView>(R.id.title_text)
         val moodIcon = dialog.findViewById<ImageView>(R.id.mood_icon)
         val dateText = dialog.findViewById<TextView>(R.id.date_text)
@@ -1219,8 +1235,17 @@ class DashboardFragment : Fragment() {
         titleText.setTextColor(Color.BLACK)
         moodIcon.setImageResource(Utils.getMoodIcon(moodType))
         dateText.text = DateUtils.formatDateTime(requireContext(), date)
-        
-        // Configurar o texto do período
+
+        val currentFont = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            .getString("current_font", "default")
+
+        noteTitle.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+        noteText.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+        dateText.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+        dialogTitle.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+        titleText.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+
+                // Configurar o texto do período
         periodText.text = getString(R.string.period_label, selectedFilter.getFilterName(requireContext()))
 
         if (!note.isNullOrBlank()) {
@@ -1666,9 +1691,14 @@ class DashboardFragment : Fragment() {
             setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT)
         }
 
+        val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
+        val currentFont = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            .getString("current_font", "default")
+
         // Configurar views do dialog
         val cardView = dialog.findViewById<CardView>(R.id.card_view)
         val periodText = dialog.findViewById<TextView>(R.id.period_text)
+        val dialogTitle = dialog.findViewById<TextView>(R.id.dialog_title)
         val weekdayText = dialog.findViewById<TextView>(R.id.weekday_text)
 
         // Obter o nome do dia da semana
@@ -1684,13 +1714,18 @@ class DashboardFragment : Fragment() {
         val weekdayName = weekdays[weekdayIndex]
 
         // Configurar título do dialog
-        dialog.findViewById<TextView>(R.id.dialog_title).text = getString(R.string.dialog_title_radar_distribution_simple)
-        
+        dialogTitle.text = getString(R.string.dialog_title_radar_distribution_simple)
+
+        dialogTitle.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
         // Configurar o texto do período
         periodText.text = getString(R.string.period_label, selectedFilter.getFilterName(requireContext()))
-        
+
+        periodText.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+
         // Configurar o texto do dia da semana
         weekdayText.text = getString(R.string.selected_weekday, weekdayName)
+
+        weekdayText.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
         // Obter todos os humores registrados para este dia da semana
         val days = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date()).getOrNull(binding.radarPeriodSpinner.selectedItemPosition)
@@ -1719,7 +1754,7 @@ class DashboardFragment : Fragment() {
 
         // Preparar dados para o adaptador
         val moodItems = mutableListOf<RadarMoodAdapter.MoodItem>()
-        
+
         // Adicionar um item para cada humor registrado neste dia
         moodOrder.forEach { moodType ->
             val count = moodsForWeekday[moodType] ?: 0
@@ -1738,47 +1773,47 @@ class DashboardFragment : Fragment() {
         // Configurar RecyclerView
         val recyclerView = dialog.findViewById<RecyclerView>(R.id.mood_recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        
+
         recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
                 val divider = ContextCompat.getDrawable(requireContext(), R.drawable.recycler_view_divider)
                     ?: return
-                
+
                 val left = parent.paddingLeft
                 val right = parent.width - parent.paddingRight
-                
+
                 for (i in 0 until parent.childCount) {
                     val child = parent.getChildAt(i)
                     val position = parent.getChildAdapterPosition(child)
-                    
+
                     // Não desenhar divisor após o último item
                     if (position == parent.adapter?.itemCount?.minus(1)) {
                         continue
                     }
-                    
+
                     val params = child.layoutParams as RecyclerView.LayoutParams
                     val top = child.bottom + params.bottomMargin
                     val bottom = top + (divider?.intrinsicHeight ?: 0)
-                    
+
                     divider?.setBounds(left, top, right, bottom)
                     divider?.draw(c)
                 }
             }
-            
+
             override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
                 // Adicionar espaço para o divisor apenas se não for o último item
                 val position = parent.getChildAdapterPosition(view)
                 if (position < state.itemCount - 1) {
-                    outRect.bottom = resources.getDimensionPixelSize(R.dimen.divider_height) + 
+                    outRect.bottom = resources.getDimensionPixelSize(R.dimen.divider_height) +
                                     resources.getDimensionPixelSize(R.dimen.margin_small) * 2
                 }
             }
         })
-        
+
         // Configurar o adaptador
         val adapter = RadarMoodAdapter(requireContext(), moodItems, totalMoods)
         recyclerView.adapter = adapter
-        
+
         // Limitar a altura máxima do RecyclerView para evitar diálogos muito grandes
         if (moodItems.size > 4) {
             val params = recyclerView.layoutParams
@@ -1924,27 +1959,27 @@ class DashboardFragment : Fragment() {
                 override fun onValueSelected(e: Entry?, h: Highlight?) {
                     if (e != null) {
                         val index = e.x.toInt()
-                        
+
                         // Obter os dias selecionados
                         val days = listOf(
                             binding.groupedBarDay1Spinner.selectedItemPosition,
                             binding.groupedBarDay2Spinner.selectedItemPosition
                         )
                         val selectedDay = days[index]
-                        
+
                         // Obter o tipo de humor selecionado
                         val moodType = binding.groupedBarMoodSpinner.selectedItemPosition
                         val moodName = dashboardViewModel.getMoodName(requireContext(), moodType)
-                        
+
                         // Obter o período selecionado
                         val periodPosition = binding.groupedBarPeriodSpinner.selectedItemPosition
                         val availableFilters = getAvailableFilters(dashboardViewModel.getOldestMoodDate() ?: Date())
                         val selectedFilter = availableFilters.getOrNull(periodPosition) ?: DayFilterType.LAST_7_DAYS
-                        
+
                         // Obter as datas de início e fim baseadas no filtro
                         val startDate: Date?
                         val endDate: Date?
-                        
+
                         when (selectedFilter) {
                             is DayFilterType -> {
                                 if (selectedFilter.days == -1) {
@@ -1969,7 +2004,7 @@ class DashboardFragment : Fragment() {
                                 endDate = null
                             }
                         }
-                        
+
                         // Obter as datas para o humor selecionado no dia da semana específico
                         val dates = dashboardViewModel.getMoodDatesForTypeAndWeekday(
                             moodType = moodType,
@@ -1977,7 +2012,7 @@ class DashboardFragment : Fragment() {
                             startDate = startDate,
                             endDate = endDate
                         )
-                        
+
                         // Mostrar o diálogo com as datas
                         showMoodComparisonDetailsDialog(
                             moodName = moodName,
@@ -2031,7 +2066,7 @@ class DashboardFragment : Fragment() {
                 binding.cardGroupedBarMoodInfoContainer.setCardBackgroundColor(dashboardViewModel.getMoodColor(moodType))
                 binding.groupedBarMoodIcon.setImageResource(Utils.getMoodIcon(moodType))
                 binding.groupedBarMoodName.text = dashboardViewModel.getMoodName(requireContext(), moodType)
-                
+
                 // Salvar a posição selecionada
                 val chartPrefs = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
                 chartPrefs.edit().putInt("grouped_bar_mood_position", position).apply()
@@ -2084,10 +2119,10 @@ class DashboardFragment : Fragment() {
     val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
     val currentFont = sharedPreferences.getString("current_font", "default")
     val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
-    
+
     // Determinar o rótulo com base nas preferências
     val useMoodLabels = sharedPreferences.getBoolean("use_mood_labels", true)
-    
+
     val label = if (useMoodLabels) {
         getString(R.string.humor_label) + " "
     } else {
@@ -2833,10 +2868,16 @@ class DashboardFragment : Fragment() {
             val width = (resources.displayMetrics.widthPixels * 0.85).toInt() // 85% da largura da tela
             setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT)
         }
+
+        val currentFont = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            .getString("current_font", "default")
+
         // Configurar views do dialog
         val cardView = dialog.findViewById<CardView>(R.id.card_view)
         val dialogTitle = dialog.findViewById<TextView>(R.id.dialog_title)
         val recyclerView = dialog.findViewById<RecyclerView>(R.id.date_recycler_view)
+        val periodText = dialog.findViewById<TextView>(R.id.period_text)
+        val weekdayText = dialog.findViewById<TextView>(R.id.weekday_text)
 
         // Configurar o CardView do humor
         val moodCardView = dialog.findViewById<CardView>(R.id.mood_card_view)
@@ -2851,12 +2892,16 @@ class DashboardFragment : Fragment() {
 
         titleText.setBackgroundColor(moodColor)
 
+        titleText.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+
         // Configurar conteúdo
         dialogTitle.text = getString(R.string.mood_dates_title_simple)
         dialogTitle.setTextColor(resources.getColor(R.color.secundary))
+        dialogTitle.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
         // Configurar o texto do período
-        dialog.findViewById<TextView>(R.id.period_text).text = getString(R.string.period_label, selectedFilter.getFilterName(requireContext()))
+        periodText.text = getString(R.string.period_label, selectedFilter.getFilterName(requireContext()))
+        periodText.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
         // Configurar o texto do dia da semana
         val weekdays = listOf(
@@ -2868,7 +2913,8 @@ class DashboardFragment : Fragment() {
             getString(R.string.weekday_full_friday),
             getString(R.string.weekday_full_saturday)
         )
-        dialog.findViewById<TextView>(R.id.weekday_text).text = getString(R.string.selected_weekday, weekdays[selectedWeekday])
+        weekdayText.text = getString(R.string.selected_weekday, weekdays[selectedWeekday])
+        weekdayText.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
         // Configurar o card do humor com a cor correta
         moodCardView.setCardBackgroundColor(moodColor)

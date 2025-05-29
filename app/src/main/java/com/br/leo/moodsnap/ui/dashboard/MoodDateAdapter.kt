@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.ui.utils.DateUtils
+import com.br.leo.moodsnap.ui.utils.FontUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,11 +38,20 @@ class MoodDateAdapter(
         val calendar = Calendar.getInstance()
         calendar.time = date
 
-        holder.dateText.text = DateUtils.formatDateTime(context, date, false)
+        val currentFont = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            .getString("current_font", "default")
+
+        holder.dateText.apply {
+            text = DateUtils.formatDateTime(context, date, false)
+            typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
+        }
         
         // Formatar e exibir a hora no formato AM/PM
         val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-        holder.timeText.text = timeFormat.format(date)
+        holder.timeText.apply {
+            text = timeFormat.format(date)
+            typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
+        }
     }
 
     override fun getItemCount(): Int = dates.size
