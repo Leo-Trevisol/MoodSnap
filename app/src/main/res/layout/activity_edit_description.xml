@@ -55,17 +55,30 @@
 
                 app:tint="@color/primary_green"/>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/date_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="@dimen/text_size_xlarge"
-                android:drawableEnd="@drawable/ic_dowm"
-                android:drawablePadding="@dimen/spacing_normal"
-                app:drawableTint="@color/primary_green"
-                android:textColor="@color/day_text_color"
-                tools:text="Friday, 23 may"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/date_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/rounded_background_dark"
+                    android:popupBackground="@color/primary_background"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_xlarge"
+                    android:textColor="@color/secundary"
+                    tools:text="Friday, 23 may"/>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_down"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="2dp"
+                    app:tint="@color/secundary"/>
+
+            </FrameLayout>
 
             <ImageView
                 android:id="@+id/btn_next_month"
