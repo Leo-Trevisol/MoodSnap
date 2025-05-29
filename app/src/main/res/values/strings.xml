@@ -328,6 +328,8 @@
     <string name="dia_label">Day:</string>
     <string name="humor_1_label">Mood 1:</string>
     <string name="humor_2_label">Mood 2:</string>
+    <string name="humor_label">Mood:</string>
+
 
     <string name="all_time">All time</string>
     <string name="last_n_days">Last %1$d days</string>

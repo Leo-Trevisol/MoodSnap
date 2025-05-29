@@ -29,6 +29,7 @@ class LabeledSpinnerAdapter<T>(
         val valueTextView = view.findViewById<TextView>(R.id.spinner_text)
 
         labelTextView.text = label
+        labelTextView.alpha = 0.5f
         valueTextView.text = getItemText(items[position])
         valueTextView.textSize = context.resources.getDimension(R.dimen.text_recycler_dialog)
         labelTextView.textSize = context.resources.getDimension(R.dimen.text_recycler_dialog)

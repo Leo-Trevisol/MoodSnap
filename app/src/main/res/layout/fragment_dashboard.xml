@@ -558,81 +558,94 @@
                         android:layout_marginTop="4dp"
                         android:gravity="center_vertical">
 
-                        <Spinner
-                            android:id="@+id/grouped_bar_period_spinner"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:spinnerMode="dropdown"
-                            android:layout_weight="1.5"
-                            android:gravity="start"/>
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1">
-                        </View>
+                            <Spinner
+                                android:id="@+id/grouped_bar_period_spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:spinnerMode="dropdown"
+                                android:background="@drawable/rounded_background_dark"
+                                android:popupBackground="@color/primary_background"
+                                android:gravity="start"
+                                android:paddingEnd="32dp"/>
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_arrow_down"
+                                android:layout_gravity="end|center_vertical"
+                                android:layout_marginEnd="2dp"
+                                app:tint="@color/secundary"/>
+
+                        </FrameLayout>
 
                     </LinearLayout>
 
+                    <!-- Container horizontal para os spinners de dias lado a lado -->                    
                     <LinearLayout
-                        android:id="@+id/grouped_bar_day_1_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginTop="8dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/bar_chart_compare_days_day_spinner_1"
-                            android:textSize="@dimen/text_size_normal"
-                            android:textColor="@color/secundary"
-                            android:layout_marginEnd="8dp"
-                            android:layout_gravity="center_vertical"/>
-
-                        <Spinner
-                            android:id="@+id/grouped_bar_day1_spinner"
+                        <!-- Container do Dia 1 -->
+                        <FrameLayout
+                            android:id="@+id/grouped_bar_day_1_container"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:spinnerMode="dropdown"/>
+                            android:layout_weight="1"
+                            android:layout_marginEnd="4dp">
 
-                        <View
+                            <Spinner
+                                android:id="@+id/grouped_bar_day1_spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:spinnerMode="dropdown"
+                                android:background="@drawable/rounded_background_dark"
+                                android:popupBackground="@color/primary_background"
+                                android:gravity="start"
+                                android:paddingEnd="32dp"/>
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_arrow_down"
+                                android:layout_gravity="end|center_vertical"
+                                android:layout_marginEnd="2dp"
+                                app:tint="@color/secundary"/>
+
+                        </FrameLayout>
+
+                        <!-- Container do Dia 2 -->
+                        <FrameLayout
+                            android:id="@+id/grouped_bar_day_2_container"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1">
-                        </View>
+                            android:layout_weight="1"
+                            android:layout_marginStart="4dp">
 
-                    </LinearLayout>
+                            <Spinner
+                                android:id="@+id/grouped_bar_day2_spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:spinnerMode="dropdown"
+                                android:background="@drawable/rounded_background_dark"
+                                android:popupBackground="@color/primary_background"
+                                android:gravity="start"
+                                android:paddingEnd="32dp"/>
 
-                    <LinearLayout
-                        android:id="@+id/grouped_bar_day_2_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="8dp">
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_arrow_down"
+                                android:layout_gravity="end|center_vertical"
+                                android:layout_marginEnd="2dp"
+                                app:tint="@color/secundary"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/bar_chart_compare_days_day_spinner_2"
-                            android:textSize="@dimen/text_size_normal"
-                            android:textColor="@color/secundary"
-                            android:layout_marginEnd="8dp"
-                            android:layout_gravity="center_vertical"/>
-
-                        <Spinner
-                            android:id="@+id/grouped_bar_day2_spinner"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:spinnerMode="dropdown"/>
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1">
-                        </View>
+                        </FrameLayout>
 
                     </LinearLayout>
 
@@ -643,21 +656,82 @@
                         android:orientation="horizontal"
                         android:layout_marginTop="8dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/bar_chart_compare_days_mood_spinner"
-                            android:textSize="@dimen/text_size_normal"
-                            android:textColor="@color/secundary"
-                            android:layout_marginEnd="8dp"
-                            android:layout_gravity="center_vertical"/>
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                        <Spinner
-                            android:id="@+id/grouped_bar_mood_spinner"
+                            <Spinner
+                                android:id="@+id/grouped_bar_mood_spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:spinnerMode="dropdown"
+                                android:background="@drawable/rounded_background_dark"
+                                android:popupBackground="@color/primary_background"
+                                android:gravity="start"
+                                android:paddingEnd="32dp"/>
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_arrow_down"
+                                android:layout_gravity="end|center_vertical"
+                                android:layout_marginEnd="2dp"
+                                app:tint="@color/secundary"/>
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal">
+
+                        <View
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1.5"
-                            android:spinnerMode="dropdown"/>
+                            android:layout_weight="1">
+                        </View>
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_grouped_bar_mood_info_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="2dp"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        >
+
+                    <LinearLayout
+                        android:id="@+id/grouped_bar_mood_info_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/spacing_normal"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/grouped_bar_mood_icon"
+                            android:layout_width="@dimen/options_icons_size_large"
+                            android:layout_height="@dimen/options_icons_size_large"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"/>
+
+                        <TextView
+                            android:id="@+id/grouped_bar_mood_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_size_normal"
+                            android:textColor="@color/black"
+                            android:layout_weight="3"
+                            android:textStyle="bold"/>
+
+                    </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
 
                         <View
                             android:layout_width="0dp"
@@ -667,43 +741,6 @@
 
                     </LinearLayout>
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_grouped_bar_mood_info_container"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        app:cardCornerRadius="16dp"
-                        app:cardElevation="4dp"
-                        android:layout_gravity="center"
-                        >
-
-                    <LinearLayout
-                        android:id="@+id/grouped_bar_mood_info_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="16dp"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:id="@+id/grouped_bar_mood_icon"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_weight="1"
-                            android:layout_marginEnd="8dp"/>
-
-                        <TextView
-                            android:id="@+id/grouped_bar_mood_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_large"
-                            android:textColor="@color/black"
-                            android:layout_weight="3"
-                            android:textStyle="bold"/>
-
-                    </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
 
                     <com.github.mikephil.charting.charts.BarChart
                         android:id="@+id/grouped_bar_chart"
@@ -923,7 +960,7 @@
                             android:layout_weight="1"
                             android:layout_marginEnd="5dp"
                             android:layout_marginBottom="2dp"
-                            app:cardElevation="4dp"
+                            app:cardElevation="2dp"
                             android:layout_gravity="center"
                             >
 
@@ -931,13 +968,13 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:padding="16dp"
+                                android:padding="@dimen/spacing_normal"
                                 android:gravity="center">
 
                                 <ImageView
                                     android:id="@+id/mood_comparison_mood1_icon"
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
+                                    android:layout_width="@dimen/options_icons_size_large"
+                                    android:layout_height="@dimen/options_icons_size_large"
                                     android:layout_weight="1"
                                     android:layout_marginEnd="8dp"/>
 
@@ -962,7 +999,7 @@
                             android:layout_weight="1"
                             android:layout_marginStart="5dp"
                             android:layout_marginBottom="2dp"
-                            app:cardElevation="4dp"
+                            app:cardElevation="2dp"
                             android:layout_gravity="center"
                             >
 
@@ -970,13 +1007,13 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:padding="16dp"
+                                android:padding="@dimen/spacing_normal"
                                 android:gravity="center">
 
                                 <ImageView
                                     android:id="@+id/mood_comparison_mood2_icon"
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
+                                    android:layout_width="@dimen/options_icons_size_large"
+                                    android:layout_height="@dimen/options_icons_size_large"
                                     android:layout_weight="1"
                                     android:layout_marginEnd="8dp"/>
 

@@ -1861,37 +1861,18 @@ class DashboardFragment : Fragment() {
         val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
         val currentFont = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
             .getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
-        val adapter = object : ArrayAdapter<FilterType>(
+        // Usar o LabeledSpinnerAdapter para o spinner de período
+        val adapter = LabeledSpinnerAdapter(
             requireContext(),
-            R.layout.spinner_item,
-            availableFilters
-        ) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getView(position, convertView, parent)
-                val filter = getItem(position)
-                (view as TextView).apply {
-                    text = filter?.getFilterName(context)
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
-                }
-                return view
-            }
+            availableFilters,
+            getString(R.string.periodo_label) + " ",
+            typeface,
+            { it.getFilterName(requireContext()) }
+        )
 
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getDropDownView(position, convertView, parent)
-                val filter = getItem(position)
-                view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
-                (view as TextView).apply {
-                    text = filter?.getFilterName(context)
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
-                }
-                return view
-            }
-        }
-
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.custom_comparison_spinner_dropdown_item)
         binding.groupedBarPeriodSpinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
@@ -2119,71 +2100,73 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setupWeekdaySpinner(spinner: Spinner, defaultSelection: Int) {
-        val weekdays = listOf(
-            getString(R.string.weekday_full_sunday),
-            getString(R.string.weekday_full_monday),
-            getString(R.string.weekday_full_tuesday),
-            getString(R.string.weekday_full_wednesday),
-            getString(R.string.weekday_full_thursday),
-            getString(R.string.weekday_full_friday),
-            getString(R.string.weekday_full_saturday)
-        )
+    val weekdays = listOf(
+        getString(R.string.weekday_full_sunday),
+        getString(R.string.weekday_full_monday),
+        getString(R.string.weekday_full_tuesday),
+        getString(R.string.weekday_full_wednesday),
+        getString(R.string.weekday_full_thursday),
+        getString(R.string.weekday_full_friday),
+        getString(R.string.weekday_full_saturday)
+    )
 
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+    val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+    val currentFont = sharedPreferences.getString("current_font", "default")
+    val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
-        val adapter = LabeledSpinnerAdapter(
-            requireContext(),
-            weekdays,
-            getString(R.string.dia_label) + " ",
-            typeface,
-            { it }
-        )
+    val adapter = LabeledSpinnerAdapter(
+        requireContext(),
+        weekdays,
+        getString(R.string.dia_label) + " ",
+        typeface,
+        { it }
+    )
 
-        adapter.setDropDownViewResource(R.layout.custom_comparison_spinner_dropdown_item)
-        spinner.apply {
-            this.adapter = adapter
-            setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
-            setSelection(defaultSelection)
-        }
+    adapter.setDropDownViewResource(R.layout.custom_comparison_spinner_dropdown_item)
+    spinner.apply {
+        this.adapter = adapter
+        setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
+        setSelection(defaultSelection)
     }
+}
 
     private fun setupMoodTypeSpinner(spinner: Spinner, defaultSelection: Int = 0) {
-        val moodTypes = listOf(
-            getString(R.string.mood_very_happy),
-            getString(R.string.mood_happy),
-            getString(R.string.mood_neutral),
-            getString(R.string.mood_sad),
-            getString(R.string.mood_very_sad)
-        )
+    val moodTypes = listOf(
+        getString(R.string.mood_very_happy),
+        getString(R.string.mood_happy),
+        getString(R.string.mood_neutral),
+        getString(R.string.mood_sad),
+        getString(R.string.mood_very_sad)
+    )
 
-        val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val currentFont = sharedPreferences.getString("current_font", "default")
-        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
-
-        // Determinar qual rótulo usar com base no ID do spinner
-        val label = when (spinner.id) {
-            R.id.mood_comparison_mood1_spinner -> getString(R.string.humor_1_label) + " "
-            R.id.mood_comparison_mood2_spinner -> getString(R.string.humor_2_label) + " "
-            else -> ""
-        }
-
-        val adapter = LabeledSpinnerAdapter(
-            requireContext(),
-            moodTypes,
-            label,
-            typeface,
-            { it }
-        )
-
-        adapter.setDropDownViewResource(R.layout.custom_comparison_spinner_dropdown_item)
-        spinner.apply {
-            this.adapter = adapter
-            setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
-            setSelection(defaultSelection)
-        }
+    val sharedPreferences = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+    val currentFont = sharedPreferences.getString("current_font", "default")
+    val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
+    
+    // Determinar o rótulo com base nas preferências
+    val useMoodLabels = sharedPreferences.getBoolean("use_mood_labels", true)
+    
+    val label = if (useMoodLabels) {
+        getString(R.string.humor_label) + " "
+    } else {
+        ""
     }
+
+    val adapter = LabeledSpinnerAdapter(
+        requireContext(),
+        moodTypes,
+        label,
+        typeface,
+        { it }
+    )
+
+    adapter.setDropDownViewResource(R.layout.custom_comparison_spinner_dropdown_item)
+    spinner.apply {
+        this.adapter = adapter
+        setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
+        setSelection(defaultSelection)
+    }
+}
 
     private fun updateGroupedBarChart() {
         val barChart = binding.groupedBarChart
