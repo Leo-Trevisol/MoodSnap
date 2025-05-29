@@ -35,6 +35,7 @@
             android:gravity="center"
             android:textColor="@color/secundary"
             android:textSize="@dimen/text_size_normal"
+            android:visibility="gone"
             android:paddingBottom="16dp" />
 
         <androidx.cardview.widget.CardView
