@@ -160,12 +160,30 @@
 
                     </LinearLayout>
 
-                    <Spinner
-                        android:id="@+id/day_filter_spinner"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1.5"
-                        android:layout_marginStart="4dp"/>
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5">
+
+                        <Spinner
+                            android:id="@+id/day_filter_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:spinnerMode="dropdown"
+                            android:background="@drawable/rounded_background_dark"
+                            android:popupBackground="@color/primary_background"
+                            android:gravity="start"
+                            android:paddingEnd="32dp"/>
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_arrow_down"
+                            android:layout_gravity="end|center_vertical"
+                            android:layout_marginEnd="2dp"
+                            app:tint="@color/secundary"/>
+
+                    </FrameLayout>
 
                 </LinearLayout>
 
