@@ -240,19 +240,29 @@
                     android:layout_marginTop="4dp"
                     android:gravity="center_vertical">
 
-                    <Spinner
-                        android:id="@+id/donut_period_spinner"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:spinnerMode="dropdown"
-                        android:layout_weight="1.5"
-                        android:gravity="start"/>
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1">
-                        </View>
+                            <Spinner
+                                android:id="@+id/donut_period_spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:spinnerMode="dropdown"
+                                android:background="@drawable/rounded_background_dark"
+                                android:popupBackground="@color/primary_background"
+                                android:gravity="start"
+                                android:paddingEnd="32dp"/>
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_arrow_down"
+                                android:layout_gravity="end|center_vertical"
+                                android:layout_marginEnd="2dp"
+                                app:tint="@color/secundary"/>
+
+                        </FrameLayout>
 
                 </LinearLayout>
 
@@ -346,19 +356,29 @@
                     android:layout_marginTop="4dp"
                     android:gravity="center_vertical">
 
-                    <Spinner
-                        android:id="@+id/bar_period_spinner"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:spinnerMode="dropdown"
-                        android:layout_weight="1.5"
-                        android:gravity="start"/>
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1">
-                        </View>
+                            <Spinner
+                                android:id="@+id/bar_period_spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:spinnerMode="dropdown"
+                                android:background="@drawable/rounded_background_dark"
+                                android:popupBackground="@color/primary_background"
+                                android:gravity="start"
+                                android:paddingEnd="32dp"/>
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_arrow_down"
+                                android:layout_gravity="end|center_vertical"
+                                android:layout_marginEnd="2dp"
+                                app:tint="@color/secundary"/>
+
+                        </FrameLayout>
 
                 </LinearLayout>
 
@@ -452,19 +472,29 @@
                     android:layout_marginTop="4dp"
                     android:gravity="center_vertical">
 
-                    <Spinner
-                        android:id="@+id/radar_period_spinner"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:spinnerMode="dropdown"
-                        android:layout_weight="1.5"
-                        android:gravity="start"/>
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1">
-                        </View>
+                            <Spinner
+                                android:id="@+id/radar_period_spinner"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:spinnerMode="dropdown"
+                                android:background="@drawable/rounded_background_dark"
+                                android:popupBackground="@color/primary_background"
+                                android:gravity="start"
+                                android:paddingEnd="32dp"/>
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_arrow_down"
+                                android:layout_gravity="end|center_vertical"
+                                android:layout_marginEnd="2dp"
+                                app:tint="@color/secundary"/>
+
+                        </FrameLayout>
 
                 </LinearLayout>
 

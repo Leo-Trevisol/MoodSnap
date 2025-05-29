@@ -653,42 +653,22 @@ class DashboardFragment : Fragment() {
         val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
         val currentFont = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
             .getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
-        val adapter = object : ArrayAdapter<FilterType>(
+        // Usar o LabeledSpinnerAdapter para o spinner de período
+        val adapter = LabeledSpinnerAdapter(
             requireContext(),
-            R.layout.spinner_item,
-            availableFilters
-        ) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getView(position, convertView, parent)
-                val filter = getItem(position)
-                (view as TextView).apply {
-                    text = filter?.getFilterName(context)
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
-                }
-                return view
-            }
+            availableFilters,
+            getString(R.string.periodo_label) + " ",
+            typeface,
+            { it.getFilterName(requireContext()) }
+        )
 
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getDropDownView(position, convertView, parent)
-                val filter = getItem(position)
-                view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
-                (view as TextView).apply {
-                    text = filter?.getFilterName(context)
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
-                }
-                return view
-            }
-        }
-
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.custom_comparison_spinner_dropdown_item)
         binding.donutPeriodSpinner.apply {
             this.adapter = adapter
-
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
-            
+
             // Restaurar a seleção salva ou selecionar o primeiro período com dados
             val savedPosition = sharedPreferences.getInt("donut_chart_filter_position", -1)
             if (savedPosition >= 0 && savedPosition < availableFilters.size) {
@@ -711,7 +691,7 @@ class DashboardFragment : Fragment() {
                     val distribution = dashboardViewModel.moodDistribution.value ?: emptyMap()
                     val filteredDistribution = filterDistributionByDays(distribution, selectedFilter)
                     updateDonutChart(filteredDistribution)
-                    
+
                     // Salvar a posição selecionada
                     sharedPreferences.edit().putInt("donut_chart_filter_position", position).apply()
                 }
@@ -1069,37 +1049,18 @@ class DashboardFragment : Fragment() {
         val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
         val currentFont = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
             .getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
-        val adapter = object : ArrayAdapter<FilterType>(
+        // Usar o LabeledSpinnerAdapter para o spinner de período
+        val adapter = LabeledSpinnerAdapter(
             requireContext(),
-            R.layout.spinner_item,
-            availableFilters
-        ) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getView(position, convertView, parent)
-                val filter = getItem(position)
-                (view as TextView).apply {
-                    text = filter?.getFilterName(context)
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
-                }
-                return view
-            }
+            availableFilters,
+            getString(R.string.periodo_label) + " ",
+            typeface,
+            { it.getFilterName(requireContext()) }
+        )
 
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getDropDownView(position, convertView, parent)
-                val filter = getItem(position)
-                view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
-                (view as TextView).apply {
-                    text = filter?.getFilterName(context)
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
-                }
-                return view
-            }
-        }
-
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.custom_comparison_spinner_dropdown_item)
         binding.barPeriodSpinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
@@ -1403,37 +1364,18 @@ class DashboardFragment : Fragment() {
         val sharedPreferences = requireContext().getSharedPreferences("chart_preferences", Context.MODE_PRIVATE)
         val currentFont = requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
             .getString("current_font", "default")
+        val typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
-        val adapter = object : ArrayAdapter<FilterType>(
+        // Usar o LabeledSpinnerAdapter para o spinner de período
+        val adapter = LabeledSpinnerAdapter(
             requireContext(),
-            R.layout.spinner_item,
-            availableFilters
-        ) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getView(position, convertView, parent)
-                val filter = getItem(position)
-                (view as TextView).apply {
-                    text = filter?.getFilterName(context)
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
-                }
-                return view
-            }
+            availableFilters,
+            getString(R.string.periodo_label) + " ",
+            typeface,
+            { it.getFilterName(requireContext()) }
+        )
 
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = super.getDropDownView(position, convertView, parent)
-                val filter = getItem(position)
-                view.setBackgroundColor(ContextCompat.getColor(context, R.color.primary_background))
-                (view as TextView).apply {
-                    text = filter?.getFilterName(context)
-                    setTextColor(ContextCompat.getColor(context, R.color.secundary))
-                    typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
-                }
-                return view
-            }
-        }
-
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.custom_comparison_spinner_dropdown_item)
         binding.radarPeriodSpinner.apply {
             this.adapter = adapter
             setPopupBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.spinner_dropdown_background))
