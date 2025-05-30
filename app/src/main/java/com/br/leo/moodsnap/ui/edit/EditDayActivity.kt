@@ -43,6 +43,7 @@ import com.br.leo.moodsnap.ui.utils.FontUtils.updateFontDialogPicker
 import com.br.leo.moodsnap.ui.utils.Utils.findViewsByType
 import android.provider.Settings
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.util.Log
@@ -254,7 +255,7 @@ class EditDayActivity : AppCompatActivity() {
     }
 
     private fun showCalendarPicker() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_calendar_picker, null)
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_calendar_picker, null)
         FontUtils.applyFontToView(this, dialogView)
 
         // Referências aos elementos do layout
@@ -671,6 +672,34 @@ class EditDayActivity : AppCompatActivity() {
             returnResult()
             finish()
         }
+        
+        ClickUtils.setDebounceClickListener(binding.btnRemoveImage) {
+            clearImage()
+        }
+    }
+
+    private fun clearImage() {
+        binding.imageDay.setImageDrawable(null)
+        binding.imageDay.visibility = View.GONE
+        binding.placeholderContainer.visibility = View.VISIBLE
+        binding.btnRemoveImage.visibility = View.GONE
+        selectedImageUri = null
+        checkForChanges()
+    }
+
+    private fun deleteExistingImage() {
+        if (moodId > 0) {
+            val mood = repository.get(moodId)
+            mood.imagePath?.let { path ->
+                // Deletar o arquivo
+                File(path).delete()
+                // Limpar o path no modelo
+                mood.imagePath = null
+                repository.update(mood)
+            }
+        }
+        clearImage()
+        showCustomToast(this, getString(R.string.image_deleted))
     }
 
     private fun showImageSourceDialog() {
@@ -697,26 +726,7 @@ class EditDayActivity : AppCompatActivity() {
                 CustomAlertDialog.create(this@EditDayActivity)
                     .setMessage(getString(R.string.confirm_delete_image))
                     .setPositiveListener {
-                        // Deletar a imagem
-                        if (moodId > 0) {
-                            val mood = repository.get(moodId)
-                            mood.imagePath?.let { path ->
-                                // Deletar o arquivo
-                                File(path).delete()
-                                // Limpar o path no modelo
-                                mood.imagePath = null
-                                repository.update(mood)
-                                
-                                // Atualizar a UI
-                                binding.imageDay.setImageDrawable(null)
-                                binding.imageDay.visibility = View.GONE
-                                binding.placeholderContainer.visibility = View.VISIBLE
-                                selectedImageUri = null
-                                
-                                showCustomToast(this@EditDayActivity, getString(R.string.image_deleted))
-                                checkForChanges()
-                            }
-                        }
+                        deleteExistingImage()
                     }
                     .setNegativeListener {  }
                     .setCancelable(false)
@@ -827,11 +837,13 @@ class EditDayActivity : AppCompatActivity() {
                 .into(binding.imageDay)
             binding.imageDay.visibility = View.VISIBLE
             binding.placeholderContainer.visibility = View.GONE
+            binding.btnRemoveImage.visibility = View.VISIBLE
             checkForChanges()
         } ?: run {
             binding.imageDay.setImageDrawable(null)
             binding.imageDay.visibility = View.GONE
             binding.placeholderContainer.visibility = View.VISIBLE
+            binding.btnRemoveImage.visibility = View.GONE
         }
     }
 
