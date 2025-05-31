@@ -114,7 +114,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:paddingLeft="@dimen/spacing_large"
+        android:paddingRight="@dimen/spacing_large"
+        android:paddingTop="@dimen/spacing_normal"
+        android:paddingBottom="@dimen/spacing_normal"
         app:layout_constraintBottom_toTopOf="@id/btn_save"
         app:layout_constraintTop_toBottomOf="@id/date_container">
 
@@ -258,7 +261,7 @@
                         android:hint="@string/type_here"
                         android:importantForAutofill="no"
                         android:textColor="@color/secundary"
-                        android:padding="15dp"
+                        android:padding="@dimen/spacing_large"
                         android:textSize="@dimen/text_size_large"
                         android:textColorHint="@android:color/darker_gray"
                         android:inputType="textMultiLine|textCapSentences"
@@ -276,8 +279,8 @@
             android:id="@+id/card_image"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
-            android:layout_marginBottom="16dp"
+            android:layout_weight="3"
+            android:layout_marginBottom="@dimen/spacing_normal"
             app:cardCornerRadius="8dp"
             android:backgroundTint="@color/background_card_view"
             app:cardElevation="4dp">
