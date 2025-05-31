@@ -838,8 +838,10 @@ class DashboardFragment : Fragment() {
         selectedFilter: FilterType
     ) {
         val dialog = Dialog(requireContext())
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_mood_weekday_details)
+
         dialog.window?.apply {
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val width = (resources.displayMetrics.widthPixels * 0.85).toInt() // 85% da largura da tela
@@ -1209,6 +1211,7 @@ class DashboardFragment : Fragment() {
         selectedFilter: FilterType
     ) {
         val dialog = Dialog(requireContext())
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_last_mood_details)
         dialog.window?.apply {
@@ -1683,6 +1686,7 @@ class DashboardFragment : Fragment() {
         selectedFilter: FilterType
     ) {
         val dialog = Dialog(requireContext())
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_radar_details)
         dialog.window?.apply {
@@ -2861,6 +2865,7 @@ class DashboardFragment : Fragment() {
         selectedWeekday: Int
     ) {
         val dialog = Dialog(requireContext())
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_mood_comparison_details)
         dialog.window?.apply {
