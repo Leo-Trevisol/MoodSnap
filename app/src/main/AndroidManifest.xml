@@ -33,14 +33,11 @@
             </intent-filter>
         </activity>
         
-        <activity
-            android:name=".ui.edit.EditDescriptionActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.AppCompat.Dialog"
-            android:configChanges="locale|layoutDirection"
-            />
-        <activity android:name=".ui.edit.EditDayActivity" 
+        <activity android:name=".ui.edit.EditDayActivity"
             android:configChanges="locale|layoutDirection"/>
+        <activity
+            android:name=".ui.preview.ImagePreviewActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

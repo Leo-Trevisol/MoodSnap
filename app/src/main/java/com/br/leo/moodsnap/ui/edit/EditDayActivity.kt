@@ -52,8 +52,10 @@ import android.widget.ArrayAdapter
 import android.widget.GridLayout
 import android.widget.ImageButton
 import android.widget.Spinner
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.widget.ImageViewCompat
 import com.br.leo.moodsnap.ui.dialog.ImageSourceBottomSheet
+import com.br.leo.moodsnap.ui.preview.ImagePreviewActivity
 import com.br.leo.moodsnap.ui.utils.ClickUtils
 
 class EditDayActivity : AppCompatActivity() {
@@ -591,6 +593,7 @@ class EditDayActivity : AppCompatActivity() {
                         .into(binding.imageDay)
                     binding.imageDay.visibility = View.VISIBLE
                     binding.placeholderContainer.visibility = View.GONE
+                    binding.btnRemoveImage.visibility = View.VISIBLE  // Mostrar o X
                 }
             }
             moodId = mood.id
@@ -600,6 +603,9 @@ class EditDayActivity : AppCompatActivity() {
             moodId = 0
             updateMoodSelection()
             originalMood = null
+            binding.imageDay.visibility = View.GONE
+            binding.placeholderContainer.visibility = View.VISIBLE
+            binding.btnRemoveImage.visibility = View.GONE  // Esconder o X
         }
         hasChanges = false
         updateMoodQuestionText()
@@ -607,15 +613,33 @@ class EditDayActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         ClickUtils.setDebounceClickListener(binding.imageDay){
-            showImageSourceDialog()
+            if (binding.imageDay.drawable != null && binding.imageDay.visibility == View.VISIBLE) {
+                // Se já tem imagem, abre o preview
+                val imageUri = selectedImageUri ?: originalMood?.imagePath?.let { path ->
+                    Uri.fromFile(File(path))
+                }
+                imageUri?.let {
+                    ImagePreviewActivity.start(this, it)
+                }
+            }
         }
 
+        // Configurar o clique no botão de remover para limpar a imagem
+        ClickUtils.setDebounceClickListener(binding.btnRemoveImage) {
+            clearImage()
+        }
+
+        // Manter o clique no card e no placeholder para abrir o bottomsheet
         ClickUtils.setDebounceClickListener(binding.cardImage){
-            showImageSourceDialog()
+            if (binding.imageDay.drawable == null || binding.imageDay.visibility != View.VISIBLE) {
+                showImageSourceDialog()
+            }
         }
 
         ClickUtils.setDebounceClickListener(binding.placeholderContainer){
-            showImageSourceDialog()
+            if (binding.imageDay.drawable == null || binding.imageDay.visibility != View.VISIBLE) {
+                showImageSourceDialog()
+            }
         }
 
         Utils.updateBackGroundColor(applicationContext, binding.btnSave)
@@ -649,10 +673,19 @@ class EditDayActivity : AppCompatActivity() {
                 // Atualizar humor existente
                 existingMood.description = description
                 selectedMoodType?.let { existingMood.moodType = it }
-                selectedImageUri?.let { uri ->
-                    val imagePath = saveImageToInternalStorage(uri)
+                
+                // Se tiver uma nova imagem selecionada, salva ela
+                if (selectedImageUri != null) {
+                    val imagePath = saveImageToInternalStorage(selectedImageUri!!)
                     existingMood.imagePath = imagePath
+                } else if (binding.imageDay.visibility != View.VISIBLE) {
+                    // Se não tiver imagem visível, limpa o imagePath
+                    existingMood.imagePath?.let { oldPath ->
+                        File(oldPath).delete() // Deleta o arquivo antigo
+                    }
+                    existingMood.imagePath = null
                 }
+                
                 repository.update(existingMood)
             } else {
                 // Criar novo humor
@@ -673,8 +706,13 @@ class EditDayActivity : AppCompatActivity() {
             finish()
         }
         
-        ClickUtils.setDebounceClickListener(binding.btnRemoveImage) {
-            clearImage()
+        ClickUtils.setDebounceClickListener(binding.btnBack){
+            if (hasChanges) {
+                showDiscardChangesDialog { returnResult(); finish() }
+            } else {
+                returnResult()
+                finish()
+            }
         }
     }
 
@@ -684,6 +722,12 @@ class EditDayActivity : AppCompatActivity() {
         binding.placeholderContainer.visibility = View.VISIBLE
         binding.btnRemoveImage.visibility = View.GONE
         selectedImageUri = null
+        
+        // Marca a imagem para ser removida do humor
+        if (originalMood != null) {
+            originalMood = originalMood?.copy(imagePath = null)
+        }
+        
         checkForChanges()
     }
 
@@ -722,16 +766,6 @@ class EditDayActivity : AppCompatActivity() {
                 checkGalleryPermission()
             }
 
-            override fun onDeleteSelected() {
-                CustomAlertDialog.create(this@EditDayActivity)
-                    .setMessage(getString(R.string.confirm_delete_image))
-                    .setPositiveListener {
-                        deleteExistingImage()
-                    }
-                    .setNegativeListener {  }
-                    .setCancelable(false)
-                    .show()
-            }
         })
         
         // Mostrar o BottomSheet

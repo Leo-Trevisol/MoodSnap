@@ -118,47 +118,6 @@
 
     </LinearLayout>
 
-    <View
-        android:id="@+id/delete_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray_dark"
-        android:visibility="gone" />
-
-    <LinearLayout
-        android:id="@+id/delete_option"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="?attr/selectableItemBackground"
-        android:padding="16dp"
-        android:visibility="gone"
-        android:layout_marginBottom="@dimen/spacing_normal">
-
-        <ImageView
-            android:layout_width="@dimen/options_icons_size"
-            android:layout_height="@dimen/options_icons_size"
-            android:src="@drawable/ic_delete"
-            android:layout_marginEnd="16dp"
-            app:tint="@color/secundary" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/delete_image"
-            android:textColor="@color/secundary"
-            android:textSize="@dimen/text_size_large"/>
-
-        <ImageView
-            android:layout_width="@dimen/options_icons_size"
-            android:layout_height="@dimen/options_icons_size"
-            android:src="@drawable/ic_arrow_right"
-            app:tint="@color/secundary" />
-
-    </LinearLayout>
-
     </LinearLayout>
 
 </LinearLayout>

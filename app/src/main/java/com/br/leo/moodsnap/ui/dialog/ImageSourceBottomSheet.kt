@@ -16,7 +16,6 @@ class ImageSourceBottomSheet : BottomSheetDialogFragment() {
     interface ImageSourceListener {
         fun onCameraSelected()
         fun onGallerySelected()
-        fun onDeleteSelected()
     }
 
     private var listener: ImageSourceListener? = null
@@ -52,17 +51,6 @@ class ImageSourceBottomSheet : BottomSheetDialogFragment() {
         // Aplicar a fonte personalizada a todas as views
         FontUtils.applyFontToView(requireContext(), view)
 
-        // Configurar a visibilidade da opção de exclusão
-        val deleteOption = view.findViewById<LinearLayout>(R.id.delete_option)
-        val deleteDivider = view.findViewById<View>(R.id.delete_divider)
-        
-        if (hasExistingImage) {
-            deleteOption.visibility = View.VISIBLE
-            deleteDivider.visibility = View.VISIBLE
-        } else {
-            deleteOption.visibility = View.GONE
-            deleteDivider.visibility = View.GONE
-        }
 
         // Configurar os listeners de clique
         ClickUtils.setDebounceClickListener(view.findViewById<LinearLayout>(R.id.camera_option)){
@@ -71,11 +59,6 @@ class ImageSourceBottomSheet : BottomSheetDialogFragment() {
         }
         ClickUtils.setDebounceClickListener(view.findViewById<LinearLayout>(R.id.gallery_option)){
             listener?.onGallerySelected()
-            dismiss()
-        }
-
-        ClickUtils.setDebounceClickListener(deleteOption){
-            listener?.onDeleteSelected()
             dismiss()
         }
 
