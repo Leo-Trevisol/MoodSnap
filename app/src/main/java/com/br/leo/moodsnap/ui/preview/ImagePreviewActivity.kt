@@ -4,9 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.databinding.ActivityImagePreviewBinding
 import com.br.leo.moodsnap.ui.utils.ClickUtils
+import com.br.leo.moodsnap.ui.utils.Utils
 import com.bumptech.glide.Glide
 
 class ImagePreviewActivity : AppCompatActivity() {
@@ -20,6 +23,12 @@ class ImagePreviewActivity : AppCompatActivity() {
 
         // Configurar o botão de voltar
         ClickUtils.setDebounceClickListener(binding.btnBack) {
+            finish()
+        }
+
+        val btnConfirm = binding.btnConfirm
+        Utils.updateBackGroundColor(this, btnConfirm)
+        btnConfirm.setOnClickListener {
             finish()
         }
 

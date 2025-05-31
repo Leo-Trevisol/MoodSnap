@@ -178,14 +178,14 @@ class EditDayActivity : AppCompatActivity() {
         updateDateText()
 
         // Configurar botão de voltar
-        ClickUtils.setDebounceClickListener(binding.btnBack){
+        binding.btnBack.setOnClickListener({
             if (hasChanges) {
                 showDiscardChangesDialog { returnResult(); finish() }
             } else {
                 returnResult()
                 finish()
             }
-        }
+        })
 
         // Configurar navegação entre dias
         binding.btnPreviousMonth.setOnClickListener({
@@ -723,11 +723,7 @@ class EditDayActivity : AppCompatActivity() {
         binding.btnRemoveImage.visibility = View.GONE
         selectedImageUri = null
         
-        // Marca a imagem para ser removida do humor
-        if (originalMood != null) {
-            originalMood = originalMood?.copy(imagePath = null)
-        }
-        
+        // Não modifica o originalMood, apenas marca que houve mudanças
         checkForChanges()
     }
 
@@ -915,6 +911,7 @@ class EditDayActivity : AppCompatActivity() {
     private fun checkForChanges() {
         val currentDescription = binding.editDescription.text.toString()
         val currentImageUri = selectedImageUri
+        val imageWasRemoved = originalMood?.imagePath != null && binding.imageDay.visibility != View.VISIBLE
         
         hasChanges = when {
             originalMood == null -> {
@@ -925,7 +922,8 @@ class EditDayActivity : AppCompatActivity() {
                 // Se havia humor salvo, verifica se algo mudou
                 currentDescription != originalMood?.description ||
                 currentImageUri != null ||
-                selectedMoodType != originalMood?.moodType
+                selectedMoodType != originalMood?.moodType ||
+                imageWasRemoved  // Adiciona verificação se a imagem foi removida
             }
         }
     }
