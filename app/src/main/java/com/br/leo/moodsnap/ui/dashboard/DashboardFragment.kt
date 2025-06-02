@@ -33,6 +33,9 @@ import android.graphics.Canvas
 import android.graphics.Rect
 import android.os.Handler
 import android.os.Looper
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import com.br.leo.moodsnap.ui.utils.FontUtils
 import android.view.Gravity
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -40,6 +43,7 @@ import android.widget.FrameLayout
 import android.widget.Spinner
 import androidx.core.animation.doOnEnd
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.ColorUtils
 import com.br.leo.moodsnap.ui.dialog.CustomAlertDialog
 import com.br.leo.moodsnap.ui.utils.ClickUtils
 import com.br.leo.moodsnap.ui.utils.DateUtils
@@ -869,7 +873,7 @@ class DashboardFragment : Fragment() {
         periodText.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
         moodIcon.setImageResource(Utils.getMoodIcon(moodType))
         val filterName = selectedFilter.getFilterName(requireContext())
-        dialog.findViewById<TextView>(R.id.period_text).text = getString(R.string.period_label, filterName)
+        setStyledPeriodText(periodText, requireContext(), filterName)
 
         // Filtrar dias da semana com contagem maior que zero
         val daysWithData = weekdays.mapIndexed { index, weekday ->
@@ -1722,12 +1726,15 @@ class DashboardFragment : Fragment() {
 
         dialogTitle.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
         // Configurar o texto do período
-        periodText.text = getString(R.string.period_label, selectedFilter.getFilterName(requireContext()))
+        //periodText.text = getString(R.string.period_label, selectedFilter.getFilterName(requireContext()))
+
+        setStyledPeriodText(periodText, requireContext(), selectedFilter.getFilterName(requireContext()))
 
         periodText.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
         // Configurar o texto do dia da semana
-        weekdayText.text = getString(R.string.selected_weekday, weekdayName)
+       // weekdayText.text = getString(R.string.selected_weekday, weekdayName)
+        setStyledDayText(weekdayText, requireContext(), weekdayName)
 
         weekdayText.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
@@ -2905,7 +2912,10 @@ class DashboardFragment : Fragment() {
         dialogTitle.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
         // Configurar o texto do período
-        periodText.text = getString(R.string.period_label, selectedFilter.getFilterName(requireContext()))
+       // periodText.text = getString(R.string.period_label, selectedFilter.getFilterName(requireContext()))
+
+        setStyledPeriodText(periodText, requireContext(), selectedFilter.getFilterName(requireContext()))
+
         periodText.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
         // Configurar o texto do dia da semana
@@ -2918,7 +2928,10 @@ class DashboardFragment : Fragment() {
             getString(R.string.weekday_full_friday),
             getString(R.string.weekday_full_saturday)
         )
-        weekdayText.text = getString(R.string.selected_weekday, weekdays[selectedWeekday])
+        
+      //  weekdayText.text = getString(R.string.selected_weekday, weekdays[selectedWeekday])
+        setStyledDayText(weekdayText, requireContext(), weekdays[selectedWeekday])
+
         weekdayText.typeface = ResourcesCompat.getFont(requireContext(), FontUtils.getFontResourceId(currentFont ?: "default"))
 
         // Configurar o card do humor com a cor correta
@@ -3014,4 +3027,61 @@ class DashboardFragment : Fragment() {
         }
         return hasMoodData
     }
+
+    private fun setStyledPeriodText(textView: TextView, context: Context, filterName: String) {
+        val fullText = context.getString(R.string.period_label, filterName) // "Period: %1$s"
+        val prefix = context.getString(R.string.period_label, "").replace("%1\$s", "").trim()
+
+        val spannable = SpannableString(fullText)
+
+        // Cor semi-transparente (alpha 0.5)
+        val semiTransparentWhite = ColorUtils.setAlphaComponent(Color.WHITE, (0.5f * 255).toInt())
+
+        // Aplica estilo ao prefixo ("Period:")
+        spannable.setSpan(
+            ForegroundColorSpan(semiTransparentWhite),
+            0,
+            prefix.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        // Aplica cor branca ao filterName
+        spannable.setSpan(
+            ForegroundColorSpan(Color.WHITE),
+            prefix.length + 1,
+            fullText.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        textView.text = spannable
+    }
+
+    private fun setStyledDayText(textView: TextView, context: Context, filterName: String) {
+        val fullText = context.getString(R.string.selected_weekday, filterName) // "Period: %1$s"
+        val prefix = context.getString(R.string.selected_weekday, "").replace("%1\$s", "").trim()
+
+        val spannable = SpannableString(fullText)
+
+        // Cor semi-transparente (alpha 0.5)
+        val semiTransparentWhite = ColorUtils.setAlphaComponent(Color.WHITE, (0.5f * 255).toInt())
+
+        // Aplica estilo ao prefixo ("Period:")
+        spannable.setSpan(
+            ForegroundColorSpan(semiTransparentWhite),
+            0,
+            prefix.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        // Aplica cor branca ao filterName
+        spannable.setSpan(
+            ForegroundColorSpan(Color.WHITE),
+            prefix.length + 1,
+            fullText.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        textView.text = spannable
+    }
+
 }
