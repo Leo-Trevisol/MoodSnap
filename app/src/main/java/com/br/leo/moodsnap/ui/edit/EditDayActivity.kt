@@ -594,6 +594,7 @@ class EditDayActivity : AppCompatActivity() {
                     binding.imageDay.visibility = View.VISIBLE
                     binding.placeholderContainer.visibility = View.GONE
                     binding.btnRemoveImage.visibility = View.VISIBLE  // Mostrar o X
+                    binding.frameImage.background = null
                 }
             }
             moodId = mood.id
@@ -606,6 +607,8 @@ class EditDayActivity : AppCompatActivity() {
             binding.imageDay.visibility = View.GONE
             binding.placeholderContainer.visibility = View.VISIBLE
             binding.btnRemoveImage.visibility = View.GONE  // Esconder o X
+            binding.frameImage.background = resources.getDrawable(R.drawable.edit_text_rounded_background)
+
         }
         hasChanges = false
         updateMoodQuestionText()
@@ -721,6 +724,7 @@ class EditDayActivity : AppCompatActivity() {
         binding.imageDay.visibility = View.GONE
         binding.placeholderContainer.visibility = View.VISIBLE
         binding.btnRemoveImage.visibility = View.GONE
+        binding.frameImage.background = resources.getDrawable(R.drawable.edit_text_rounded_background)
         selectedImageUri = null
         
         // Não modifica o originalMood, apenas marca que houve mudanças
@@ -868,12 +872,15 @@ class EditDayActivity : AppCompatActivity() {
             binding.imageDay.visibility = View.VISIBLE
             binding.placeholderContainer.visibility = View.GONE
             binding.btnRemoveImage.visibility = View.VISIBLE
+            binding.frameImage.background = null
             checkForChanges()
         } ?: run {
             binding.imageDay.setImageDrawable(null)
             binding.imageDay.visibility = View.GONE
             binding.placeholderContainer.visibility = View.VISIBLE
             binding.btnRemoveImage.visibility = View.GONE
+
+
         }
     }
 
