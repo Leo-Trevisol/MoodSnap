@@ -44,6 +44,7 @@ import com.br.leo.moodsnap.ui.utils.Utils.findViewsByType
 import android.provider.Settings
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.LayoutInflater.from
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.util.Log
@@ -576,6 +577,7 @@ class EditDayActivity : AppCompatActivity() {
         binding.imageDay.scaleType = ImageView.ScaleType.CENTER_CROP
         binding.imageDay.visibility = View.GONE
         binding.placeholderContainer.visibility = View.VISIBLE
+        binding.btnRemoveImage.visibility = View.GONE  // Garantir que o X está escondido
         selectedImageUri = null
         selectedMoodType = null
         
@@ -593,9 +595,13 @@ class EditDayActivity : AppCompatActivity() {
                         .into(binding.imageDay)
                     binding.imageDay.visibility = View.VISIBLE
                     binding.placeholderContainer.visibility = View.GONE
-                    binding.btnRemoveImage.visibility = View.VISIBLE  // Mostrar o X
+                    binding.btnRemoveImage.visibility = View.VISIBLE  // Mostrar o X apenas se tiver imagem
                     binding.frameImage.background = null
+                } else {
+                    binding.btnRemoveImage.visibility = View.GONE  // Esconder o X se o arquivo não existir
                 }
+            } ?: run {
+                binding.btnRemoveImage.visibility = View.GONE  // Esconder o X se não tiver imagePath
             }
             moodId = mood.id
             originalMood = mood.copy()
@@ -608,7 +614,6 @@ class EditDayActivity : AppCompatActivity() {
             binding.placeholderContainer.visibility = View.VISIBLE
             binding.btnRemoveImage.visibility = View.GONE  // Esconder o X
             binding.frameImage.background = resources.getDrawable(R.drawable.edit_text_rounded_background)
-
         }
         hasChanges = false
         updateMoodQuestionText()

@@ -2928,7 +2928,7 @@ class DashboardFragment : Fragment() {
             getString(R.string.weekday_full_friday),
             getString(R.string.weekday_full_saturday)
         )
-        
+
       //  weekdayText.text = getString(R.string.selected_weekday, weekdays[selectedWeekday])
         setStyledDayText(weekdayText, requireContext(), weekdays[selectedWeekday])
 
