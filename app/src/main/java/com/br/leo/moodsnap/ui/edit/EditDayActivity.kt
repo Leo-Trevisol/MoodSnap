@@ -476,21 +476,36 @@ class EditDayActivity : AppCompatActivity() {
         }
 
         ClickUtils.setDebounceClickListener(btnOk){
-            // Atualizar o calendário principal com a data selecionada
-            calendar.set(Calendar.YEAR, dialogCalendar.get(Calendar.YEAR))
-            calendar.set(Calendar.MONTH, dialogCalendar.get(Calendar.MONTH))
-            calendar.set(Calendar.DAY_OF_MONTH, selectedDay)
-            
-            // Atualizar a interface
-            updateDateText()
-            loadExistingData()
-            
-            dialog.dismiss()
+            // Se tiver mudanças não salvas, mostrar diálogo de confirmação
+            if (hasChanges) {
+                showDiscardChangesDialog {
+                    // Se confirmar, atualizar para o novo dia
+                    updateSelectedDate(dialogCalendar, selectedDay)
+                    dialog.dismiss()
+                }
+            } else {
+                // Se não tiver mudanças, atualizar direto
+                updateSelectedDate(dialogCalendar, selectedDay)
+                dialog.dismiss()
+            }
         }
         
         // Exibir o diálogo
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         dialog.show()
+    }
+
+    // Função auxiliar para atualizar a data selecionada
+    private fun updateSelectedDate(dialogCalendar: Calendar, selectedDay: Int) {
+        // Atualizar o calendário principal com a data selecionada
+        calendar.set(Calendar.YEAR, dialogCalendar.get(Calendar.YEAR))
+        calendar.set(Calendar.MONTH, dialogCalendar.get(Calendar.MONTH))
+        calendar.set(Calendar.DAY_OF_MONTH, selectedDay)
+        
+        // Atualizar a interface com os dados do novo dia
+        loadExistingData()
+        updateDateText()
+        updateMoodQuestionText()
     }
 
     private fun setupMoodSelection() {
