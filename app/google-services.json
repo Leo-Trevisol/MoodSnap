@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "436480645712",
+    "project_id": "moody-11ed3",
+    "storage_bucket": "moody-11ed3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436480645712:android:de4a252aabce397af24f55",
+        "android_client_info": {
+          "package_name": "com.br.leo.moodsnap"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnDjUzWz56nvm1DihyBdQpRa1NSqWVrEc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
