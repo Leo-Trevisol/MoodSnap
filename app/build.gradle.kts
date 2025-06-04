@@ -28,13 +28,16 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
+
     buildFeatures {
         viewBinding = true
     }
@@ -45,8 +48,15 @@ android {
     }
 }
 
-dependencies {
+// 🔧 Forçar versões específicas do Firebase compatíveis com Kotlin 1.9.0
+configurations.all {
+    resolutionStrategy {
+        force("com.google.firebase:firebase-auth:22.3.1")
+        force("com.google.firebase:firebase-auth-ktx:22.3.1")
+    }
+}
 
+dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -55,15 +65,23 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+
     implementation("androidx.room:room-runtime:2.4.3")
+    kapt("androidx.room:room-compiler:2.5.0")
+
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
-    implementation(libs.firebase.common.ktx)
     kapt("com.github.bumptech.glide:compiler:4.16.0")
+
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("com.getkeepsafe.taptargetview:taptargetview:1.13.3")
+
+    // ✅ Firebase Auth com versão compatível com Kotlin 1.9.0
+    implementation("com.google.firebase:firebase-auth:22.3.1")
+    implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
+
+    implementation(libs.firebase.common.ktx)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    kapt("androidx.room:room-compiler:2.5.0")
-    implementation ("com.getkeepsafe.taptargetview:taptargetview:1.13.3")
-    implementation(platform("com.google.firebase:firebase-bom:33.14.0"))
 }
