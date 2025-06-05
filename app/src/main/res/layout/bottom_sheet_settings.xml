@@ -261,6 +261,14 @@
                     android:textColor="@color/secundary"
                     android:textSize="@dimen/text_size_large"/>
 
+                <TextView
+                    android:id="@+id/text_current_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="@dimen/text_size_normal"
+                    android:layout_marginEnd="8dp"/>
+
                 <ImageView
                     android:layout_width="@dimen/options_icons_size"
                     android:layout_height="@dimen/options_icons_size"

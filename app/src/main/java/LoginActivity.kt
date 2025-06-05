@@ -22,12 +22,19 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
 
     private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-        try {
-            val account: GoogleSignInAccount = task.getResult(Exception::class.java)
-            firebaseAuthWithGoogle(account.idToken!!)
-        } catch (e: Exception) {
-            Toast.makeText(this, "Falha ao fazer login: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+        if (result.resultCode == RESULT_OK) { // Verificar se o resultado foi OK
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            try {
+                val account: GoogleSignInAccount = task.getResult(Exception::class.java)
+                firebaseAuthWithGoogle(account.idToken!!)
+            } catch (e: Exception) {
+                Log.e("LoginActivity", "Google Sign-In failed", e)
+                Toast.makeText(this, "Falha ao fazer login com Google: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+            }
+        } else {
+            // Opcional: Lidar com o cancelamento ou falha do intent de login do Google
+            Log.w("LoginActivity", "Google Sign-In cancelled or failed by user.")
+            // Toast.makeText(this, "Login com Google cancelado.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -40,16 +47,27 @@ class LoginActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(com.br.leo.moodsnap.R.string.default_web_client_id)) // vem do google-services.json
+            .requestIdToken(getString(com.br.leo.moodsnap.R.string.default_web_client_id))
             .requestEmail()
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        binding.btnGoogleSignIn.setOnClickListener {
-            val signInIntent = googleSignInClient.signInIntent
-            launcher.launch(signInIntent)
+        // Configurar listener para o botão de voltar
+        binding.btnBack.setOnClickListener {
+            finish() // Fecha a LoginActivity
         }
+
+        // Configurar listener para o botão de login com Google
+        // O ID no XML é btn_google_sign_in
+        binding.btnGoogleSignIn.setOnClickListener {
+            signInWithGoogle()
+        }
+    }
+
+    private fun signInWithGoogle() {
+        val signInIntent = googleSignInClient.signInIntent
+        launcher.launch(signInIntent)
     }
 
     private fun firebaseAuthWithGoogle(idToken: String) {
@@ -57,12 +75,18 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    // Login com Firebase bem-sucedido
                     val user = auth.currentUser
-                    Toast.makeText(this, "Bem-vindo, ${user?.displayName}", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, MainActivity::class.java))
-                    finish()
+                    Toast.makeText(this, "Login bem-sucedido: ${user?.displayName ?: user?.email}", Toast.LENGTH_SHORT).show()
+                    // Navegar para a MainActivity ou tela principal
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // Limpa a pilha de activities
+                    startActivity(intent)
+                    finish() // Finaliza LoginActivity
                 } else {
-                    Toast.makeText(this, "Autenticação falhou!", Toast.LENGTH_SHORT).show()
+                    // Falha no login com Firebase
+                    Log.w("LoginActivity", "Firebase Authentication failed", task.exception)
+                    Toast.makeText(this, "Falha na autenticação: ${task.exception?.localizedMessage}", Toast.LENGTH_LONG).show()
                 }
             }
     }
