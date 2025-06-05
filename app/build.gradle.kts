@@ -75,13 +75,17 @@ dependencies {
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("com.getkeepsafe.taptargetview:taptargetview:1.13.3")
 
-    // ✅ Firebase Auth com versão compatível com Kotlin 1.9.0
-    implementation("com.google.firebase:firebase-auth:22.3.1")
-    implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
+    // Firebase BOM para gerenciar versões
+    implementation(platform("com.google.firebase:firebase-bom:33.14.0"))
 
-    implementation(libs.firebase.common.ktx)
+    // Firebase libs sem versão explícita (BOM gerencia)
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
+

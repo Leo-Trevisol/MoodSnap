@@ -357,6 +357,9 @@
 - Compare two different moods on a single weekday.\n\n- By selecting a bar, you will see all the days that mood was recorded on the corresponding weekday.
 </string>
 
+<string name="default_web_client_id">436480645712-t6mr5nmk93afcjaa8lgl4cec3kej91qi.apps.googleusercontent.com</string>
+
+    <string name="user_profile_option">User</string>
 
 
 </resources>

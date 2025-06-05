@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.databinding.FragmentHomeBinding
 import com.br.leo.moodsnap.service.model.MoodModel
+import com.br.leo.moodsnap.ui.LoginActivity
 import com.br.leo.moodsnap.ui.adapters.FontAdapter
 import com.br.leo.moodsnap.ui.adapters.LanguageAdapter
 import com.br.leo.moodsnap.ui.adapters.WeekdaysAdapter
@@ -1008,6 +1009,15 @@ class HomeFragment : Fragment() {
             showFontBottomSheet()
         }
         
+        // Botão de perfil do usuário
+        val btnUserProfile = bottomSheetView.findViewById<LinearLayout>(R.id.btn_user_profile)
+        ClickUtils.setDebounceClickListener(btnUserProfile) {
+            bottomSheetDialog.dismiss()
+            // Iniciar LoginActivity
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            startActivity(intent)
+        }
+
         // Botão de tutorial
         val btnTutorial = bottomSheetView.findViewById<LinearLayout>(R.id.btn_tutorial)
         ClickUtils.setDebounceClickListener(btnTutorial){
@@ -1198,7 +1208,7 @@ class HomeFragment : Fragment() {
         configureBackButton(bottomSheetView, bottomSheetDialog)
 
         // Botão de confirmar
-        val btnConfirm: Button = bottomSheetView.findViewById<Button>(R.id.btn_confirm)
+        val btnConfirm = bottomSheetView.findViewById<Button>(R.id.btn_confirm)
         Utils.updateBackGroundColor(requireContext(), btnConfirm)
         ClickUtils.setDebounceClickListener(btnConfirm){
             // Salvar o tema selecionado nas preferências compartilhadas
