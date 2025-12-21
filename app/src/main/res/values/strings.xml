@@ -357,6 +357,32 @@
 - Compare two different moods on a single weekday.\n\n- By selecting a bar, you will see all the days that mood was recorded on the corresponding weekday.
 </string>
 
+<string name="default_web_client_id">436480645712-t6mr5nmk93afcjaa8lgl4cec3kej91qi.apps.googleusercontent.com</string>
 
+    <string name="user_profile_option">User</string>
+
+    <string name="login_benefit_text">Fazer login garante que seus registros de humor fiquem salvos com segurança na nuvem. Assim, mesmo que você troque de celular ou desinstale o app, seus dados estarão sempre disponíveis para você.</string>
+
+    <string name="sign_out_button">Sign out</string>
+
+    <string name="user_email_label">User email</string>
+
+    <string name="user_name_label">User name</string>
+
+    <string name="user_id_label">User ID</string>
+
+    <string name="user_profile_title">User profile</string>
+
+    <string name="session_ended_message">Session ended</string>
+
+    <string name="firebase_auth_failed_message">Auth failed %1$s</string>
+
+    <string name="login_successful_message">Login sucess %1$s</string>
+
+    <string name="name_not_available">Name not avaible</string>
+
+    <string name="email_not_available">Email not avaible</string>
+
+    <string name="google_sign_in_failed_message">Sign in failed</string>
 
 </resources>

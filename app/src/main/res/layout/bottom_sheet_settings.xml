@@ -237,6 +237,51 @@
                 android:background="@color/gray_dark"/>
 
             <LinearLayout
+                android:id="@+id/btn_user_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="?attr/selectableItemBackground"
+                android:padding="16dp"
+                android:layout_marginBottom="@dimen/spacing_normal">
+
+                <ImageView
+                    android:layout_width="@dimen/options_icons_size"
+                    android:layout_height="@dimen/options_icons_size"
+                    android:src="@drawable/ic_user" 
+                    android:layout_marginEnd="16dp"
+                    app:tint="@color/secundary" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/user_profile_option" 
+                    android:textColor="@color/secundary"
+                    android:textSize="@dimen/text_size_large"/>
+
+                <TextView
+                    android:id="@+id/text_current_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_dark"
+                    android:textSize="@dimen/text_size_normal"
+                    android:layout_marginEnd="8dp"/>
+
+                <ImageView
+                    android:layout_width="@dimen/options_icons_size"
+                    android:layout_height="@dimen/options_icons_size"
+                    android:src="@drawable/ic_arrow_right"
+                    app:tint="@color/secundary"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_dark"/>
+
+            <LinearLayout
                 android:id="@+id/btn_tutorial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

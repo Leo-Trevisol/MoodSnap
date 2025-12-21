@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.Firebase
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         
         // Carregar configurações de idioma e tema
         loadSettings()
-        
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_bottom_sheet_root" 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/background_rounded_top"
+    android:padding="@dimen/spacing_large">
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:background="@color/secundary" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_large">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="@dimen/options_icons_size"
+            android:layout_height="@dimen/options_icons_size"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="@string/btn_back"
+            app:tint="@color/secundary" />
+
+        <TextView
+            android:id="@+id/text_font_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="User account"
+            android:textColor="@color/secundary"
+            android:textSize="@dimen/text_size_xlarge"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+    </RelativeLayout>
+
+    
+    <LinearLayout
+        android:id="@+id/layout_logged_out_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingStart="0dp" 
+        android:paddingEnd="0dp"   
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/image_logo_login"
+            android:layout_width="100dp" 
+            android:layout_height="100dp" 
+            android:src="@drawable/ic_mascote"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:id="@+id/text_login_benefit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_benefit_text"
+            android:textSize="16sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="28dp"
+            android:paddingStart="16dp" 
+            android:paddingEnd="16dp"/>
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btn_google_sign_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/> 
+    </LinearLayout>
+
+    
+    <LinearLayout
+        android:id="@+id/layout_logged_in_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp" 
+        android:paddingStart="0dp"  
+        android:paddingEnd="0dp"    
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_profile_title" 
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurface"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/user_id_label" 
+            android:textSize="14sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="2dp"/>
+        <TextView
+            android:id="@+id/text_user_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="abcdef1234567890"
+            android:textSize="16sp"
+            android:textColor="?attr/colorOnSurface"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/user_name_label" 
+            android:textSize="14sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="2dp"/>
+        <TextView
+            android:id="@+id/text_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Nome do Usuário Completo"
+            android:textSize="16sp"
+            android:textColor="?attr/colorOnSurface"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/user_email_label" 
+            android:textSize="14sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="2dp"/>
+        <TextView
+            android:id="@+id/text_user_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="usuario@exemplo.com.br"
+            android:textSize="16sp"
+            android:textColor="?attr/colorOnSurface"
+            android:layout_marginBottom="24dp"/>
+
+        <Button
+            android:id="@+id/btn_sign_out"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_out_button" 
+            style="?attr/materialButtonOutlinedStyle"
+            app:strokeColor="?attr/colorError"
+            android:textColor="?attr/colorError"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"/> 
+    </LinearLayout>
+
+</LinearLayout>

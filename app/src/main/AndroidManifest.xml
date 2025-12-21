@@ -32,7 +32,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+
+        <activity android:name=".ui.LoginActivity" />
+        <activity android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+            android:excludeFromRecents="true"
+            android:exported="false" />
+
+
         <activity android:name=".ui.edit.EditDayActivity"
             android:configChanges="locale|layoutDirection"/>
         <activity
