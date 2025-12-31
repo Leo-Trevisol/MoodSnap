@@ -9,7 +9,7 @@ import android.view.View
 object ClickUtils {
     
     // Tempo mínimo entre cliques (em milissegundos)
-    private const val DEFAULT_DEBOUNCE_TIME = 800L
+    private const val DEFAULT_DEBOUNCE_TIME = 0L
     
     // Mapa para armazenar o último tempo de clique para cada view
     private val lastClickTimestamps = mutableMapOf<Int, Long>()

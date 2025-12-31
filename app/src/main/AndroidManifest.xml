@@ -39,7 +39,7 @@
             android:exported="false" />
 
 
-        <activity android:name=".ui.edit.EditDayActivity"
+        <activity android:name=".ui.edit.EditDayActivity" android:windowSoftInputMode="adjustNothing|stateHidden"
             android:configChanges="locale|layoutDirection"/>
         <activity
             android:name=".ui.preview.ImagePreviewActivity"

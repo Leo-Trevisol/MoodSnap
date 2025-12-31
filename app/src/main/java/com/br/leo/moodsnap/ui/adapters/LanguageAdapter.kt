@@ -11,7 +11,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.br.leo.moodsnap.R
 import com.br.leo.moodsnap.ui.model.LanguageModel
-import com.br.leo.moodsnap.ui.utils.ClickUtils
 import com.br.leo.moodsnap.ui.utils.FontUtils
 
 class LanguageAdapter(
@@ -21,25 +20,52 @@ class LanguageAdapter(
 ) : RecyclerView.Adapter<LanguageAdapter.LanguageViewHolder>() {
 
     private var selectedPosition = -1
+    private var selectedLanguageId: String? = null
+
+    // Cache para melhor performance
+    private val typefaceCache = mutableMapOf<String, androidx.core.content.res.ResourcesCompat.FontCallback?>()
     private val currentFont = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         .getString("current_font", "default")
 
     inner class LanguageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textLanguage: TextView = itemView.findViewById(R.id.text_language)
         private val rootLayout: View = itemView
+        private var currentLanguage: LanguageModel? = null
 
-        fun bind(language: LanguageModel, position: Int) {
+        init {
+            // Pré-carregar fonte para melhor performance
+            val typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
+            textLanguage.typeface = typeface
+
+            // Usar setOnClickListener direto SEM debounce para resposta instantânea
+            rootLayout.setOnClickListener {
+                currentLanguage?.let { language ->
+                    onItemClick(language)
+                }
+            }
+        }
+
+        fun bind(language: LanguageModel) {
+            currentLanguage = language
+
             // Configurar o texto do idioma
             textLanguage.text = context.getString(language.name)
-            
-            // Aplicar a fonte atual ao texto
-            textLanguage.typeface = ResourcesCompat.getFont(context, FontUtils.getFontResourceId(currentFont ?: "default"))
 
             // Atualizar o estado visual do item
-            if (position == selectedPosition) {
+            val isSelected = language.id == selectedLanguageId ||
+                    adapterPosition == selectedPosition
+
+            updateVisualState(isSelected)
+        }
+
+        private fun updateVisualState(isSelected: Boolean) {
+            if (isSelected) {
                 rootLayout.setBackgroundResource(R.drawable.background_rounded_left)
-                rootLayout.backgroundTintList = ColorStateList.valueOf(context.getResources().getColor(R. color. primary_green))
+                rootLayout.backgroundTintList = ColorStateList.valueOf(
+                    ContextCompat.getColor(context, R.color.primary_green)
+                )
                 textLanguage.setTextColor(ContextCompat.getColor(context, R.color.primary))
+
                 val drawable = ContextCompat.getDrawable(context, R.drawable.ic_check)
                 drawable?.setTint(ContextCompat.getColor(context, R.color.secundary))
                 textLanguage.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null)
@@ -48,14 +74,47 @@ class LanguageAdapter(
                 textLanguage.setTextColor(ContextCompat.getColor(context, R.color.secundary))
                 textLanguage.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
             }
+        }
 
-            // Configurar o clique
-            ClickUtils.setDebounceClickListener(rootLayout){
-                val previousPosition = selectedPosition
-                selectedPosition = position
-                notifyItemChanged(previousPosition)
-                notifyItemChanged(selectedPosition)
-                onLanguageSelected(language)
+        private fun onItemClick(language: LanguageModel) {
+            // Encontrar a posição atual do item
+            val newPosition = languages.indexOfFirst { it.id == language.id }
+            if (newPosition == -1) return
+
+            // Se já está selecionado, não fazer nada
+            if (selectedLanguageId == language.id) return
+
+            // Salvar posições anteriores
+            val oldSelectedPosition = selectedPosition
+            val oldSelectedLanguageId = selectedLanguageId
+
+            // Atualizar seleção
+            selectedPosition = newPosition
+            selectedLanguageId = language.id
+
+            // Atualizar visualização de forma otimizada
+            if (oldSelectedPosition != -1 && oldSelectedPosition != newPosition) {
+                // Encontrar o ViewHolder do item anteriormente selecionado
+                val oldViewHolder = findViewHolderForPosition(oldSelectedPosition)
+                oldViewHolder?.updateVisualState(false)
+            }
+
+            // Atualizar visualização do novo item selecionado
+            updateVisualState(true)
+
+            // Notificar callback
+            onLanguageSelected(language)
+        }
+
+        private fun findViewHolderForPosition(position: Int): LanguageViewHolder? {
+            // Tenta encontrar o ViewHolder na posição especificada
+            return try {
+                val holder = itemView.parent?.let { parent ->
+                    (parent as? RecyclerView)?.findViewHolderForAdapterPosition(position)
+                } as? LanguageViewHolder
+                holder
+            } catch (e: Exception) {
+                null
             }
         }
     }
@@ -66,7 +125,7 @@ class LanguageAdapter(
     }
 
     override fun onBindViewHolder(holder: LanguageViewHolder, position: Int) {
-        holder.bind(languages[position], position)
+        holder.bind(languages[position])
     }
 
     override fun getItemCount(): Int = languages.size
@@ -80,7 +139,21 @@ class LanguageAdapter(
         val position = languages.indexOfFirst { it.id == languageId }
         if (position != -1) {
             selectedPosition = position
-            notifyDataSetChanged()
+            selectedLanguageId = languageId
+            // Em vez de notifyDataSetChanged(), atualize apenas o item necessário
+            notifyItemChanged(position)
+        }
+    }
+
+    fun getSelectedLanguage(): String? = selectedLanguageId
+
+    // Método para limpar seleção
+    fun clearSelection() {
+        val oldPosition = selectedPosition
+        selectedPosition = -1
+        selectedLanguageId = null
+        if (oldPosition != -1) {
+            notifyItemChanged(oldPosition)
         }
     }
 }
