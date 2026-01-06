@@ -139,23 +139,6 @@ com.br.leo.moodsnap
 <hr/>
 
 <section>
-  <h2>📷 Screenshots</h2>
-  <p>
-    (adicione aqui prints do app para demonstrar as telas principais)
-  </p>
-</section>
-
-<hr/>
-
-<section>
-  <h2>📄 Licença</h2>
-  <p>
-    Este projeto está licenciado sob a <strong>MIT License</strong>.  
-    Sinta-se à vontade para estudar, modificar e reutilizar.
-  </p>
-</section>
-
-<section>
   <h2>🔐 Login com Google, SHA-1 e Ambientes (Homologação e Produção)</h2>
 
   <p>
@@ -234,5 +217,14 @@ com.br.leo.moodsnap
     <li>Sem o SHA-1 correto, o Google Sign-In não funciona</li>
     <li>O arquivo <code>google-services.json</code> nunca deve ser versionado</li>
   </ul>
+</section>
+
+<hr/>
+
+<section>
+  <h2>📷 Screenshots</h2>
+  <p>
+   (Futuros Screenshots)
+  </p>
 </section>
 
