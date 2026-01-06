@@ -139,18 +139,92 @@ com.br.leo.moodsnap
 <hr/>
 
 <section>
-  <h2>📷 Screenshots</h2>
+  <h2>🔐 Login com Google, SHA-1 e Ambientes (Homologação e Produção)</h2>
+
   <p>
-    (adicione aqui prints do app para demonstrar as telas principais)
+    O login com Google utilizando o <strong>Firebase Authentication</strong> depende da
+    identificação segura do aplicativo Android. Essa identificação é feita por meio do
+    <strong>certificado de assinatura</strong> do app, representado pelo <strong>SHA-1</strong>.
   </p>
+
+  <h3>📌 O que é o SHA-1?</h3>
+  <p>
+    O SHA-1 é um hash gerado a partir da <strong>chave de assinatura</strong> do aplicativo.
+    Ele funciona como uma impressão digital do app, permitindo que o Firebase e os
+    serviços do Google confirmem que as requisições de autenticação estão vindo
+    de um aplicativo confiável.
+  </p>
+
+  <h3>⚙️ Como o login com Google funciona</h3>
+  <ol>
+    <li>O aplicativo solicita a autenticação do usuário via Google</li>
+    <li>O Google valida a identidade do usuário</li>
+    <li>O Firebase verifica se o <strong>SHA-1</strong> do app está cadastrado no projeto</li>
+    <li>Se o SHA-1 for válido, o Firebase autoriza o login e retorna as credenciais</li>
+  </ol>
+
+  <p>
+    Caso o SHA-1 não esteja cadastrado corretamente, o login com Google falha,
+    mesmo que todas as dependências estejam configuradas corretamente.
+  </p>
+
+  <h3>🧪 Ambiente de Homologação (Debug)</h3>
+  <p>
+    No ambiente de homologação (debug), o aplicativo é assinado automaticamente
+    pelo Android Studio com uma <strong>chave de debug</strong>.
+  </p>
+
+  <p>
+    Para que o login com Google funcione nesse ambiente, é necessário:
+  </p>
+
+  <ul>
+    <li>Executar o comando <code>./gradlew signingReport</code></li>
+    <li>Copiar o <strong>SHA-1 da variante debug</strong></li>
+    <li>Adicionar esse SHA-1 no Firebase Console</li>
+    <li>Baixar e substituir o arquivo <code>google-services.json</code> no projeto</li>
+  </ul>
+
+  <p>
+    Esse processo permite testar o login com Google localmente durante o desenvolvimento.
+  </p>
+
+  <h3>🚀 Ambiente de Produção (Release)</h3>
+  <p>
+    No ambiente de produção, o aplicativo é assinado com uma
+    <strong>chave de release</strong>, que é diferente da chave de debug.
+  </p>
+
+  <p>
+    Isso significa que:
+  </p>
+
+  <ul>
+    <li>O SHA-1 da versão release é diferente do debug</li>
+    <li>Esse SHA-1 também precisa ser cadastrado no Firebase</li>
+    <li>O <code>google-services.json</code> deve estar atualizado com esse SHA-1</li>
+  </ul>
+
+  <p>
+    Em aplicativos publicados na Google Play, geralmente é necessário cadastrar
+    também o <strong>SHA-1 do App Signing</strong> fornecido pela Play Console.
+  </p>
+
+  <h3>⚠️ Observações Importantes</h3>
+  <ul>
+    <li>Cada ambiente possui seu próprio SHA-1</li>
+    <li>Trocar de máquina, chave ou keystore exige nova configuração</li>
+    <li>Sem o SHA-1 correto, o Google Sign-In não funciona</li>
+    <li>O arquivo <code>google-services.json</code> nunca deve ser versionado</li>
+  </ul>
 </section>
 
 <hr/>
 
 <section>
-  <h2>📄 Licença</h2>
+  <h2>📷 Screenshots</h2>
   <p>
-    Este projeto está licenciado sob a <strong>MIT License</strong>.  
-    Sinta-se à vontade para estudar, modificar e reutilizar.
+   (Futuros Screenshots)
   </p>
 </section>
+
