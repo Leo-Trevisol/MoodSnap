@@ -35,7 +35,7 @@
             android:id="@+id/text_font_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="User account"
+            android:text="@string/user_profile_title"
             android:textColor="@color/secundary"
             android:textSize="@dimen/text_size_xlarge"
             android:textStyle="bold"

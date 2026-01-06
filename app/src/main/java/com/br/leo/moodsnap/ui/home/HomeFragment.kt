@@ -1789,7 +1789,7 @@ class HomeFragment : Fragment() {
 
         ClickUtils.setDebounceClickListener(btnBackLogin) {
             dialog.dismiss()
-            showSettingsBottomSheet()
+            showSettingsBottomSheet() // Volta para as configurações
         }
 
         btnGoogleSignIn.setOnClickListener {
@@ -1798,7 +1798,8 @@ class HomeFragment : Fragment() {
 
         btnSignOut.setOnClickListener {
             signOutOnSheet(viewLoginSheet)
-            dialog.dismiss() // Fecha o bottom sheet após logout
+            // Remove o dismiss() aqui também para manter aberto após logout
+            // dialog.dismiss()
         }
 
         // Verificar estado atual do usuário
@@ -1883,14 +1884,17 @@ class HomeFragment : Fragment() {
                     val currentUser = auth.currentUser
                     val displayName = getDisplayNameForUser(currentUser)
 
-                    // Fecha o BottomSheet após login bem-sucedido
-                    loginBottomSheetDialogInstance?.dismiss()
+                    // REMOVA esta linha para NÃO fechar o BottomSheet após login
+                    // loginBottomSheetDialogInstance?.dismiss()
 
                     // Mostra mensagem de sucesso personalizada
                     showLoginSuccessMessage(displayName)
 
                     // Atualiza a UI do Settings BottomSheet
                     updateUserRelatedUI()
+
+                    // A UI do BottomSheet será atualizada automaticamente
+                    // pelo authStateListener e pelo updateLoginSheetUI
 
                 } else {
                     Log.e(TAG, "Firebase sign-in failed from HomeFragment sheet.", task.exception)
@@ -1944,8 +1948,8 @@ class HomeFragment : Fragment() {
 
                 Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
 
-                // Atualiza UI relacionada ao usuário
-                updateUserRelatedUI()
+                // A UI será atualizada automaticamente pelo authStateListener
+                // NÃO é necessário fechar o BottomSheet aqui
             }
     }
 
