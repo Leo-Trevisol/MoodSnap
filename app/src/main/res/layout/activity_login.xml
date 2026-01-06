@@ -80,85 +80,106 @@
             android:layout_marginBottom="16dp"/> 
     </LinearLayout>
 
-    
+
     <LinearLayout
         android:id="@+id/layout_logged_in_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="16dp" 
-        android:paddingStart="0dp"  
-        android:paddingEnd="0dp"    
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layout_marginTop="8dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- CARD DE PERFIL -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/user_profile_title" 
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="?attr/colorOnSurface"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp"
+            app:strokeColor="?attr/colorOutline"
+            app:strokeWidth="1dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/user_id_label" 
-            android:textSize="14sp"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            android:layout_marginBottom="2dp"/>
-        <TextView
-            android:id="@+id/text_user_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="abcdef1234567890"
-            android:textSize="16sp"
-            android:textColor="?attr/colorOnSurface"
-            android:layout_marginBottom="12dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:gravity="center_horizontal">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/user_name_label" 
-            android:textSize="14sp"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            android:layout_marginBottom="2dp"/>
-        <TextView
-            android:id="@+id/text_user_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="Nome do Usuário Completo"
-            android:textSize="16sp"
-            android:textColor="?attr/colorOnSurface"
-            android:layout_marginBottom="12dp"/>
+                <!-- AVATAR -->
+                <ImageView
+                    android:id="@+id/image_user_avatar"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_user"
+                    android:background="@drawable/bg_circle_surface"
+                    android:scaleType="centerCrop"
+                    android:layout_marginBottom="12dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/user_email_label" 
-            android:textSize="14sp"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            android:layout_marginBottom="2dp"/>
-        <TextView
-            android:id="@+id/text_user_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="usuario@exemplo.com.br"
-            android:textSize="16sp"
-            android:textColor="?attr/colorOnSurface"
-            android:layout_marginBottom="24dp"/>
+                <!-- NOME -->
+                <TextView
+                    android:id="@+id/text_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Nome do Usuário"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorOnSurface"
+                    android:layout_marginBottom="4dp" />
 
-        <Button
+                <!-- EMAIL -->
+                <TextView
+                    android:id="@+id/text_user_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="usuario@exemplo.com"
+                    android:textSize="14sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- DIVISOR -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?attr/colorOutline"
+                    android:layout_marginBottom="16dp"/>
+
+                <!-- UID LABEL -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_id_label"
+                    android:textSize="12sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"/>
+
+                <!-- UID -->
+                <TextView
+                    android:id="@+id/text_user_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="abcdef1234567890"
+                    android:textSize="14sp"
+                    android:textColor="?attr/colorOnSurface"
+                    android:layout_marginBottom="8dp"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- BOTÃO LOGOUT -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_sign_out"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sign_out_button" 
-            style="?attr/materialButtonOutlinedStyle"
-            app:strokeColor="?attr/colorError"
-            android:textColor="?attr/colorError"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp"/> 
+            android:text="@string/sign_out_button"
+            android:icon="@drawable/ic_xmark"
+            android:paddingVertical="14dp"
+            app:cornerRadius="16dp"
+            app:backgroundTint="?attr/colorSurface"
+            app:strokeWidth="1dp"
+            app:strokeColor="?attr/colorOutline"
+            android:textColor="?attr/colorOnSurface"
+            style="?attr/materialButtonOutlinedStyle"/>
+
     </LinearLayout>
 
 </LinearLayout>

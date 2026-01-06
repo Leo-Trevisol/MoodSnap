@@ -55,6 +55,7 @@ import com.br.leo.moodsnap.ui.utils.FontUtils.updateFontDialogPicker
 import com.br.leo.moodsnap.ui.utils.Utils
 import com.br.leo.moodsnap.ui.viewmodel.HomeViewModel
 import com.br.leo.moodsnap.ui.viewmodel.MainViewModel
+import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -1821,22 +1822,44 @@ class HomeFragment : Fragment() {
     private fun updateLoginSheetUI(user: FirebaseUser?, view: View) {
         val layoutLoggedOutContent = view.findViewById<LinearLayout>(R.id.layout_logged_out_content)
         val layoutLoggedInContent = view.findViewById<LinearLayout>(R.id.layout_logged_in_content)
+
         val textUserId = view.findViewById<TextView>(R.id.text_user_id)
         val textUserName = view.findViewById<TextView>(R.id.text_user_name)
         val textUserEmail = view.findViewById<TextView>(R.id.text_user_email)
+        val imageUserAvatar = view.findViewById<ImageView>(R.id.image_user_avatar)
 
         if (user != null) {
             layoutLoggedOutContent.visibility = View.GONE
             layoutLoggedInContent.visibility = View.VISIBLE
+
+            // Textos
             textUserId.text = user.uid
             textUserName.text = user.displayName ?: getString(R.string.name_not_available)
             textUserEmail.text = user.email ?: getString(R.string.email_not_available)
+
+            // Avatar do Google
+            val photoUrl = user.photoUrl
+            if (photoUrl != null) {
+                Glide.with(view)
+                    .load(photoUrl)
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_user)
+                    .error(R.drawable.ic_user)
+                    .into(imageUserAvatar)
+            } else {
+                imageUserAvatar.setImageResource(R.drawable.ic_user)
+            }
+
         } else {
             layoutLoggedOutContent.visibility = View.VISIBLE
             layoutLoggedInContent.visibility = View.GONE
+
+            imageUserAvatar.setImageResource(R.drawable.ic_user)
         }
+
         updateUserRelatedUI()
     }
+
 
     private fun signInWithGoogleOnSheet() {
         Log.d(TAG, "Attempting Google Sign-In from HomeFragment sheet.")
@@ -1893,20 +1916,37 @@ class HomeFragment : Fragment() {
     }
 
     private fun signOutOnSheet(view: View) {
-        Log.d(TAG, "Signing out from HomeFragment sheet.")
+        Log.d(TAG, "Starting sign out flow from HomeFragment sheet.")
 
-        // Obtém o nome antes de fazer logout
+        val activity = activity ?: return
+
+        // Captura dados antes do logout
         val currentUser = auth.currentUser
-        val userName = currentUser?.displayName ?: currentUser?.email ?: getString(R.string.name_not_available)
-
-        auth.signOut()
-        googleSignInClient.signOut().addOnCompleteListener(requireActivity()) {
-            val logoutMessage = getString(R.string.session_ended_message, userName)
-            Toast.makeText(context, logoutMessage, Toast.LENGTH_SHORT).show()
-            Log.d(TAG, "Google Sign-Out complete.")
-
-            // Atualiza a UI do Settings BottomSheet
-            updateUserRelatedUI()
+        val userDisplayName = when {
+            !currentUser?.displayName.isNullOrBlank() -> currentUser?.displayName
+            !currentUser?.email.isNullOrBlank() -> currentUser?.email
+            else -> getString(R.string.name_not_available)
         }
+
+        // Firebase logout
+        auth.signOut()
+        Log.d(TAG, "Firebase sign out completed.")
+
+        // Google logout
+        googleSignInClient.signOut()
+            .addOnCompleteListener(activity) {
+                Log.d(TAG, "Google sign out completed.")
+
+                val message = getString(
+                    R.string.session_ended_message,
+                    userDisplayName
+                )
+
+                Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+
+                // Atualiza UI relacionada ao usuário
+                updateUserRelatedUI()
+            }
     }
+
 }
