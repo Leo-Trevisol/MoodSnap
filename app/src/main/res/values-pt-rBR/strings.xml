@@ -349,4 +349,34 @@
 
     <string name="dialog_title_radar_distribution_simple">Distribuição de Humores</string>
 
+    <string name="user_profile_option">Usuário</string>
+
+    <string name="login_benefit_text">
+    Fazer login garante que seus registros de humor sejam salvos com segurança na nuvem.
+    Assim, mesmo que você troque de celular ou desinstale o app, seus dados estarão sempre disponíveis para você.
+</string>
+
+    <string name="sign_out_button">Sair</string>
+
+    <string name="user_email_label">E-mail do usuário</string>
+
+    <string name="user_name_label">Nome do usuário</string>
+
+    <string name="user_id_label">ID do usuário</string>
+
+    <string name="user_profile_title">Perfil do usuário</string>
+
+    <string name="session_ended_message">Sessão encerrada: %1$s</string>
+
+    <string name="firebase_auth_failed_message">Falha na autenticação: %1$s</string>
+
+    <string name="login_successful_message">Login realizado com sucesso: %1$s</string>
+
+    <string name="name_not_available">Nome não disponível</string>
+
+    <string name="email_not_available">E-mail não disponível</string>
+
+    <string name="google_sign_in_failed_message">Falha ao fazer login com o Google</string>
+
+
 </resources>

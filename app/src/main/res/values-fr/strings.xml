@@ -351,5 +351,34 @@
 • Comparez deux humeurs différentes pour un même jour de la semaine.\n\n• En sélectionnant une barre, vous verrez tous les jours où cette humeur a été enregistrée pour le jour de la semaine correspondant.
 </string>
 
+    <string name="user_profile_option">Utilisateur</string>
+
+    <string name="login_benefit_text">
+    Se connecter garantit que vos enregistrements d’humeur sont sauvegardés en toute sécurité dans le cloud.
+    Ainsi, même si vous changez de téléphone ou désinstallez l’application, vos données resteront toujours accessibles.
+</string>
+
+    <string name="sign_out_button">Se déconnecter</string>
+
+    <string name="user_email_label">Adresse e-mail de l’utilisateur</string>
+
+    <string name="user_name_label">Nom de l’utilisateur</string>
+
+    <string name="user_id_label">ID utilisateur</string>
+
+    <string name="user_profile_title">Profil utilisateur</string>
+
+    <string name="session_ended_message">Session terminée: %1$s</string>
+
+    <string name="firebase_auth_failed_message">Échec de l’authentification : %1$s</string>
+
+    <string name="login_successful_message">Connexion réussie : %1$s</string>
+
+    <string name="name_not_available">Nom non disponible</string>
+
+    <string name="email_not_available">Adresse e-mail non disponible</string>
+
+    <string name="google_sign_in_failed_message">Échec de la connexion avec Google</string>
+
 
 </resources>

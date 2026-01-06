@@ -334,4 +334,33 @@
 
     <string name="bar_chart_compare_moods">• Confronta due umori diversi in un unico giorno della settimana.&#10;&#10;• Selezionando una barra, vedrai tutti i giorni in cui quell\'umore è stato registrato nel corrispondente giorno della settimana.</string>
 
+    <string name="user_profile_option">Utente</string>
+
+    <string name="login_benefit_text">
+    Accedere garantisce che i tuoi registri dell’umore vengano salvati in modo sicuro nel cloud.
+    In questo modo, anche se cambi telefono o disinstalli l’app, i tuoi dati saranno sempre disponibili.
+</string>
+
+    <string name="sign_out_button">Disconnetti</string>
+
+    <string name="user_email_label">Email dell’utente</string>
+
+    <string name="user_name_label">Nome utente</string>
+
+    <string name="user_id_label">ID utente</string>
+
+    <string name="user_profile_title">Profilo utente</string>
+
+    <string name="session_ended_message">Sessione terminata: %1$s</string>
+
+    <string name="firebase_auth_failed_message">Autenticazione non riuscita: %1$s</string>
+
+    <string name="login_successful_message">Accesso riuscito: %1$s</string>
+
+    <string name="name_not_available">Nome non disponibile</string>
+
+    <string name="email_not_available">Email non disponibile</string>
+
+    <string name="google_sign_in_failed_message">Accesso con Google non riuscito</string>
+
 </resources>

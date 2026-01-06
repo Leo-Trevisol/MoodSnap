@@ -361,7 +361,10 @@
 
     <string name="user_profile_option">User</string>
 
-    <string name="login_benefit_text">Fazer login garante que seus registros de humor fiquem salvos com segurança na nuvem. Assim, mesmo que você troque de celular ou desinstale o app, seus dados estarão sempre disponíveis para você.</string>
+    <string name="login_benefit_text">
+    Logging in ensures that your mood records are securely saved in the cloud.
+    This way, even if you change phones or uninstall the app, your data will always be available to you.
+</string>
 
     <string name="sign_out_button">Sign out</string>
 
@@ -373,16 +376,16 @@
 
     <string name="user_profile_title">User profile</string>
 
-    <string name="session_ended_message">Session ended</string>
+    <string name="session_ended_message">Session ended: %1$s</string>
+    <string name="firebase_auth_failed_message">Authentication failed: %1$s</string>
 
-    <string name="firebase_auth_failed_message">Auth failed %1$s</string>
+    <string name="login_successful_message">Login successful: %1$s</string>
 
-    <string name="login_successful_message">Login sucess %1$s</string>
+    <string name="name_not_available">Name not available</string>
 
-    <string name="name_not_available">Name not avaible</string>
+    <string name="email_not_available">Email not available</string>
 
-    <string name="email_not_available">Email not avaible</string>
+    <string name="google_sign_in_failed_message">Google sign-in failed</string>
 
-    <string name="google_sign_in_failed_message">Sign in failed</string>
 
 </resources>

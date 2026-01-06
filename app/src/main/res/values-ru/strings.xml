@@ -349,4 +349,33 @@
 • Сравните два разных настроения в один день недели.\n\n• При выборе столбца вы увидите все даты, когда это настроение было зарегистрировано в соответствующий день недели.
 </string>
 
+    <string name="user_profile_option">Пользователь</string>
+
+    <string name="login_benefit_text">
+    Вход в систему гарантирует безопасное сохранение ваших записей настроения в облаке.
+    Таким образом, даже при смене телефона или удалении приложения ваши данные всегда будут доступны.
+</string>
+
+    <string name="sign_out_button">Выйти</string>
+
+    <string name="user_email_label">Электронная почта пользователя</string>
+
+    <string name="user_name_label">Имя пользователя</string>
+
+    <string name="user_id_label">ID пользователя</string>
+
+    <string name="user_profile_title">Профиль пользователя</string>
+
+    <string name="session_ended_message">Сеанс завершён: %1$s</string>
+
+    <string name="firebase_auth_failed_message">Ошибка аутентификации: %1$s</string>
+
+    <string name="login_successful_message">Вход выполнен успешно: %1$s</string>
+
+    <string name="name_not_available">Имя недоступно</string>
+
+    <string name="email_not_available">Электронная почта недоступна</string>
+
+    <string name="google_sign_in_failed_message">Ошибка входа через Google</string>
+
 </resources>

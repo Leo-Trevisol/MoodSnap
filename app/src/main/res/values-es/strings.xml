@@ -348,5 +348,34 @@
 • Compara dos estados de ánimo diferentes en un mismo día de la semana.\n\n• Al seleccionar una barra, verás todos los días en los que se registró ese estado de ánimo en ese día de la semana.
 </string>
 
+    <string name="user_profile_option">Usuario</string>
+
+    <string name="login_benefit_text">
+    Iniciar sesión garantiza que tus registros de estado de ánimo se guarden de forma segura en la nube.
+    De esta manera, incluso si cambias de teléfono o desinstalas la aplicación, tus datos siempre estarán disponibles para ti.
+</string>
+
+    <string name="sign_out_button">Cerrar sesión</string>
+
+    <string name="user_email_label">Correo electrónico del usuario</string>
+
+    <string name="user_name_label">Nombre del usuario</string>
+
+    <string name="user_id_label">ID de usuario</string>
+
+    <string name="user_profile_title">Perfil del usuario</string>
+
+    <string name="session_ended_message">Sesión finalizada: %1$s</string>
+
+    <string name="firebase_auth_failed_message">La autenticación falló: %1$s</string>
+
+    <string name="login_successful_message">Inicio de sesión exitoso: %1$s</string>
+
+    <string name="name_not_available">Nombre no disponible</string>
+
+    <string name="email_not_available">Correo electrónico no disponible</string>
+
+    <string name="google_sign_in_failed_message">Error al iniciar sesión con Google</string>
+
 
 </resources>

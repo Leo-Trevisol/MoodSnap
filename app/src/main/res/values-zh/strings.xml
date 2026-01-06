@@ -347,5 +347,34 @@
 • 比较两个不同情绪在同一星期几的记录情况。\n\n• 点击柱状图，可以查看该情绪在该星期几被记录的所有日期。
 </string>
 
+    <string name="user_profile_option">用户</string>
+
+    <string name="login_benefit_text">
+    登录可确保您的情绪记录安全地保存在云端。
+    即使您更换手机或卸载应用，您的数据也始终可以访问。
+</string>
+
+    <string name="sign_out_button">退出登录</string>
+
+    <string name="user_email_label">用户邮箱</string>
+
+    <string name="user_name_label">用户名</string>
+
+    <string name="user_id_label">用户 ID</string>
+
+    <string name="user_profile_title">用户资料</string>
+
+    <string name="session_ended_message">会话已结束: %1$s</string>
+
+    <string name="firebase_auth_failed_message">身份验证失败：%1$s</string>
+
+    <string name="login_successful_message">登录成功：%1$s</string>
+
+    <string name="name_not_available">姓名不可用</string>
+
+    <string name="email_not_available">邮箱不可用</string>
+
+    <string name="google_sign_in_failed_message">Google 登录失败</string>
+
 
 </resources>

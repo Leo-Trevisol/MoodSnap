@@ -1,6 +1,7 @@
 package com.br.leo.moodsnap.ui.home
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues.TAG
 import android.graphics.Color
@@ -14,6 +15,8 @@ import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.view.*
@@ -56,7 +59,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes
 import com.google.android.gms.common.SignInButton
+import com.google.android.gms.common.api.ApiException
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
@@ -82,6 +87,8 @@ class HomeFragment : Fragment() {
     private var selectedDay: Int = -1
     private lateinit var gestureDetector: GestureDetector
 
+    private lateinit var authStateListener: FirebaseAuth.AuthStateListener
+
     private val notificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -99,6 +106,7 @@ class HomeFragment : Fragment() {
     private var currentLoginSheetView: View? = null
     private var loginBottomSheetDialogInstance: BottomSheetDialog? = null
 
+    @SuppressLint("StringFormatInvalid")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
@@ -120,27 +128,54 @@ class HomeFragment : Fragment() {
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         googleSignInLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-                try {
-                    val account: GoogleSignInAccount = task.getResult(Exception::class.java)
-                    currentLoginSheetView?.let { view ->
-                        firebaseAuthWithGoogleOnSheet(account.idToken!!, view)
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                // Sucesso: temos a conta do Google
+                currentLoginSheetView?.let { view ->
+                    firebaseAuthWithGoogleOnSheet(account.idToken!!, view)
+
+                }
+            } catch (e: ApiException) {
+                // Falha no sign-in do Google
+                Log.w(TAG, "Google Sign-In failed: statusCode=${e.statusCode}", e)
+
+                when (e.statusCode) {
+                    GoogleSignInStatusCodes.SIGN_IN_CANCELLED -> {
+                        Log.d(TAG, "Usuário cancelou o login com Google")
+                        Toast.makeText(context, "Login cancelado", Toast.LENGTH_SHORT).show()
                     }
-                } catch (e: Exception) {
-                    Log.e(TAG, "Google Sign-In failed in HomeFragment launcher", e)
-                    Toast.makeText(context, getString(R.string.google_sign_in_failed_message, e.localizedMessage), Toast.LENGTH_LONG).show()
-                    currentLoginSheetView?.let { view ->
-                        updateLoginSheetUI(null, view)
+                    GoogleSignInStatusCodes.SIGN_IN_FAILED -> {
+                        Toast.makeText(context, "Falha no login com Google", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        Toast.makeText(context, getString(R.string.google_sign_in_failed_message, e.message), Toast.LENGTH_LONG).show()
                     }
                 }
-            } else {
-                Log.w(TAG, "Google Sign-In cancelled or failed by user (resultCode: ${result.resultCode}).")
+
                 currentLoginSheetView?.let { view ->
-                     updateLoginSheetUI(null, view)
+                    updateLoginSheetUI(null, view)
                 }
             }
         }
+
+        authStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+            val user = firebaseAuth.currentUser
+            Log.d(TAG, "AuthState changed. User: ${user?.email ?: "null"}")
+
+            // Atualizar UI quando o estado de autenticação mudar
+            activity?.runOnUiThread {
+                updateUserRelatedUI()
+
+                // Se tiver uma referência ao bottom sheet de login, atualiza
+                currentLoginSheetView?.let { view ->
+                    updateLoginSheetUI(user, view)
+                }
+            }
+        }
+
+        // Adicionar o listener
+        auth.addAuthStateListener(authStateListener)
     }
 
     override fun onCreateView(
@@ -1534,6 +1569,7 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        auth.removeAuthStateListener(authStateListener)
     }
 
     private fun showDialogs(settingsDialogView: View, settingsDialog: androidx.appcompat.app.AlertDialog) {
@@ -1704,28 +1740,32 @@ class HomeFragment : Fragment() {
         }
     }
 
-    // Função chamada pelo LoginBottomSheetFragment quando o estado de autenticação muda
+// Função chamada pelo LoginBottomSheetFragment quando o estado de autenticação muda
     fun updateUserRelatedUI() {
-        Log.d(TAG, "User authentication state changed. Settings UI will update on its next display.")
+        Log.d(TAG, "User authentication state changed.")
 
-        // A lógica principal para atualizar o nome do usuário no BottomSheet de Configurações
-        // já está implementada dentro da função showSettingsBottomSheet().
-        // Essa função é chamada sempre que o usuário abre o BottomSheet de Configurações.
-        // Portanto, da próxima vez que o BottomSheet de Configurações for aberto,
-        // ele automaticamente buscará o estado de login mais recente do Firebase
-        // e atualizará o nome do usuário (ou o ocultará) conforme necessário.
+        // Se o bottom sheet de configurações estiver aberto, fecha e reabre para atualizar
+        // Ou melhor, atualize diretamente se tiver referência
+        activity?.runOnUiThread {
+            // Atualiza o botão de perfil nas configurações se estiver visível
+            val settingsSheet = activity?.findViewById<View>(R.id.settings_bottom_sheet)
+            settingsSheet?.let { view ->
+                val textCurrentUserName = view.findViewById<TextView>(R.id.text_current_user_name)
+                val currentUser = FirebaseAuth.getInstance().currentUser
 
-        // Se você tivesse outros elementos na UI principal do HomeFragment (que estão sempre visíveis)
-        // que precisassem ser atualizados imediatamente após um login/logout,
-        // você colocaria essa lógica de atualização direta aqui.
-        // Por exemplo:
-        // val currentUser = FirebaseAuth.getInstance().currentUser
-        // if (currentUser != null) {
-        //     binding?.algumTextViewNoHomeFragment?.text = currentUser.displayName
-        //     binding?.algumTextViewNoHomeFragment?.visibility = View.VISIBLE
-        // } else {
-        //     binding?.algumTextViewNoHomeFragment?.visibility = View.GONE
-        // }
+                if (currentUser != null) {
+                    val userName = currentUser.displayName
+                    if (!userName.isNullOrEmpty()) {
+                        textCurrentUserName.text = userName
+                        textCurrentUserName.visibility = View.VISIBLE
+                    } else {
+                        textCurrentUserName.visibility = View.GONE
+                    }
+                } else {
+                    textCurrentUserName.visibility = View.GONE
+                }
+            }
+        }
     }
 
     // NOVO: Método para mostrar o BottomSheet de Login
@@ -1742,10 +1782,10 @@ class HomeFragment : Fragment() {
         currentLoginSheetView = viewLoginSheet
         dialog.setContentView(viewLoginSheet)
 
-        val btnBackLogin = viewLoginSheet.findViewById<ImageView>(R.id.btn_back) 
-        val btnGoogleSignIn = viewLoginSheet.findViewById<SignInButton>(R.id.btn_google_sign_in)
+        val btnBackLogin = viewLoginSheet.findViewById<ImageView>(R.id.btn_back)
+        val btnGoogleSignIn = viewLoginSheet.findViewById<com.google.android.gms.common.SignInButton>(R.id.btn_google_sign_in)
         val btnSignOut = viewLoginSheet.findViewById<Button>(R.id.btn_sign_out)
-        
+
         ClickUtils.setDebounceClickListener(btnBackLogin) {
             dialog.dismiss()
             showSettingsBottomSheet()
@@ -1757,15 +1797,23 @@ class HomeFragment : Fragment() {
 
         btnSignOut.setOnClickListener {
             signOutOnSheet(viewLoginSheet)
+            dialog.dismiss() // Fecha o bottom sheet após logout
         }
-        
-        updateLoginSheetUI(auth.currentUser, viewLoginSheet)
+
+        // Verificar estado atual do usuário
+        val currentUser = auth.currentUser
+        updateLoginSheetUI(currentUser, viewLoginSheet)
+
+        // Adicionar listener para atualizar quando o estado de autenticação mudar
+        auth.addAuthStateListener { firebaseAuth ->
+            updateLoginSheetUI(firebaseAuth.currentUser, viewLoginSheet)
+        }
 
         dialog.setOnDismissListener {
-            currentLoginSheetView = null 
+            currentLoginSheetView = null
             loginBottomSheetDialogInstance = null
         }
-        
+
         loginBottomSheetDialogInstance = dialog
         dialog.show()
     }
@@ -1807,8 +1855,20 @@ class HomeFragment : Fragment() {
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "Firebase sign-in successful from HomeFragment sheet.")
-                    Toast.makeText(context, R.string.login_successful_message, Toast.LENGTH_SHORT).show()
-                    updateLoginSheetUI(auth.currentUser, view)
+
+                    // Obtém o usuário atual após login bem-sucedido
+                    val currentUser = auth.currentUser
+                    val displayName = getDisplayNameForUser(currentUser)
+
+                    // Fecha o BottomSheet após login bem-sucedido
+                    loginBottomSheetDialogInstance?.dismiss()
+
+                    // Mostra mensagem de sucesso personalizada
+                    showLoginSuccessMessage(displayName)
+
+                    // Atualiza a UI do Settings BottomSheet
+                    updateUserRelatedUI()
+
                 } else {
                     Log.e(TAG, "Firebase sign-in failed from HomeFragment sheet.", task.exception)
                     Toast.makeText(context, getString(R.string.firebase_auth_failed_message, task.exception?.message ?: "Unknown error"), Toast.LENGTH_LONG).show()
@@ -1817,13 +1877,36 @@ class HomeFragment : Fragment() {
             }
     }
 
+    private fun getDisplayNameForUser(user: FirebaseUser?): String {
+        return when {
+            user?.displayName.isNullOrEmpty().not() -> user!!.displayName!!
+            user?.email.isNullOrEmpty().not() -> user!!.email!!
+            else -> getString(R.string.name_not_available)
+        }
+    }
+
+    @SuppressLint("StringFormatInvalid")
+    private fun showLoginSuccessMessage(userName: String) {
+        // Usando getString com placeholder
+        val successMessage = getString(R.string.login_successful_message, userName)
+        Toast.makeText(context, successMessage, Toast.LENGTH_SHORT).show()
+    }
+
     private fun signOutOnSheet(view: View) {
         Log.d(TAG, "Signing out from HomeFragment sheet.")
+
+        // Obtém o nome antes de fazer logout
+        val currentUser = auth.currentUser
+        val userName = currentUser?.displayName ?: currentUser?.email ?: getString(R.string.name_not_available)
+
         auth.signOut()
         googleSignInClient.signOut().addOnCompleteListener(requireActivity()) {
-            updateLoginSheetUI(null, view) 
-            Toast.makeText(context, R.string.session_ended_message, Toast.LENGTH_SHORT).show()
-            Log.d(TAG, "Google Sign-Out complete, UI updated.")
+            val logoutMessage = getString(R.string.session_ended_message, userName)
+            Toast.makeText(context, logoutMessage, Toast.LENGTH_SHORT).show()
+            Log.d(TAG, "Google Sign-Out complete.")
+
+            // Atualiza a UI do Settings BottomSheet
+            updateUserRelatedUI()
         }
     }
 }

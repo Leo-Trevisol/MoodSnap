@@ -348,6 +348,34 @@
 • Vergleichen Sie zwei verschiedene Stimmungen an einem einzigen Wochentag.\n\n• Beim Auswählen eines Balkens sehen Sie alle Tage, an denen diese Stimmung an dem jeweiligen Wochentag erfasst wurde.
 </string>
 
+    <string name="user_profile_option">Benutzer</string>
+
+    <string name="login_benefit_text">
+    Durch die Anmeldung werden deine Stimmungsaufzeichnungen sicher in der Cloud gespeichert.
+    So bleiben deine Daten auch dann verfügbar, wenn du dein Smartphone wechselst oder die App deinstallierst.
+</string>
+
+    <string name="sign_out_button">Abmelden</string>
+
+    <string name="user_email_label">E-Mail des Benutzers</string>
+
+    <string name="user_name_label">Benutzername</string>
+
+    <string name="user_id_label">Benutzer-ID</string>
+
+    <string name="user_profile_title">Benutzerprofil</string>
+
+    <string name="session_ended_message">Sitzung beendet: %1$s</string>
+
+    <string name="firebase_auth_failed_message">Authentifizierung fehlgeschlagen: %1$s</string>
+
+    <string name="login_successful_message">Anmeldung erfolgreich: %1$s</string>
+
+    <string name="name_not_available">Name nicht verfügbar</string>
+
+    <string name="email_not_available">E-Mail nicht verfügbar</string>
+
+    <string name="google_sign_in_failed_message">Google-Anmeldung fehlgeschlagen</string>
 
 
 </resources>
